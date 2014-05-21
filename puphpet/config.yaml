@@ -7,8 +7,8 @@ vagrantfile-local:
         network:
             private_network: 192.168.56.101
             forwarded_port:
-                C0rIFoTC9aXQ:
-                    host: '7213'
+                sj4eQDuHiXYe:
+                    host: '5685'
                     guest: '22'
         provider:
             virtualbox:
@@ -26,7 +26,7 @@ vagrantfile-local:
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
                     - '--parser future'
         synced_folder:
-            834RcskskfIf:
+            5fp0WyipyUDC:
                 source: ./
                 target: /var/www
                 nfs: 'false'
@@ -50,7 +50,7 @@ server:
             bash_aliases: null
     _prevent_empty: ''
 mailcatcher:
-    install: '1'
+    install: 0
     settings:
         smtp_ip: 0.0.0.0
         smtp_port: 1025
@@ -59,7 +59,7 @@ mailcatcher:
         mailcatcher_path: /usr/local/bin
         log_path: /var/log/mailcatcher/mailcatcher.log
 apache:
-    install: 0
+    install: '1'
     settings:
         user: www-data
         group: www-data
@@ -71,7 +71,7 @@ apache:
         - php
         - rewrite
     vhosts:
-        kxTugT44yesj:
+        URqNLLXWdtG2:
             servername: awesome.dev
             serveraliases:
                 - www.awesome.dev
@@ -93,11 +93,13 @@ apache:
     mod_pagespeed: 0
     mod_spdy: 0
 nginx:
-    install: '1'
+    install: 0
     vhosts:
-        wEgaQawUNb5b:
-            server_name: appply.dev
-            www_root: /var/www/appply.dev
+        051cKPKpnbCW:
+            server_name: awesome.dev
+            server_aliases:
+                - www.awesome.dev
+            www_root: /var/www/awesome.dev
             listen_port: '80'
             index_files:
                 - index.html
@@ -105,19 +107,43 @@ nginx:
                 - index.php
             envvars:
                 - 'APP_ENV dev'
-hhvm:
+php:
     install: '1'
-    nightly: '1'
+    version: '55'
+    composer: 1
+    modules:
+        php:
+            - cli
+            - intl
+            - mcrypt
+        pear: {  }
+        pecl:
+            - pecl_http
+    ini:
+        display_errors: On
+        error_reporting: '-1'
+        session.save_path: /var/lib/php/session
+    timezone: America/Chicago
+xdebug:
+    install: '1'
     settings:
-        host: 127.0.0.1
-        port: '9000'
+        xdebug.default_enable: '1'
+        xdebug.remote_autostart: '0'
+        xdebug.remote_connect_back: '1'
+        xdebug.remote_enable: '1'
+        xdebug.remote_handler: dbgp
+        xdebug.remote_port: '9000'
+drush:
+    install: 0
+    settings:
+        drush.tag_branch: 6.x
 mysql:
     install: '1'
     root_password: '123'
     phpmyadmin: 0
     adminer: 0
     databases:
-        ZpD5bHShNfq7:
+        INuc4ZIieODk:
             grant:
                 - ALL
             name: appply

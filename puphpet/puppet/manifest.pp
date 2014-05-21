@@ -654,68 +654,226 @@ define set_php5_fpm_sock_group_and_user (){
   }
 }
 
-## Begin HHVM manifest
+## Begin PHP manifest
 
-if $hhvm_values == undef {
-  $hhvm_values = hiera('hhvm', false)
+if $php_values == undef {
+  $php_values = hiera('php', false)
 } if $apache_values == undef {
   $apache_values = hiera('apache', false)
 } if $nginx_values == undef {
   $nginx_values = hiera('nginx', false)
 }
 
-if hash_key_equals($hhvm_values, 'install', 1) {
+if hash_key_equals($php_values, 'install', 1) {
+  Class['Php'] -> Class['Php::Devel'] -> Php::Module <| |> -> Php::Pear::Module <| |> -> Php::Pecl::Module <| |>
+
+  if $php_prefix == undef {
+    $php_prefix = $::operatingsystem ? {
+      /(?i:Ubuntu|Debian|Mint|SLES|OpenSuSE)/ => 'php5-',
+      default                                 => 'php-',
+    }
+  }
+
+  if $php_fpm_ini == undef {
+    $php_fpm_ini = $::operatingsystem ? {
+      /(?i:Ubuntu|Debian|Mint|SLES|OpenSuSE)/ => '/etc/php5/fpm/php.ini',
+      default                                 => '/etc/php.ini',
+    }
+  }
+
   if hash_key_equals($apache_values, 'install', 1) {
-    $hhvm_webserver = 'httpd'
+    include apache::params
+
+    if has_key($apache_values, 'mod_spdy') and $apache_values['mod_spdy'] == 1 {
+      $php_webserver_service_ini = 'cgi'
+    } else {
+      $php_webserver_service_ini = 'httpd'
+    }
+
+    $php_webserver_service = 'httpd'
+    $php_webserver_user    = $apache::params::user
+    $php_webserver_restart = true
+
+    class { 'php':
+      service => $php_webserver_service
+    }
   } elsif hash_key_equals($nginx_values, 'install', 1) {
-    $hhvm_webserver = 'nginx'
+    include nginx::params
+
+    $php_webserver_service     = "${php_prefix}fpm"
+    $php_webserver_service_ini = $php_webserver_service
+    $php_webserver_user        = $nginx::params::nx_daemon_user
+    $php_webserver_restart     = true
+
+    class { 'php':
+      package             => $php_webserver_service,
+      service             => $php_webserver_service,
+      service_autorestart => false,
+      config_file         => $php_fpm_ini,
+    }
+
+    service { $php_webserver_service:
+      ensure     => running,
+      enable     => true,
+      hasrestart => true,
+      hasstatus  => true,
+      require    => Package[$php_webserver_service]
+    }
   } else {
-    $hhvm_webserver = undef
-  }
+    $php_webserver_service     = undef
+    $php_webserver_service_ini = undef
+    $php_webserver_restart     = false
 
-  class { 'puphpet::hhvm':
-    nightly   => $hhvm_values['nightly'],
-    webserver => $hhvm_webserver
-  }
-
-  if ! defined(User['hhvm']) {
-    user { 'hhvm':
-      home       => '/home/hhvm',
-      groups     => 'www-data',
-      ensure     => present,
-      managehome => true,
-      require    => Group['www-data']
+    class { 'php':
+      package             => "${php_prefix}cli",
+      service             => $php_webserver_service,
+      service_autorestart => false,
     }
   }
 
-  if ! defined(Class['supervisord']) {
-    class { 'supervisord':
-      install_pip => true,
+  class { 'php::devel': }
+
+  if count($php_values['modules']['php']) > 0 {
+    php_mod { $php_values['modules']['php']:; }
+  }
+  if count($php_values['modules']['pear']) > 0 {
+    php_pear_mod { $php_values['modules']['pear']:; }
+  }
+  if count($php_values['modules']['pecl']) > 0 {
+    php_pecl_mod { $php_values['modules']['pecl']:; }
+  }
+  if count($php_values['ini']) > 0 {
+    each( $php_values['ini'] ) |$key, $value| {
+      if is_array($value) {
+        each( $php_values['ini'][$key] ) |$innerkey, $innervalue| {
+          puphpet::ini { "${key}_${innerkey}":
+            entry       => "CUSTOM_${innerkey}/${key}",
+            value       => $innervalue,
+            php_version => $php_values['version'],
+            webserver   => $php_webserver_service_ini
+          }
+        }
+      } else {
+        puphpet::ini { $key:
+          entry       => "CUSTOM/${key}",
+          value       => $value,
+          php_version => $php_values['version'],
+          webserver   => $php_webserver_service_ini
+        }
+      }
+    }
+
+    if $php_values['ini']['session.save_path'] != undef {
+      $php_sess_save_path = $php_values['ini']['session.save_path']
+
+      exec {"mkdir -p ${php_sess_save_path}":
+        onlyif => "test ! -d ${php_sess_save_path}",
+        before => Class['php']
+      }
+      exec {"chmod 775 ${php_sess_save_path} && chown www-data ${php_sess_save_path} && chgrp www-data ${php_sess_save_path}":
+        require => Class['php']
+      }
     }
   }
 
-  $supervisord_hhvm_cmd = "hhvm --mode server -vServer.Type=fastcgi -vServer.Port=${hhvm_values['settings']['port']}"
-
-  supervisord::program { 'hhvm':
-    command     => $supervisord_hhvm_cmd,
-    priority    => '100',
-    user        => 'hhvm',
-    autostart   => true,
-    autorestart => true,
-    environment => {
-      'PATH' => '/bin:/sbin:/usr/bin:/usr/sbin'
-    },
-    require     => [
-      User['hhvm'],
-      Package['hhvm']
-    ]
+  puphpet::ini { $key:
+    entry       => 'CUSTOM/date.timezone',
+    value       => $php_values['timezone'],
+    php_version => $php_values['version'],
+    webserver   => $php_webserver_service_ini
   }
 
-  file { '/usr/bin/php':
-    ensure  => 'link',
-    target  => '/usr/bin/hhvm',
-    require => Package['hhvm']
+  if hash_key_equals($php_values, 'composer', 1) {
+    class { 'composer':
+      target_dir      => '/usr/local/bin',
+      composer_file   => 'composer',
+      download_method => 'curl',
+      logoutput       => false,
+      tmp_path        => '/tmp',
+      php_package     => "${php::params::module_prefix}cli",
+      curl_package    => 'curl',
+      suhosin_enabled => false,
+    }
   }
+}
+
+define php_mod {
+  if ! defined(Php::Module[$name]) {
+    php::module { $name:
+      service_autorestart => $php_webserver_restart,
+    }
+  }
+}
+define php_pear_mod {
+  if ! defined(Php::Pear::Module[$name]) {
+    php::pear::module { $name:
+      use_package         => false,
+      service_autorestart => $php_webserver_restart,
+    }
+  }
+}
+define php_pecl_mod {
+  if ! defined(Php::Pecl::Module[$name]) {
+    php::pecl::module { $name:
+      use_package         => false,
+      service_autorestart => $php_webserver_restart,
+    }
+  }
+}
+
+## Begin Xdebug manifest
+
+if $xdebug_values == undef {
+  $xdebug_values = hiera('xdebug', false)
+} if $php_values == undef {
+  $php_values = hiera('php', false)
+} if $apache_values == undef {
+  $apache_values = hiera('apache', false)
+} if $nginx_values == undef {
+  $nginx_values = hiera('nginx', false)
+}
+
+if hash_key_equals($apache_values, 'install', 1) {
+  $xdebug_webserver_service = 'httpd'
+} elsif hash_key_equals($nginx_values, 'install', 1) {
+  $xdebug_webserver_service = 'nginx'
+} else {
+  $xdebug_webserver_service = undef
+}
+
+if hash_key_equals($xdebug_values, 'install', 1)
+  and hash_key_equals($php_values, 'install', 1)
+{
+  class { 'puphpet::xdebug':
+    webserver => $xdebug_webserver_service
+  }
+
+  if is_hash($xdebug_values['settings']) and count($xdebug_values['settings']) > 0 {
+    each( $xdebug_values['settings'] ) |$key, $value| {
+      puphpet::ini { $key:
+        entry       => "XDEBUG/${key}",
+        value       => $value,
+        php_version => $php_values['version'],
+        webserver   => $xdebug_webserver_service
+      }
+    }
+  }
+}
+
+## Begin Drush manifest
+
+if $drush_values == undef {
+  $drush_values = hiera('drush', false)
+}
+
+if hash_key_equals($drush_values, 'install', 1) {
+  if ($drush_values['settings']['drush.tag_branch'] != undef) {
+    $drush_tag_branch = $drush_values['settings']['drush.tag_branch']
+  } else {
+    $drush_tag_branch = ''
+  }
+
+  include drush::git::drush
 }
 
 ## Begin MySQL manifest
