@@ -7,8 +7,8 @@ vagrantfile-local:
         network:
             private_network: 192.168.56.101
             forwarded_port:
-                sj4eQDuHiXYe:
-                    host: '5685'
+                Hj5iFH1Nvbne:
+                    host: '7146'
                     guest: '22'
         provider:
             virtualbox:
@@ -21,14 +21,15 @@ vagrantfile-local:
             puppet:
                 manifests_path: puphpet/puppet
                 manifest_file: manifest.pp
+                module_path: puphpet/puppet/modules
                 options:
                     - '--verbose'
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
                     - '--parser future'
         synced_folder:
-            5fp0WyipyUDC:
-                source: ./
-                target: /var/www
+            fs1uGR2GG45F:
+                source: ./source
+                target: /var/www/
                 nfs: 'false'
         usable_port_range: 2200..2250
     ssh:
@@ -71,11 +72,9 @@ apache:
         - php
         - rewrite
     vhosts:
-        URqNLLXWdtG2:
-            servername: awesome.dev
-            serveraliases:
-                - www.awesome.dev
-            docroot: /var/www/awesome
+        Pky3x1XQG9FW:
+            servername: appply.dev
+            docroot: /var/www/
             port: '80'
             setenv:
                 - 'APP_ENV dev'
@@ -95,7 +94,7 @@ apache:
 nginx:
     install: 0
     vhosts:
-        051cKPKpnbCW:
+        II4lHqEohXg1:
             server_name: awesome.dev
             server_aliases:
                 - www.awesome.dev
@@ -110,7 +109,7 @@ nginx:
 php:
     install: '1'
     version: '55'
-    composer: 1
+    composer: '1'
     modules:
         php:
             - cli
@@ -139,11 +138,11 @@ drush:
         drush.tag_branch: 6.x
 mysql:
     install: '1'
-    root_password: '123'
+    root_password: n_YshE2jud
     phpmyadmin: 0
     adminer: 0
     databases:
-        INuc4ZIieODk:
+        qUiOBMWjBt2r:
             grant:
                 - ALL
             name: appply
@@ -178,7 +177,7 @@ redis:
     settings:
         conf_port: '6379'
 beanstalkd:
-    install: '1'
+    install: 0
     settings:
         listenaddress: 0.0.0.0
         listenport: '13000'
@@ -193,9 +192,4 @@ rabbitmq:
     install: 0
     settings:
         port: '5672'
-elastic_search:
-    install: '1'
-    settings:
-        java_install: true
-        autoupgrade: true
 

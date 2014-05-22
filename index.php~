@@ -1,0 +1,9 @@
+<?php
+// This is another things that's cool about composer
+require "Slim/Slim.php"; 
+
+$app = new \Slim\Slim(); 
+$app->get('/hello/:name', function ($name) { 
+    echo "Hello, $name"; 
+}); 
+$app->run();
