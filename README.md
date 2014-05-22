@@ -17,4 +17,11 @@ On linux:
 On Windows:
 Don't use windows :p google --> update me 
 
+Edit your host file:
+linux /etc/hosts
+windows: system32/etc/drivers/hosts i think
 
+add this line 
+192.168.56.101		appply.dev
+
+So you can just type www.appply.dev in your webbrowser to visit your local development server
