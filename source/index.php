@@ -11,7 +11,7 @@ $app = new \Slim\Slim(array(
 //Create a route for the home page
 
 $app->get('/',	function() use ($app)
-{	$app->view()->setData(array('foo' => 'bar'));
+{	$app->view()->setData(array('loggin' => false));
 	$app->render('home.php');
 	});
 
