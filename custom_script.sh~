@@ -1,0 +1,15 @@
+#!/bin/bash
+sudo su
+git clone git://github.com/phalcon/cphalcon.git
+cd cphalcon/build
+./install
+cd ..
+cd ..
+rm -rf cphalcon
+
+echo 'extension=phalcon.so' > /etc/php5/mods-available/phalcon.ini
+ln -s /etc/php5/mods-available/phalcon.ini /etc/php5/cli/conf.d/phalcon.ini
+ln -s /etc/php5/mods-available/phalcon.ini /etc/php5/apache/conf.d/phalcon.ini
+ln -s /etc/php5/mods-available/phalcon.ini /etc/php5/fpm/conf.d/phalcon.ini
+
+service apache2 restart
