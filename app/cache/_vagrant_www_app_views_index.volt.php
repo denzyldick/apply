@@ -52,4 +52,4 @@
 <div class=copright style="max-width:400px;margin: 0 auto;text-align:center;margin-top: 10px">&copy; 2014 Appply. All rights reserved.</div>
 
 	</body>
-</html><?php echo $show_settings; ?>
+</html>

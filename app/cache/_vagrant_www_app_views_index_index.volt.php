@@ -45,4 +45,3 @@
 </div>
 </div>
 </div>
-<?php echo $show_settings; ?>

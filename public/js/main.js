@@ -29,18 +29,19 @@ function submitSignUp()
 			$("#alert").html("<strong>Please fill everything in.</strong>").fadeIn("fast").delay(3000).fadeOut("fast");
 		}else{
 			$.ajax({
-  url: '/signup',
-  type: 'PUT',
+  url: 'signup/start',
+  type: 'POST',
   data: "firstname="+firstname+"&lastname="+lastname+"&password="+password+"&re_type="+re_type+"&email="+email,
   success: function(data) {
   $("body").append(data);
   }
 });
 		}	
-}/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+}
 
+$(document).ready(function() {
+  $('[data-toggle=offcanvas]').click(function() {
+    $('.row-offcanvas').toggleClass('active');
+  });
+});
 

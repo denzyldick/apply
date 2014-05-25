@@ -45,4 +45,3 @@
 </div>
 </div>
 </div>
-{{ show_settings }}
