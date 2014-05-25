@@ -56,7 +56,7 @@ sudo sed -i 's/bind-address/bind-address = 0.0.0.0#/' /etc/mysql/my.cnf
 #
 mysql -u root -Bse "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '' WITH GRANT OPTION;"
 sudo service mysql restart
-
+sudo mysql --user=root --execute="/vagrant/database.sql > appply"
 
 
 #
@@ -129,13 +129,16 @@ sudo service apache2 restart
 sudo service mongodb restart
 
 echo -e "----------------------------------------"
-echo -e "To create a Phalcon Project:\n"
+echo -e "APPPLY.dev"
 echo -e "----------------------------------------"
-echo -e "$ cd /vagrant/www"
-echo -e "$ phalcon project projectname\n"
-echo -e
-echo -e "Then follow the README.md to copy/paste the VirtualHost!\n"
+echo -e "This is your local development server of for appply.dev."
+echo -e "!If you every add a new library extension of something else to your VM."
+echo -e "let me know of update the init.sh file to include your changes and commit it to the git repository"
+echo -e "-----------------------------------------"
+echo -e "Update your host file:192.168.56.101       appply.dev"
+
 
 echo -e "----------------------------------------"
-echo -e "Default Site: http://192.168.5.0"
+echo -e "Default Site: http://192.168.56.101/"
 echo -e "----------------------------------------"
+echo -e "Author: Denzyl Dick"

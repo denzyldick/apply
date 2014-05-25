@@ -1,6 +1,6 @@
 <?php
 
-class IndexController extends ControllerBase
+class IndexController extends  \Phalcon\Mvc\Controller
 {
 
     public function indexAction()
@@ -8,5 +8,9 @@ class IndexController extends ControllerBase
 
     }
 
+    public function showAction()
+    {
+        $this->view->show_settings = false;
+    }
 }
 

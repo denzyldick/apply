@@ -1,4 +1,4 @@
-	<div id="login"><h4>Create an account</h4>
+<div class="jumbotron" id="jumbotron">	<div id="login"><h4>Create an account</h4>
 	
 	<div class="well">
 <input class=form-control type=text placeholder="Firstname" id='firstname'/>
@@ -26,4 +26,5 @@
 <a class="btn btn-small btn-primary" style="float:right" onclick=submitSignUp()> Sign up</a>
 </div>
 </form>
-<div class="alert alert-danger" id="alert"></div>
+
+</div>

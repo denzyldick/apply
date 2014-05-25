@@ -1,4 +1,4 @@
-	<div id="login"><h4>Login to your Account</h4>
+<div id=jumbotron class=jumbotron>	<div id="login"><h4>Login to your Account</h4>
 <div class="well">
 <input class=form-control type=text placeholder="E-mail" id='email'/>
 </div>
@@ -13,3 +13,4 @@
 </div>
 </form>
 <div class="alert alert-danger" id="alert"></div>
+</div>
