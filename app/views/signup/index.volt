@@ -22,7 +22,7 @@
 <input class=form-control type=password placeholder="Re-Password" id='re_password'/>
 
 </div>
-<input type="checkbox" /> Are you a bussiness&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="checkbox" id="type" value="gneoa4r"/> Are you a bussiness&nbsp;&nbsp;&nbsp;&nbsp;
 <a class="btn btn-small btn-primary" style="float:right" onclick=submitSignUp()> Sign up</a>
 </div>
 </form>

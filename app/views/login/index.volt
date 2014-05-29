@@ -9,7 +9,7 @@
 
 </div>
 <input type="checkbox" /> Remember me&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="/employer" class="btn btn-small btn-primary" style="float:right" onclick=submitLogin()> Login</a>
+<a class="btn btn-small btn-primary" style="float:right" onclick=submitLogin()> Login</a>
 </div>
 </form>
 <div class="alert alert-danger" id="alert"></div>

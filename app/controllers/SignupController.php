@@ -1,59 +1,78 @@
 <?php
 
-class SignupController extends \Phalcon\Mvc\Controller
-{
-    public function indexAction()
-    {
+class SignupController extends \Phalcon\Mvc\Controller {
+
+    public function indexAction() {
         
     }
-    
-    public function startAction()
-    {
-         
-        if($this->request->isPost()== true)
-        {
-            $this->view->disable();
-            $email  = $this->request->getPost('email');
-            $firstname  = $this->request->getPost('firstname');
+
+    public function startAction() {
+         $this->view->disable();
+        if ($this->request->isPost() == true) {
+            $user = new User();
+          
+            $email = $this->request->getPost('email');
+            $firstname = $this->request->getPost('firstname');
             $lastname = $this->request->getPost('lastname');
-            $password = $this->request->getPost('password');  
-            
-       
-            
-            if(!filter_var($email,FILTER_VALIDATE_EMAIL))
-            {
-               $this->flash->error("Not a valid email"); 
+            $password = $this->request->getPost('password');
+            $re_type = $this->request->getPost('re_type');
+            $type = $this->request->getPost('type');
+
+            if ($type == "gneoa4r") {
+                $type = "Employer";
+            } else {
+                $type = "Employee";
             }
-            if(empty($firstname))
-            {
-                $this->flash->error("Please enter your firstname");
+
+            $errormessage = "Please: <br/>";
+            $status = true;
+
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
+                $errormessage .= "enter a valid email adres<br/>";
+                $status = false;
             }
-            if(empty($lastname))
-            {
-                $this->flash->error("Please enter your lastname");
+            if (empty($firstname)) {
+
+                $errormessage .= "enter your firstname.";
+                $status = false;
             }
-            if(empty($password))
-            {
-                $this->flash->error("Please enter a password");
+            if (empty($lastname)) {
+
+                $errormessage .= "enter your lastname";
+                $status = false;
             }
-            $user   =   new User();
-            if(
-            $user->setEmail($email) &&
-           $user->setFirstname($firstname) &&
-           $user->setLastname($lastname)&&
-           $user->setPassword($this->security->hash($password)))
-            {
-           $user->save();
-            }else
-            {
-          $this->flash->error("Something went wrong");
+            if (empty($password)) {
+                $errormessage .= "enter your password";
+                $status = false;
             }
-            
-            
-            
-        }  else {
-            
-            
+
+            if ($re_type != $password) {
+                $errormessage .= "password doesn't match";
+                $status = false;
+            }
+
+            if ($status) {
+
+                $user->setEmail($email);
+                $user->setFirstname($firstname);
+                $user->setLastname($lastname);
+                $user->setPassword($this->security->hash($password));
+                $user->setType($type);
+                $user->save();
+
+                echo(json_encode(array("status" => "true", "message" => "Your account has been created")));
+            } else {
+                echo(json_encode(array("status" => "false", "message" => $errormessage)));
+            }
+        } else {
+
+     
+            $response = new \Phalcon\Http\Response();
+            $response->setStatusCode(404, "Not Found");
+            $response->setContent("<h1>404 :( </h1>Sorry, the page doesn't exist");
+            $response->send();
         }
     }
+
 }
