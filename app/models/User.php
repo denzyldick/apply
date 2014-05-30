@@ -3,12 +3,13 @@
 class User extends \Phalcon\MVC\Model {
 
     private $id;
-    private $firstname;
-    private $lastname;
+    public $firstname;
+    public $lastname;
     private $password;
     private $salt;
-    private $email;
+    public $email;
     private $usertype;
+    
     public function getId()
     {
         return $this->id;

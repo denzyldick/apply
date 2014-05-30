@@ -1,3 +1,5 @@
+{% extends "templates/base.volt" %}
+{% block content %}
 <div class="jumbotron" id="jumbotron">	<div id="login"><h4>Create an account</h4>
 	
 	<div class="well">
@@ -28,3 +30,4 @@
 </form>
 
 </div>
+{% endblock %}

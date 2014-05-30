@@ -1,3 +1,6 @@
+{% extends "templates/base.volt" %}
+{% block title %} Login {% endblock %}
+{% block content %}
 <div id=jumbotron class=jumbotron>	<div id="login"><h4>Login to your Account</h4>
 <div class="well">
 <input class=form-control type=text placeholder="E-mail" id='email'/>
@@ -14,3 +17,4 @@
 </form>
 <div class="alert alert-danger" id="alert"></div>
 </div>
+{% endblock %}

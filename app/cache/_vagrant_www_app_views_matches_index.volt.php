@@ -10,7 +10,7 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-	<title> Overview </title>
+	<title> Your matches </title>
 		</head>
 
 	</head>
@@ -49,7 +49,7 @@
 </div>
 
 	
-            
+    
 
 <div class="container-fluid">
       <div class="row row-offcanvas row-offcanvas-left">
@@ -63,9 +63,8 @@
             </ul>
         </div>
 
-        <!--main-->
         <div class="col-sm-9 col-md-10 main" id="main">
-    
+
 		  <h1 class="page-header">
             30 Matches
             <p class="lead">Individuals matching your criteria</p>
@@ -99,15 +98,40 @@
     height: 200px;
 ">  <h4>Java Developer</h4>
               <span class="text-muted">75% match</span>
+            </div> <div class="col-xs-6 col-sm-3 placeholder text-center">
+                          <img src="img/test4.jpg" class="center-block img-responsive img-circle" alt="Generic placeholder thumbnail"  style="
+    width: 200px!important;
+    height: 200px;
+">  <h4>Java Developer</h4>
+              <span class="text-muted">75% match</span>
+            </div> <div class="col-xs-6 col-sm-3 placeholder text-center">
+                          <img src="img/test4.jpg" class="center-block img-responsive img-circle" alt="Generic placeholder thumbnail"  style="
+    width: 200px!important;
+    height: 200px;
+">  <h4>Java Developer</h4>
+              <span class="text-muted">75% match</span>
+            </div> <div class="col-xs-6 col-sm-3 placeholder text-center">
+                          <img src="img/test4.jpg" class="center-block img-responsive img-circle" alt="Generic placeholder thumbnail"  style="
+    width: 200px!important;
+    height: 200px;
+">  <h4>Java Developer</h4>
+              <span class="text-muted">75% match</span>
+            </div> <div class="col-xs-6 col-sm-3 placeholder text-center">
+                          <img src="img/test4.jpg" class="center-block img-responsive img-circle" alt="Generic placeholder thumbnail"  style="
+    width: 200px!important;
+    height: 200px;
+">  <h4>Java Developer</h4>
+              <span class="text-muted">75% match</span>
+            </div> <div class="col-xs-6 col-sm-3 placeholder text-center">
+                          <img src="img/test4.jpg" class="center-block img-responsive img-circle" alt="Generic placeholder thumbnail"  style="
+    width: 200px!important;
+    height: 200px;
+">  <h4>Java Developer</h4>
+              <span class="text-muted">75% match</span>
             </div>
           </div>
-          
 
-          
-          </div><!--/main-->
-      </div><!--/row-->
-	</div>
-</div><!--/.container--
+</div>
 
 
 <div class=copright style="max-width:400px;margin: 0 auto;text-align:center;margin-top: 10px">&copy; 2014 Appply. All rights reserved.</div>

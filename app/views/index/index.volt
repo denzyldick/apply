@@ -1,3 +1,5 @@
+{% extends "templates/base.volt" %}
+{% block content %}
 <div class="jumbotron " id="jumbotron">
 
 <div id="post_login_content">
@@ -45,3 +47,4 @@
 </div>
 </div>
 </div>
+{% endblock %}

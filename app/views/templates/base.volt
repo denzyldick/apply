@@ -1,7 +1,8 @@
+
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Appply</title>
+		
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="js/main.js"></script>
 <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
@@ -9,7 +10,7 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-	<title>Appply</title>
+	<title>{% block title %}{% endblock %}</title>
 		</head>
 
 	</head>
@@ -21,9 +22,9 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="/"><img src="img/logo.png" style="
-    width: 100px;
-"></a>
+   <a class="navbar-brand" href="/"><img src="img/logo.png" style="
+    width: 100px;height:30px;
+"></a> 
   </div>
   <div class="navbar-collapse collapse navbar-inverse-collapse">
     <ul class="nav navbar-nav">
@@ -37,9 +38,8 @@
       <li class="dropdown">
        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<b class="caret"></b></a>
         <ul class="dropdown-menu">
-          <li><a href="#">Account </a></li>
-          <li><a href="#">Another action</a></li>
-          <li><a href="#">Something else here</a></li>
+          <li><a href="/employer/settings" >Account </a></li>
+          <li><a href="/support">Support</a></li>
           <li class="divider"></li>
           <li><a href="logout">Logout</a></li>
         </ul>
@@ -47,7 +47,8 @@
     </ul>
   </div>
 </div>
-		<?php echo $this->getContent(); ?>
+
+	{% block content %}{% endblock %}
 
 <div class=copright style="max-width:400px;margin: 0 auto;text-align:center;margin-top: 10px">&copy; 2014 Appply. All rights reserved.</div>
 

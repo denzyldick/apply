@@ -13,6 +13,11 @@ class EmployerController extends \Phalcon\Mvc\Controller
          $this->response->redirect("/");
      }
     }
+    
+    public function settingsAction()
+    {
+        $this->response->redirect("/settings");
+    }
 
 }
 
