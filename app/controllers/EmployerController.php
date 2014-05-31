@@ -10,7 +10,7 @@ class EmployerController extends \Phalcon\Mvc\Controller
         
      }else
      {
-         $this->response->redirect("/");
+      //   $this->response->redirect("/");
      }
     }
     
