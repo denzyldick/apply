@@ -59,9 +59,16 @@ class SignupController extends \Phalcon\Mvc\Controller {
                 $user->setLastname($lastname);
                 $user->setPassword($this->security->hash($password));
                 $user->setType($type);
-                $user->save();
+               if( $user->save())
+               {
+                    echo(json_encode(array("status" => "true", "message" => "Your account has been created")));
+               }else
+               {
+                   foreach ($user->getMessages() as $message) {
+    echo $message;
+  }   }
 
-                echo(json_encode(array("status" => "true", "message" => "Your account has been created")));
+               
             } else {
                 echo(json_encode(array("status" => "false", "message" => $errormessage)));
             }

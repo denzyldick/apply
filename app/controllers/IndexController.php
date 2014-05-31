@@ -7,7 +7,7 @@ class IndexController extends  \Phalcon\Mvc\Controller
     {
         if($this->session->has("user-id"))
         {
-            $this->response->redirect("".$this->session->get("user-type"));
+            $this->response->redirect("/".$this->session->get("user-type"));
         }
     }
 

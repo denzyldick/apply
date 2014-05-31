@@ -10,7 +10,7 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-	<title> Premium </title>
+	<title></title>
 		</head>
 
 	</head>
@@ -49,23 +49,34 @@
 </div>
 
 	
-    
+<div class="jumbotron" id="jumbotron">	<div id="login"><h4>Create an account</h4>
+	
+	<div class="well">
+<input class=form-control type=text placeholder="Firstname" id='firstname'/>
+</div>
+<div class="well">
+<input class=form-control type=text placeholder="lastname" id='lastname'/>
+</div>
 
-<div class="container-fluid">
-      <div class="row row-offcanvas row-offcanvas-left">
-         <!--sidebar-->
-         <div class="col-sm-3 col-md-2 sidebar-offcanvas" id="sidebar" role="navigation">
-            <ul class="nav nav-sidebar">
-              <li><a href="/">Overview</a></li>
-              <li><a href="/matches">Matches <span class="badge">42</span></a></li>
-              <li><a href="/vacancy">Vacancies </a></li>
-              <li><a href="/premium">Premium</a></li>
-            </ul>
-        </div>
+<div class="well">
+<input class=form-control type=text placeholder="E-mail" id='email'/>
+</div>
 
-        <div class="col-sm-9 col-md-10 main" id="main">
-<h1> Premium bundles<h1>
+<p>
+	<div class="well">
+		
+<input class=form-control type=password placeholder="Password" id='password'/>
 
+</div>
+	<div class="well">
+		
+<input class=form-control type=password placeholder="Re-Password" id='re_password'/>
+
+</div>
+<input type="checkbox" id="type" value="gneoa4r"/> Are you a bussiness&nbsp;&nbsp;&nbsp;&nbsp;
+<a class="btn btn-small btn-primary" style="float:right" onclick=submitSignUp()> Sign up</a>
+</div>
+</form>
 
 </div>
 
