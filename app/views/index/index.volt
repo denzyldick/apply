@@ -1,7 +1,3 @@
-{% extends "templates/base.volt" %}
-{% block content %}
-<div class="jumbotron " id="jumbotron">
-
 <div id="post_login_content">
   <p><a class="btn btn-primary btn-lg" role="button" href="signup">Sign up</a>&nbsp;<a class="btn btn-primary btn-lg" role="button" href=
 'login'>Login</a></p><p>
@@ -41,10 +37,3 @@
       </div>
     </div>
     
-    <div class="alert alert-danger" id="alert"></div>
-    
-  </div>
-</div>
-</div>
-</div>
-{% endblock %}
