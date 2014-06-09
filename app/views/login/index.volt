@@ -11,7 +11,7 @@
 <input class=form-control type=password placeholder="Password" id='password'/>
 
 </div>
-<input type="checkbox" /> Remember me&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="checkbox" id="remember" value="yes" /> Remember me&nbsp;&nbsp;&nbsp;&nbsp;
 <a class="btn btn-small btn-primary" style="float:right" onclick=submitLogin()> Login</a>
 </div>
 </form>
