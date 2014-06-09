@@ -1,6 +1,6 @@
 <?php
 
-class PremiumController extends \Phalcon\Mvc\Controller
+class PremiumController extends ControllerBase
 {
 
     public function indexAction()

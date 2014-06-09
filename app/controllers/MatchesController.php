@@ -1,6 +1,6 @@
 <?php
 
-class MatchesController extends \Phalcon\Mvc\Controller
+class MatchesController extends ControllerBase
 {
 
     public function indexAction()

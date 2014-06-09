@@ -1,6 +1,6 @@
 <?php
 
-class SupportController extends \Phalcon\Mvc\Controller
+class SupportController extends ControllerBase
 {
 
     public function indexAction()

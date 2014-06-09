@@ -15,7 +15,12 @@ class LogoutController extends \Phalcon\Mvc\Controller {
     
     public function indexAction()
     {
+        $this->session->destroy("user-id");
+        $this->session->destroy("user-type");
+        $this->cookies->delete("email");
+        $this->cookies->delete("password");
+        $this->cookies->delete("remember");
         $this->response->redirect("/");
-        $this->session->destroy();
+       
     }
 }

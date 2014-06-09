@@ -1,11 +1,11 @@
 <?php
 
-class EmployeeController extends \Phalcon\Mvc\Controller
+class EmployeeController extends ControllerBase
 {
 
     public function indexAction()
     {
-
+   
     }
 
 }

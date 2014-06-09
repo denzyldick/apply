@@ -1,17 +1,11 @@
 <?php
 
-class EmployerController extends \Phalcon\Mvc\Controller
+class EmployerController extends ControllerBase
 {
-
+   
     public function indexAction()
     {
-     if($this->session->has("user-id"))
-     {
-        
-     }else
-     {
-         $this->response->redirect("/");
-     }
+     
     }
     
     public function settingsAction()
