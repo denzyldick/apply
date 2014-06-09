@@ -16,9 +16,51 @@ class ControllerBase extends \Phalcon\Mvc\Controller {
     protected $permission = false;
 
     public function initialize() {
-        if ($this->known()) {
+        $this->view->show_settings = false;
+        if ($this->sessionRedirect()) {
+               $this->view->show_settings = true;
+            if ($this->known() || $this->sessionRedirect()) {
+                $this->loginRedirect();
+             
+            } else {
+                $this->notLoggedInRedirect();
+            }
+        } else {
+            $this->notLoggedInRedirect();
+        }
+    }
+
+    private function sessionRedirect() {
+        if ($this->session->has("user-id") && $this->session->has("user-type")) {
+            return true;
+        }
+        return false;
+    }
+
+    private function notLoggedInRedirect() {
+        if ($this->request->getURI() != "/" && $this->request->getURI() != "/login" && $this->request->getURI() != "/signup" && $this->request->getURI() != "") {
+
+            $this->response->redirect("/login");
+        }
+        if ($this->request->getURI() == "/") {
+            
+        }
+    }
+
+    private function loginRedirect() {
+        if ($this->request->getURI() == "/" || $this->request->getURI() == "/login" || $this->request->getURI() == "\signup") {
+
+            $this->userTypeRedirect();
+        } else {
+            
+        }
+    }
+
+    private function userTypeRedirect() {
+        if ($this->request->getURI() != $this->session->get("user-type")) {
             $this->response->redirect($this->session->get("user-type"));
         }
+        $this->response->redirect($this->session->get("user-type"));
     }
 
     protected function known() {
