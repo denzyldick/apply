@@ -1,26 +1,27 @@
 function submitLogin()
 {
     var email = $("#email").val();
-
     var password = $("#password").val();
+    var remember = $("#remember").val();
+
     if (email.length < 1)
     {
         $("#alert").html("<strong>Please enter your email</strong").fadeIn("fast").delay(3000).fadeOut("fast");
     }
 
-    $.post("/login/login", {email: email, password: password}, function(data)
+    $.post("/login/login", {email: email, password: password, remember: remember}, function(data)
     {
-  
-      if(data.status === 'true')
-      {
-          
-          window.location =  data.redirect;
-      }else
-      { 
-          $("#alert").html("<strong>"+ data.message+"</strong").fadeIn("fast").delay(3000).fadeOut("fast");
-      }
-      
-    },"json");
+        console.log(data);
+        if (data.status === 'false')
+        {
+            $("#alert").html("<strong>" + data.message + "</strong").fadeIn("fast").delay(3000).fadeOut("fast");
+
+        } else
+        {
+            window.location.reload();
+        }
+
+    });
 }
 
 function submitSignUp()
@@ -39,26 +40,24 @@ function submitSignUp()
         $.ajax({
             url: 'signup/start',
             type: 'POST',
-            
             data: "firstname=" + firstname + "&lastname=" + lastname + "&password=" + password + "&re_type=" + re_type + "&email=" + email,
             success: function(data) {
                 console.log(data);
-                if(data.status === true)
+                if (data.status === true)
                 {
                     alert(data.message)
-                }else
+                } else
                 {
                     $("#alert").html(data.message).fadeIn("fast").delay(3000).fadeOut("fast");
                 }
-                
+
             }
         });
     }
 }
 
 $(document).ready(function() {
-    $('[data-toggle=offcanvas]').click(function() {
-        $('.row-offcanvas').toggleClass('active');
-    });
+
+    $('.slider').slider();
 });
 
