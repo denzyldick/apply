@@ -8,12 +8,12 @@ class User extends \Phalcon\MVC\Model {
     private $password;
     private $salt;
     public $email;
-    private $usertype;
-    
-    public function getId()
-    {
+    public $usertype;
+
+    public function getId() {
         return $this->id;
     }
+
     public function getType() {
         return $this->usertype;
     }

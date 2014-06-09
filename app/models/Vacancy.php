@@ -39,5 +39,10 @@ class Vacancy extends \Phalcon\Mvc\Model
             'user_id' => 'user_id'
         );
     }
+    
+    public function initialize()
+    {
+        $this->hasOne("user_id","User","id");
+    }
 
 }
