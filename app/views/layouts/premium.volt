@@ -1,5 +1,5 @@
 {% extends "templates/base.volt" %}
-{% block title %}Vacancy{% endblock %}
+{% block title %}Premium{% endblock %}
 
 {% block content %}
 
