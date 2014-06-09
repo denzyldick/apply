@@ -97,14 +97,24 @@ echo "extension=phalcon.so" > phalcon.ini
 sudo mv phalcon.ini /etc/php5/mods-available
 sudo php5enmod phalcon
 sudo php5enmod curl
-
+#
+# Install mcrypt
+#
+sudo apt-get install -y php5-mcrypt
+sudo mv -i /etc/php5/conf.d/mcrypt.ini /etc/php5/mods-available/
+sudo php5enmod mcrypt
+#
+# Install xdebug
+#
+sudo pecl install xdebug
+php -z "/usr/lib/php5/20121212/xdebug.so"
 #
 # Update PHP Error Reporting
 #
 sudo sed -i 's/short_open_tag = Off/short_open_tag = On/' /etc/php5/apache2/php.ini
 sudo sed -i 's/error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT/error_reporting = E_ALL/' /etc/php5/apache2/php.ini
 sudo sed -i 's/display_errors = Off/display_errors = On/' /etc/php5/apache2/php.ini 
-
+ 
 
 #
 # Install PhalconPHP DevTools
