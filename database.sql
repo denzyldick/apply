@@ -136,6 +136,26 @@ CREATE TABLE IF NOT EXISTS `appply`.`premium` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `appply`.`company`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `appply`.`company` (
+  `id` INT NOT NULL,
+  `name` VARCHAR(45) NULL,
+  `description` VARCHAR(45) NULL,
+  `longitude` VARCHAR(45) NULL,
+  `latitude` VARCHAR(45) NULL,
+  `user_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_company_user1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_company_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `appply`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
