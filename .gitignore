@@ -4,3 +4,6 @@
 
 ### Vagrant ###
 .vagrant/
+
+### Mysql Workbench backup file ###
+EER-diagram.mwb.bak
