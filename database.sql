@@ -45,7 +45,7 @@ ENGINE = InnoDB;
 -- Table `appply`.`skills`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `appply`.`skills` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
@@ -55,7 +55,7 @@ ENGINE = InnoDB;
 -- Table `appply`.`specification`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `appply`.`specification` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `percent` VARCHAR(45) NULL,
   `vacancy_id` INT NOT NULL,
   `skills_id` INT NOT NULL,
@@ -79,7 +79,7 @@ ENGINE = InnoDB;
 -- Table `appply`.`matches`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `appply`.`matches` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `percent` INT NOT NULL,
   `user_id` INT NOT NULL,
   `vacancy_id` INT NOT NULL,
@@ -104,7 +104,7 @@ ENGINE = InnoDB;
 -- Table `appply`.`bundle`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `appply`.`bundle` (
-  `idbundle` INT NOT NULL,
+  `idbundle` INT NOT NULL AUTO_INCREMENT,
   `amount` INT NOT NULL,
   `price` DECIMAL NOT NULL,
   PRIMARY KEY (`idbundle`))
@@ -115,7 +115,7 @@ ENGINE = InnoDB;
 -- Table `appply`.`premium`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `appply`.`premium` (
-  `idpremium` INT NOT NULL,
+  `idpremium` INT NOT NULL AUTO_INCREMENT,
   `used_amount` INT NULL,
   `user_id` INT NOT NULL,
   `bundle_idbundle` INT NOT NULL,
@@ -140,7 +140,7 @@ ENGINE = InnoDB;
 -- Table `appply`.`company`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `appply`.`company` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
   `description` VARCHAR(45) NULL,
   `longitude` VARCHAR(45) NULL,
