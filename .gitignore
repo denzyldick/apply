@@ -1,1 +1,6 @@
+### Cache ###
 /app/cache/
+
+
+### Vagrant ###
+.vagrant/
