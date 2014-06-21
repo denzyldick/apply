@@ -1,20 +1,21 @@
 {% extends "templates/base.volt" %}
 {% block title %} Account settings {% endblock %}
 {% block content %}
-    
+    <form method="post" action="settings/save">
 <h1> Account Settings </h1>
 <label>Firstname</label>
-<input class="form-control" value="{{ firstname }}">
+<input class="form-control" value="{{ firstname }}" name="firstname">
 <br/>
 <label>Lastname</label>
-<input class="form-control"  value="{{ lastname }}">
+<input class="form-control"  value="{{ lastname }}" name="lastname">
 <br/>
 <label>Email</label>
-<input class="form-control"  value="{{ email }}">
+<input class="form-control"  value="{{ email }}" name="email">
 <br/>
 <label>Account type</label>
 <input class="form-control" disabled value={{ type }} />
 <br/>
-<a href="#" class="btn btn-sm btn-primary"> save</a> &nbsp; <a href="#" class="btn btn-sm btn-default"> change password</a>
+<input type="submit" value="save" class="btn btn-sm btn-primary" /> &nbsp; <a href="#" class="btn btn-sm btn-default"> change password</a>
+</form>
 
 {% endblock %}

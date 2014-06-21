@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		
+
 <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script type="text/javascript" src="/slider/js/bootstrap-slider.js"></script>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
@@ -17,11 +17,11 @@
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 
     <!-- Custom Theme CSS -->
-    <link href="css/grayscale.css" rel="stylesheet">
+    <link href="/css/grayscale.css" rel="stylesheet">
 <link rel="stylesheet" href="/css/style.css" type="text/css">
 <link rel="stylesheet" href="/slider/css/slider.css" type="text/css">
 <!-- Latest compiled and minified JavaScript -->
-<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/bootstrap/js/bootstrap.js"></script>
 	<title>{% block title %}{% endblock %}</title>
 		</head>
 

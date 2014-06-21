@@ -33,11 +33,16 @@ class Specification extends \Phalcon\Mvc\Model
     public function columnMap()
     {
         return array(
-            'id' => 'id', 
-            'percent' => 'percent', 
-            'vacancy_id' => 'vacancy_id', 
+            'id' => 'id',
+            'percent' => 'percent',
+            'vacancy_id' => 'vacancy_id',
             'skills_id' => 'skills_id'
         );
+    }
+
+    public functioin initialize()
+    {
+      $this->hasMany("skills_id","Skills","id");
     }
 
 }

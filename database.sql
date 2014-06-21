@@ -2,7 +2,6 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-DROP SCHEMA IF EXISTS `appply` ;
 CREATE SCHEMA IF NOT EXISTS `appply` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
 USE `appply` ;
 
@@ -28,7 +27,7 @@ ENGINE = InnoDB;
 -- Table `appply`.`vacancy`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `appply`.`vacancy` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `function` VARCHAR(45) NOT NULL,
   `posted_date` DATETIME NOT NULL,
   `user_id` INT NOT NULL,
@@ -37,8 +36,8 @@ CREATE TABLE IF NOT EXISTS `appply`.`vacancy` (
   CONSTRAINT `fk_vacancy_user`
     FOREIGN KEY (`user_id`)
     REFERENCES `appply`.`user` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 

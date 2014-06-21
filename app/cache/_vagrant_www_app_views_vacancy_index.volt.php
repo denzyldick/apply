@@ -1,33 +1,27 @@
-<h1> Your vacancies <h1>
-
-
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th>Function</th>
-                  <th>Hour/week</th>
-                  <th>Experience</th>
+                  <th>Name</th>
+                  <th>Skills</th>
                   <th>Location</th>
                   <th>Matches</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>PHP Developer</td>
-                  <td>40</td>
-                  <td>3 years</td>
+                                <?php foreach ($vacancies as $vacancies) { ?>
+ <tr>
+                  <td><?php echo $vacancies->function; ?></td>
+
+                  <td>3</td>
                   <td>Amsterdam</td>
                   <td>30</td>
-                  <td><a href=# class='btn btn-sm btn-success'><span class="glyphicon glyphicon-search"> SEARCH</span></a>&nbsp;<a href=# class='btn btn-sm btn-default'><span class="glyphicon glyphicon-edit"> EDIT</span></a>&nbsp;<a href="#" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"> REMOVE</span></a></td>
-                </tr>  <tr>
-                  <td>Java Developer</td>
-                  <td>30</td>
-                  <td>1 year</td>
-                  <td>Amsterdam</td>
-                  <td>10</td>
-              <td><a href=# class='btn btn-sm btn-success'  title="Search for people."><span class="glyphicon glyphicon-search"> SEARCH</span></a>&nbsp;<a href=# class='btn btn-sm btn-default'><span class="glyphicon glyphicon-edit"> EDIT</span></a>&nbsp;<a href="#" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"> REMOVE</span></a></td>
-                   </tr>
+                  <td><a href="matches/view/<?php echo $vacancies->id; ?>/<?php echo $tokenKey; ?>/<?php echo $tokenValue; ?>" class='btn btn-sm btn-success'><span class="glyphicon glyphicon-search"> Matches</span></a>&nbsp;<a href="/vacancy/remove/<?php echo $vacancies->id; ?>" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"> REMOVE</span></a></td>
+                </tr>
+
+<?php } ?>
               </tbody>
             </table>
+</div>
+<a href="vacancy/new" class="btn btn-small btn-default"> new</a> &nbsp;<a href="premium" class="btn btn-small btn-primary"> more</a>

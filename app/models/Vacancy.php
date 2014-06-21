@@ -33,16 +33,17 @@ class Vacancy extends \Phalcon\Mvc\Model
     public function columnMap()
     {
         return array(
-            'id' => 'id', 
-            'function' => 'function', 
-            'posted_date' => 'posted_date', 
+            'id' => 'id',
+            'function' => 'function',
+            'posted_date' => 'posted_date',
             'user_id' => 'user_id'
         );
     }
-    
+
     public function initialize()
     {
-        $this->hasOne("user_id","User","id");
+       $this->hasOne("user_id","User","id");
+        
     }
 
 }

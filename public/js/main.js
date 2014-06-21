@@ -59,5 +59,5 @@ function submitSignUp()
 $(document).ready(function() {
 
     $('.slider').slider();
-});
 
+});

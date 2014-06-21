@@ -40,7 +40,7 @@ $di->set('view', function () use ($config) {
             $volt->setOptions(array(
                 'compiledPath' => $config->application->cacheDir,
                 'compiledSeparator' => '_',
-                'compileAlways' => true 
+                'compileAlways' => true
             ));
 
             return $volt;
@@ -80,12 +80,18 @@ $di->set('session', function () {
     return $session;
 });
 
+$di->setShared('session', function() {
+    $session = new Phalcon\Session\Adapter\Files();
+    $session->start();
+    return $session;
+});
+
 /**
  * Cookie encryption key
  *
  */
 $di->set('crypt', function() {
     $crypt = new Phalcon\Crypt();
-    $crypt->setKey('JFE#(#18139u5#!'); 
+    $crypt->setKey('JFE#(#18139u5#!');
     return $crypt;
 });
