@@ -33,8 +33,8 @@
               <span class="text-muted">75% match</span>
             </div>
           </div>
-          
 
-          
+
+
           </div><!--/main-->
       </div><!--/row-->
