@@ -27,8 +27,8 @@ class Bundle extends \Phalcon\Mvc\Model
     public function columnMap()
     {
         return array(
-            'idbundle' => 'idbundle', 
-            'amount' => 'amount', 
+            'idbundle' => 'idbundle',
+            'amount' => 'amount',
             'price' => 'price'
         );
     }
