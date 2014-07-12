@@ -16,51 +16,28 @@ class ControllerBase extends \Phalcon\Mvc\Controller {
     protected $permission = false;
 
     public function initialize() {
-        $this->view->show_settings = false;
-        if ($this->sessionRedirect()) {
-               $this->view->show_settings = true;
-            if ($this->known() || $this->sessionRedirect()) {
-                $this->loginRedirect();
-             
-            } else {
-                $this->notLoggedInRedirect();
-            }
-        } else {
-            $this->notLoggedInRedirect();
-        }
+
+      if($this->session->get("user-type") != "guest" AND $this->session->has("user-type")== true)
+      {
+        $this->view->show_settings = true;
+        $this->companyHasBeenFilled();
+  }else{
+    $this->view->show_settings = false;
+  }
     }
+    private function companyHasBeenFilled()
+    {
 
-    private function sessionRedirect() {
-        if ($this->session->has("user-id") && $this->session->has("user-type")) {
-            return true;
-        }
-        return false;
-    }
 
-    private function notLoggedInRedirect() {
-        if ($this->request->getURI() != "/" && $this->request->getURI() != "/login" && $this->request->getURI() != "/signup" && $this->request->getURI() != "") {
+      if($this->session->get("user-type")=="employer")
+      {
+        $company =  Company::findFirstByUser_id($this->session->get("user-id"));
 
-            $this->response->redirect("/login");
-        }
-        if ($this->request->getURI() == "/") {
-            
-        }
-    }
-
-    private function loginRedirect() {
-        if ($this->request->getURI() == "/" || $this->request->getURI() == "/login" || $this->request->getURI() == "\signup") {
-
-            $this->userTypeRedirect();
-        } else {
-            
-        }
-    }
-
-    private function userTypeRedirect() {
-        if ($this->request->getURI() != $this->session->get("user-type")) {
-            $this->response->redirect($this->session->get("user-type"));
-        }
-        $this->response->redirect($this->session->get("user-type"));
+        if($company->name == null || $company->description == null || $company->longitude == null || $company->latitude == null || $company->zoom == null)
+        {
+        $this->flash->notice("Please enter all your company information &nbsp;&nbsp;<a href=company class='btn btn-small btn-primary'> click here</a>");
+      }
+      }
     }
 
     protected function known() {
