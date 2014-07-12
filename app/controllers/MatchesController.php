@@ -6,13 +6,13 @@ class MatchesController extends ControllerBase
 
     public function indexAction()
     {
-      $this->view->disable();
 
-      $vacancies  = Vacancy::find(array("user_id = 1"));
+
+      $vacancies  = Vacancy::find(array("user_id = ".$this->session->get("user-id")));
       $arrayMatches = array();
       foreach($vacancies as $value)
       {
-        $matches = Matches::findByVacancy_id($value->id);
+        $matches  = Matches::find(array("vacancy_id = ".$value->getId()));
 
         foreach($matches as $match)
         {
@@ -21,20 +21,29 @@ class MatchesController extends ControllerBase
         }
       }
       $this->view->matches = $arrayMatches;
-      var_dump($arrayMatches);
+      $this->view->amount_text = (count($arrayMatches) == 1? " 1 Match" : count($arrayMatches)." Matches");
+
     }
 
     public function viewAction($vacancy,$tokenKey,$tokenValue)
     {
 
-
         if($this->security->checkToken($tokenKey,$tokenValue) == 1)
         {
-
-        $this->view->matches = Matches::findFirstByVacancy_id($vacancy);
-
-
+          $matches  = Matches::find(array("vacancy_id = ".$vacancy));
+        $this->view->matches = $matches;
+        $this->view->amount_text = (count($matches) == 1)? "This vacancy has 1 match.":"This vacancy has ".count($matches)." matches.";
 
         }
+    }
+
+    public function removeAction($match)
+    {
+      $match = Matches::findFirst($match);
+      if($match->delete())
+      {
+        $this->flash->success("Match has been decline.");
+      return  $this->dispatcher->forward(array("action"=>"index"));
+      }
     }
 }
