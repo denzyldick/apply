@@ -1,7 +1,9 @@
 {% extends "templates/base.volt" %}
 {% block content %}
 <div class="jumbotron" id="jumbotron">	<div id="login"><h4>Create an account</h4>
-	
+	<i class="icon-2x icon-facebook-sign"></i>&nbsp;<i class="icon-2x icon-linkedin-sign"></i>&nbsp;<i class="icon-2x icon-googleplus-sign"></i>
+
+
 	<div class="well">
 <input class=form-control type=text placeholder="Firstname" id='firstname'/>
 </div>
@@ -15,18 +17,17 @@
 
 <p>
 	<div class="well">
-		
+
 <input class=form-control type=password placeholder="Password" id='password'/>
 
 </div>
 	<div class="well">
-		
+
 <input class=form-control type=password placeholder="Re-Password" id='re_password'/>
 
 </div>
 <input type="checkbox" id="type" value="gneoa4r"/> Are you a bussiness&nbsp;&nbsp;&nbsp;&nbsp;
-<a class="btn btn-small btn-primary" style="float:right" onclick=submitSignUp()> Sign up</a>
-</div>
+<a class="btn btn-small btn-primary" style="float:right" onclick=submitSignUp()> Sign up</a></div>
 </form>
 
 </div>
