@@ -7,35 +7,146 @@ class Matches extends \Phalcon\Mvc\Model
      *
      * @var integer
      */
-    public $id;
+    protected $id;
 
     /**
      *
      * @var integer
      */
-    public $percent;
+    protected $percent;
 
     /**
      *
      * @var integer
      */
-    public $user_id;
+    protected $user_id;
 
     /**
      *
      * @var integer
      */
-    public $vacancy_id;
+    protected $vacancy_id;
 
     /**
      *
      * @var string
      */
-    public $viewed;
+    protected $viewed;
 
     /**
-     * Independent Column Mapping.
+     * Method to set the value of field id
+     *
+     * @param integer $id
+     * @return $this
      */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field percent
+     *
+     * @param integer $percent
+     * @return $this
+     */
+    public function setPercent($percent)
+    {
+        $this->percent = $percent;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field user_id
+     *
+     * @param integer $user_id
+     * @return $this
+     */
+    public function setUserId($user_id)
+    {
+        $this->user_id = $user_id;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field vacancy_id
+     *
+     * @param integer $vacancy_id
+     * @return $this
+     */
+    public function setVacancyId($vacancy_id)
+    {
+        $this->vacancy_id = $vacancy_id;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field viewed
+     *
+     * @param string $viewed
+     * @return $this
+     */
+    public function setViewed($viewed)
+    {
+        $this->viewed = $viewed;
+
+        return $this;
+    }
+
+    /**
+     * Returns the value of field id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Returns the value of field percent
+     *
+     * @return integer
+     */
+    public function getPercent()
+    {
+        return $this->percent;
+    }
+
+    /**
+     * Returns the value of field user_id
+     *
+     * @return integer
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    /**
+     * Returns the value of field vacancy_id
+     *
+     * @return integer
+     */
+    public function getVacancyId()
+    {
+        return $this->vacancy_id;
+    }
+
+    /**
+     * Returns the value of field viewed
+     *
+     * @return string
+     */
+    public function getViewed()
+    {
+        return $this->viewed;
+    }
     public function columnMap()
     {
         return array(
@@ -48,7 +159,7 @@ class Matches extends \Phalcon\Mvc\Model
     }
     public function initialize()
     {
-      $this->belongsTo("user_id","User","id");
+      $this->hasOne("user_id","User","id");
       $this->hasOne("vacancy_id","Vacancy","id");
     }
 
