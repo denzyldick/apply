@@ -7,12 +7,12 @@
 </div>
 <p>
 	<div class="well">
-		
+
 <input class=form-control type=password placeholder="Password" id='password'/>
 
 </div>
 <input type="checkbox" id="remember" value="yes" /> Remember me&nbsp;&nbsp;&nbsp;&nbsp;
-<a class="btn btn-small btn-primary" style="float:right" onclick=submitLogin()> Login</a>
+<a class="btn btn-small btn-primary" style="float:right" onclick=submitLogin()> Login</a> <i class="icon-2x icon-facebook-sign"></i>&nbsp;<i class="icon-2x icon-linkedin-sign"></i>&nbsp;<i class="icon-2x icon-googleplus-sign"></i>
 </div>
 </form>
 <div class="alert alert-danger" id="alert"></div>
