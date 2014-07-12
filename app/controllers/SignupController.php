@@ -2,15 +2,14 @@
 
 class SignupController extends ControllerBase {
 
-    public function indexAction() {
-        
-    }
+public function indexAction() {
 
+}
     public function startAction() {
          $this->view->disable();
         if ($this->request->isPost() == true) {
             $user = new User();
-          
+
             $email = $this->request->getPost('email');
             $firstname = $this->request->getPost('firstname');
             $lastname = $this->request->getPost('lastname');
@@ -59,22 +58,31 @@ class SignupController extends ControllerBase {
                 $user->setLastname($lastname);
                 $user->setPassword($this->security->hash($password));
                 $user->setType($type);
+
+        if($user->getType() == "employer")
+                      {
+                        $company = new Company();
+                        $company->user_id = $user->getId();
+                        $company->save();
+                      }
                if( $user->save())
                {
-                    echo(json_encode(array("status" => "true", "message" => "Your account has been created")));
+                 $this->flash->success("Your account has been created.");
+                 return $this->dispatcher->forward(array("controller"=>"login","action"=>"index"));
+
                }else
                {
                    foreach ($user->getMessages() as $message) {
     echo $message;
   }   }
 
-               
+
             } else {
                 echo(json_encode(array("status" => "false", "message" => $errormessage)));
             }
         } else {
 
-     
+
             $response = new \Phalcon\Http\Response();
             $response->setStatusCode(404, "Not Found");
             $response->setContent("<h1>404 :( </h1>Sorry, the page doesn't exist");
