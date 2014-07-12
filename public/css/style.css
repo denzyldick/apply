@@ -1,6 +1,11 @@
-
 .copright{
     color: #636565!important;
+    position: absolute;
+margin-left: auto;
+margin-right: auto;
+left: 0;
+right: 0;
+bottom:10px;
 }
 #login{
     max-width:300px;
@@ -24,7 +29,6 @@
 #jumbotron
 {
     max-width:800px;margin: 0 auto;margin-top:45px;text-align:center;border-radius: 5px;
-
 }
 
 #main {
@@ -34,7 +38,6 @@
   height:auto;
   overflow-y: auto;
   margin-top:80px;
-
 }
 footer {
   padding-left: 15px;
@@ -50,3 +53,12 @@ footer {
     width:300%;
 }
 .gllpMap	{ width: 100%; height: 250px; }
+.alert{
+position: absolute;
+min-width: 300px;
+left: 50%;
+margin-left: -200px;
+top:50px;
+z-index:+6;
+position:fixed;
+}
