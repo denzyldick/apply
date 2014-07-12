@@ -7,12 +7,43 @@ use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
+use Phalcon\Flash\Session as Flash;
+
+
 
 /**
  * The FactoryDefault Dependency Injector automatically register the right services providing a full stack framework
  */
 $di = new FactoryDefault();
 
+//Register the flash service with custom CSS classes
+$di->set('flash', function(){
+    $flash = new Flash(array(
+        'error' => 'alert alert-error',
+        'success' => 'alert alert-success',
+        'notice' => 'alert alert-info',
+    ));
+    return $flash;
+});
+
+$di->set('dispatcher', function() use ($di) {
+
+    //Obtain the standard eventsManager from the DI
+    $eventsManager = $di->getShared('eventsManager');
+
+    //Instantiate the Security plugin
+    $security = new Security($di);
+
+    //Listen for events produced in the dispatcher using the Security plugin
+    $eventsManager->attach('dispatch', $security);
+
+    $dispatcher = new Phalcon\Mvc\Dispatcher();
+
+    //Bind the EventsManager to the Dispatcher
+    $dispatcher->setEventsManager($eventsManager);
+
+    return $dispatcher;
+});
 /**
  * The URL component is used to generate all kind of urls in the application
  */
@@ -94,4 +125,12 @@ $di->set('crypt', function() {
     $crypt = new Phalcon\Crypt();
     $crypt->setKey('JFE#(#18139u5#!');
     return $crypt;
+});
+
+
+
+//Register an user component
+$di->set('element',function()
+{
+  return new Elements();
 });
