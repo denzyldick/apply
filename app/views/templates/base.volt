@@ -15,7 +15,7 @@
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-
+   <link rel="stylesheet" type="text/css" href="css/socialicious.css" media="screen" />
     <!-- Custom Theme CSS -->
     <link href="/css/grayscale.css" rel="stylesheet">
 <link rel="stylesheet" href="/css/style.css" type="text/css">
@@ -26,7 +26,10 @@
 		</head>
 
 	</head>
-	<body><nav class="navbar navbar-custom navbar-fixed-top top-nav-collapse" role="navigation">
+	<body>
+{{ flash.output() }}
+<div id="alert"class="alert alert-danger" role="alert"></div>
+		<nav class="navbar navbar-custom navbar-fixed-top top-nav-collapse" role="navigation">
         <div class="container">
             <div class="navbar-header page-scroll">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
@@ -44,10 +47,11 @@
         </div>
         <!-- /.container -->
     </nav>
-    <div class="col-sm-9 col-md-10 main" id="main">
+    <div class="col-md-8 col-md-offset-2" id="main">
 	{% block content %}{% endblock %}
 </div>
+<!--
 <div class=copright style="max-width:400px;margin: 0 auto;text-align:center;margin-top: 10px">&copy; 2014 Appply. All rights reserved.</div>
-
+-->
 	</body>
 </html>
