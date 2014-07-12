@@ -26,13 +26,22 @@ class Company extends \Phalcon\Mvc\Model
      * @var string
      */
     public $longitude;
+    /**
+     *
+     * @var string
+     */
+     public $location;
 
     /**
      *
      * @var string
      */
     public $latitude;
-
+    /**
+     *
+     *@var integer
+     */
+    public $zoom;
     /**
      *
      * @var integer
@@ -45,12 +54,14 @@ class Company extends \Phalcon\Mvc\Model
     public function columnMap()
     {
         return array(
-            'id' => 'id', 
-            'name' => 'name', 
-            'description' => 'description', 
-            'longitude' => 'longitude', 
-            'latitude' => 'latitude', 
-            'user_id' => 'user_id'
+            'id' => 'id',
+            'name' => 'name',
+            'description' => 'description',
+            'longitude' => 'longitude',
+            'latitude' => 'latitude',
+            'user_id' => 'user_id',
+            'location'=> 'location',
+            'zoom' => 'zoom'
         );
     }
 
