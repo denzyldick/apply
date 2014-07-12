@@ -40,15 +40,16 @@ function submitSignUp()
         $.ajax({
             url: 'signup/start',
             type: 'POST',
+                dataType: "json",
             data: "firstname=" + firstname + "&lastname=" + lastname + "&password=" + password + "&re_type=" + re_type + "&email=" + email,
             success: function(data) {
                 console.log(data);
-                if (data.status === true)
+                if (data.status === 'true')
                 {
-                    alert(data.message)
+                 $("#alert").html(data.message).fadeIn("fast").delay(3000).fadeOut("fast").addClass("alert-success");
                 } else
                 {
-                    $("#alert").html(data.message).fadeIn("fast").delay(3000).fadeOut("fast");
+                    $("#alert").html(data.message).fadeIn("fast").delay(3000).fadeOut("fast").addClass("alert-error");;
                 }
 
             }
