@@ -3,8 +3,6 @@
 
 {% block content %}
 
-
-
 {{ content () }}
 
-{% endblock %} 
+{% endblock %}
