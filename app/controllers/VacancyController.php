@@ -2,10 +2,24 @@
 
 class VacancyController extends ControllerBase {
 
+
     public function indexAction() {
-        $this->view->vacancies =   Vacancy::findByUser_id($this->session->get("user-id"));
+      $this->view->vacancies = array();
+
+  //    if(Company::findFirstByUser_id($this->session->get("user-id")) == 1)
+  //    {
+
+        $vacancies  =  Vacancy::findByUser_id($this->session->get("user-id"));
+        $this->view->vacancies =   $vacancies;
+        $this->view->count     =  count($vacancies);
         $this->view->tokenKey = $this->security->getTokenKey();
         $this->view->tokenValue = $this->security->getToken();
+    /*  }else
+      {
+
+       $this->flash->warning("You need to enter you company information, before you can add a vacancy");
+
+     }*/
     }
 
     public function newAction() {
@@ -14,42 +28,70 @@ class VacancyController extends ControllerBase {
 
     public function saveAction() {
         if ($this->request->isPost()) {
-            $name = $this->request->getPost("name");
+            $name       = $this->request->getPost("name");
+            $longitude  =  $this->request->getPost("longitude");
+            $latitude   =  $this->request->getPost("latitude");
+            $zoom       =  $this->request->getPost("zoom");
+            $location   =  $this->request->getPost("location");
+            $skills     =  $this->request->getPost("skills");
+
             $vacancy = new Vacancy();
-            $vacancy->name = $name;
+            $vacancy->setFunction($name);
+            $vacancy->setLongitude($longitude);
+            $vacancy->setLatitude($latitude);;
+            $vacancy->setZoom($zoom);
+            $vacancy->setLocation($location);
+            $vacancy->setPostedDate(date(DATE_RFC2822));
+            $vacancy->setUserId($this->session->get("user-id"));
+
+            if($vacancy->save())
+            {
+              $this->flash->success("Vacancy has been saved");
+              return $this->dispatcher->forward(array(
+                "action"=>"skills",
+                "params"=>array($skills,$vacancy->getId())
+                ));
+            }
 
         }
     }
 
-    public function skillsAction() {
+    public function skillsAction($skills,$vacancy_id) {
 
-        if ($this->request->isPost()) {
-            $name = $this->request->getPost("name");
-            $skills = $this->request->getPost("skills");
-            $this->view->skills = explode(",", $skills);
-        }
+        $this->view->skills = explode(",",$skills);
+        $this->view->vacancy_id = $vacancy_id;
+
     }
 
     public function finishAction() {
+  
         if($this->request->isPost())
         {
-          $vacancy_name  =  $this->request->getPost("name");
-          $vacancy_longittude  =  $this->request->getPost("longtitude");
-          $vacancy_langittude  =  $this->request->getPost("langitude");
-          //$vacancy_skill       =  json_decode($this->request->getPost("skilss"));
-          $skil  = $this->session->get("skillsWithWeight");
-          foreach($skill as $key => $value)
+
+          $vacancy = $this->request->getPost("vacancy_id");
+          $skills  = json_decode($this->request->getPost("skills"));
+           foreach($skills as $key => $value)
           {
-            $skillObj = new Specification();
-            $skillObj->name = $key;
-            $skillObj->percent  = ($value /);
+            $specification = new Specification();
+
+            $specification->setPercent($this->calculatePecent($this->request->getPost($value)));
+            $specification->setVacancyId($vacancy);
+
+            $skill = new Skills();
+            $skill->setName($value);
+            $skill->save();
+            $specification->setSkillsId($skill->getId());
+
+            $specification->save();
           }
+          $this->flash->success("Skills has been saved.");
         }
+
     }
     private function calculatePecent($number)
     {
-      
-      return $percent;
+
+      return ($number/5)* 100;
     }
 
     public function locationAction() {
@@ -69,9 +111,11 @@ class VacancyController extends ControllerBase {
     {
       if(isset($id))
       {
-
-      $status = Vacancy::findFirst($id)->delete();
-      }
+      $vacancy = Vacancy::findFirst($id);
+      if($vacancy)
+      {
+      $status = $vacancy->delete();
+    }}
       if($status)
       {
         $this->flash->success("Vacancy has been succesfully deleted.");
