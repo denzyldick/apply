@@ -142,10 +142,12 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `appply`.`company` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
-  `description` VARCHAR(45) NULL,
+  `description` TEXT NULL,
   `longitude` VARCHAR(45) NULL,
   `latitude` VARCHAR(45) NULL,
   `user_id` INT NOT NULL,
+  `zoom` INT NULL,
+  `location` VARCHAR(45) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_company_user1_idx` (`user_id` ASC),
   CONSTRAINT `fk_company_user1`
