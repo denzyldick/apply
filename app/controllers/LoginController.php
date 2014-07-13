@@ -3,7 +3,7 @@
 class LoginController extends ControllerBase {
 
     public function indexAction() {
-    
+
     }
 
 
@@ -15,7 +15,7 @@ class LoginController extends ControllerBase {
             $remember = $this->request->getPost("remember");
 
             if ($this->check($email, $password, $remember)) {
-
+              return  $this->dispatcher->forward(array("controller"=>"matches","action"=>"index"));
             } else {
                 echo json_encode(array("status" => "false", "message" => "Wrong email or password"));
             }
