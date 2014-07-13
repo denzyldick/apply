@@ -59,6 +59,6 @@ min-width: 300px;
 left: 50%;
 margin-left: -200px;
 top:50px;
-z-index:+6;
+z-index:2000;
 position:fixed;
 }
