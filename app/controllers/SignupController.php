@@ -17,7 +17,7 @@ public function indexAction() {
             $re_type = $this->request->getPost('re_type');
             $type = $this->request->getPost('type');
 
-            if ($type == "gneoa4r") {
+            if ($type == "employer") {
                 $type = "Employer";
             } else {
                 $type = "Employee";
