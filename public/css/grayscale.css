@@ -126,6 +126,7 @@ a:focus {
 .intro-body {
     display: table-cell;
     vertical-align: middle;
+    text-shadow: black 1px 1px!important;
 }
 
 .brand-heading {
@@ -230,6 +231,7 @@ a:focus {
 }
 
 .download-section {
+  text-shadow: black 1px 1px!important;
     width: 100%;
     padding: 50px 0;
     color: #fff;
