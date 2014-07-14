@@ -9,13 +9,13 @@ class Security extends Plugin
 {
 
   public function __construct($dependencyInjector)
-	{
-		$this->_dependencyInjector = $dependencyInjector;
-	}
+  {
+    $this->_dependencyInjector = $dependencyInjector;
+  }
 
-	public function getAcl()
-	{
-		if (!isset($this->persistent->acl)) {
+  public function getAcl()
+  {
+
 
 
 
@@ -40,7 +40,9 @@ class Security extends Plugin
       'employee' => array("index"),
       'matches' => array("index","view"),
       'premium'=> array("index"),
-      'settings'=>array("index","save")
+      'logout'=> array('index'),
+      'settings'=>array("index","save"),
+      'support'=>array('index')
     );
     foreach($employeeResource as $resource => $actions)
     {
@@ -54,8 +56,10 @@ class Security extends Plugin
       'matches' => array("index","view"),
       'premium'=> array("index"),
       'settings'=>array("index","save"),
+      'logout'=> array('index'),
       'vacancy'=>array('index','new','location','skills','finish','remove','save'),
-      'company'=>array('index')
+      'company'=>array('index','save'),
+      'support'=>array('index')
     );
 
     foreach($employerResource as $resource => $actions)
@@ -65,21 +69,17 @@ class Security extends Plugin
     }
 
     $publicResources =  array(
+
+      'index'=> array('index','show'),
       'login'=> array('index','login'),
-      'logout'=> array('index'),
       'signup'=>array('index','start'),
-      'index'=> array('index','show')
+
     );
     foreach($publicResources as $resource => $actions)
     {
       $acl->addResource(new Phalcon\Acl\Resource($resource),$actions);
     }
-    //Grant access to public areas to both users and guests
-    foreach ($roles as $role) {
-        foreach ($publicResources as $resource => $actions) {
-            $acl->allow($role->getName(), $resource, '*');
-        }
-    }
+
     foreach($publicResources as $resource => $actions)
     {
       foreach($actions as $action)
@@ -102,11 +102,8 @@ class Security extends Plugin
         }
     }
 
-			$this->persistent->acl = $acl;
-		}
-
-		return $this->persistent->acl;
-	}
+    return $acl;
+  }
 
     public function beforeDispatch(Event $event, Dispatcher $dispatcher)
     {
@@ -117,15 +114,15 @@ class Security extends Plugin
         if (!$auth) {
 
               $role = 'guest';
-              $userDispatcher =   $guestDispatcher = array(
+              $userDispatcher =  array(
               'controller'=>'login',
               'action'=>'index');
         } else {
             $role = $this->session->get("user-type");
 
-           $userDispatcher =   $nonGuestDispatcher = array(
+           $userDispatcher =  array(
               'controller'=>$role,
-              'action'=> 'action'
+              'action'=> 'index'
             );
             $this->view->show_settings = true;
         }
@@ -141,17 +138,16 @@ class Security extends Plugin
         //Check if the Role have access to the controller (resource)
         $allowed = $acl->isAllowed($role, $controller, $action);
 
-
         if ($allowed != Acl::ALLOW) {
 
             //If he doesn't have access forward him to the index controller
 
-        /*   $dispatcher->forward(
+         $dispatcher->forward(
                   $userDispatcher
-            );  */
+            );
 
             //Returning "false" we tell to the dispatcher to stop the current operation
-          //  return false;
+           return false;
         }
 
     }
