@@ -33,6 +33,7 @@
                 <a class="navbar-brand" href="#page-top">
                     <i class="fa fa-dot-circle-o"  style="color:#fff!important;"></i>Apply
                 </a>
+
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -51,7 +52,7 @@
 <li class="page-scroll">
 <a href="/signup">Signup</a>
 </li>
-                    
+
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -66,12 +67,23 @@
                     <div class="col-md-8 col-md-offset-2">
                         <h1 class="brand-heading">Appply</h1>
                         <p class="intro-text">Where you can get a job through your skills.</p>
-                        <div class="page-scroll">
+                        <div class="page-scroll ">
                             <a href="#about" class="btn btn-circle">
                                 <i class="fa fa-angle-double-down animated"></i>
                             </a>
                         </div>
-                    </div>
+
+                      </div>
+                      <p>
+              <div class="form-group">
+<div class="col-md-7 col-sm-6 col-sm-offset-1 col-md-offset-0">
+<input class="form-control input-lg" name="email" type="email" placeholder="Enter your email"  required="required">
+</div>
+<div class="col-md-5 col-sm-5">
+<button type="submit" class="btn btn-primary btn-lg">GET EARLY ACCESS</button>
+</div>
+</div>
+
                 </div>
             </div>
         </div>
@@ -94,7 +106,7 @@ Fusce nec congue enim. Fusce ornare tempor libero, nec fermentum ipsum mollis et
                 <div class="col-lg-8 col-lg-offset-2">
                     <h2>Stuff</h2>
                     <p>gwgrgrwgwrgwrgwrgwrr!</p>
-                   
+
                 </div>
             </div>
         </div>

@@ -21,5 +21,5 @@
 
 </fieldset>
 
-{{submit_button("save","class":"btn btn-sm btn-default")}}
+{{submit_button("save","class":"btn btn-sm btn-primary")}}
 </form>

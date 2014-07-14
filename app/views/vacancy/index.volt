@@ -14,10 +14,10 @@
  <tr>
                   <td>{{ vacancies.getFunction() }}</td>
 
-                  <td>3</td>
+                  <td>{{vacancies.countSkills()}}</td>
                   <td>{{vacancies.getLocation()}}</td>
-                  <td>30</td>
-                  <td><a href="matches/view/{{vacancies.getId()}}/{{tokenKey}}/{{tokenValue}}" class='btn btn-sm btn-success'><span class="glyphicon glyphicon-search"> Matches</span></a>&nbsp;<a href="/vacancy/remove/{{vacancies.getId()}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"> REMOVE</span></a></td>
+                  <td>{{vacancies.countMatches()}}</td>
+                  <td><a href="/matches/view/{{vacancies.getId()}}/{{tokenKey}}/{{tokenValue}}" class='btn btn-sm btn-success'><span class="glyphicon glyphicon-search"> Matches</span></a>&nbsp;<a href="/vacancy/remove/{{vacancies.getId()}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"> remove</span></a></td>
                 </tr>
 
 {% endfor %}
@@ -26,4 +26,4 @@
 </div>
 
 
-<a href="vacancy/new" class="btn btn-small btn-default"> new</a> &nbsp;<a href="premium" class="btn btn-small btn-primary"> more</a>
+<a href="/vacancy/new" class="btn btn-small btn-primary"><span class="glyphicon glyphicon-plus" style="color:#fff"></span> add vacancy</a>

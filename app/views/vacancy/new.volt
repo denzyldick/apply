@@ -43,5 +43,7 @@ $(document).ready(function() {
   <input type="hidden" name="zoom" class="gllpZoom" value="1"/>
 </fieldset>
 <p>&nbsp;</p>
-{{ submit_button('save',"class":"btn btn-sm btn-default") }}
+{{ submit_button('save',"class":"btn btn-sm btn-primary") }}
+
+
 </form>
