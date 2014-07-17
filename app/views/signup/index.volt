@@ -1,7 +1,7 @@
 {% extends "templates/base.volt" %}
 {% block content %}
 <div class="jumbotron" id="jumbotron">	<div id="login"><h4>Create an account</h4>
-	<i class="icon-2x icon-facebook-sign"></i>&nbsp;<i class="icon-2x icon-linkedin-sign"></i>&nbsp;<i class="icon-2x icon-googleplus-sign"></i>
+	<i class="icon-2x icon-facebook-sign"></i>&nbsp;<i class="icon-2x icon-linkedin-sign"></i>&nbsp;<i class="icon-2x icon-googleplus-sign"></i>&nbsp;<i class="icon-2x icon-twitter-sign"></i>
 
 <form action="/signup/start" method=post>
 	<div class="well">
