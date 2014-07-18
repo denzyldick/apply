@@ -16,9 +16,6 @@ class Security extends Plugin
   public function getAcl()
   {
 
-
-
-
     //Create te acces control list ACL
     $acl = new Phalcon\Acl\Adapter\Memory();
     // Deny every action
@@ -41,7 +38,7 @@ class Security extends Plugin
       'matches' => array("index","view"),
       'premium'=> array("index"),
       'logout'=> array('index'),
-      'settings'=>array("index","save"),
+      'settings'=>array("index","save","password","reset"),
       'support'=>array('index')
     );
     foreach($employeeResource as $resource => $actions)
@@ -55,7 +52,7 @@ class Security extends Plugin
       'settings'=>array('index','save'),
       'matches' => array("index","view"),
       'premium'=> array("index"),
-      'settings'=>array("index","save"),
+      'settings'=>array("index","save","password","reset"),
       'logout'=> array('index'),
       'vacancy'=>array('index','new','location','skills','finish','remove','save'),
       'company'=>array('index','save'),
