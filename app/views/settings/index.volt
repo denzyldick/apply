@@ -15,7 +15,7 @@
 <label>Account type</label>
 <input class="form-control" disabled value={{ type }} />
 <br/>
-<input type="submit" value="save" class="btn btn-sm btn-primary" /> &nbsp; <a href="#" class="btn btn-sm btn-default"> change password</a>
+<input type="submit" value="save" class="btn btn-sm btn-primary" /> &nbsp; <a href="/settings/password" class="btn btn-sm btn-warning"> change password</a>
 </form>
 
 {% endblock %}

@@ -36,4 +36,27 @@ class SettingsController extends ControllerBase{
     }
     }
 
+    public function passwordAction()
+    {
+      if($this->request->isPost())
+      {
+        $current_password = $this->request->getPost("current_password");
+        $new_password      =  $this->request->getPost("new_password");
+        $retype_password  =  $this->request->getPost("retype_password");
+        if($new_password != $retype_password){
+          $this->flash->notice("The passwords doesn't match.");
+          return false;
+        }
+        $user  =  User::findFirstById($this->session->get("user-id"));
+        if($this->security->checkHash($current_password,$user->getPassword()))
+        {
+          $user->setPassword($new_password);
+          $user->save();
+          $this->flash->success("Your password has been saved.");
+          $this->dispatcher->forward(array("controller"=>"settings"));
+
+        }
+      }
+    }
+
 }
