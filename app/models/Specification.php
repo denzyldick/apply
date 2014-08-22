@@ -11,9 +11,15 @@ class Specification extends \Phalcon\Mvc\Model
 
     /**
      *
-     * @var string
+     * @var integer
      */
     protected $percent;
+
+    /**
+     *
+     * @var integer
+     */
+    protected $skills_id;
 
     /**
      *
@@ -25,12 +31,12 @@ class Specification extends \Phalcon\Mvc\Model
      *
      * @var integer
      */
-    protected $skills_id;
+    protected $user_id;
 
     /**
      * Method to set the value of field id
      *
-     * @param integer $id
+     * @param  integer $id
      * @return $this
      */
     public function setId($id)
@@ -43,7 +49,7 @@ class Specification extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field percent
      *
-     * @param string $percent
+     * @param  integer $percent
      * @return $this
      */
     public function setPercent($percent)
@@ -54,9 +60,22 @@ class Specification extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Method to set the value of field skills_id
+     *
+     * @param  integer $skills_id
+     * @return $this
+     */
+    public function setSkillsId($skills_id)
+    {
+        $this->skills_id = $skills_id;
+
+        return $this;
+    }
+
+    /**
      * Method to set the value of field vacancy_id
      *
-     * @param integer $vacancy_id
+     * @param  integer $vacancy_id
      * @return $this
      */
     public function setVacancyId($vacancy_id)
@@ -67,14 +86,14 @@ class Specification extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Method to set the value of field skills_id
+     * Method to set the value of field user_id
      *
-     * @param integer $skills_id
+     * @param  integer $user_id
      * @return $this
      */
-    public function setSkillsId($skills_id)
+    public function setUserId($user_id)
     {
-        $this->skills_id = $skills_id;
+        $this->user_id = $user_id;
 
         return $this;
     }
@@ -92,11 +111,21 @@ class Specification extends \Phalcon\Mvc\Model
     /**
      * Returns the value of field percent
      *
-     * @return string
+     * @return integer
      */
     public function getPercent()
     {
         return $this->percent;
+    }
+
+    /**
+     * Returns the value of field skills_id
+     *
+     * @return integer
+     */
+    public function getSkillsId()
+    {
+        return $this->skills_id;
     }
 
     /**
@@ -110,13 +139,13 @@ class Specification extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Returns the value of field skills_id
+     * Returns the value of field user_id
      *
      * @return integer
      */
-    public function getSkillsId()
+    public function getUserId()
     {
-        return $this->skills_id;
+        return $this->user_id;
     }
     public function columnMap()
     {
@@ -124,9 +153,14 @@ class Specification extends \Phalcon\Mvc\Model
             'id' => 'id',
             'percent' => 'percent',
             'vacancy_id' => 'vacancy_id',
+            'user_id'=>'user_id',
             'skills_id' => 'skills_id'
         );
     }
-  
+    public function initialize()
+    {
+        $this->hasOne("skills_id","Skills","id");
+        $this->hasOne("vacancy_id","Vacancy","id");
+    }
 
 }

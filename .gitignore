@@ -5,5 +5,9 @@
 ### Vagrant ###
 .vagrant/
 
+### Phalcon ####
+.phalcon/
 ### Mysql Workbench backup file ###
 EER-diagram.mwb.bak
+### Files folder ###
+public/files/

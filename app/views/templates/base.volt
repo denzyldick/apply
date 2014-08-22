@@ -6,8 +6,29 @@
 <script type="text/javascript" src="/slider/js/bootstrap-slider.js"></script>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript" src="/js/main.js"></script>
+<script src="/js/jquery-gmaps-latlon-picker.js"></script>
+<script src="/js/Chart.js"></script>
 
+<script type="text/javascript" src="/js/bootstrap-tagsinput.min.js"></script>
+<link rel="stylesheet" href="/css/bootstrap-tagsinput.css" />
+<script>
+//prevent the user from hitting enter
+$(document).ready(function() {
+	$(window).keydown(function(event){
+		if(event.keyCode == 13) {
+			event.preventDefault();
+			return false;
+		}
+	});
+});
 
+</script>
+<style>
+.bootstrap-tagsinput
+{
+	width:100%;
+}
+</style>
     <!-- Bootstrap Core CSS -->
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
@@ -28,7 +49,7 @@
 	</head>
 	<body>
 {{ flash.output() }}
-<div id="alert"class="alert alert-danger" role="alert"></div>
+<div id="alert"class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></div>
 		<nav class="navbar navbar-custom navbar-fixed-top top-nav-collapse" role="navigation">
         <div class="container">
             <div class="navbar-header page-scroll">

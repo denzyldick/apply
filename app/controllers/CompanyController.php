@@ -11,40 +11,55 @@
  *
  * @author denzyl
  */
-class CompanyController extends ControllerBase{
-
+class CompanyController extends ControllerBase
+{
     private $company;
     public function initialize()
     {
-      $this->company =  Company::findFirstByUser_id($this->session->Get("user-id"));
+      $this->company =  Company::findFirst(array("user_id = {$this->session->get('user-id')}"));
+
     }
     public function indexAction()
     {
+
       $this->view->name = $this->company->name;
       $this->view->description = $this->company->description;
       $this->view->longitude  =  $this->company->longitude;
       $this->view->latitude  =  $this->company->latitude;
       $this->view->location = $this->company->location;
       $this->view->zoom   = $this->company->zoom;
+      $this->view->company_foto =$this->company->logo;
+      $this->view->website = $this->company->website;
 
     }
     public function saveAction()
     {
-      if($this->request->isPost())
-      {
-
+      if ($this->request->isPost()) {
         $this->company->name = $this->request->getPost("name","string");
         $this->company->description = $this->request->getPost("description","string");
         $this->company->latitude = $this->request->getPost("latitude","int");
         $this->company->longitude = $this->request->getPost("longitude","int");
-        $this->company->location = $this->request->getPost("location","int");
+        $this->company->location = $this->request->getPost("location","string");
         $this->company->zoom = $this->request->getPost("zoom","int");
-        if($this->company->save())
-        {
+        $this->company->website = $this->request->getPost('website','string');
+
+        if ($this->request->hasFiles()) {
+          $file = $this->request->getUploadedFiles();
+
+        $photo = $file[0];
+        $photo->name = md5($this->user->id.''.$this->security->hash(rand()));
+        $this->company->logo = $photo->name;
+
+        $photo->moveTo('files/'.$photo->name);
+        $this->view->company_foto = $photo->name;
+      }
+        if ($this->company->save()) {
           $this->flash->success("Saved succesfully");
+
           return $this->dispatcher->forward(array("action" => "index"));
         }
-
+      } else {
+        $this->dispatcher->forward(array('controller'=>'company','action'=>'index'));
       }
     }
 

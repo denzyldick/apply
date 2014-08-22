@@ -9,4 +9,3 @@ class PremiumController extends ControllerBase
     }
 
 }
-

@@ -5,8 +5,7 @@ class IndexController extends  ControllerBase
 
     public function indexAction()
     {
-        
-        
+
     }
 
     public function showAction()
@@ -14,4 +13,3 @@ class IndexController extends  ControllerBase
         $this->view->show_settings = false;
     }
 }
-

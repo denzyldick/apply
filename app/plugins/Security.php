@@ -21,28 +21,26 @@ class Security extends Plugin
     // Deny every action
     $acl->setDefaultAction(Phalcon\Acl::DENY);
 
-
     $roles =  array(
       'guest'=> new Phalcon\Acl\Role('guest'),
       'employee'=> new Phalcon\Acl\Role('employee'),
       'employer'=> new Phalcon\Acl\Role('employer')
 
     );
-    foreach($roles as $role)
-    {
+    foreach ($roles as $role) {
       $acl->addRole($role);
     }
     //Employee area
     $employeeResource = array(
-      'employee' => array("index"),
-      'matches' => array("index","view"),
+      'employee' => array("index","skills","done","options"),
+      'suggestion' => array("index","vacancies","accept"),
       'premium'=> array("index"),
       'logout'=> array('index'),
       'settings'=>array("index","save","password","reset"),
-      'support'=>array('index')
+      'support'=>array('index'),
+      'bundle'=>array('index','edit','save','delete','new')
     );
-    foreach($employeeResource as $resource => $actions)
-    {
+    foreach ($employeeResource as $resource => $actions) {
       $acl->addResource(new Phalcon\Acl\Resource($resource),$actions);
     }
 
@@ -50,7 +48,7 @@ class Security extends Plugin
     $employerResource = array(
       'employer'=>array('index','settings'),
       'settings'=>array('index','save'),
-      'matches' => array("index","view"),
+      'suggestion' => array("index","view"),
       'premium'=> array("index"),
       'settings'=>array("index","save","password","reset"),
       'logout'=> array('index'),
@@ -59,8 +57,7 @@ class Security extends Plugin
       'support'=>array('index')
     );
 
-    foreach($employerResource as $resource => $actions)
-    {
+    foreach ($employerResource as $resource => $actions) {
 
     $acl->addResource(new Phalcon\Acl\Resource($resource),$actions);
     }
@@ -72,15 +69,12 @@ class Security extends Plugin
       'signup'=>array('index','start'),
 
     );
-    foreach($publicResources as $resource => $actions)
-    {
+    foreach ($publicResources as $resource => $actions) {
       $acl->addResource(new Phalcon\Acl\Resource($resource),$actions);
     }
 
-    foreach($publicResources as $resource => $actions)
-    {
-      foreach($actions as $action)
-      {
+    foreach ($publicResources as $resource => $actions) {
+      foreach ($actions as $action) {
         $acl->allow('guest',$resource,$action);
       }
     }
@@ -91,10 +85,8 @@ class Security extends Plugin
         }
     }
     //Grant access to private area only to role employer
-    foreach($employerResource as $resource => $actions)
-    {
-        foreach($actions as $action)
-        {
+    foreach ($employerResource as $resource => $actions) {
+        foreach ($actions as $action) {
           $acl->allow('employer',$resource,$action);
         }
     }
@@ -123,7 +115,6 @@ class Security extends Plugin
             );
             $this->view->show_settings = true;
         }
-
 
         //Take the active controller/action from the dispatcher
         $controller = $dispatcher->getControllerName();

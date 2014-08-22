@@ -34,9 +34,21 @@ class Matches extends \Phalcon\Mvc\Model
     protected $viewed;
 
     /**
+     *
+     * @var string
+     */
+    protected $employer_accepted;
+
+    /**
+     *
+     * @var string
+     */
+    protected $employee_accepted;
+
+    /**
      * Method to set the value of field id
      *
-     * @param integer $id
+     * @param  integer $id
      * @return $this
      */
     public function setId($id)
@@ -49,7 +61,7 @@ class Matches extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field percent
      *
-     * @param integer $percent
+     * @param  integer $percent
      * @return $this
      */
     public function setPercent($percent)
@@ -62,7 +74,7 @@ class Matches extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field user_id
      *
-     * @param integer $user_id
+     * @param  integer $user_id
      * @return $this
      */
     public function setUserId($user_id)
@@ -75,7 +87,7 @@ class Matches extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field vacancy_id
      *
-     * @param integer $vacancy_id
+     * @param  integer $vacancy_id
      * @return $this
      */
     public function setVacancyId($vacancy_id)
@@ -88,12 +100,38 @@ class Matches extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field viewed
      *
-     * @param string $viewed
+     * @param  string $viewed
      * @return $this
      */
     public function setViewed($viewed)
     {
         $this->viewed = $viewed;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field employer_accepted
+     *
+     * @param  string $employer_accepted
+     * @return $this
+     */
+    public function setEmployerAccepted($employer_accepted)
+    {
+        $this->employer_accepted = $employer_accepted;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field employee_accepted
+     *
+     * @param  string $employee_accepted
+     * @return $this
+     */
+    public function setEmployeeAccepted($employee_accepted)
+    {
+        $this->employee_accepted = $employee_accepted;
 
         return $this;
     }
@@ -147,6 +185,26 @@ class Matches extends \Phalcon\Mvc\Model
     {
         return $this->viewed;
     }
+
+    /**
+     * Returns the value of field employer_accepted
+     *
+     * @return string
+     */
+    public function getEmployerAccepted()
+    {
+        return $this->employer_accepted;
+    }
+
+    /**
+     * Returns the value of field employee_accepted
+     *
+     * @return string
+     */
+    public function getEmployeeAccepted()
+    {
+        return $this->employee_accepted;
+    }
     public function columnMap()
     {
         return array(
@@ -154,7 +212,9 @@ class Matches extends \Phalcon\Mvc\Model
             'percent' => 'percent',
             'user_id' => 'user_id',
             'vacancy_id' => 'vacancy_id',
-            'viewed' => 'viewed'
+            'viewed' => 'viewed',
+            'employer_accepted'=>'employer_accepted',
+            'employee_accepted'=>'employee_accepted'
         );
     }
     public function initialize()

@@ -63,21 +63,10 @@ CREATE TABLE IF NOT EXISTS `appply`.`user` (
   `usertype` ENUM('employer','employee') NULL DEFAULT NULL,
   `lang` VARCHAR(45) NULL DEFAULT NULL,
   `validated` VARCHAR(45) NULL DEFAULT NULL,
-  `work_enviroment_type` VARCHAR(45) NOT NULL,
-  `location_id` INT NOT NULL,
+  `work_enviroment_type` VARCHAR(45) NULL,
+  `location_id` INT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_user_work_enviroment1_idx` (`work_enviroment_type` ASC),
-  INDEX `fk_user_location1_idx` (`location_id` ASC),
-  CONSTRAINT `fk_user_work_enviroment1`
-    FOREIGN KEY (`work_enviroment_type`)
-    REFERENCES `appply`.`work_enviroment` (`type`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_user_location1`
-    FOREIGN KEY (`location_id`)
-    REFERENCES `appply`.`location` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  UNIQUE INDEX `user` (`email` ASC))
 ENGINE = InnoDB
 AUTO_INCREMENT = 24
 DEFAULT CHARACTER SET = utf8;
@@ -96,14 +85,11 @@ CREATE TABLE IF NOT EXISTS `appply`.`company` (
   `latitude` INT(11) NULL DEFAULT NULL,
   `user_id` INT(11) NOT NULL,
   `zoom` INT(11) NULL DEFAULT NULL,
-  `location` TEXT NULL DEFAULT NULL,
+  `location` VARCHAR(255) NULL DEFAULT NULL,
+  `logo` TEXT NULL,
+  `website` TEXT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_company_user1_idx` (`user_id` ASC),
-  CONSTRAINT `fk_company_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `appply`.`user` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  UNIQUE INDEX `company` (`user_id` ASC))
 ENGINE = InnoDB
 AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8;
@@ -120,19 +106,7 @@ CREATE TABLE IF NOT EXISTS `appply`.`vacancy` (
   `posted_date` DATETIME NOT NULL,
   `user_id` INT(11) NOT NULL,
   `location_id` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_vacancy_user_idx` (`user_id` ASC),
-  INDEX `fk_vacancy_location1_idx` (`location_id` ASC),
-  CONSTRAINT `fk_vacancy_user`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `appply`.`user` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_vacancy_location1`
-    FOREIGN KEY (`location_id`)
-    REFERENCES `appply`.`location` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 8
 DEFAULT CHARACTER SET = utf8;
@@ -148,20 +122,11 @@ CREATE TABLE IF NOT EXISTS `appply`.`matches` (
   `percent` INT(11) NOT NULL,
   `user_id` INT(11) NOT NULL,
   `vacancy_id` INT(11) NOT NULL,
-  `viewed` ENUM('yes','no') NULL DEFAULT NULL,
+  `viewed` ENUM('yes','no') NOT NULL DEFAULT 'no',
+  `employer_accepted` ENUM('yes','no') NOT NULL DEFAULT 'no',
+  `employee_accepted` ENUM('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`id`),
-  INDEX `fk_matches_user1_idx` (`user_id` ASC),
-  INDEX `fk_matches_vacancy1_idx` (`vacancy_id` ASC),
-  CONSTRAINT `fk_matches_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `appply`.`user` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_matches_vacancy1`
-    FOREIGN KEY (`vacancy_id`)
-    REFERENCES `appply`.`vacancy` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
+  UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC, `vacancy_id` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -177,19 +142,7 @@ CREATE TABLE IF NOT EXISTS `appply`.`premium` (
   `user_id` INT(11) NOT NULL,
   `bundle_idbundle` INT(11) NOT NULL,
   `buy_date` DATETIME NOT NULL,
-  PRIMARY KEY (`idpremium`),
-  INDEX `fk_premium_user1_idx` (`user_id` ASC),
-  INDEX `fk_premium_bundle1_idx` (`bundle_idbundle` ASC),
-  CONSTRAINT `fk_premium_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `appply`.`user` (`id`)
-    ON DELETE SET NULL
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_premium_bundle1`
-    FOREIGN KEY (`bundle_idbundle`)
-    REFERENCES `appply`.`bundle` (`idbundle`)
-    ON DELETE SET NULL
-    ON UPDATE CASCADE)
+  PRIMARY KEY (`idpremium`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -219,25 +172,7 @@ CREATE TABLE IF NOT EXISTS `appply`.`specification` (
   `skills_id` INT(11) NOT NULL,
   `vacancy_id` INT(11) NULL,
   `user_id` INT(11) NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_specification_skills1_idx` (`skills_id` ASC),
-  INDEX `fk_specification_vacancy1_idx` (`vacancy_id` ASC),
-  INDEX `fk_specification_user1_idx` (`user_id` ASC),
-  CONSTRAINT `fk_specification_skills1`
-    FOREIGN KEY (`skills_id`)
-    REFERENCES `appply`.`skills` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_specification_vacancy1`
-    FOREIGN KEY (`vacancy_id`)
-    REFERENCES `appply`.`vacancy` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_specification_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `appply`.`user` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 

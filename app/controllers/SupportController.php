@@ -9,4 +9,3 @@ class SupportController extends ControllerBase
     }
 
 }
-

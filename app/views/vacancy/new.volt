@@ -1,23 +1,4 @@
-<script type="text/javascript" src="/js/bootstrap-tagsinput.min.js"></script>
-<link rel="stylesheet" href="/css/bootstrap-tagsinput.css" />
-<script>
-//prevent the user from hitting enter
-$(document).ready(function() {
-  $(window).keydown(function(event){
-    if(event.keyCode == 13) {
-      event.preventDefault();
-      return false;
-    }
-  });
-});
 
-</script>
-<style>
-.bootstrap-tagsinput
-{
-  width:100%;
-}
-</style>
 <h1>Create a new vacancy</h1>
 {{ form('save', 'method': 'post') }}
 

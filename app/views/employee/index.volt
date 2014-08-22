@@ -1,40 +1,72 @@
 <h1 class="page-header">
-      30 Matches
-      <p class="lead">Individuals matching your criteria</p>
-    </h1>
+      {{ amount }}
+        <p class="lead">{{ lang._("job")}} {{ lang._("job_matching")}}</p>
+      </h1>
 
-    <div class="row placeholders">
-      <div class="col-xs-6 col-sm-3 placeholder text-center">
-        <img src="img/test.jpg" class="center-block img-responsive img-circle" alt="Generic placeholder thumbnail"  style="
-width: 200px!important;
-height: 200px;
-"> <h4>PHP Developer</h4>
-        <span class="text-muted">100% match</span>
-      </div>
-     <div class="col-xs-6 col-sm-3 placeholder text-center">
-                    <img src="img/test2.jpg" class="center-block img-responsive img-circle" alt="Generic placeholder thumbnail"  style="
-width: 200px!important;
-height: 200px;
-">    <h4>Java Developer</h4>
-        <span class="text-muted">23% match</span>
-      </div>
-<div class="col-xs-6 col-sm-3 placeholder text-center">
-                    <img src="img/test3.jpg" class="center-block img-responsive img-circle" alt="Generic placeholder thumbnail"  style="
-width: 200px!important;
-height: 200px;
-">    <h4>DevOp</h4>
-        <span class="text-muted">100% match</span>
-      </div>
-<div class="col-xs-6 col-sm-3 placeholder text-center">
-                    <img src="img/test4.jpg" class="center-block img-responsive img-circle" alt="Generic placeholder thumbnail"  style="
-width: 200px!important;
-height: 200px;
-">  <h4>Java Developer</h4>
-        <span class="text-muted">75% match</span>
-      </div>
-    </div>
+      <div class="row placeholders">
+{% for match in matches %}
+
+ {% set company = match.vacancy.user.company %}
 
 
+<div class="col-xs-6 col-sm-3 placeholder text-center match" style="margin: 10px;"  >
+          <img src="/files/{{company.logo}}" class="center-block  img-thumbnail" alt="Generic placeholder thumbnail" style="
+width: 200px!important;
+height: 200px;
+cursor:pointer;
+" data-toggle="modal" data-target="#{{match.getId()}}"> <h4>{{match.vacancy.getFunction() }}</h4>
+          <span class="text-muted">{{match.getPercent()}}% match</span>
+          <br/>
+          <a href="" class="btn btn-small btn-primary"><span class="glyphicon glyphicon-send" style="color:#fff"></span> {{ lang._("contact_company")}}</a>
+       
 
-    </div><!--/main-->
-</div><!--/row-->
+        <!-- Modal -->
+        <div class="modal fade" id="{{match.getId()}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+               
+                <span class="modal-title" id="myModalLabel"> <img src="/files/{{company.logo}}" style="
+width: 32px!important;
+height: 32px;
+" /> {{ company.getName() }}</span>
+              </div>
+              <div class="modal-body">
+
+                <a href="" class="btn btn-small btn-primary"> {{lang._("contact_company")}}</a><p></p>
+               
+                {{lang._('website')|upper}}<br/>
+                <div class="well">
+                <a href='{{company.website}}' target='new'>{{company.website}}</a>
+              </div>
+                 {{ lang._("description")|upper}}<br/>
+                <div class="well">
+                {{ company.getDescription()|e}}
+                </div>
+
+                <label>Where is the company located</label>
+
+<script src="/js/jquery-gmaps-latlon-picker.js"></script>
+
+  <div class="gllpMap well"><center><img src="/img/ajax-loader.gif" alt="{{lang._('loading')}}"></center></div>
+  {{hidden_field("longitude","class":"gllpLongitude","value":company.getLongitude())}}
+  {{hidden_field("latitude","class":"gllpLatitude","value":company.getLatitude())}}
+  {{hidden_field("zoom","class":"gllpZoom","value":company.getZoom())}}
+
+            
+              <div class="modal-footer">
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+         </div>
+
+</div>
+{% endfor %}
+
+
+    
+

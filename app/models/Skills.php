@@ -18,7 +18,7 @@ class Skills extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field id
      *
-     * @param integer $id
+     * @param  integer $id
      * @return $this
      */
     public function setId($id)
@@ -31,7 +31,7 @@ class Skills extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field name
      *
-     * @param string $name
+     * @param  string $name
      * @return $this
      */
     public function setName($name)
@@ -63,9 +63,14 @@ class Skills extends \Phalcon\Mvc\Model
     public function columnMap()
     {
         return array(
-            'id' => 'id', 
+            'id' => 'id',
             'name' => 'name'
         );
+    }
+
+    public function initialize()
+    {
+        $this->hasOne("id","Specification","skills_id");
     }
 
 }
