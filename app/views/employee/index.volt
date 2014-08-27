@@ -9,19 +9,19 @@
  {% set company = match.vacancy.user.company %}
 
 
-<div class="col-xs-6 col-sm-3 placeholder text-center match" style="margin: 10px;"  >
+<div class="col-xs-6 col-sm-3 placeholder text-center match well" style="margin: 10px;"  data-toggle="modal" data-target="#{{match.getId()}}" >
           <img src="/files/{{company.logo}}" class="center-block  img-thumbnail" alt="Generic placeholder thumbnail" style="
 width: 200px!important;
 height: 200px;
 cursor:pointer;
-" data-toggle="modal" data-target="#{{match.getId()}}"> <h4>{{match.vacancy.getFunction() }}</h4>
+"> <h4>{{match.vacancy.getFunction() }}</h4>
           <span class="text-muted">{{match.getPercent()}}% match</span>
           <br/>
           <a href="" class="btn btn-small btn-primary"><span class="glyphicon glyphicon-send" style="color:#fff"></span> {{ lang._("contact_company")}}</a>
        
 
         <!-- Modal -->
-        <div class="modal fade" id="{{match.getId()}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="{{match.getId()}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="text-align:left">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -34,7 +34,7 @@ height: 32px;
               </div>
               <div class="modal-body">
 
-                <a href="" class="btn btn-small btn-primary"> {{lang._("contact_company")}}</a><p></p>
+                <a href="" class="btn btn-small btn-primary"> {{lang._("contact_company")}}</a>&nbsp;<a href="" class="btn btn-small btn-primary">{{lang._('vacancy information')}}</a><p></p>
                
                 {{lang._('website')|upper}}<br/>
                 <div class="well">
@@ -47,24 +47,21 @@ height: 32px;
 
                 <label>Where is the company located</label>
 
-<script src="/js/jquery-gmaps-latlon-picker.js"></script>
+
 
   <div class="gllpMap well"><center><img src="/img/ajax-loader.gif" alt="{{lang._('loading')}}"></center></div>
   {{hidden_field("longitude","class":"gllpLongitude","value":company.getLongitude())}}
   {{hidden_field("latitude","class":"gllpLatitude","value":company.getLatitude())}}
   {{hidden_field("zoom","class":"gllpZoom","value":company.getZoom())}}
-
+            </div>
             
               <div class="modal-footer">
 
-
+</div>
               </div>
             </div>
           </div>
         </div>
-         </div>
-
-</div>
 {% endfor %}
 
 

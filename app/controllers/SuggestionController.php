@@ -52,7 +52,7 @@ class SuggestionController extends ControllerBase
       if ($match->delete()) {
         $this->flash->success($this->lang->_('suggestion_decline'));
 
-       $this->dispatcher->forward(array("action"=>"index"));
+       $this->dispatcher->forward(array('controller'=>'suggestion',"action"=>"index"));
       }
     }
     public function acceptAction($match)

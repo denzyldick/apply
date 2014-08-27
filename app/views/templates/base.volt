@@ -2,7 +2,7 @@
 <html>
 	<head>
 
-<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="/js/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="/slider/js/bootstrap-slider.js"></script>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript" src="/js/main.js"></script>
@@ -30,10 +30,10 @@ $(document).ready(function() {
 }
 </style>
     <!-- Bootstrap Core CSS -->
-    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
     <!-- Fonts -->
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/bootstrap/fonts/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
    <link rel="stylesheet" type="text/css" href="css/socialicious.css" media="screen" />
@@ -57,12 +57,12 @@ $(document).ready(function() {
                     <i class="fa fa-bars"></i>
                 </button>
                 <a class="navbar-brand" href="/">
-                    <i class="fa fa-dot-circle-o" style="color:#fff!important;"></i>Apply
+                    <img src="/img/logo.png" style="width:20px;"/>
                 </a>
             </div>
 {% if show_settings %}
   {% include "menu/menu.volt" %}
-
+    
 {% endif %}
             <!-- /.navbar-collapse -->
         </div>

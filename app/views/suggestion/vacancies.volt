@@ -5,12 +5,13 @@
 
       <div class="row placeholders">
 {% for suggestion in suggestions %}
-<div class="col-xs-6 col-sm-3 placeholder text-center masuggestiontch" style="margin: 10px;"  >
-          <img src="/img/work.jpg" class="center-block  img-thumbnail" alt="Generic placeholder thumbnail" style="
+<div class="col-xs-6 col-sm-3 placeholder text-center masuggestiontch well" style="margin: 10px;"  >
+           <canvas id="chart{{suggestion.vacancy.getId()}}"  style="
 width: 200px!important;
 height: 200px;
 cursor:pointer;
-" data-toggle="modal" data-target="#{{suggestion.getId()}}"> <h4>{{suggestion.vacancy.getFunction() }}</h4>
+" data-toggle="modal" data-target="#{{suggestion.getId()}}"></canvas>
+   <h4>{{suggestion.vacancy.getFunction() }}</h4>
           <span class="text-muted">{{suggestion.getPercent()}}% suggestion</span>
           <br/>
           <a href="/suggestion/accept/{{suggestion.getId()}}" class="btn btn-small btn-primary"><span style="color: #Fff;" class="glyphicon glyphicon-ok"></span> {{this.lang._("accept")}}</a>&nbsp;<a href="/suggestion/remove/{{suggestion.getId()}}" class="btn btn-small btn-danger"><span class="glyphicon glyphicon-remove" style="color:#fff;" ></span> {{this.lang._("decline")}}</a>
@@ -202,7 +203,7 @@ var myNewChart = new Chart(ctx).Pie(data,options);
               <div class="modal-footer">
 
 
-                <a href="/user/{{suggestion.getUserId()}}" class="btn btn-small btn-primary"><span style="color: #Fff;" class="glyphicon glyphicon-ok"></span> {{this.lang._("accept")}}</a>&nbsp;<a href="/suggestion/remove/{{suggestion.getId()}}" class="btn btn-small btn-danger"><span class="glyphicon glyphicon-remove" style="color:#fff;" ></span> {{this.lang._("decline")}}</a>
+                <a href="/suggestion/accept/{{suggestion.getUserId()}}" class="btn btn-small btn-primary"><span style="color: #Fff;" class="glyphicon glyphicon-ok"></span> {{this.lang._("accept")}}</a>&nbsp;<a href="/suggestion/remove/{{suggestion.getId()}}" class="btn btn-small btn-danger"><span class="glyphicon glyphicon-remove" style="color:#fff;" ></span> {{this.lang._("decline")}}</a>
 
               </div>
             </div>
