@@ -22,7 +22,7 @@ class VacancyController extends ControllerBase
     }
     public function saveAction()
     {
-        if ($this->request->isPost()&& count(Vacancy::findByUser_id($this->session->get("user-id"))) != 0) {
+        if ($this->request->isPost()) {
             $name = $this->request->getPost("name");
             $longitude = $this->request->getPost("longitude");
             $latitude = $this->request->getPost("latitude");
