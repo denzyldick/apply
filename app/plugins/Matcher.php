@@ -24,7 +24,7 @@ class Matcher extends Plugin
   private $di;
 
   /**
-   * Set the Dependencyh Injector
+   * Set the Dependency Injector
    * @param  FactoryDefa $dependencyInjector Dependency Injector
    * @return void
    */
@@ -62,7 +62,7 @@ class Matcher extends Plugin
                       Vacancy.id,
 
 
-                (3956 * 2 * ASIN(SQRT( POWER(SIN((seeker_location.latitude -
+                (6371 * 2 * ASIN(SQRT( POWER(SIN((seeker_location.latitude -
                 ABS(
                 vacancy_location.latitude)) * pi()/180 / 2),2) + COS(seeker_location.latitude * pi()/180 ) * COS(
                 ABS
@@ -86,13 +86,13 @@ class Matcher extends Plugin
                       ON vacancy_location.id = Vacancy.location_id
 
                 WHERE
-                    Skills.name in ({$skills})
+                    Skills.name in (:user_skills:)
 
 
                 GROUP BY
                     Vacancy.id
                 HAVING
-                      distance < 25
+                      distance < :travel_distance:
                 ORDER By
                     Specification.percent DESC
 
@@ -102,20 +102,27 @@ class Matcher extends Plugin
                     //( 6371 * acos( cos( radians(vacancy_location.latitude) ) * cos( radians( seeker_location.latitude ) ) * cos( radians( seeker_location.longitude ) - radians(vacancy_location.longitude) ) + sin( radians(vacancy_location.latitude) ) * sin( radians( seeker_location.latitude ) ) ) ) AS distance
    $vacancies = $this->modelsManager->executeQuery($phql,
                                 array(
-                                //  'user_skills'=>$skills,
-                                 'seeker_id'=>$this->user->getId()
+                                  'user_skills'=>$skills,
+                                 'seeker_id'=>$this->user->getId(),
+                                 'travel_distance'=>$this->user->location->getTravelDistance()
                                   ));
 
    foreach ($vacancies as $value) {
-    var_dump($value->distance);
+
       $vacancy  =  Vacancy::findFirst($value->id);
+      $calculator =  $this->calculator;
+      $calculator->setVacancy($vacancy);
+      $calculator->setUser($this->user);
+
       $match =   new Matches();
       $match->setUserId($this->user->getId());
       $match->setVacancyId($vacancy->getId());
-      $match->setPercent(rand(0,100));
+      $match->setPercent($calculator->getPercent());
       $match->setEmployeeAccepted('no');
       $match->setEmployerAccepted('no');
       $match->setViewed('no');
+
+
       if(count(Matches::find(
         array(" user_id = {$this->user->getId()} AND vacancy_id = {$vacancy->getId()}"))) == 0){
          $match->save();

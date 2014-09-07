@@ -2,7 +2,10 @@
 
 use Phalcon\Mvc\User\Plugin,
     Phalcon\Mvc\Dispatcher;
-
+/**
+*Multi language support for the system.
+*@author Denzyl Dick<denzyl.live.nl>
+*/
 class Translation extends Plugin
 {
 
@@ -11,7 +14,11 @@ class Translation extends Plugin
         $this->di = $di;
         $this->language = $this->request->getBestLanguage();
     }
-
+/**
+*Get the translatio of the string.
+*@return NativeArray
+*@param void
+*/
     public function getText()
     {
 

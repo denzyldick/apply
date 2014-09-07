@@ -36,7 +36,7 @@ a {
 a:hover,
 a:focus {
     text-decoration: none;
-    color: fff;
+
 }
 
 .light {
@@ -69,7 +69,7 @@ a:focus {
     transition: background .3s ease-in-out;
 }
 
-.navbar-custom .nav li a:hover,
+
 .navbar-custom .nav li a:focus,
 .navbar-custom .nav li.active {
     outline: 0;
@@ -79,7 +79,7 @@ a:focus {
 .navbar-toggle {
     padding: 4px 6px;
     font-size: 16px;
-    color: #fff;
+
 }
 
 .navbar-toggle:focus,
@@ -152,27 +152,7 @@ a:focus {
     }
 }
 
-.btn-circle {
-    width: 70px;
-    height: 70px;
-    margin-top: 15px;
-    padding: 7px 16px;
-    border: 2px solid #fff;
-    border-radius: 35px;
-    font-size: 40px;
-    color: #fff;
-    background: 0 0;
-    -webkit-transition: background .3s ease-in-out;
-    -moz-transition: background .3s ease-in-out;
-    transition: background .3s ease-in-out;
-}
 
-.btn-circle:hover,
-.btn-circle:focus {
-    outline: 0;
-    color: #fff;
-    background: rgba(255,255,255,.1);
-}
 
 .page-scroll .btn-circle i.animated {
     -webkit-transition-property: -webkit-transform;
@@ -264,33 +244,6 @@ a:focus {
     }
 }
 
-.btn {
-    text-transform: uppercase;
-    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-weight: 400;
-    -webkit-transition: all .3s ease-in-out;
-    -moz-transition: all .3s ease-in-out;
-    transition: all .3s ease-in-out;
-}
-
-.btn-default {
-    border: 1px solid #28c3ab;
-    color: #28c3ab;
-    background-color: transparent;
-}
-
-.btn-default:hover,
-.btn-default:focus {
-    border: 1px solid #28c3ab;
-    outline: 0;
-    color: #6d94bf;
-    background-color: #28c3ab;
-}
-
-.btn-huge {
-    padding: 25px;
-    font-size: 26px;
-}
 
 .banner-social-buttons {
     margin-top: 0;

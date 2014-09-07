@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html>
 	<head>
-
 <script type="text/javascript" src="/js/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="/slider/js/bootstrap-slider.js"></script>
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript" src="/js/main.js"></script>
 <script src="/js/jquery-gmaps-latlon-picker.js"></script>
 <script src="/js/Chart.js"></script>
-
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwk6wzMEnz2z58YepPrxwwcCf_tOd20lg"></script>
 <script type="text/javascript" src="/js/bootstrap-tagsinput.min.js"></script>
 <link rel="stylesheet" href="/css/bootstrap-tagsinput.css" />
 <script>
@@ -62,7 +60,7 @@ $(document).ready(function() {
             </div>
 {% if show_settings %}
   {% include "menu/menu.volt" %}
-    
+
 {% endif %}
             <!-- /.navbar-collapse -->
         </div>
@@ -71,8 +69,6 @@ $(document).ready(function() {
     <div class="col-md-8 col-md-offset-2" id="main">
 	{% block content %}{% endblock %}
 </div>
-<!--
-<div class=copright style="max-width:400px;margin: 0 auto;text-align:center;margin-top: 10px">&copy; 2014 Appply. All rights reserved.</div>
--->
+{% include "footer/footer.volt" %}
 	</body>
 </html>

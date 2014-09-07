@@ -3,6 +3,12 @@ class EmployerController extends ControllerBase
 {
     public function indexAction()
     {
+      $phql  = "SELECT  Matches.* FROM Matches join Vacancy on Vacancy.id = Matches.vacancy_id WHERE Vacancy.user_id = :user_id: AND Matches.employer_accepted ='yes' ";
+      $suggestions = $this->modelsManager->executeQuery($phql,array('user_id'=>$this->user->getId()));
+
+        $this->view->suggestions = $suggestions;
+         $this->view->amount_text = (count($suggestions) == 1? " 1 ".$this->lang->_('matches') : count($suggestions)." ".$this->lang->_('suggestions'));
+
     }
     public function settingsAction()
     {

@@ -15,8 +15,8 @@
 
         public function toPercent($arg)
         {
-                return ($arg / 5) * 100;
-
+              //  return ($arg / 5) * 100;
+              return $arg;
          }
 
     }

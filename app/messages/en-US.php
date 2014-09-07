@@ -59,6 +59,8 @@ $messages = array(
     'password_does_not_match'=>'Your password doesn\t match',
     'changes_has_been_saved'=>'Your changes has been succesfully saved',
     'something_went_wrong'=>'Something went wrong, please try again.',
-    'vacancy_information'=>'Vacancy information'
+    'vacancy_information'=>'Vacancy information',
+    'career_path'=>'Career path',
+    'view_profile'=>'View profile'
 
 );

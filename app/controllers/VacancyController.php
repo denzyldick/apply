@@ -1,6 +1,7 @@
 <?php
 class VacancyController extends ControllerBase
 {
+
     public function indexAction()
     {
         $this->view->vacancies = array();
@@ -10,6 +11,7 @@ class VacancyController extends ControllerBase
             $this->view->count = count($vacancies);
             $this->view->tokenKey = $this->security->getTokenKey();
             $this->view->tokenValue = $this->security->getToken();
+            $this->view->remaining_vacancy = (3-count($vacancies));
         }
     }
     public function newAction()
@@ -20,7 +22,7 @@ class VacancyController extends ControllerBase
     }
     public function saveAction()
     {
-        if ($this->request->isPost()) {
+        if ($this->request->isPost()&& count(Vacancy::findByUser_id($this->session->get("user-id"))) != 0) {
             $name = $this->request->getPost("name");
             $longitude = $this->request->getPost("longitude");
             $latitude = $this->request->getPost("latitude");

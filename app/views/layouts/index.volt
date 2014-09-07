@@ -75,14 +75,7 @@
 
                       </div>
                       <p>
-              <div class="form-group">
-<div class="col-md-7 col-sm-6 col-sm-offset-1 col-md-offset-0">
-<input class="form-control input-lg" name="email" type="email" placeholder="Enter your email"  required="required">
-</div>
-<div class="col-md-5 col-sm-5">
-<button type="submit" class="btn btn-primary btn-lg">GET EARLY ACCESS</button>
-</div>
-</div>
+
 
                 </div>
             </div>

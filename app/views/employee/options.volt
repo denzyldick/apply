@@ -24,9 +24,9 @@
   <input type="button" class="gllpSearchButton btn btn-sm btn-primary" style="float: left;margin-left:5px;margin-top:2px;" value="search">
   <select name="travel_time" class="form-control" style="max-width:180px;margin-left:5px;">
     <option>{{lang._('max_travel_distance')}}</option>
-    <option value='1' >1 {{lang._('distance_metric')}}</option>
-    <option value='2'>2 {{lang._('distance_metric')}}</option>
-    <option value='3'>3 {{lang._('distance_metric')}}</option>
+    <option value='20' >20 {{lang._('distance_metric')}}</option>
+    <option value='60'>60 {{lang._('distance_metric')}}</option>
+    <option value='80'>80 {{lang._('distance_metric')}}</option>
   </select>
   <p>  &nbsp;</p>
   <div class="gllpMap well">Google Maps</div>

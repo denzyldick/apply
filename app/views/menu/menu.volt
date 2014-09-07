@@ -26,7 +26,7 @@
 
         ?>
           <li class="divider"></li>
-          <li><a href="logout"><?php echo $this->lang->_("logout");?></a></li>
+          <li><a href="/logout"><?php echo $this->lang->_("logout");?></a></li>
         </ul>
       </li>
     </ul>

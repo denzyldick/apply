@@ -32,8 +32,8 @@ class Elements extends Component
 
     $this->employeeSettingsDropDown = array(
         $this->lang->_("account")=>"/settings",
-        $this->lang->_("skills")=>"/employee/options",
-        $this->lang->_("support")=> "/support"
+        $this->lang->_("career_path")=>"/employee/options"
+        //,        $this->lang->_("support")=> "/support"
 
     );
     $this->employerSettingsDropDown =array(

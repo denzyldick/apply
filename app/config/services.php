@@ -142,6 +142,13 @@ $di->set('convert',function () {
  $di->set('modelsManager', function () {
       return new Manager();
  });
+ /**
+ *Percent Calculator
+ */
+ $di->set('calculator',function() use ($di)
+ {
+   return new PercentCalculator();
+ });
 /**
  * Matcher
  */

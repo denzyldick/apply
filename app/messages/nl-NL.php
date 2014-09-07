@@ -9,5 +9,6 @@ $messages = array(
     "overview"=> "Overiew",
     "add_skills"=> "Je moet je vaardigheden invullen ",
     "click_here"=> "click here",
-    "settings"=>"Configuratie"
+    "settings"=>"Configuratie",
+    "account"=>"Account"
 );

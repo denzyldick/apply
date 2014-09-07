@@ -85,7 +85,7 @@ class EmployeeController extends ControllerBase
     {
 
         $this->fillView();
-      ;
+
       if ($this->request->isPost()) {
 
           $skills = $this->request->getPost("skills");
@@ -104,6 +104,8 @@ class EmployeeController extends ControllerBase
     } else {
         $location = Location::findFirstById($user->getLocationId());
          }
+      
+
           $location->setZoom($zoom);
           $location->setLocation($location);
           $location->setLongitude($longitude);
