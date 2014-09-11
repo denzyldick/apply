@@ -1,4 +1,10 @@
 <?php
+/**
+*Stripe loader
+*/
+require_once('../app/plugins/Stripe/lib/Stripe.php');
+
+#===#
 use Phalcon\DI\FactoryDefault;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\Url as UrlResolver;
@@ -9,6 +15,8 @@ use Phalcon\Session\Adapter\Files as SessionAdapter;
 use Phalcon\Flash\Session as Flash;
 use Phalcon\Mvc\Model\Manager as Manager;
 use Phalcon\Http\Request as Request;
+
+
 /**
  * The FactoryDefault Dependency Injector automatically register the right services providing a full stack framework
  */
@@ -154,4 +162,23 @@ $di->set('convert',function () {
  */
 $di->set("matcher", function () use ($di) {
     return new Matcher($di);
+});
+/**
+*Stripe a payment gateway
+*/
+$di->set("stripe", function() use ($config)
+{
+
+
+
+    Stripe::setApiKey($config->stripe->secret_key,$config->stripe->publishable_key);
+    return Stripe;
+
+  });
+  /**
+  *Config
+  */
+$di->set("config",function() use ($config)
+{
+    return $config;
 });

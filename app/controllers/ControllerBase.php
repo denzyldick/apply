@@ -1,4 +1,4 @@
-s<?php
+<?php
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -15,6 +15,7 @@ class ControllerBase extends \Phalcon\Mvc\Controller
     protected $user;
     public function initialize()
     {
+    
         if ($this->session->get("user-type") != "guest" and $this->session->has("user-type") == true) {
             $this->view->show_settings = true;
             $this->companyHasBeenFilled();

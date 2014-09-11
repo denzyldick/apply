@@ -78,48 +78,58 @@ class EmployeeController extends ControllerBase
         $this->view->latitude  = $location->getLatitude();
         $this->view->zoom    =  $location->getZoom();
         $this->view->location  = $location->getLocation();
+        $this->view->travel_distance = $location->getTravelDistance();
+
 
     }
 
     public function optionsAction()
     {
+            if ($this->request->isPost()) {
 
-        $this->fillView();
 
-      if ($this->request->isPost()) {
+      if (!is_numeric($this->user->getLocationId())) {
+          $location = new Location();
+          $this->user->setLocationId($location->getId());
+
+
+    } else {
+        $location = $this->user->location;
+
+         }
 
           $skills = $this->request->getPost("skills");
           $character = $this->request->getPost("character");
           $work_enviroment  =  $this->request->getPost("work_enviroment");
-          $travel_time = $this->request->getPost("travel_time");
+          $travel_distance = $this->request->getPost("travel_distance");
           $location_name  = $this->request->getPost("location");
           $longitude  = $this->request->getPost("longitude");
           $latitude = $this->request->getPost("latitude");
           $zoom  = $this->request->getPost("zoom");
 
-         $user  = $this->user;
-      if (!is_numeric($user->getLocationId())) {
-          $location = new Location();
-
-    } else {
-        $location = Location::findFirstById($user->getLocationId());
-         }
-      
 
           $location->setZoom($zoom);
           $location->setLocation($location);
           $location->setLongitude($longitude);
           $location->setLatitude($latitude);
-          $location->setTravelDistance($travel_time);
+          $location->setTravelDistance($travel_distance);
           $location->setLocation($location_name);
-          $location->save();
 
-          $user->setWorkEnviromentType($work_enviroment);
-          $user->setLocationId($location->getId());
-          if ($user->save()) {
+
+          $this->user->setWorkEnviromentType($work_enviroment);
+
+          if ($this->user->save()) {
+            $matches =  Matches::find(
+            array("user_id = {$this->user->getId()}")
+          )->delete();
+
         $this->dispatcher->forward(array("controller"=>"employee","action"=>"skills","params"=>array($skills)));
 
 }
+      }else{
+
+                $this->fillView();
+
       }
     }
 

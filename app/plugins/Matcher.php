@@ -85,9 +85,6 @@ class Matcher extends Plugin
                       AS vacancy_location
                       ON vacancy_location.id = Vacancy.location_id
 
-                WHERE
-                    Skills.name in (:user_skills:)
-
 
                 GROUP BY
                     Vacancy.id
@@ -102,7 +99,7 @@ class Matcher extends Plugin
                     //( 6371 * acos( cos( radians(vacancy_location.latitude) ) * cos( radians( seeker_location.latitude ) ) * cos( radians( seeker_location.longitude ) - radians(vacancy_location.longitude) ) + sin( radians(vacancy_location.latitude) ) * sin( radians( seeker_location.latitude ) ) ) ) AS distance
    $vacancies = $this->modelsManager->executeQuery($phql,
                                 array(
-                                  'user_skills'=>$skills,
+                              //    'user_skills'=>$skills,
                                  'seeker_id'=>$this->user->getId(),
                                  'travel_distance'=>$this->user->location->getTravelDistance()
                                   ));
@@ -110,6 +107,8 @@ class Matcher extends Plugin
    foreach ($vacancies as $value) {
 
       $vacancy  =  Vacancy::findFirst($value->id);
+
+
       $calculator =  $this->calculator;
       $calculator->setVacancy($vacancy);
       $calculator->setUser($this->user);
@@ -124,7 +123,8 @@ class Matcher extends Plugin
 
 
       if(count(Matches::find(
-        array(" user_id = {$this->user->getId()} AND vacancy_id = {$vacancy->getId()}"))) == 0){
+        array(" user_id = {$this->user->getId()} AND vacancy_id = {$vacancy->getId()}"))) == 0&&$calculator->getPercent() >0 ){
+
          $match->save();
       }
    }

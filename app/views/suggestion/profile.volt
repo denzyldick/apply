@@ -21,7 +21,7 @@
     <small>{{user.geteMail()}}</small>
   </div>
   <div class='col-md-3'>
-    
+
   </div>
   {% endif %}
 {% if suggestion.getEmployerAccepted() == 'no' and suggestion.getEmployeeAccepted() == 'no' %}

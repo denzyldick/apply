@@ -80,6 +80,11 @@ sudo mv ~/vendor/phalcon/devtools/* /opt/phalcon-tools
 sudo ln -s /opt/phalcon-tools/phalcon.php /usr/bin/phalcon
 sudo rm -rf ~/vendor
 
+#
+#PHP5-curl
+#
+sudo apt-get install -y php5-curl;
+
 sudo service apache2 restart
 
 

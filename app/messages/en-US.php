@@ -61,6 +61,10 @@ $messages = array(
     'something_went_wrong'=>'Something went wrong, please try again.',
     'vacancy_information'=>'Vacancy information',
     'career_path'=>'Career path',
-    'view_profile'=>'View profile'
+    'view_profile'=>'View profile',
+    'pay_vacancies'=>'Paying for more vacancies',
+    'choose_a_bundle'=>'Choose a bundle',
+    '
+    '=> 'Transaction has been succesfully completed'
 
 );

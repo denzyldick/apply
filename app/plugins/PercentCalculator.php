@@ -48,7 +48,7 @@ class PercentCalculator extends Plugin{
     private function matchCommonSkills($vacancy_skills,$user_skills)
     {
 
-      $common_skills =  array('percent'=>0);
+      $common_skills =  array();
       foreach ($vacancy_skills as $vacancy_skill) {
 
           foreach ($user_skills as $user_skill) {
@@ -65,10 +65,9 @@ class PercentCalculator extends Plugin{
       $vacancy_skills = $this->specificationsToArraySkills($vacancy->getSpecification());
       $user_skills =  $this->specificationsToArraySkills($user->getSpecification());
 
-      $common_skills = array('percent' => 0);
       $common_skills  = $this->matchCommonSkills($vacancy_skills,$user_skills);
 
-    //echo "vacancy: ".count($vacancy_skills) . " User: ".count($user_skills)." Common: ".count($common_skills);
+    //echo "vacancy: ".count($vacancy_skills) . var_dump($vacancy_skills)." User: ".count($user_skills).var_dump($user_skills)." Common: ".count($common_skills).var_dump($common_skills)."<br/><hr/>";
 
     return $common_skills['percent'] = floor(count($common_skills)/count($vacancy_skills) *100);
 

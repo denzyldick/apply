@@ -22,11 +22,11 @@
 <fieldset class="gllpLatlonPicker" id="custom_id">
   <input type="text" name="location" value="{{location}}" class="gllpSearchField form-control" style="float: left;width:70%">
   <input type="button" class="gllpSearchButton btn btn-sm btn-primary" style="float: left;margin-left:5px;margin-top:2px;" value="search">
-  <select name="travel_time" class="form-control" style="max-width:180px;margin-left:5px;">
+  <select name="travel_distance" class="form-control" style="max-width:180px;margin-left:5px;">
     <option>{{lang._('max_travel_distance')}}</option>
-    <option value='20' >20 {{lang._('distance_metric')}}</option>
-    <option value='60'>60 {{lang._('distance_metric')}}</option>
-    <option value='80'>80 {{lang._('distance_metric')}}</option>
+    <option value='20' {{ travel_distance == 20 ? 'selected' : ''}}  >20 {{lang._('distance_metric')}}</option>
+    <option value='60' {{ travel_distance == 60 ? 'selected' : ''}} >60 {{lang._('distance_metric')}}</option>
+    <option value='80' {{ travel_distance == 80 ? 'selected' : ''}} >80 {{lang._('distance_metric')}}</option>
   </select>
   <p>  &nbsp;</p>
   <div class="gllpMap well">Google Maps</div>
