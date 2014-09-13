@@ -34,11 +34,9 @@ class Security extends Plugin
     $employeeResource = array(
       'employee' => array("index","skills","done","options"),
       'suggestion' => array("index","vacancies","accept",'vacancy'),
-      'premium'=> array("index"),
       'logout'=> array('index'),
       'settings'=>array("index","save","password","reset"),
-      'support'=>array('index'),
-      'bundle'=>array('index','edit','save','delete','new')
+      'support'=>array('index')
     );
     foreach ($employeeResource as $resource => $actions) {
       $acl->addResource(new Phalcon\Acl\Resource($resource),$actions);
@@ -49,7 +47,7 @@ class Security extends Plugin
       'employer'=>array('index','settings'),
       'settings'=>array('index','save'),
       'suggestion' => array("index","view",'profile','accept'),
-      'premium'=> array("index"),
+      'premium'=> array("index",'charge'),
       'settings'=>array("index","save","password","reset"),
       'logout'=> array('index'),
       'vacancy'=>array('index','new','location','skills','finish','remove','save'),

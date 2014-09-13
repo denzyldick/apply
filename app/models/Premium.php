@@ -157,5 +157,10 @@ class Premium extends \Phalcon\Mvc\Model
             'buy_date' => 'buy_date'
         );
     }
+    public function intialize()
+    {
+      $this->belongsTo("user_id","User","id");
+      $this->hasOne("bundle_idbundle","Bundle","idbundle");
+    }
 
 }

@@ -390,5 +390,6 @@ class User extends \Phalcon\Mvc\Model
       $this->hasOne("location_id","Location","id");
       $this->hasMany("id","Specification","user_id");
       $this->belongsTo("id","Company","user_id");
+      $this->hasMany("id","Premium","user_id");
     }
 }

@@ -5,13 +5,14 @@ class VacancyController extends ControllerBase
     public function indexAction()
     {
         $this->view->vacancies = array();
-        if (Company::findFirstByUser_id($this->session->get("user-id")) == 1) {
-            $vacancies = Vacancy::findByUser_id($this->session->get("user-id"));
+        if (count(Company::findFirstByUser_id($this->user->getId())) == 1) {
+            $vacancies = Vacancy::findByUser_id($this->user->getId());
             $this->view->vacancies = $vacancies;
             $this->view->count = count($vacancies);
             $this->view->tokenKey = $this->security->getTokenKey();
             $this->view->tokenValue = $this->security->getToken();
-            $this->view->remaining_vacancy = (3-count($vacancies));
+            $this->view->remaining_vacancy = $this->getRemaingVacancy()+3;
+
         }
     }
     public function newAction()
@@ -19,6 +20,21 @@ class VacancyController extends ControllerBase
         if (!$this->companyHasBeenFilled()) {
             $this->dispatcher->forward(array("controller" => "vacancy", "action" => "index"));
         }
+    }
+
+    private function getRemaingVacancy()
+    {
+      $vacancies = Vacancy::findByUser_id($this->user->getId());
+      $premiums  = Premium::findByUser_id($this->user->getId());
+
+      $amount = 0;
+      foreach($premiums as $premium)
+      {
+        $bundle = Bundle::findFirst($premium->getBundleIdbundle());
+        $amount = $amount + $bundle->getAmount();
+        echo $bundle->getAmount()."<br/>";
+      }
+      return ($amount - count($vacancies));
     }
     public function saveAction()
     {

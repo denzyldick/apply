@@ -97,5 +97,5 @@ class Bundle extends \Phalcon\Mvc\Model
             'price' => 'price'
         );
     }
-
+  
 }

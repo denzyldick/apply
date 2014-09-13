@@ -182,3 +182,11 @@ $di->set("config",function() use ($config)
 {
     return $config;
 });
+
+/**
+*Premium handler
+*/
+$di->set("premium",function() use($di)
+{
+    return new PremiumHandler($di);
+});
