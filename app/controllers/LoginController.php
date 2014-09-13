@@ -18,4 +18,12 @@ class LoginController extends ControllerBase
             }
         }
     }
+
+    public function forgotpasswordAction()
+    {
+      if($this->request->isPost())
+      {
+        //password
+      }
+    }
 }

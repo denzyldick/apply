@@ -65,6 +65,7 @@ $messages = array(
     'pay_vacancies'=>'Paying for more vacancies',
     'choose_a_bundle'=>'Choose a bundle',
     '
-    '=> 'Transaction has been succesfully completed'
+    '=> 'Transaction has been succesfully completed',
+    'forgot_password'=>'Forgot password'
 
 );

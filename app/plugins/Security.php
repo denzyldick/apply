@@ -63,7 +63,7 @@ class Security extends Plugin
     $publicResources =  array(
 
       'index'=> array('index','show'),
-      'login'=> array('index','login'),
+      'login'=> array('index','login','forgotpassword'),
       'signup'=>array('index','start'),
 
     );

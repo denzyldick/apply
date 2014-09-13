@@ -1,18 +1,12 @@
 {% set specifications = user.getSpecification() %}
-<div class='row'>
-  <div class='col-md-6'>
-<h4>My individual skills on a scale from 1 to 5</h4>
-<canvas id='chart' height="300" class=''></canvas>
-</div>
-<div class='col-md-6'>
-<h4>I'm located somewhere in this area</h4>
-<div id="location" style='height:300px;' class='well' ></div>
-</div>
-</div>
-<div class='row'>
+
+<div class="row">
   <div class='col-md-3'>
-    <h5>My preferred workenviroment</h5><small>{{user.getWorkEnviromentType()
-    }}</small>
+  <img src="/img/default-user-icon-profile.png" class="img img-thumbnail" style="width:100%;height:174px;"/>
+</div>
+<div class='col-md-3'>
+    <h5>My preferred workenviroment</h5>
+    <small>{{user.getWorkEnviromentType()}}</small>
   </div>
   {% if suggestion.getEmployerAccepted() == 'yes' and suggestion.getEmployeeAccepted() == 'yes' %}
 
@@ -21,16 +15,38 @@
     <small>{{user.geteMail()}}</small>
   </div>
   <div class='col-md-3'>
-
+    <h5>Member since</h5>
+    <small>19 august 2013</small>
   </div>
   {% endif %}
-{% if suggestion.getEmployerAccepted() == 'no' and suggestion.getEmployeeAccepted() == 'no' %}
-  <div class='col-md-3'>
 
-<a href="/suggestion/accept/{{user.getId()}}" class="btn btn-small btn-primary"><span style="color: #Fff;" class="glyphicon glyphicon-ok"></span> {{this.lang._("accept")}}</a>&nbsp;<a href="/suggestion/remove/{{user.getId()}}" class="btn btn-small btn-danger"><span class="glyphicon glyphicon-remove" style="color:#fff;" ></span> {{this.lang._("decline")}}</a>
 </div>
-{% endif %}
+<div class="row">
+    <div class="col-md-3">
+<p></p>
+      {% if suggestion.getEmployerAccepted() == 'no' or suggestion.getEmployeeAccepted() == 'no' %}
 
+
+      <a href="/suggestion/accept/{{user.getId()}}" class="btn btn-small btn-primary"><span style="color: #Fff;" class="glyphicon glyphicon-ok"></span> {{this.lang._("accept")}}</a>&nbsp;<a href="/suggestion/remove/{{user.getId()}}" class="btn btn-small btn-danger"><span class="glyphicon glyphicon-remove" style="color:#fff;" ></span> {{this.lang._("decline")}}</a>
+
+      {% else %}
+      <a href="/suggestion/accept/{{user.getId()}}" class="btn btn-small btn-primary"><span style="color: #Fff;" class="glyphicon glyphicon-email"></span> {{this.lang._("contact")}}</a>
+      {% endif %}
+    </div>
+<div class='col-md-9'>
+<h5>My individual skills on a scale from 1 to 5</h5>
+<canvas id='chart' height="300" class=''></canvas>
+</div>
+</div>
+
+<div class='row'>
+<div class="col-md-3">
+</div>
+
+<div class='col-md-9'>
+<h5>I'm located somewhere in this area</h5>
+<div id="location" style='height:300px;' class='well' ></div>
+</div>
 </div>
 
 
@@ -50,10 +66,10 @@
            google.maps.event.addDomListener(window, 'load',map);
 
                var populationOptions = {
-                strokeColor: '#FF0000',
+                strokeColor: 'red',
                 strokeOpacity: 0.8,
                 strokeWeight: 2,
-                fillColor: '#FF0000',
+                fillColor: '#FF7B7B',
                 fillOpacity: 0.35,
                 map: map,
                 center:  new google.maps.LatLng({{user.location.getLatitude()}},{{user.location.getLongitude()}}),
@@ -85,10 +101,10 @@ labels: skills,
 datasets: [
 {
 label: "My First dataset",
-fillColor: "rgba(220,220,220,0.5)",
-strokeColor: "rgba(220,220,220,0.8)",
-highlightFill: "rgba(220,220,220,0.75)",
-highlightStroke: "rgba(220,220,220,1)",
+fillColor: "#FF7B7B",
+strokeColor: "red",
+highlightFill: "red",
+highlightStroke: "red",
 data: vacancy_values
 }
 
@@ -118,7 +134,7 @@ scaleSteps: null,
 // Number - The value jump in the hard coded scale
 scaleStepWidth: null,
 // Number - The scale starting value
-scaleStartValue: null,
+scaleStartValue: 0,
 
 // String - Colour of the scale line
 scaleLineColor: "rgba(0,0,0,.1)",
@@ -136,16 +152,16 @@ scaleLabel: "<%=value%>",
 scaleIntegersOnly: true,
 
 // Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
-scaleBeginAtZero: false,
+scaleBeginAtZero: true,
 
 // String - Scale label font declaration for the scale label
 scaleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
 
 // Number - Scale label font size in pixels
-scaleFontSize: 12,
+scaleFontSize: 18,
 
 // String - Scale label font weight style
-scaleFontStyle: "normal",
+scaleFontStyle: "normalx",
 
 // String - Scale label font colour
 scaleFontColor: "#666",
@@ -184,7 +200,7 @@ tooltipTitleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
 tooltipTitleFontSize: 14,
 
 // String - Tooltip title font weight style
-tooltipTitleFontStyle: "bold",
+tooltipTitleFontStyle: "normal",
 
 // String - Tooltip title font colour
 tooltipTitleFontColor: "#fff",
