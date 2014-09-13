@@ -31,7 +31,7 @@
                     <i class="fa fa-bars"></i>
                 </button>
                 <a class="navbar-brand" href="#page-top">
-                    <i class="fa fa-dot-circle-o"  style="color:#fff!important;"></i>Apply
+                  <img src="/img/logo.png" width=20/>&nbsp;Apply
                 </a>
 
             </div>

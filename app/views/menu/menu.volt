@@ -1,5 +1,5 @@
-<div class="navbar-collapse collapse navbar-inverse-collapse">
-            <ul class="nav navbar-nav">
+<div class="collapse navbar-collapse navbar-main-collapse">
+            <ul class="nav navbar-nav navbar-left ">
           <?php
 
             foreach($this->elements->getMenu() as $key => $value)
