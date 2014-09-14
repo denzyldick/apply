@@ -28,7 +28,7 @@
         <div class="container">
             <div class="navbar-header page-scroll">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
-                    <i class="fa fa-bars"></i>
+                    <i class="fa fa-bars" ></i>
                 </button>
                 <a class="navbar-brand" href="#page-top">
                   <img src="/img/logo.png" width=20/>&nbsp;Apply
@@ -69,7 +69,7 @@
                         <p class="intro-text">Where you can get a job through your skills.</p>
                         <div class="page-scroll ">
                             <a href="#about" class="btn btn-circle">
-                                <i class="fa fa-angle-double-down animated"></i>
+                                <i class="fa fa-angle-double-down animated" style="font-size:86px;"></i>
                             </a>
                         </div>
 

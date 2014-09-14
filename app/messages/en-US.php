@@ -66,6 +66,9 @@ $messages = array(
     'choose_a_bundle'=>'Choose a bundle',
     '
     '=> 'Transaction has been succesfully completed',
-    'forgot_password'=>'Forgot password'
+    'forgot_password'=>'Forgot password',
+    'accepted'=>'accepted',
+    'upgrade_your_account'=>'Upgrade your account'
+
 
 );

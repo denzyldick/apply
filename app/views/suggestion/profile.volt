@@ -24,18 +24,24 @@
 <div class="row">
     <div class="col-md-3">
 <p></p>
-      {% if suggestion.getEmployerAccepted() == 'no' or suggestion.getEmployeeAccepted() == 'no' %}
+      {% if suggestion.getEmployerAccepted() == 'no'  %}
 
 
-      <a href="/suggestion/accept/{{user.getId()}}" class="btn btn-small btn-primary"><span style="color: #Fff;" class="glyphicon glyphicon-ok"></span> {{this.lang._("accept")}}</a>&nbsp;<a href="/suggestion/remove/{{user.getId()}}" class="btn btn-small btn-danger"><span class="glyphicon glyphicon-remove" style="color:#fff;" ></span> {{this.lang._("decline")}}</a>
+      <a href="/suggestion/accept/{{suggestion.getId()}}" class="btn btn-small btn-primary"><span style="color: #Fff;" class="glyphicon glyphicon-ok"></span> {{this.lang._("accept")}}</a>&nbsp;<a href="/suggestion/remove/{{user.getId()}}" class="btn btn-small btn-danger"><span class="glyphicon glyphicon-remove" style="color:#fff;" ></span> {{this.lang._("decline")}}</a>
+
+      {% elseif suggestion.getEmployerAccepted() == 'yes' and suggestion.getEmployeeAccepted() == 'yes' %}
+      <a href="/contact/{{suggestion.getId()}}" class="btn btn-small btn-primary"><span style="color: #Fff;" class="glyphicon glyphicon-email"></span> {{this.lang._("contact")}}</a>
 
       {% else %}
-      <a href="/suggestion/accept/{{user.getId()}}" class="btn btn-small btn-primary"><span style="color: #Fff;" class="glyphicon glyphicon-email"></span> {{this.lang._("contact")}}</a>
+
+
+                  <a href="/suggestion/accept/{{suggestion.getId()}}" class="btn btn-small btn-primary disabled"><span style="color: #Fff;" class="glyphicon glyphicon-ok"></span> {{this.lang._("accepted")}}</a>&nbsp;<a href="/suggestion/remove/{{user.getId()}}" class="btn btn-small btn-danger"><span class="glyphicon glyphicon-remove" style="color:#fff;" ></span> {{this.lang._("decline")}}</a>
+
       {% endif %}
     </div>
 <div class='col-md-9'>
 <h5>My individual skills on a scale from 1 to 5</h5>
-<canvas id='chart' height="300" class=''></canvas>
+<canvas id='chart' height="300" width="700 " class=''></canvas>
 </div>
 </div>
 
@@ -223,6 +229,8 @@ tooltipXOffset: 10,
 
 // Function - Will fire on animation progression.
 onAnimationProgress: function(){},
+
+
 
 // Function - Will fire on animation completion.
 onAnimationComplete: function(){}

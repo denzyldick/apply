@@ -100,7 +100,7 @@ a:focus {
 
     .top-nav-collapse {
         padding: 0;
-        background-color: red;
+        background-color: rgb(87, 119, 202);
     }
 
     .navbar-custom.top-nav-collapse {

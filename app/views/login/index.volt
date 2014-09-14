@@ -1,6 +1,8 @@
 {% extends "templates/base.volt" %}
 {% block title %} Login {% endblock %}
+
 {% block content %}
+
 <div id=jumbotron class=jumbotron>	<div id="login"><h4>Login to your Account</h4>
 	<form action="/login/login" method="post">
 <div class="well">

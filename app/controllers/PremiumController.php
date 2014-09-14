@@ -5,7 +5,7 @@ class PremiumController extends ControllerBase
 
     public function indexAction()
     {
-
+      $this->view->user = $this->user;
     }
 
     public function chargeAction()

@@ -60,8 +60,14 @@ class SuggestionController extends ControllerBase
 
     public function removeAction($match)
     {
+      if($this->user->getType() == 'employee')
+      {
       $match = Matches::findFirst(
         array("id = {$match} AND user_id = {$this->user->getId()} "));
+      }else if ($this->user->getType() == 'employer')
+      {
+        //$phql =  "DELETE F"
+      }
       if ($match->delete()) {
         $this->flash->success($this->lang->_('suggestion_decline'));
 
@@ -73,7 +79,6 @@ class SuggestionController extends ControllerBase
     {
 
       $match =  Matches::findFirst($match);
-
 
       if($this->user->getUserType() == 'employee')
       {

@@ -5,18 +5,38 @@
 
       <div class="row placeholders">
 {% for suggestion in suggestions %}
-<div class="col-xs-6 col-sm-3 placeholder text-center suggestion" style="margin: 10px;" >
-          <a href="/suggestion/profile/{{suggestion.getUserId()}}"><img src="/img/default-user-icon-profile.png" class="center-block  img-thumbnail" alt="Generic placeholder thumbnail" style="
-width: 200px!important;
-height: 200px;
-"  data-toggle="modal" data-target="#{{suggestion.getId()}}"></a> <h4>{{suggestion.vacancy.getFunction() }}</h4>
-          <span class="text-muted">{{suggestion.getPercent()}}% suggestion</span>
-          <br/>
-          <a href="/user/{{suggestion.getUserId()}}" class="btn btn-small btn-primary"><span style="color: #Fff;" class="glyphicon glyphicon-ok"></span> {{this.lang._("accept")}}</a>&nbsp;<a href="/suggestion/remove/{{suggestion.getId()}}" class="btn btn-small btn-danger"><span class="glyphicon glyphicon-remove" style="color:#fff;" ></span> {{this.lang._("decline")}}</a>
-        </div>
+    <div class="col-xs-6 col-sm-3 placeholder text-center suggestion" style="margin: 10px;" >
+<a href="/suggestion/profile/{{suggestion.getUserId()}}/{{suggestion.getId()}}">
+      <canvas id="donuts{{suggestion.getId()}}"  height="200" width="200" ></canvas>
+
+<script>
+  var pieData = [
+        {
+          value: {{suggestion.getPercent()}},
+          color:"rgb(49, 151, 199)"
+        },
+        {
+          value : 100-{{suggestion.getPercent()}},
+          color : "#fff"
+        }
+      ];
+
+  var ctx = document.getElementById("donuts{{suggestion.getId()}}").getContext("2d");
+  ctx.fillText({{suggestion.getPercent()}} + "%", 100/2 - 40, 100/2, 100);
+
+
+    var myPie = new Chart(ctx).Doughnut(pieData,{percentageInnerCutout : 80});</script>
+
+  </a> <h4>{{suggestion.vacancy.getFunction() }}</h4>
+
+  <br/>
+
+          <a href="/suggestion/accept/{{suggestion.getId()}}" class="btn btn-small btn-primary"><span style="color: #Fff;" class="glyphicon glyphicon-ok"></span> {{this.lang._("accept")}}</a>&nbsp;<a href="/suggestion/remove/{{suggestion.getId()}}" class="btn btn-small btn-danger"><span class="glyphicon glyphicon-remove" style="color:#fff;" ></span> {{this.lang._("decline")}}</a>
 
 
 {% endfor %}
+
+
 
 
       </div>

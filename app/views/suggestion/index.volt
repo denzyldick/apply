@@ -1,17 +1,24 @@
-	  <h1 class="page-header">
-          {{ amount_text }}
-            <p class="lead">Individuals matching your criteria</p>
-          </h1>
+<h1 class="page-header">
+			{{ amount_text }}
+				<p class="lead">Individuals matching your criteria</p>
+			</h1>
 
-          <div class="row placeholders">
+			<div class="row placeholders">
 {% for suggestion in suggestions %}
-		<div class="col-xs-6 col-sm-3 placeholder text-center suggestion" style="margin: 10px;" >
-<a href="/suggestion/profile/{{suggestion.getUserId()}}">
-			<canvas id="donuts{{suggestion.getId()}}"  style="
-width: 200px!important;
-height: 200px;
-cursor:pointer;
-" ></canvas>
+		<div class="col-xs-6 col-sm-3 placeholder text-center suggestion well" style="margin: 10px;" >
+<a href="/suggestion/profile/{{suggestion.getUserId()}}/{{suggestion.getId()}}">
+			<canvas id="donuts{{suggestion.getId()}}"  height="200" width="200" ></canvas>
+
+
+
+	</a> <h4>{{suggestion.vacancy.getFunction() }}</h4>
+
+	<br/>
+
+					<a href="/suggestion/accept/{{suggestion.getId()}}" class="btn btn-small btn-primary"><span style="color: #Fff;" class="glyphicon glyphicon-ok"></span> {{this.lang._("accept")}}</a>&nbsp;<a href="/suggestion/remove/{{suggestion.getId()}}" class="btn btn-small btn-danger"><span class="glyphicon glyphicon-remove" style="color:#fff;" ></span> {{this.lang._("decline")}}</a>
+
+
+</div>
 
 <script>
 	var pieData = [
@@ -25,16 +32,14 @@ cursor:pointer;
 				}
 			];
 
-		var myPie = new Chart(document.getElementById("donuts{{suggestion.getId()}}").getContext("2d")).Doughnut(pieData,null);</script>
-
-	</a> <h4>{{suggestion.vacancy.getFunction() }}</h4>
-	<span class="text-muted">{{suggestion.getPercent()}}% suggestion</span>
-	<br/>
-
-					<a href="/suggestion/accept/{{suggestion.getId()}}" class="btn btn-small btn-primary"><span style="color: #Fff;" class="glyphicon glyphicon-ok"></span> {{this.lang._("accept")}}</a>&nbsp;<a href="/suggestion/remove/{{suggestion.getId()}}" class="btn btn-small btn-danger"><span class="glyphicon glyphicon-remove" style="color:#fff;" ></span> {{this.lang._("decline")}}</a>
+	var ctx = document.getElementById("donuts{{suggestion.getId()}}").getContext("2d");
+	ctx.fillText({{suggestion.getPercent()}} + "%",null,null);
 
 
+		var myPie = new Chart(ctx).Doughnut(pieData,{percentageInnerCutout : 60});</script>
 {% endfor %}
 
 
-          </div>
+
+
+			</div>

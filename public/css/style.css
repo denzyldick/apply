@@ -52,7 +52,7 @@ footer {
   position:relative;
   bottom:0px;
 }
-*{font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;color:#636565;}
+*{font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;}
 
 /* end CSS */
 .slider{
@@ -74,4 +74,7 @@ position:fixed;
 .match:hover{
   background-color:#ccc;
   cursor:pointer;
+}
+.btn{
+  color:#fff!important;
 }
