@@ -78,9 +78,27 @@ class User extends \Phalcon\Mvc\Model
     protected $location_id;
 
     /**
+     *
+     * @var integer
+     */
+    protected $vacancy_count;
+
+    /**
+     *
+     * @var integer
+     */
+    protected $emailer;
+
+    /**
+     *
+     * @var string
+     */
+    protected $id_stripe;
+
+    /**
      * Method to set the value of field id
      *
-     * @param  integer $id
+     * @param integer $id
      * @return $this
      */
     public function setId($id)
@@ -93,7 +111,7 @@ class User extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field firstname
      *
-     * @param  string $firstname
+     * @param string $firstname
      * @return $this
      */
     public function setFirstname($firstname)
@@ -106,7 +124,7 @@ class User extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field lastname
      *
-     * @param  string $lastname
+     * @param string $lastname
      * @return $this
      */
     public function setLastname($lastname)
@@ -119,7 +137,7 @@ class User extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field country
      *
-     * @param  string $country
+     * @param string $country
      * @return $this
      */
     public function setCountry($country)
@@ -132,7 +150,7 @@ class User extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field city
      *
-     * @param  string $city
+     * @param string $city
      * @return $this
      */
     public function setCity($city)
@@ -145,7 +163,7 @@ class User extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field email
      *
-     * @param  string $email
+     * @param string $email
      * @return $this
      */
     public function setEmail($email)
@@ -158,7 +176,7 @@ class User extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field password
      *
-     * @param  string $password
+     * @param string $password
      * @return $this
      */
     public function setPassword($password)
@@ -171,7 +189,7 @@ class User extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field usertype
      *
-     * @param  string $usertype
+     * @param string $usertype
      * @return $this
      */
     public function setUsertype($usertype)
@@ -184,7 +202,7 @@ class User extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field lang
      *
-     * @param  string $lang
+     * @param string $lang
      * @return $this
      */
     public function setLang($lang)
@@ -197,7 +215,7 @@ class User extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field validated
      *
-     * @param  string $validated
+     * @param string $validated
      * @return $this
      */
     public function setValidated($validated)
@@ -210,7 +228,7 @@ class User extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field work_enviroment_type
      *
-     * @param  string $work_enviroment_type
+     * @param string $work_enviroment_type
      * @return $this
      */
     public function setWorkEnviromentType($work_enviroment_type)
@@ -223,12 +241,51 @@ class User extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field location_id
      *
-     * @param  integer $location_id
+     * @param integer $location_id
      * @return $this
      */
     public function setLocationId($location_id)
     {
         $this->location_id = $location_id;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field vacancy_count
+     *
+     * @param integer $vacancy_count
+     * @return $this
+     */
+    public function setVacancyCount($vacancy_count)
+    {
+        $this->vacancy_count = $vacancy_count;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field emailer
+     *
+     * @param integer $emailer
+     * @return $this
+     */
+    public function setEmailer($emailer)
+    {
+        $this->emailer = $emailer;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field id_stripe
+     *
+     * @param string $id_stripe
+     * @return $this
+     */
+    public function setIdStripe($id_stripe)
+    {
+        $this->id_stripe = $id_stripe;
 
         return $this;
     }
@@ -354,8 +411,34 @@ class User extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Validations and business logic
+     * Returns the value of field vacancy_count
+     *
+     * @return integer
      */
+    public function getVacancyCount()
+    {
+        return $this->vacancy_count;
+    }
+
+    /**
+     * Returns the value of field emailer
+     *
+     * @return integer
+     */
+    public function getEmailer()
+    {
+        return $this->emailer;
+    }
+
+    /**
+     * Returns the value of field id_stripe
+     *
+     * @return string
+     */
+    public function getIdStripe()
+    {
+        return $this->id_stripe;
+    }
     public function validation()
     {
 
@@ -392,4 +475,5 @@ class User extends \Phalcon\Mvc\Model
       $this->belongsTo("id","Company","user_id");
       $this->hasMany("id","Premium","user_id");
     }
+
 }

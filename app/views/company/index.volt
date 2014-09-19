@@ -1,15 +1,15 @@
 
 <h4>{{lang._('what_is_your_company_information')}}</h4>
-{{form("action":"/company/save","method":"post","enctype":"multipart/form-data")}}
+{{form("action":"company/save","method":"post","enctype":"multipart/form-data")}}
 <div class='row'>
 	<div class='col-md-3' style="background-image:url('/files/{{company_foto}}');height: 150px;
 background-repeat: no-repeat;
 background-size: 150px 150px;
 background-position: 50px;">
-			
+
 		<input  accept="image/*" type="file" name="foto">
 
-			
+
 	</div>
 	<div class='col-md-9'>
 

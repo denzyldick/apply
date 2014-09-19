@@ -3,6 +3,10 @@
 *Stripe loader
 */
 require_once('../app/plugins/Stripe/lib/Stripe.php');
+/**
+*Swift mailer
+*/
+require_once '../app/plugins/swift-mail/lib/swift_required.php';
 
 #===#
 use Phalcon\DI\FactoryDefault;
@@ -189,4 +193,24 @@ $di->set("config",function() use ($config)
 $di->set("premium",function() use($di)
 {
     return new PremiumHandler($di);
+});
+/**
+*Mailer
+*/
+$di->set("mailer",function() use($config)
+{
+  // Create the Transport
+    $transport = Swift_SmtpTransport::newInstance($config->smtp->host,$config->smtp->port,'ssl')
+  ->setUsername($config->smtp->username)
+  ->setPassword($config->smtp->password)
+  ;
+
+  return new Mailer($transport);
+});
+/**
+*URL creator
+*/
+$di->set('url', function(){
+    $url = new Phalcon\Mvc\Url();
+    return $url;
 });

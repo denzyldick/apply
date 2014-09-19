@@ -10,8 +10,38 @@ class SignupController extends ControllerBase
 
         return (count($result) < 0);
     }
+    private function sendRegistrationMail(User $user)
+    {
+
+      $this->view->start();
+      $this->view->setVar("fullname",'{$user->getFirstname()} {$user->getLastname()}');
+      $this->view->setVar("encrypted_id",$this->crypt->encryptBase64($user->getId()));
+      $this->view->render('mailer','activation');
+      $this->view->finish();
+
+      $this->mailer->setBody($this->view->getContent());
+      $this->mailer->setSubject($this->lang->_('activation_mail_subject'));
+      $this->mailer->setRecipments(array($user->getEmail() => "{$firstname} {$lastname}"));
+      $this->mailer->setSender(array($this->config->smtp->email));
+      $this->mailer->setType('text/html');
+      $this->mailer->send();
+    }
+    public function activateAction($user_id)
+    {
+      $id  = $this->crypt->decryptBase64($user_id);
+      $user = User::findFirst($id);
+      if(count($user)==1)
+      {
+        $user->setValidated('yes');
+        $this->flash->succes($this->lang->_('your_account_has_been_activated'));
+        $this->dispatcher->forward(array('controller'=>'login'));
+      }
+      $this->dispatcher->forward(array('controller'=>'signup'));
+    }
+
     public function startAction()
     {
+
 
         if ($this->request->isPost() == true) {
 
@@ -29,6 +59,7 @@ class SignupController extends ControllerBase
             $user->setLastname($lastname);
             $user->setPassword($this->security->hash($password));
             $user->setType((empty($type) == true ? "employee" : "employer"));
+            $user->setValidated('no');
 
             $location = new Location();
             $location->setLongitude(0);
@@ -38,12 +69,13 @@ class SignupController extends ControllerBase
             $user->setLocationId($location->getId());
 
             if ($user->save()) {
-
+                $this->sendRegistrationMail($user);
                 if ($user->getType() == "employer") {
                     $company = new Company();
                     $company->user_id = $user->getId();
                     $company->save();
                 }
+
 
                 $this->flash->success("Your account has been created.");
                 $this->dispatcher->forward(array("controller" => "login", "action" => "index"));
@@ -52,5 +84,6 @@ class SignupController extends ControllerBase
                 $this->dispatcher->forward(array('controller'=>'signup','action'=>'start'));
             }
         }
+
     }
 }

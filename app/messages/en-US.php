@@ -64,11 +64,18 @@ $messages = array(
     'view_profile'=>'View profile',
     'pay_vacancies'=>'Paying for more vacancies',
     'choose_a_bundle'=>'Choose a bundle',
-    '
-    '=> 'Transaction has been succesfully completed',
+    'transaction_has_been_completed'=> 'Transaction has been succesfully completed',
+    'transaction_has_been_declined' => 'This card has been declined please try again with a valid card',
     'forgot_password'=>'Forgot password',
     'accepted'=>'accepted',
-    'upgrade_your_account'=>'Upgrade your account'
+    'upgrade_your_account'=>'Upgrade your account',
+    'receipt_subject' => 'Payment receipt',
+    'receipt_introduction'=> 'Hi %s, for upgrading your account.',
+    'receipt_body'=>'blablal abla<br/>geaga',
+    'footer' => "&copy; 2014 ",
+    'registration_completed' => 'Your account has been created. You can now login to start using the service.',
+    'your_account_has_been_activated'=>'Your account has been activated. You can now login.',
+    'activation_mail_subject' => 'Account activation'
 
 
 );

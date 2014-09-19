@@ -1,5 +1,5 @@
 $(document).ready(function() {
 
     $('.slider').slider();
-    $(".alert").fadeOut(3000);
+    $(".alert").append('&nbsp;&nbsp;<a class="close" data-dismiss="alert">×</a>');
 });

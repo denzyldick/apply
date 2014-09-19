@@ -47,7 +47,6 @@ $(document).ready(function() {
 	</head>
 	<body>
 {{ flash.output() }}
-<div id="alert"class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></div>
 		<nav class="navbar navbar-custom navbar-fixed-top top-nav-collapse" role="navigation">
         <div class="container">
             <div class="navbar-header page-scroll">

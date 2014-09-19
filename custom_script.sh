@@ -3,7 +3,7 @@
 
 sudo apt-get update
 
-sudo apt-get install -y php5-dev libpcre3-dev gcc make php5-mysql
+sudo apt-get install -y php5-dev  php5-common open-ssl libpcre3-dev gcc make php5-mysql
 #
 # MySQL with root:<no password>
 #
@@ -54,6 +54,7 @@ cd cphalcon/build
 sudo ./install
 
 echo "extension=phalcon.so" > phalcon.ini
+
 sudo mv phalcon.ini /etc/php5/mods-available
 sudo php5enmod phalcon
 sudo php5enmod curl

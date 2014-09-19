@@ -65,6 +65,9 @@ CREATE TABLE IF NOT EXISTS `appply`.`user` (
   `validated` VARCHAR(45) NULL DEFAULT NULL,
   `work_enviroment_type` VARCHAR(45) NULL,
   `location_id` INT NULL,
+  `vacancy_count` INT NULL DEFAULT 3,
+  `emailer` TINYINT NULL DEFAULT 0,
+  `id_stripe` VARCHAR(255) NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `user` (`email` ASC))
 ENGINE = InnoDB
