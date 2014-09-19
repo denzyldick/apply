@@ -8,7 +8,7 @@ use Phalcon\Events\Event,
 class StripePayment extends Plugin
 {
     traits{
-      
+
     }
 
 }
