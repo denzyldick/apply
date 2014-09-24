@@ -1,5 +1,5 @@
 <h3>How  good are you in these skills? </h3>
-{{ form('done', 'method': 'post') }}
+{{ form('employee/done', 'method': 'post') }}
 
 
 

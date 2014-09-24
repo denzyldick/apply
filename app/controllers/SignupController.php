@@ -15,7 +15,7 @@ class SignupController extends ControllerBase
 
       $this->view->start();
       $this->view->setVar("fullname",'{$user->getFirstname()} {$user->getLastname()}');
-      $this->view->setVar("encrypted_id",$this->crypt->encryptBase64($user->getId()));
+      $this->view->setVar("encrypted_id",urlencode($this->crypt->encryptBase64($user->getId())));
       $this->view->render('mailer','activation');
       $this->view->finish();
 
@@ -28,7 +28,7 @@ class SignupController extends ControllerBase
     }
     public function activateAction($user_id)
     {
-      $id  = $this->crypt->decryptBase64($user_id);
+      $id  = urldecode($this->crypt->decryptBase64($user_id));
       $user = User::findFirst($id);
       if(count($user)==1)
       {
@@ -60,6 +60,7 @@ class SignupController extends ControllerBase
             $user->setPassword($this->security->hash($password));
             $user->setType((empty($type) == true ? "employee" : "employer"));
             $user->setValidated('no');
+            $user->setVacancyCount(3);
 
             $location = new Location();
             $location->setLongitude(0);

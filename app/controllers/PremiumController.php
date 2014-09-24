@@ -12,6 +12,7 @@ class PremiumController extends ControllerBase
     {
       if($this->request->isPost())
       {
+
           Stripe::setApiKey($this->config->stripe->secret_key);
           $token =  $this->request->getPost('stripeToken');
           if(empty($this->user->getIdStripe()))
@@ -30,11 +31,21 @@ class PremiumController extends ControllerBase
             $this->flash->notice($this->lang->_('transaction_has_been_declined'));
             $this->dispatcher->forward(array('controller'=>'premium','action'=>'index'));
         }
-          $this->premium->setVacancyAmount(3);
-          $this->premium->setMoney(new Money(3,'usd'));
-          $this->premium->setUser($this->user);
-          $this->premium->upgrade();
-          $this->flash->success($this->lang->_('transaction_completed'));
+        switch($this->request->getPost('type'))
+        {
+          case 'emailer':
+            $this->user->setEmailer(true);
+          break;
+          case 'vacancy':
+            $this->user->setVacancyCount($this->user->getVacancyCount() + 3);
+
+          break;
+          case 'location_diameter':
+            $this->user->setLocationDiameter($this->getLocationDiamater() - 10);
+          break;
+
+        }
+          $this->user->save();
           $this->dispatcher->forward(array('controller'=>'vacancy','action'=>'index'));
           $mail_html = $this->view->render('/mailer/receipt',
               array(

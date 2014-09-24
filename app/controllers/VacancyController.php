@@ -11,7 +11,7 @@ class VacancyController extends ControllerBase
             $this->view->count = count($vacancies);
             $this->view->tokenKey = $this->security->getTokenKey();
             $this->view->tokenValue = $this->security->getToken();
-            $this->view->remaining_vacancy = $this->getRemaingVacancy()+3;
+            $this->view->remaining_vacancy = $this->user->getVacancyCount();
 
         }
     }
@@ -24,21 +24,21 @@ class VacancyController extends ControllerBase
 
     private function getRemaingVacancy()
     {
-      $vacancies = Vacancy::findByUser_id($this->user->getId());
-      $premiums  = Premium::findByUser_id($this->user->getId());
-
-      $amount = 0;
-      foreach($premiums as $premium)
-      {
-        $bundle = Bundle::findFirst($premium->getBundleIdbundle());
-        $amount = $amount + $bundle->getAmount();
-        echo $bundle->getAmount()."<br/>";
-      }
-      return ($amount - count($vacancies));
+      // $vacancies = Vacancy::findByUser_id($this->user->getId());
+      // $premiums  = Premium::findByUser_id($this->user->getId());
+      //
+      // $amount = 0;
+      // foreach($premiums as $premium)
+      // {
+      //   $bundle = Bundle::findFirst($premium->getBundleIdbundle());
+      //   $amount = $amount + $bundle->getAmount();
+      // //$bundle->getAmount()."<br/>";
+      // }
+      // return ($amount - count($vacancies));
     }
     public function saveAction()
     {
-        if ($this->request->isPost()) {
+        if ($this->request->isPost() && $this->user->getVacancyCount() > 0) {
             $name = $this->request->getPost("name");
             $longitude = $this->request->getPost("longitude");
             $latitude = $this->request->getPost("latitude");
@@ -60,6 +60,7 @@ class VacancyController extends ControllerBase
             $vacancy->setLocationId($location->getId());
 
             if ($vacancy->save()) {
+
                 $this->dispatcher->forward(array("action" => "skills", "params" => array($skills, $vacancy->getId())));
             }
 
@@ -72,7 +73,7 @@ class VacancyController extends ControllerBase
     }
     public function finishAction()
     {
-        if ($this->request->isPost()) {
+        if ($this->request->isPost() && $this->user->getVacancyCount() > 0) {
             $vacancy = $this->request->getPost("vacancy_id");
             $skills = json_decode($this->request->getPost("skills"));
             foreach ($skills as $key => $value) {
@@ -84,7 +85,8 @@ class VacancyController extends ControllerBase
                 $skill->save();
                 $specification->setSkillsId($skill->getId());
                 $specification->save();
-            }
+            }      $this->user->setVacancycount($this->user->getVacancyCount()-1);
+            $this->user->save();
             $this->flash->success("Your vacancy has been succesfully save");
             $this->dispatcher->forward(array("controller" => "vacancy", "action" => "index"));
         }

@@ -36,7 +36,7 @@ class Vacancy extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field id
      *
-     * @param  integer $id
+     * @param integer $id
      * @return $this
      */
     public function setId($id)
@@ -49,7 +49,7 @@ class Vacancy extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field function
      *
-     * @param  string $function
+     * @param string $function
      * @return $this
      */
     public function setFunction($function)
@@ -62,7 +62,7 @@ class Vacancy extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field posted_date
      *
-     * @param  string $posted_date
+     * @param string $posted_date
      * @return $this
      */
     public function setPostedDate($posted_date)
@@ -75,7 +75,7 @@ class Vacancy extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field user_id
      *
-     * @param  integer $user_id
+     * @param integer $user_id
      * @return $this
      */
     public function setUserId($user_id)
@@ -88,7 +88,7 @@ class Vacancy extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field location_id
      *
-     * @param  integer $location_id
+     * @param integer $location_id
      * @return $this
      */
     public function setLocationId($location_id)
@@ -164,4 +164,5 @@ class Vacancy extends \Phalcon\Mvc\Model
       $this->hasOne("user_id","User","id");
       $this->hasMany("id","Specification","vacancy_id");
     }
+
 }

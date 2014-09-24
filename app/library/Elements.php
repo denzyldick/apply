@@ -15,6 +15,7 @@ class Elements extends Component
     private $employeeSettingsDropDown;
     private $employerSettingsDropDown;
     private $di;
+
   public function __construct($di)
     {
     $this->di =  $di;
@@ -37,7 +38,7 @@ class Elements extends Component
 
     );
     $this->employerSettingsDropDown =array(
-            $this->lang->_("account")=>"/employer/settings",
+            $this->lang->_("account")=>"/settings",
             $this->lang->_("upgrade")=>"/premium"
     );
 }

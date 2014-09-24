@@ -1,20 +1,11 @@
 
 <h1>Create a new vacancy</h1>
-{{ form('save', 'method': 'post') }}
-
-
+{{ form('vacancy/save', 'method': 'post') }}
     <label>What is the name of your job?</label>
     {{ text_field("name", "size": 32,"class":"form-control") }}
     <label>What kind of skills are you looking for?</label><br/>
     {{ text_field("skills", "size" : 32,"class":"form-control","data-role":"tagsinput","placeholder":"Add skills","style":"width:100%") }}
-
-
-
-<script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-
-<script src="/js/jquery-gmaps-latlon-picker.js"></script>
 <label>Where is the vacancy located ?</label>
-
 <fieldset class="gllpLatlonPicker" id="custom_id">
   <input type="text" name="location" class="gllpSearchField form-control" style="float: left;width:70%">
   <input type="button" class="gllpSearchButton btn btn-sm btn-primary" style="float: left;margin-left:5px;margin-top:2px;" value="search"><p>  &nbsp;</p>
@@ -25,6 +16,4 @@
 </fieldset>
 <p>&nbsp;</p>
 {{ submit_button('save',"class":"btn btn-sm btn-primary") }}
-
-
 </form>

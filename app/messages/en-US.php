@@ -2,11 +2,7 @@
 
 //app/messages/en.php
 $messages = array(
-    "hi"      => "Hello",
-    "bye"     => "Good Bye",
-    "hi-name" => "Hello %name%",
-    "song"    => "This song is %song%",
-    "matches" => "Matches",
+  
     "overview"=> "Overiew",
     "company"=>"Company",
     "vacancy"=>"Vacancy",
@@ -75,7 +71,15 @@ $messages = array(
     'footer' => "&copy; 2014 ",
     'registration_completed' => 'Your account has been created. You can now login to start using the service.',
     'your_account_has_been_activated'=>'Your account has been activated. You can now login.',
-    'activation_mail_subject' => 'Account activation'
+    'activation_mail_subject' => 'Account activation',
+    'remove_vacancy'=>'remove',
+    'find_suggestions'=>'find suggestions',
+    'buy_more_vacancy'=>'Buy more',
+    'add_vacancy'=>'new vacancy',
+    'name'=>'name',
+    'skills'=>'skills',
+    'matches'=>'matches',
+    'location'=>'location'
 
 
 );

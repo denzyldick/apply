@@ -15,7 +15,7 @@ class CompanyController extends ControllerBase
 {
     private $company;
     public function initialize()
-    {
+    { parent::initialize();
       $this->company =  Company::findFirst(array("user_id = {$this->session->get('user-id')}"));
 
     }

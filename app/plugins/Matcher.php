@@ -45,7 +45,44 @@ class Matcher extends Plugin
   }
   private function generateApliantsMatches()
   {
+        $vacancies = Vacancy::find(array("user_id = {$this->user->getId()}"));
 
+        foreach($vacancies as $vacancy)
+        {
+
+                   $phql = 'SELECT
+                                   User.id
+                            FROM
+                                   User
+                            JOIN
+                                    Location
+                            ON      User.location_id = Location.id
+                            WHERE
+                                  Location.travel_distance >(6371 * 2 * ASIN(SQRT( POWER(SIN((Location.latitude -
+                                   ABS(
+                                   :latitude:)) * pi()/180 / 2),2) + COS(Location.latitude * pi()/180 ) * COS(
+                                   ABS
+                                   (:latitude:) *  pi()/180) * POWER(SIN((Location.longitude - :longitude:) *  pi()/180 / 2), 2) )))';
+
+                                $cachekey = (md5($this->user->getId().$phql));
+                                $users = $this->memcached->get($cachekey);
+                                if($users == null)
+                                {
+                                  $users =    $this->modelsManager->executeQuery($phql,
+                                    array(
+                                      'latitude'=>$vacancy->location->getLatitude(),
+                                      'longitude'=>$vacancy->location->getLongitude()
+                                      )
+                                   );
+
+                                }
+                                 foreach($users as $id)
+                                   {
+                                     $user = User::findFirst($id[id]);
+                                     $this->saveMatch($user,$vacancy);
+                                   }
+
+        }
   }
   private function generateJobMatches()
   {
@@ -57,8 +94,7 @@ class Matcher extends Plugin
    }
    $skills  = "'".implode("','",array_unique($user_skills))."'";
 
-   $phql = "
-                SELECT
+   $phql = "SELECT
                       Vacancy.id,
 
 
@@ -99,7 +135,6 @@ class Matcher extends Plugin
                     //( 6371 * acos( cos( radians(vacancy_location.latitude) ) * cos( radians( seeker_location.latitude ) ) * cos( radians( seeker_location.longitude ) - radians(vacancy_location.longitude) ) + sin( radians(vacancy_location.latitude) ) * sin( radians( seeker_location.latitude ) ) ) ) AS distance
    $vacancies = $this->modelsManager->executeQuery($phql,
                                 array(
-                              //    'user_skills'=>$skills,
                                  'seeker_id'=>$this->user->getId(),
                                  'travel_distance'=>$this->user->location->getTravelDistance()
                                   ));
@@ -107,29 +142,31 @@ class Matcher extends Plugin
    foreach ($vacancies as $value) {
 
       $vacancy  =  Vacancy::findFirst($value->id);
+      $this->saveMatch($this->user,$vacancy);
 
-
-      $calculator =  $this->calculator;
-      $calculator->setVacancy($vacancy);
-      $calculator->setUser($this->user);
-
-      $match =   new Matches();
-      $match->setUserId($this->user->getId());
-      $match->setVacancyId($vacancy->getId());
-      $match->setPercent($calculator->getPercent());
-      $match->setEmployeeAccepted('no');
-      $match->setEmployerAccepted('no');
-      $match->setViewed('no');
-
-
-      if(count(Matches::find(
-        array(" user_id = {$this->user->getId()} AND vacancy_id = {$vacancy->getId()}"))) == 0&&$calculator->getPercent() >0 ){
-
-         $match->save();
-      }
    }
   }
+  private function saveMatch(User $user,Vacancy $vacancy)
+  {
+    $calculator =  $this->calculator;
+    $calculator->setVacancy($vacancy);
+    $calculator->setUser($user);
 
+    $match =   new Matches();
+    $match->setUserId($user->getId());
+    $match->setVacancyId($vacancy->getId());
+    $match->setPercent($calculator->getPercent());
+    $match->setEmployeeAccepted('no');
+    $match->setEmployerAccepted('no');
+    $match->setViewed('no');
+
+
+    if(count(Matches::find(
+      array(" user_id = {$user->getId()} AND vacancy_id = {$vacancy->getId()}"))) == 0 && $calculator->getPercent() >0 ){
+
+       $match->save();
+    }
+  }
   private function getVacancyMatches()
   {
     $phql  =   "SELECT *

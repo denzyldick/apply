@@ -13,9 +13,33 @@ class ControllerBase extends \Phalcon\Mvc\Controller
 {
     protected $permission = false;
     protected $user;
+    public function setAssets()
+    {
+      $this->assets
+    ->collection('jsfooter')
+    ->setTargetPath('final.js')
+    ->setTargetUri('final.js')
+    ->addJs('js/jquery/jquery.min.js')
+    ->addJs('js/main.js')
+
+    ->addJs('js/jquery-gmaps-latlon-picker.js')
+    ->addJs('slider/js/bootstrap-slider.js')
+    ->addJs('js/bootstrap-tagsinput.min.js')
+    ->addJs('bootstrap/js/bootstrap.js')
+    ->addJs('js/grayscale.js')
+    ->join(false)
+    ->addFilter(new Phalcon\Assets\Filters\Jsmin());
+
+    $this->assets
+    ->collection('jsheader')
+    ->addJs('js/Chart.js')
+    ->addJs('https://maps.googleapis.com/maps/api/js?key=AIzaSyAwk6wzMEnz2z58YepPrxwwcCf_tOd20lg', false, false);
+
+    }
     public function initialize()
     {
-    
+        $this->setAssets();
+
         if ($this->session->get("user-type") != "guest" and $this->session->has("user-type") == true) {
             $this->view->show_settings = true;
             $this->companyHasBeenFilled();
@@ -31,8 +55,7 @@ class ControllerBase extends \Phalcon\Mvc\Controller
     {
       if ($this->session->get("user-type")=="employee") {
         if (count(Specification::find(array("user_id =".$this->session->get("user-id")))) < 1) {
-
-                    $this->flash->notice($this->lang->_("add_skills")."&nbsp;&nbsp;<a href=/employee/options class='btn btn-small btn-primary'>{$this->lang->_('click_here')}</a>");
+            $this->flash->notice($this->lang->_("add_skills")."&nbsp;&nbsp;<a href=/employee/options class='btn btn-small btn-primary'>{$this->lang->_('click_here')}</a>");
         }
 
       }

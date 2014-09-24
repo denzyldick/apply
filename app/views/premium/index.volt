@@ -14,6 +14,7 @@
           data-amount="{{price_in_cents}}" data-email ="{{user.getEmail()}}" data-description="{{lang._('pay_vacancies')}}"  data-image="/img/logo.png"
            data-allow-remember-me="false"
           ></script>
+          <input type=hidden name='type' value='emailer'/>
 </form>
 
 </div><div class='col-md-3 well'  style='text-align:center;margin:10px' >
@@ -30,6 +31,7 @@
             data-amount="{{price_in_cents}}" data-email ="{{user.getEmail()}}" data-description="{{lang._('pay_vacancies')}}"  data-image="/img/logo.png"
              data-allow-remember-me="false"
             ></script>
+            <input type=hidden name='type' value='location_diamter'/>
   </form>
 
 </div><div class='col-md-3 well'  style='text-align:center;margin:10px'>
@@ -46,6 +48,7 @@
           data-amount="{{price_in_cents}}" data-email ="{{user.getEmail()}}" data-description="{{lang._('pay_vacancies')}}"  data-image="/img/logo.png"
            data-allow-remember-me="false"
           ></script>
+          <input type=hidden name='type' value='vacancy'/>
 </form>
 </div>
 

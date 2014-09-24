@@ -1,26 +1,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-<script type="text/javascript" src="/js/jquery/jquery.min.js"></script>
-<script type="text/javascript" src="/slider/js/bootstrap-slider.js"></script>
-<script type="text/javascript" src="/js/main.js"></script>
-<script src="/js/jquery-gmaps-latlon-picker.js"></script>
-<script src="/js/Chart.js"></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwk6wzMEnz2z58YepPrxwwcCf_tOd20lg"></script>
-<script type="text/javascript" src="/js/bootstrap-tagsinput.min.js"></script>
-<link rel="stylesheet" href="/css/bootstrap-tagsinput.css" />
-<script>
-//prevent the user from hitting enter
-$(document).ready(function() {
-	$(window).keydown(function(event){
-		if(event.keyCode == 13) {
-			event.preventDefault();
-			return false;
-		}
-	});
-});
+{{ assets.outputJs('jsheader') }}
 
-</script>
+<link rel="stylesheet" href="/css/bootstrap-tagsinput.css" />
 <style>
 .bootstrap-tagsinput
 {
@@ -34,13 +17,12 @@ $(document).ready(function() {
     <link href="/bootstrap/fonts/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-   <link rel="stylesheet" type="text/css" href="css/socialicious.css" media="screen" />
+   	<link rel="stylesheet" type="text/css" href="css/socialicious.css" media="screen" />
     <!-- Custom Theme CSS -->
     <link href="/css/grayscale.css" rel="stylesheet">
-<link rel="stylesheet" href="/css/style.css" type="text/css">
-<link rel="stylesheet" href="/slider/css/slider.css" type="text/css">
-<!-- Latest compiled and minified JavaScript -->
-<script type="text/javascript" src="/bootstrap/js/bootstrap.js"></script>
+		<link rel="stylesheet" href="/css/style.css" type="text/css">
+		<link rel="stylesheet" href="/slider/css/slider.css" type="text/css">
+
 	<title>{% block title %}{% endblock %}</title>
 		</head>
 
@@ -69,5 +51,8 @@ $(document).ready(function() {
 	{% block content %}{% endblock %}
 </div>
 {% include "footer/footer.volt" %}
+
 	</body>
+	{{ assets.outputJs('jsfooter') }}
+
 </html>

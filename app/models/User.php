@@ -96,6 +96,12 @@ class User extends \Phalcon\Mvc\Model
     protected $id_stripe;
 
     /**
+     *
+     * @var integer
+     */
+    protected $location_diameter;
+
+    /**
      * Method to set the value of field id
      *
      * @param integer $id
@@ -291,6 +297,19 @@ class User extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Method to set the value of field location_diameter
+     *
+     * @param integer $location_diameter
+     * @return $this
+     */
+    public function setLocationDiameter($location_diameter)
+    {
+        $this->location_diameter = $location_diameter;
+
+        return $this;
+    }
+
+    /**
      * Returns the value of field id
      *
      * @return integer
@@ -438,6 +457,16 @@ class User extends \Phalcon\Mvc\Model
     public function getIdStripe()
     {
         return $this->id_stripe;
+    }
+
+    /**
+     * Returns the value of field location_diameter
+     *
+     * @return integer
+     */
+    public function getLocationDiameter()
+    {
+        return $this->location_diameter;
     }
     public function validation()
     {
