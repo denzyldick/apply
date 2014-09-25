@@ -1,5 +1,5 @@
 {% extends "templates/base.volt" %}
-{% block title %}Firstname lastname {% endblock %}
+{% block title %}Appply{% endblock %}
 
 {% block content %}
 

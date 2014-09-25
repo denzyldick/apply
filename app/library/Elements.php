@@ -21,14 +21,13 @@ class Elements extends Component
     $this->di =  $di;
     $this->employeeMenu = array(
             $this->lang->_("overview")=>"/employee",
-            $this->lang->_("suggestion")=>"/suggestion"
+            $this->lang->_("suggestions")=>"/suggestion"
     );
 
     $this->employerMenu = array(
         $this->lang->_("overview")=>"/employer",
-        $this->lang->_("suggestion")=>"/suggestion",
-        $this->lang->_("vacancy")=>"/vacancy",
-        $this->lang->_("company")=>"/company"
+        $this->lang->_("suggestions")=>"/suggestion",
+        $this->lang->_("vacancies")=>"/vacancy"
     );
 
     $this->employeeSettingsDropDown = array(
@@ -39,6 +38,7 @@ class Elements extends Component
     );
     $this->employerSettingsDropDown =array(
             $this->lang->_("account")=>"/settings",
+            $this->lang->_("company")=>"/company",
             $this->lang->_("upgrade")=>"/premium"
     );
 }

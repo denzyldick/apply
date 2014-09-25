@@ -19,11 +19,24 @@ class LoginController extends ControllerBase
         }
     }
 
+
     public function forgotpasswordAction()
     {
       if($this->request->isPost())
       {
-        //password
+        $user =   User::findFirst(array("email = {$this->request->getPost('email')}"));
+        if(count($user) == 0)
+        {
+          $this->flash->error($this->lang->_('this_doesnt_exsist'));
+          $this->dispatcher->forward(array('controller'=>'login'));
+          return 0;
+        }
+        $verification_code = $this->crypt->encrypt($user->getEmail());
+
+        $this->mailer->setSubject('');
+        $this->mailer->setRecipments(array($this->request->getPost('email')));
+        $this->mailer->setSender($this->config->smpt->email);
+        $this->mailer->send();
       }
     }
 }

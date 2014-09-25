@@ -1,6 +1,9 @@
 <?php
 
 use Phalcon\Mvc\Model\Validator\Email as Email;
+use Phalcon\Mvc\Model\Validator\InclusionIn;
+use Phalcon\Mvc\Model\Validator\Uniqueness;
+
 
 class User extends \Phalcon\Mvc\Model
 {
@@ -479,6 +482,12 @@ class User extends \Phalcon\Mvc\Model
                 )
             )
         );
+        $this->validate(new Uniqueness(
+         array(
+             "field"   => "email",
+             "message" => "email is already in use."
+         )
+     ));
         if ($this->validationHasFailed() == true) {
             return false;
         }
@@ -497,6 +506,7 @@ class User extends \Phalcon\Mvc\Model
 
         return false;
     }
+
     public function initialize()
     {
       $this->hasOne("location_id","Location","id");

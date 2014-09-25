@@ -14,8 +14,8 @@ class SignupController extends ControllerBase
     {
 
       $this->view->start();
-      $this->view->setVar("fullname",'{$user->getFirstname()} {$user->getLastname()}');
-      $this->view->setVar("encrypted_id",urlencode($this->crypt->encryptBase64($user->getId())));
+      $this->view->setVar("fullname","$user->getFirstname()} {$user->getLastname()}");
+      $this->view->setVar("verification_code",$this->crypt->encrypt($user->getId()));
       $this->view->render('mailer','activation');
       $this->view->finish();
 
@@ -26,18 +26,21 @@ class SignupController extends ControllerBase
       $this->mailer->setType('text/html');
       $this->mailer->send();
     }
-    public function activateAction($user_id)
+    public function activateAction()
     {
-      $id  = urldecode($this->crypt->decryptBase64($user_id));
+      if($this->request->isPost())
+      {
+      $id  = $this->crypt->decrypt($this->request->getPost('code'));
+      if(is_numeric($id)){
       $user = User::findFirst($id);
       if(count($user)==1)
       {
         $user->setValidated('yes');
         $this->flash->succes($this->lang->_('your_account_has_been_activated'));
         $this->dispatcher->forward(array('controller'=>'login'));
-      }
+      }}
       $this->dispatcher->forward(array('controller'=>'signup'));
-    }
+    }}
 
     public function startAction()
     {
@@ -65,11 +68,12 @@ class SignupController extends ControllerBase
             $location = new Location();
             $location->setLongitude(0);
             $location->setLatitude(0);
-            $location->save();
+
 
             $user->setLocationId($location->getId());
 
             if ($user->save()) {
+              $location->save();
                 $this->sendRegistrationMail($user);
                 if ($user->getType() == "employer") {
                     $company = new Company();
@@ -80,6 +84,9 @@ class SignupController extends ControllerBase
 
                 $this->flash->success("Your account has been created.");
                 $this->dispatcher->forward(array("controller" => "login", "action" => "index"));
+            }else if($user->save() == false)
+            {$this->flash->notice($this->lang->_('user_already_exsists'));
+              $this->dispatcher->forward(array('controller'=>'signup','action'=>'index'));
             }} else {
                 $this->flash->notice($this->lang->_('user_already_exsists'));
                 $this->dispatcher->forward(array('controller'=>'signup','action'=>'start'));

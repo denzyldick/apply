@@ -65,9 +65,10 @@ class Matcher extends Plugin
                                    (:latitude:) *  pi()/180) * POWER(SIN((Location.longitude - :longitude:) *  pi()/180 / 2), 2) )))';
 
                                 $cachekey = (md5($this->user->getId().$phql));
-                                $users = $this->memcached->get($cachekey);
-                                if($users == null)
-                                {
+
+                    //            $users = $this->cache->save($cachekey);
+                      //          if($users == null)
+                        //        {
                                   $users =    $this->modelsManager->executeQuery($phql,
                                     array(
                                       'latitude'=>$vacancy->location->getLatitude(),
@@ -75,7 +76,8 @@ class Matcher extends Plugin
                                       )
                                    );
 
-                                }
+                          //      }
+                        
                                  foreach($users as $id)
                                    {
                                      $user = User::findFirst($id[id]);

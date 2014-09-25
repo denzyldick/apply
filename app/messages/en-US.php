@@ -2,7 +2,7 @@
 
 //app/messages/en.php
 $messages = array(
-  
+
     "overview"=> "Overiew",
     "company"=>"Company",
     "vacancy"=>"Vacancy",
@@ -79,7 +79,11 @@ $messages = array(
     'name'=>'name',
     'skills'=>'skills',
     'matches'=>'matches',
-    'location'=>'location'
+    'location'=>'location',
+    'please_enter_your_email'=>'Please enter your email',
+    'email'=>'email',
+    'submit'=>'submit',
+    'you_can_now_connect'=>'You can now connect.'
 
 
 );

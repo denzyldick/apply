@@ -7,7 +7,7 @@ class EmployerController extends ControllerBase
       $suggestions = $this->modelsManager->executeQuery($phql,array('user_id'=>$this->user->getId()));
 
         $this->view->suggestions = $suggestions;
-         $this->view->amount_text = (count($suggestions) == 1? " 1 ".$this->lang->_('matches') : count($suggestions)." ".$this->lang->_('suggestions'));
+         $this->view->amount_text = (count($suggestions) == 1? " 1 ".$this->lang->_('matches') : count($suggestions)." ".$this->lang->_('matches'));
 
     }
     public function settingsAction()

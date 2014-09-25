@@ -2,8 +2,8 @@
 
 error_reporting(E_ALL);
 
-try {
-
+$debug = new \Phalcon\Debug();
+$debug->listen();
     /**
      * Read the configuration
      */
@@ -25,7 +25,3 @@ try {
     $application = new \Phalcon\Mvc\Application($di);
 
     echo $application->handle()->getContent();
-
-} catch (\Exception $e) {
-    echo $e->getMessage();
-}

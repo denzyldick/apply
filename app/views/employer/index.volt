@@ -1,6 +1,6 @@
 <h1 class="page-header">
 			{{ amount_text }}
-				<p class="lead">Individuals matching yogaur criteria</p>
+				<p class="lead">{{lang._('you_can_now_connect')}}</p>
 			</h1>
 
 			<div class="row placeholders">

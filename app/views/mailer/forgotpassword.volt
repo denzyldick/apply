@@ -2,9 +2,10 @@
 {% block content %}
 <h1>Welcome {{fullname}}</h2>
   <pre>
-  You need to create activate your account.
-  <br/>
   This is your verification code.
+  <br/>
   <strong>{{verification_code}}</strong>
+  <p>
+    <a href=''>enter here</a>
   </pre>
   {% endblock %}
