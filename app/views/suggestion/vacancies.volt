@@ -11,17 +11,14 @@
 
 <div class="col-xs-6 col-sm-3 placeholder text-center masuggestiontch well" style="margin: 10px;width: 259px;"  >
      <a href="/suggestion/vacancy/{{suggestion.vacancy.getId()}}">
-       <canvas id="donuts{{suggestion.vacancy.getId()}}"  style="
-width: 200px!important;
-height: 200px;
-cursor:pointer;
-" ></canvas>
+       <canvas id="donuts{{suggestion.vacancy.getId()}}"  height="200" width="200" ></canvas>
+
 </a>
 <script>
   var pieData = [
         {
           value: {{suggestion.getPercent()}},
-          color:"#3F9F3F"
+          color:"rgb(49, 151, 199)"
         },
         {
           value : 100-{{suggestion.getPercent()}},
@@ -29,7 +26,12 @@ cursor:pointer;
         }
       ];
 
-    var myPie = new Chart(document.getElementById("donuts{{suggestion.vacancy.getId()}}").getContext("2d")).Doughnut(pieData,null);</script>
+  var ctx = document.getElementById("donuts{{suggestion.vacancy.getId()}}").getContext("2d");
+  ctx.fillText({{suggestion.getPercent()}} + "%",null,null);
+
+
+    var myPie = new Chart(ctx).Doughnut(pieData,{percentageInnerCutout : 60});</script>
+
    <h4>{{suggestion.vacancy.getFunction() }}</h4>
 
           <br/>

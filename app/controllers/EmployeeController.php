@@ -8,7 +8,7 @@ class EmployeeController extends ControllerBase
     }
       public function getEmployeeMatches()
     {
-      return $this->modelsManager->executeQuery("SELECT * FROM Matches WHERE employee_accepted = 'yes'ORDER BY percent DESC");
+      return $this->modelsManager->executeQuery("SELECT * FROM Matches WHERE employee_accepted = 'yes' AND softdeleted = 'no' ORDER BY percent DESC");
     }
     public function indexAction()
     {

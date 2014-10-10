@@ -3,26 +3,20 @@
 	<head>
 {{ assets.outputJs('jsheader') }}
 
-<link rel="stylesheet" href="/css/bootstrap-tagsinput.css" />
+
 <style>
 .bootstrap-tagsinput
 {
 	width:100%;
 }
 </style>
-    <!-- Bootstrap Core CSS -->
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-
-    <!-- Fonts -->
+		<link rel="stylesheet" href="/css/bootstrap-tagsinput.css" />
     <link href="/bootstrap/fonts/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-   	<link rel="stylesheet" type="text/css" href="css/socialicious.css" media="screen" />
-    <!-- Custom Theme CSS -->
-    <link href="/css/grayscale.css" rel="stylesheet">
+		<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+   	<link rel="stylesheet" type="text/css" href="/css/socialicious.css" media="screen" />
 		<link rel="stylesheet" href="/css/style.css" type="text/css">
 		<link rel="stylesheet" href="/slider/css/slider.css" type="text/css">
-
 	<title>{% block title %}{% endblock %}</title>
 		</head>
 

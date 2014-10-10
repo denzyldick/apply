@@ -1,4 +1,3 @@
-
 <h4>{{lang._('what_is_your_company_information')}}</h4>
 {{form("action":"company/save","method":"post","enctype":"multipart/form-data")}}
 <div class='row'>

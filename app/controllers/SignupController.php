@@ -69,11 +69,11 @@ class SignupController extends ControllerBase
             $location->setLongitude(0);
             $location->setLatitude(0);
 
-
+            $location->save();
             $user->setLocationId($location->getId());
 
             if ($user->save()) {
-              $location->save();
+
                 $this->sendRegistrationMail($user);
                 if ($user->getType() == "employer") {
                     $company = new Company();

@@ -14,11 +14,9 @@
 
     <!-- Fonts -->
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-
+<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <!-- Custom Theme CSS -->
-    <link href="css/grayscale.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 
 </head>
 
@@ -68,9 +66,9 @@
                         <h1 class="brand-heading">Appply</h1>
                         <p class="intro-text">Where you can get a job through your skills.</p>
                         <div class="page-scroll ">
-                            <a href="#about" class="btn btn-circle">
+                            <!-- <a href="#about" class="btn btn-circle">
                                 <i class="fa fa-angle-double-down animated" style="font-size:86px;"></i>
-                            </a>
+                            </a> -->
                         </div>
 
                       </div>

@@ -33,7 +33,7 @@ class Security extends Plugin
     //Employee area
     $employeeResource = array(
       'employee' => array("index","skills","done","options"),
-      'suggestion' => array("index","vacancies","accept",'vacancy'),
+      'suggestion' => array("index","vacancies","accept",'vacancy','remove','decline'),
       'logout'=> array('index'),
       'settings'=>array("index","save","password","reset"),
       'support'=>array('index')
@@ -46,7 +46,7 @@ class Security extends Plugin
     $employerResource = array(
       'employer'=>array('index','settings'),
       'settings'=>array('index','save'),
-      'suggestion' => array("index","view",'profile','accept'),
+      'suggestion' => array("index","view",'profile','accept','remove','decline'),
       'premium'=> array("index",'charge'),
       'settings'=>array("index","save","password","reset"),
       'logout'=> array('index'),

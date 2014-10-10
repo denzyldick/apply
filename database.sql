@@ -69,6 +69,7 @@ CREATE TABLE IF NOT EXISTS `appply`.`user` (
   `emailer` TINYINT(1) NULL DEFAULT 0,
   `id_stripe` VARCHAR(255) NULL,
   `location_diameter` INT NULL DEFAULT 100,
+  `signup_date` DATE NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `user` (`email` ASC))
 ENGINE = InnoDB
@@ -92,6 +93,7 @@ CREATE TABLE IF NOT EXISTS `appply`.`company` (
   `location` VARCHAR(255) NULL DEFAULT NULL,
   `logo` TEXT NULL,
   `website` TEXT NULL,
+  `work_enviroment_type` VARCHAR(45) NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `company` (`user_id` ASC))
 ENGINE = InnoDB
@@ -129,6 +131,8 @@ CREATE TABLE IF NOT EXISTS `appply`.`matches` (
   `viewed` ENUM('yes','no') NOT NULL DEFAULT 'no',
   `employer_accepted` ENUM('yes','no') NOT NULL DEFAULT 'no',
   `employee_accepted` ENUM('yes','no') NOT NULL DEFAULT 'no',
+  `softdeleted` ENUM('yes','no') NULL DEFAULT 'no',
+  `match_date` DATE NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC, `vacancy_id` ASC))
 ENGINE = InnoDB
@@ -176,6 +180,20 @@ CREATE TABLE IF NOT EXISTS `appply`.`specification` (
   `skills_id` INT(11) NOT NULL,
   `vacancy_id` INT(11) NULL,
   `user_id` INT(11) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `appply`.`verification`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `appply`.`verification` ;
+
+CREATE TABLE IF NOT EXISTS `appply`.`verification` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `type` VARCHAR(255) NOT NULL,
+  `date` DATE NULL,
+  `user_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 

@@ -83,7 +83,8 @@ $messages = array(
     'please_enter_your_email'=>'Please enter your email',
     'email'=>'email',
     'submit'=>'submit',
-    'you_can_now_connect'=>'You can now connect.'
+    'you_can_now_connect'=>'You can now connect.',
+    'you_cant_edit_the_vacancy_after_saving_it'=>'You can\'t edit the vacancy after saving it'
 
 
 );

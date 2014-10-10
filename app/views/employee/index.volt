@@ -1,69 +1,48 @@
 <h1 class="page-header">
-      {{ amount }}
-        <p class="lead">{{ lang._("job")}} {{ lang._("job_matching")}}</p>
+      {{ amount}}
+        <p class="lead">{{lang._('you_can_now_connect')}}</p>
       </h1>
 
       <div class="row placeholders">
-{% for match in matches %}
-
- {% set company = match.vacancy.user.company %}
-
-
-<div class="col-xs-6 col-sm-3 placeholder text-center match well" style="margin: 10px;"  data-toggle="modal" data-target="#{{match.getId()}}" >
-          <img src="/files/{{company.logo}}" class="center-block  img-thumbnail" alt="Generic placeholder thumbnail" style="
-width: 200px!important;
-height: 200px;
-cursor:pointer;
-"> <h4>{{match.vacancy.getFunction() }}</h4>
-          <span class="text-muted">{{match.getPercent()}}% match</span>
-          <br/>
-          <a href="" class="btn btn-small btn-primary"><span class="glyphicon glyphicon-send" style="color:#fff"></span> {{ lang._("contact_company")}}</a>
-       
-
-        <!-- Modal -->
-        <div class="modal fade" id="{{match.getId()}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="text-align:left">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-               
-                <span class="modal-title" id="myModalLabel"> <img src="/files/{{company.logo}}" style="
-width: 32px!important;
-height: 32px;
-" /> {{ company.getName() }}</span>
-              </div>
-              <div class="modal-body">
-
-                <a href="" class="btn btn-small btn-primary"> {{lang._("contact_company")}}</a>&nbsp;<a href="" class="btn btn-small btn-primary">{{lang._('vacancy information')}}</a><p></p>
-               
-                {{lang._('website')|upper}}<br/>
-                <div class="well">
-                <a href='{{company.website}}' target='new'>{{company.website}}</a>
-              </div>
-                 {{ lang._("description")|upper}}<br/>
-                <div class="well">
-                {{ company.getDescription()|e}}
-                </div>
-
-                <label>Where is the company located</label>
+{% for suggestion in matches %}
+    <div class="col-xs-6 col-sm-3 placeholder text-center suggestion well" style="margin: 10px;" >
+<a href="/suggestion/profile/{{suggestion.getUserId()}}/{{suggestion.getId()}}">
+      <canvas id="donuts{{suggestion.getId()}}"  height="200" width="200" ></canvas>
 
 
 
-  <div class="gllpMap well"><center><img src="/img/ajax-loader.gif" alt="{{lang._('loading')}}"></center></div>
-  {{hidden_field("longitude","class":"gllpLongitude","value":company.getLongitude())}}
-  {{hidden_field("latitude","class":"gllpLatitude","value":company.getLatitude())}}
-  {{hidden_field("zoom","class":"gllpZoom","value":company.getZoom())}}
-            </div>
-            
-              <div class="modal-footer">
+  </a> <h4>{{suggestion.vacancy.getFunction() }}</h4>
+
+  <br/>{% if suggestion.getEmployerAccepted() == 'yes' and suggestion.getEmployeeAccepted() == 'yes' %}
+          <a href='' class='btn btn-small btn-primary'>Contact me</a>
+        {% endif %}
+        {% if suggestion.getEmployerAccepted() == 'no' and suggestion.getEmployeeAccepted() == 'yes' %}
+
+          <a href="#" class="btn btn-small btn-primary disabled"><span style="color: #Fff;" class="glyphicon glyphicon-ok"></span> {{this.lang._("pending")}}</a>&nbsp;<a href="/suggestion/decline/{{suggestion.getId()}}" class="btn btn-small btn-danger"><span class="glyphicon glyphicon-remove" style="color:#fff;" ></span> {{this.lang._("decline")}}</a>
+        {% endif %}
 
 </div>
-              </div>
-            </div>
-          </div>
-        </div>
+
+<script>
+  var pieData = [
+        {
+          value: {{suggestion.getPercent()}},
+          color:"rgb(49, 151, 199)"
+        },
+        {
+          value : 100-{{suggestion.getPercent()}},
+          color : "#fff"
+        }
+      ];
+
+  var ctx = document.getElementById("donuts{{suggestion.getId()}}").getContext("2d");
+  ctx.fillText({{suggestion.getPercent()}} + "%",null,null);
+
+
+    var myPie = new Chart(ctx).Doughnut(pieData,{percentageInnerCutout : 60});</script>
 {% endfor %}
 
 
-    
 
+
+      </div>

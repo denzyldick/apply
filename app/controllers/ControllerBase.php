@@ -19,20 +19,22 @@ class ControllerBase extends \Phalcon\Mvc\Controller
     ->collection('jsfooter')
     ->setTargetPath('final.js')
     ->setTargetUri('final.js')
-    ->addJs('js/jquery/jquery.min.js')
-    ->addJs('js/main.js')
 
-    ->addJs('js/jquery-gmaps-latlon-picker.js')
-    ->addJs('slider/js/bootstrap-slider.js')
-    ->addJs('js/bootstrap-tagsinput.min.js')
-    ->addJs('bootstrap/js/bootstrap.js')
     ->addJs('js/grayscale.js')
+
     ->join(false)
     ->addFilter(new Phalcon\Assets\Filters\Jsmin());
 
     $this->assets
     ->collection('jsheader')
     ->addJs('js/Chart.js')
+    ->addJs('js/jquery/jquery.min.js')
+    ->addJs('bootstrap/js/bootstrap.min.js')
+    ->addJs('js/jquery-gmaps-latlon-picker.js')
+    ->addJs('js/bootstrap-tagsinput.min.js')
+    ->addJs('slider/js/bootstrap-slider.js')
+    ->addJs('js/main.js')
+
     ->addJs('https://maps.googleapis.com/maps/api/js?key=AIzaSyAwk6wzMEnz2z58YepPrxwwcCf_tOd20lg', false, false);
 
     }
@@ -53,8 +55,9 @@ class ControllerBase extends \Phalcon\Mvc\Controller
     }
     protected function skillsHasBeenFilled()
     {
+
       if ($this->session->get("user-type")=="employee") {
-        if (count(Specification::find(array("user_id =".$this->session->get("user-id")))) < 1) {
+        if (count(Specification::find(array("user_id =".$this->session->get("user-id")))) < 1 && $this->dispatcher->getControllerName() !='employee' && $this->dispatcher->getActionName() !='options') {
             $this->flash->notice($this->lang->_("add_skills")."&nbsp;&nbsp;<a href=/employee/options class='btn btn-small btn-primary'>{$this->lang->_('click_here')}</a>");
         }
 
@@ -62,7 +65,8 @@ class ControllerBase extends \Phalcon\Mvc\Controller
     }
     protected function companyHasBeenFilled()
     {
-        if ($this->session->get("user-type") == "employer") {
+        if ($this->session->get("user-type") == "employer" && $this->dispatcher->getControllerName()
+        !='company') {
             $company =  Company::findFirst(array("user_id = {$this->session->get('user-id')}"));
 
               if ($company->name == null) {

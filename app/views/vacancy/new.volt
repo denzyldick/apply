@@ -15,5 +15,5 @@
   <input type="hidden" name="zoom" class="gllpZoom" value="1"/>
 </fieldset>
 <p>&nbsp;</p>
-{{ submit_button('save',"class":"btn btn-sm btn-primary") }}
+{{ submit_button('save',"class":"btn btn-sm btn-primary") }}<span class='glyphicon glyphicon-asterisk'><span>&nbsp; {{lang._('you_cant_edit_the_vacancy_after_saving_it')}}
 </form>

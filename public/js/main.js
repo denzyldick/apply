@@ -1,16 +1,25 @@
 $(document).ready(function() {
 
     $('.slider').slider();
-    $(".alert").append('&nbsp;&nbsp;<a class="close" data-dismiss="alert">×</a>');
+//    $(".alert").append('&nbsp;&nbsp;<a class="close" data-dismiss="alert">×</a>');
 
-      $(window).keydown(function(event){
-        if(event.keyCode == 13) {
-          event.preventDefault();
-          return false;
+
+    $('.gllpSearchField').keydown(function(event)
+    {
+
+      if(event.keyCode == 13)
+        {
+
+          if($('.gllpSearchField').val().length > 0)
+            {
+              $('.gllpSearchButton').click();
+
+
+            }
+            event.preventDefault();
+            return false;
         }
-      });
-
-
+    });
 });
 /** Line graph Options **/
 

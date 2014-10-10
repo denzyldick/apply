@@ -33,6 +33,11 @@ class Matcher extends Plugin
      $this->di = $dependencyInjector;
      $this->setDi($dependencyInjector);
   }
+  /**
+  * Generate matches for the users(employer & employee)
+  *@param User
+  *@return void
+  */
   public function generateMatches($user)
   {
     $this->user   = $user;
@@ -43,6 +48,11 @@ class Matcher extends Plugin
       $this->generateApliantsMatches();
     }
   }
+  /**
+  * Generate matches for the emloyees
+  *@param
+  *@return void
+  */
   private function generateApliantsMatches()
   {
         $vacancies = Vacancy::find(array("user_id = {$this->user->getId()}"));
@@ -77,7 +87,7 @@ class Matcher extends Plugin
                                    );
 
                           //      }
-                        
+
                                  foreach($users as $id)
                                    {
                                      $user = User::findFirst($id[id]);
@@ -135,6 +145,7 @@ class Matcher extends Plugin
                     // 6371 = KM
                     // 3959 = MILES
                     //( 6371 * acos( cos( radians(vacancy_location.latitude) ) * cos( radians( seeker_location.latitude ) ) * cos( radians( seeker_location.longitude ) - radians(vacancy_location.longitude) ) + sin( radians(vacancy_location.latitude) ) * sin( radians( seeker_location.latitude ) ) ) ) AS distance
+
    $vacancies = $this->modelsManager->executeQuery($phql,
                                 array(
                                  'seeker_id'=>$this->user->getId(),
@@ -153,7 +164,6 @@ class Matcher extends Plugin
     $calculator =  $this->calculator;
     $calculator->setVacancy($vacancy);
     $calculator->setUser($user);
-
     $match =   new Matches();
     $match->setUserId($user->getId());
     $match->setVacancyId($vacancy->getId());
@@ -161,8 +171,7 @@ class Matcher extends Plugin
     $match->setEmployeeAccepted('no');
     $match->setEmployerAccepted('no');
     $match->setViewed('no');
-
-
+    $match->setSoftdeleted('no');
     if(count(Matches::find(
       array(" user_id = {$user->getId()} AND vacancy_id = {$vacancy->getId()}"))) == 0 && $calculator->getPercent() >0 ){
 
