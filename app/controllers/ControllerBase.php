@@ -15,7 +15,7 @@ class ControllerBase extends \Phalcon\Mvc\Controller
     protected $user;
     public function setAssets()
     {
-      $this->assets
+     $this->assets
     ->collection('jsfooter')
     ->setTargetPath('final.js')
     ->setTargetUri('final.js')
@@ -34,7 +34,6 @@ class ControllerBase extends \Phalcon\Mvc\Controller
     ->addJs('js/bootstrap-tagsinput.min.js')
     ->addJs('slider/js/bootstrap-slider.js')
     ->addJs('js/main.js')
-
     ->addJs('https://maps.googleapis.com/maps/api/js?key=AIzaSyAwk6wzMEnz2z58YepPrxwwcCf_tOd20lg', false, false);
 
     }
