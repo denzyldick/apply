@@ -4,6 +4,14 @@ class SignupController extends ControllerBase
     public function indexAction()
     {
     }
+    public function employerAction()
+    {
+        
+    }
+    public function employeeAction()
+    {
+
+    }
     private function userExsists($email)
     {
         $result = User::findFirstByEmail($email);

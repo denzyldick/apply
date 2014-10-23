@@ -323,7 +323,7 @@ class Company extends \Phalcon\Mvc\Model
     }
     public function columnMap()
     {
-        return array('id' => 'id', 'name' => 'name', 'description' => 'description', 'longitude' => 'longitude', 'latitude' => 'latitude', 'user_id' => 'user_id', 'location' => 'location', 'zoom' => 'zoom','logo'=>'logo','website'=>'website');
+        return array('id' => 'id', 'name' => 'name', 'description' => 'description', 'longitude' => 'longitude', 'latitude' => 'latitude', 'user_id' => 'user_id', 'location' => 'location', 'zoom' => 'zoom','logo'=>'logo','website'=>'website','work_enviroment_type'=>'work_enviroment_type');
     }
     public function initialize()
     {

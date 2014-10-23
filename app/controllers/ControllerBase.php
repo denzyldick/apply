@@ -40,7 +40,6 @@ class ControllerBase extends \Phalcon\Mvc\Controller
     public function initialize()
     {
         $this->setAssets();
-
         if ($this->session->get("user-type") != "guest" and $this->session->has("user-type") == true) {
             $this->view->show_settings = true;
             $this->companyHasBeenFilled();

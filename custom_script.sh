@@ -72,7 +72,13 @@ sudo sed -i 's/display_errors = Off/display_errors = On/' /etc/php5/apache2/php.
 # Install PhalconPHP DevTools
 #
 cd ~
-echo '{"require": {"phalcon/devtools": "dev-master"}}' > composer.json
+echo '{"require": {"phalcon/devtools": "dev-master"}}{
+    "name": "fkooman/my-demo-oauth-app",
+    "require": {
+        "fkooman/guzzle-bearer-auth-plugin": "dev-master",
+        "fkooman/php-oauth-client": "dev-master"
+    }
+}' > composer.json
 composer install
 rm composer.json
 
