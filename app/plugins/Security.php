@@ -1,4 +1,4 @@
-z<?php
+<?php
 
 use Phalcon\Events\Event,
         Phalcon\Mvc\User\Plugin,
