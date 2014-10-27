@@ -1,5 +1,4 @@
-{% extends "templates/base.volt" %}
-{% block content %}
+
 <style>
 
 .question_header{
@@ -16,6 +15,10 @@ margin-bottom:20px;
 .btn-next
 {
 	margin-right:50px;
+}
+.awesome_well
+{
+
 }
 
 </style>
@@ -34,6 +37,7 @@ $(document).ready(function()
 
 
 </script>
+<div class='awesome_well'>
 <form action="/signup/start" method=post>
 <div id='question_1' class='question'>
 <div class='question_header'>
@@ -113,4 +117,4 @@ $(document).ready(function()
 </div>
 </div>
 </form>
-{% endblock %}
+</div>

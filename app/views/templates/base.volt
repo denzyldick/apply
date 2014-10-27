@@ -35,7 +35,8 @@
             </div>
 {% if show_settings %}
   {% include "menu/menu.volt" %}
-
+{% else %}
+	{% include "menu/public_menu.volt" %}
 {% endif %}
             <!-- /.navbar-collapse -->
         </div>

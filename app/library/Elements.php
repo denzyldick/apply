@@ -11,6 +11,7 @@ class Elements extends Component
 {
     private $employeeMenu;
     private $employerMenu;
+    private $publicMenu;
 
     private $employeeSettingsDropDown;
     private $employerSettingsDropDown;
@@ -23,7 +24,9 @@ class Elements extends Component
             $this->lang->_("overview")=>"/employee",
             $this->lang->_("suggestions")=>"/suggestion"
     );
-
+    $this->publicMen = array(
+        
+    );
     $this->employerMenu = array(
         $this->lang->_("overview")=>"/employer",
         $this->lang->_("suggestions")=>"/suggestion",
@@ -52,6 +55,9 @@ class Elements extends Component
       return $this->employerMenu;
     } elseif ($this->session->get("user-type")=="employee") {
       return $this->employeeMenu;
+    }else
+    {
+      return $this->publicMenu;
     }
   }
 /**
