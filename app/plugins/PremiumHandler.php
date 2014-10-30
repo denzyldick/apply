@@ -29,11 +29,7 @@ class PremiumHandler extends Plugin
         $bundle->save();
         $premium->setBundleIdbundle($bundle->getIdbundle());
         $premium->save();
-
-
     }
-
-
     public function setVacancyAmount($vacancy_amount)
     {
       $this->vacancy_amount = $vacancy_amount;

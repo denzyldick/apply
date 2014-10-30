@@ -3,6 +3,7 @@
 class Matches extends \Phalcon\Mvc\Model
 {
 
+    protected $match_date;
     /**
      *
      * @var integer
@@ -244,7 +245,8 @@ class Matches extends \Phalcon\Mvc\Model
             'viewed' => 'viewed',
             'employer_accepted'=>'employer_accepted',
             'employee_accepted'=>'employee_accepted',
-            'softdeleted' =>'softdeleted'
+            'softdeleted' =>'softdeleted',
+            'match_date'=>'match_date'
         );
     }
     public function initialize()

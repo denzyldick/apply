@@ -15,22 +15,20 @@ class CompanyController extends ControllerBase
 {
     private $company;
     public function initialize()
-    { parent::initialize();
+    {
+      parent::initialize();
       $this->company =  Company::findFirst(array("user_id = {$this->session->get('user-id')}"));
-
     }
     public function indexAction()
     {
-
       $this->view->name = $this->company->name;
       $this->view->description = $this->company->description;
       $this->view->longitude  =  $this->company->longitude;
       $this->view->latitude  =  $this->company->latitude;
       $this->view->location = $this->company->location;
       $this->view->zoom   = $this->company->zoom;
-      $this->view->company_foto =$this->company->logo;
+      $this->view->company_foto = $this->company->logo;
       $this->view->website = $this->company->website;
-
     }
     public function saveAction()
     {

@@ -67,7 +67,7 @@ class ControllerBase extends \Phalcon\Mvc\Controller
         !='company') {
             $company =  Company::findFirst(array("user_id = {$this->session->get('user-id')}"));
 
-              if ($company->name == null) {
+              if ($company->getName() == null) {
 
                 $this->flash->notice("Please enter all your company information &nbsp;&nbsp;<a href=/company class='btn btn-small btn-primary'> click here</a>");
 
