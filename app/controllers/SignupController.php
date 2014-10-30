@@ -98,7 +98,7 @@ class SignupController extends ControllerBase
 
                 }else if($user->getUserType() == "employee")
                 {
-                  $this->dispatcher->forward(array("controller"=>"employee","action"=>"option"));
+                  $this->dispatcher->forward(array("controller"=>"employee","action"=>"options"));
                 }
 
                 $this->dispatcher->forward(array("controller" => "login", "action" => "index"));
