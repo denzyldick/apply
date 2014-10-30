@@ -6,7 +6,7 @@ class SignupController extends ControllerBase
     }
     public function employerAction()
     {
-        
+
     }
     public function employeeAction()
     {
@@ -91,6 +91,16 @@ class SignupController extends ControllerBase
 
 
                 $this->flash->success("Your account has been created.");
+                $this->check($user->getEmail(),$password,null);
+                if($user->getUserType() == "employer")
+                {
+                  $this->dispatcher->foward(array("controler"=>"company"));
+
+                }else if($user->getUserType() == "employee")
+                {
+                  $this->dispatcher->forward(array("controller"=>"employee","action"=>"option"));
+                }
+
                 $this->dispatcher->forward(array("controller" => "login", "action" => "index"));
             }else if($user->save() == false)
             {$this->flash->notice($this->lang->_('user_already_exsists'));
