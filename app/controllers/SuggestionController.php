@@ -34,7 +34,7 @@ class SuggestionController extends ControllerBase
   public function vacancyAction($vacancy_id,$suggestion_id)
   {
     $this->view->vacancy = Vacancy::findFirst($vacancy_id);
-    $this->view->suggestion = Suggestion::findFirst($suggestion_id);
+    $this->view->suggestion = Matches::findFirst($suggestion_id);
   }
 
     public function indexAction()

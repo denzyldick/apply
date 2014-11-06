@@ -3,13 +3,7 @@
 
 sudo apt-get update
 
-sudo apt-get install -y php5-dev  php5-common open-ssl libpcre3-dev gcc make php5-mysql php5-memcached memcached;
-#
-# MySQL with root:<no password>
-#
-export DEBIAN_FRONTEND=noninteractive
-apt-get -q -y install mysql-server
-
+sudo apt-get install -y php5-dev  php5-common libpcre3-dev gcc make php5-mysql php5-memcached memcached;
 
 
 #
