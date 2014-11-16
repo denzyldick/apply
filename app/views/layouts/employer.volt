@@ -1,5 +1,5 @@
 {% extends "templates/base.volt" %}
-{% block title %}Appply{% endblock %}
+{% block title %}{{ config.company.name }}{% endblock %}
 
 {% block content %}
 

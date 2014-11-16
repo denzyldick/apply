@@ -86,5 +86,10 @@ $messages = array(
     'you_can_now_connect'=>'You can now connect.',
     'you_cant_edit_the_vacancy_after_saving_it'=>'You can\'t edit the vacancy after saving it',
     'login'=>'login',
-    'sign_up'=>'sign up'
+    'sign_up'=>'sign up',
+    'about_us'=>'About us',
+    'searching_for_employees'=>'Searching for employees',
+    'searching_for_jobs'=>'searching for jobs',
+    'what_are_you_looking_for'=>'What brings you here?'
+
 );
