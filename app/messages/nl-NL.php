@@ -86,5 +86,11 @@ $messages = array(
     'you_can_now_connect'=>'You can now connect.',
     'you_cant_edit_the_vacancy_after_saving_it'=>'You can\'t edit the vacancy after saving it',
     'login'=>'login',
-    'sign_up'=>'sign up'
+    'sign_up'=>'sign up',
+    'how_many_years_of_experience_do_you_have'=>'Hoeveel jaar ervaring heb je?',
+    'how_many_years_of_experience_are_you_looking_for'=>'Naar hoeveel jaar ervaring ben je op zoek?',
+    '0_years'=>'minder dan 1 jaar',
+    '5_years'=>'5 jaar of meer'
+
+
 );

@@ -90,6 +90,9 @@ $messages = array(
     'about_us'=>'About us',
     'searching_for_employees'=>'Searching for employees',
     'searching_for_jobs'=>'searching for jobs',
-    'what_are_you_looking_for'=>'What brings you here?'
-
+    'what_are_you_looking_for'=>'What brings you here?',
+    'how_many_years_of_experience_do_you_have'=>'How many years of experience do you have?',
+    'how_many_years_of_experience_are_you_looking_for'=>'How many years of experience are you looking for?',
+    '0_years'=>'less then 1 year',
+    '5_years'=>'5 years or more'
 );

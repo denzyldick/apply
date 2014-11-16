@@ -369,3 +369,31 @@ img::-moz-selection {
 body {
     webkit-tap-highlight-color: rgba(255,255,255,.2);
 }
+
+.question_header {
+    font-size: 41px;
+    font-weight: lighter;
+    text-align: center;
+    background-color: #464848;
+    height: 60px;
+    margin-left: -20px;
+    margin-right: -20px;
+}
+.header {
+    font-size: 41px;
+    font-weight: lighter;
+    text-align: center;
+    background-color: #464848;
+    height: 60px;
+    margin-left: -20px;
+    margin-right: -20px;
+}
+
+
+.awesome_well {
+    text-shadow: black 1px 1px !important;
+    color: #fff;
+    background-color: rgb(87, 119, 202);
+    padding: 20px;
+    padding-top: 0px;
+}

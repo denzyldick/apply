@@ -29,13 +29,6 @@
         margin-right: 50px;
     }
 
-    .awesome_well {
-        text-shadow: black 1px 1px !important;
-        color: #fff;
-        background-color: rgb(87, 119, 202);
-        padding: 20px;
-        padding-top: 0px;
-    }
 
     h2 {
         color: #fff;

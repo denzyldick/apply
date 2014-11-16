@@ -20,10 +20,7 @@ class ControllerBase extends \Phalcon\Mvc\Controller
     ->setTargetPath('final.js')
     ->setTargetUri('final.js')
 
-    ->addJs('js/grayscale.js')
-
-    ->join(false)
-    ->addFilter(new Phalcon\Assets\Filters\Jsmin());
+    ->addJs('js/grayscale.js');
 
     $this->assets
     ->collection('jsheader')
