@@ -32,8 +32,8 @@
 
     var myPie = new Chart(ctx).Doughnut(pieData,{percentageInnerCutout : 60});</script>
 
-   <h4>{{suggestion.vacancy.getFunction() }}</h4>
-    <small>{{  suggestion.vacancy.user.company.getName() }}</small>
+   <h4>{{suggestion.vacancy.getFunction() |uppercase |e}}</h4>
+    <small>{{  suggestion.vacancy.user.company.getName()|escape }}</small>
           <br/>
           <a href="/suggestion/accept/{{suggestion.getId()}}" class="btn btn-small btn-primary"><span style="color: #Fff;" class="glyphicon glyphicon-ok"></span> {{this.lang._("accept")}}</a>&nbsp;<a href="/suggestion/remove/{{suggestion.getId()}}" class="btn btn-small btn-danger"><span class="glyphicon glyphicon-remove" style="color:#fff;" ></span> {{this.lang._("decline")}}</a>
         </div>
