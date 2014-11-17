@@ -1,15 +1,1 @@
-### Cache ###
-/app/cache/
-
-
-### Vagrant ###
-.vagrant/
-
-### Phalcon ####
-.phalcon/
-### Mysql Workbench backup file ###
-EER-diagram.mwb.bak
-### Files folder ###
-public/files/
-
-app/cache
+# Created by .gitignore support plugin (hsz.mobi)
