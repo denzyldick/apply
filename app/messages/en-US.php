@@ -94,5 +94,8 @@ $messages = array(
     'how_many_years_of_experience_do_you_have'=>'How many years of experience do you have?',
     'how_many_years_of_experience_are_you_looking_for'=>'How many years of experience are you looking for?',
     '0_years'=>'less then 1 year',
-    '5_years'=>'5 years or more'
+    '5_years'=>'5 years or more',
+    'visit_site'=>'visit site',
+    'we_are_located_somewhere_in_this_area'=>' Is located somewhere in this area',
+    'years_of_expertise'=>'Years of expertise needed'
 );
