@@ -78,6 +78,7 @@
                     $user->setType($type);
                     $user->setValidated('no');
                     $user->setVacancyCount(3);
+                    $user->setSignupDate($this->getCurrentTime);
 
                     $location = new Location();
                     $location->setLongitude(0);

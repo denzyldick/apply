@@ -3,7 +3,7 @@
 //app/messages/en.php
 $messages = array(
 
-    "overview"=> "Overiew",
+    "overview"=> "Overview",
     "company"=>"Company",
     "vacancy"=>"Vacancy",
     "add_skills"=> "Please enter your skills so you can find a job ",
@@ -66,7 +66,7 @@ $messages = array(
     'accepted'=>'accepted',
     'upgrade_your_account'=>'Upgrade your account',
     'receipt_subject' => 'Payment receipt',
-    'receipt_introduction'=> 'Hi %s, for upgrading your account.',
+    'receipt_introduction'=> 'Hi %s, thank you for upgrading your account.',
     'receipt_body'=>'blablal abla<br/>geaga',
     'footer' => "&copy; 2014 ",
     'registration_completed' => 'Your account has been created. You can now login to start using the service.',

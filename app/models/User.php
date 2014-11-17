@@ -1,10 +1,7 @@
 <?php
 
 use Phalcon\Mvc\Model\Validator\Email as Email;
-use Phalcon\Mvc\Model\Validator\InclusionIn;
 use Phalcon\Mvc\Model\Validator\Uniqueness;
-
-
 class User extends \Phalcon\Mvc\Model
 {
 
@@ -103,6 +100,12 @@ class User extends \Phalcon\Mvc\Model
      * @var integer
      */
     protected $location_diameter;
+
+    /**
+     *
+     * @var string
+     */
+    protected $signup_date;
 
     /**
      * Method to set the value of field id
@@ -313,6 +316,19 @@ class User extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Method to set the value of field signup_date
+     *
+     * @param string $signup_date
+     * @return $this
+     */
+    public function setSignupDate($signup_date)
+    {
+        $this->signup_date = $signup_date;
+
+        return $this;
+    }
+
+    /**
      * Returns the value of field id
      *
      * @return integer
@@ -471,6 +487,16 @@ class User extends \Phalcon\Mvc\Model
     {
         return $this->location_diameter;
     }
+
+    /**
+     * Returns the value of field signup_date
+     *
+     * @return string
+     */
+    public function getSignupDate()
+    {
+        return $this->signup_date;
+    }
     public function validation()
     {
 
@@ -506,7 +532,6 @@ class User extends \Phalcon\Mvc\Model
 
         return false;
     }
-
     public function initialize()
     {
       $this->hasOne("location_id","Location","id");
