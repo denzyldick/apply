@@ -6,7 +6,7 @@
     <div class="col-md-3"> <img src="/files/{{ company.getLogo() }}" style="width: 256px;
 height: 203px;" class="img-thumbnail" /><br/>
         <a href="{{ company.getWebsite() }}" class="text-info">{{ lang._("visit_site") }}</a></div>
-    <div class="col-md-6 text-uppercase"><h1 class=" page-header">{{ company.getName()|e }}&nbsp;<small>{{ vacancy.getFunction() }}</small></h1>
+    <div class="col-md-6 text-uppercase" style="overflow-y: scroll;height:200px;"><h1 class=" page-header">{{ company.getName()|e }}&nbsp;<small>{{ vacancy.getFunction() }}</small></h1>
    <small>{{ company.getDescription() }}</small></div>
 </div>
 <br/>
