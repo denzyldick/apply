@@ -21,14 +21,14 @@ class CompanyController extends ControllerBase
     }
     public function indexAction()
     {
-      $this->view->name = $this->company->name;
-      $this->view->description = $this->company->description;
-      $this->view->longitude  =  $this->company->longitude;
-      $this->view->latitude  =  $this->company->latitude;
-      $this->view->location = $this->company->location;
-      $this->view->zoom   = $this->company->zoom;
-      $this->view->company_foto = $this->company->logo;
-      $this->view->website = $this->company->website;
+      $this->view->name = $this->company->getName();
+      $this->view->description = $this->company->getDescription();
+      $this->view->longitude  =  $this->company->getLongitude();
+      $this->view->latitude  =  $this->company->getLatitude();
+      $this->view->location = $this->company->getLocation();
+      $this->view->zoom   = $this->company->getZoom();
+      $this->view->company_foto = $this->company->getLogo();
+      $this->view->website = $this->company->getWebsite();
     }
     public function saveAction()
     {
