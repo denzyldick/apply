@@ -98,7 +98,6 @@ class SuggestionController extends ControllerBase
     public function declineAction($match)
     {
       $match =  Matches::findFirst($match);
-
       $match->setSoftdeleted('yes');
           if ($match->save() ==  true) {
 
