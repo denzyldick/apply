@@ -10,7 +10,7 @@
 
 
 <div class="col-xs-6 col-sm-3 placeholder text-center masuggestiontch well" style="margin: 10px;width: 259px;"  >
-     <a href="/suggestion/vacancy/{{suggestion.vacancy.getId()}}">
+     <a href="/suggestion/vacancy/{{suggestion.vacancy.getId()}}/{{ suggestion.getId() }}">
        <canvas id="donuts{{suggestion.vacancy.getId()}}"  height="200" width="200" ></canvas>
 
 </a>
@@ -35,7 +35,7 @@
    <h4>{{suggestion.vacancy.getFunction() |uppercase |e}}</h4>
     <small>{{  suggestion.vacancy.user.company.getName()|escape }}</small>
           <br/>
-          <a href="/suggestion/accept/{{suggestion.getId()}}" class="btn btn-small btn-primary"><span style="color: #Fff;" class="glyphicon glyphicon-ok"></span> {{this.lang._("accept")}}</a>&nbsp;<a href="/suggestion/remove/{{suggestion.getId()}}" class="btn btn-small btn-danger"><span class="glyphicon glyphicon-remove" style="color:#fff;" ></span> {{this.lang._("decline")}}</a>
+          <a href="/suggestion/accept/{{suggestion.getId()}}" class="btn btn-small btn-primary"><span style="color: #Fff;" class="glyphicon glyphicon-bell"></span> {{this.lang._("nudge")}}</a>&nbsp;<a href="/suggestion/remove/{{suggestion.getId()}}" class="btn btn-small btn-default"><span class="glyphicon glyphicon-remove" style="color:#fff;" ></span> {{this.lang._("decline")}}</a>
         </div>
 
 <script>

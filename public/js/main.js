@@ -35,16 +35,16 @@ animationSteps: 60,
 animationEasing: "easeOutQuart",
 
 // Boolean - If we should show the scale at all
-showScale: false,
+showScale: true,
 
 // Boolean - If we want to override with a hard coded scale
-scaleOverride: false,
+scaleOverride: true,
 
 // ** Required if scaleOverride is true **
 // Number - The number of steps in a hard coded scale
-scaleSteps: 1,
+scaleSteps: 5,
 // Number - The value jump in the hard coded scale
-scaleStepWidth: null,
+scaleStepWidth: 10,
 // Number - The scale starting value
 scaleStartValue: 0,
 
@@ -61,19 +61,19 @@ scaleShowLabels: true,
 scaleLabel: "<%=value%>",
 
 // Boolean - Whether the scale should stick to integers, not floats even if drawing space is there
-scaleIntegersOnly: true,
+scaleIntegersOnly: false,
 
 // Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
 scaleBeginAtZero: false,
 
 // String - Scale label font declaration for the scale label
-scaleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+scaleFontFamily: "'Arial', 'Helvetica', 'Arial', sans-serif",
 
 // Number - Scale label font size in pixels
 scaleFontSize: 18,
 
 // String - Scale label font weight style
-scaleFontStyle: "normalx",
+scaleFontStyle: "normal",
 
 // String - Scale label font colour
 scaleFontColor: "#666",
@@ -88,7 +88,7 @@ maintainAspectRatio: true,
 showTooltips: true,
 
 // Array - Array of string names to attach tooltip events
-tooltipEvents: ["mousemove", "touchstart", "touchmove"],
+tooltipEvents: ["click", "touchstart", "touchmove"],
 
 // String - Tooltip background colour
 tooltipFillColor: "rgba(0,0,0,0.8)",
@@ -97,16 +97,16 @@ tooltipFillColor: "rgba(0,0,0,0.8)",
 tooltipFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
 
 // Number - Tooltip label font size in pixels
-tooltipFontSize: 14,
+tooltipFontSize: 30,
 
 // String - Tooltip font weight style
 tooltipFontStyle: "normal",
 
 // String - Tooltip label font colour
-tooltipFontColor: "#fff",
+tooltipFontColor: "#fff;",
 
 // String - Tooltip title font declaration for the scale label
-tooltipTitleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+tooltipTitleFontFamily: " 'Helvetica', 'Arial', sans-serif",
 
 // Number - Tooltip title font size in pixels
 tooltipTitleFontSize: 14,
@@ -115,7 +115,7 @@ tooltipTitleFontSize: 14,
 tooltipTitleFontStyle: "normal",
 
 // String - Tooltip title font colour
-tooltipTitleFontColor: "#fff",
+tooltipTitleFontColor: "#000",
 
 // Number - pixel width of padding around tooltip text
 tooltipYPadding: 6,
@@ -130,7 +130,9 @@ tooltipCaretSize: 8,
 tooltipCornerRadius: 6,
 
 // Number - Pixel offset from point x to tooltip edge
-tooltipXOffset: 10,
+tooltipXOffset: 10
+    ,
+    tooltipTemplate: "<%= value %>",
 
 
 // Function - Will fire on animation progression.
