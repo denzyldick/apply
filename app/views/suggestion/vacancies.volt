@@ -9,11 +9,13 @@
  {% set company = suggestion.vacancy.user.company %}
 
 
-<div class="col-xs-6 col-sm-3 placeholder text-center masuggestiontch well" style="margin: 10px;width: 259px;"  >
+<div class="col-xs-6 col-sm-3 placeholder text-center  well" style="margin: 10px;width: 259px;"  >
+
      <a href="/suggestion/vacancy/{{suggestion.vacancy.getId()}}/{{ suggestion.getId() }}">
        <canvas id="donuts{{suggestion.vacancy.getId()}}"  height="200" width="200" ></canvas>
 
 </a>
+
 <script>
   var pieData = [
         {
@@ -31,7 +33,7 @@
 
 
     var myPie = new Chart(ctx).Doughnut(pieData,{percentageInnerCutout : 60});</script>
-
+    <span class="percent-indicator">{{ suggestion.getPercent() }}%</span>
    <h4>{{suggestion.vacancy.getFunction() |uppercase |e}}</h4>
     <small>{{  suggestion.vacancy.user.company.getName()|escape }}</small>
           <br/>
@@ -185,7 +187,7 @@ scaleLineColor: "rgba(0,0,0,.1)",
 scaleLineWidth: 1,
 
 // Boolean - Whether to show labels on the scale
-scaleShowLabels: true,
+scaleShowLabels: false,
 
 // Interpolated JS string - can access value
 scaleLabel: "<%=value%>",
@@ -215,7 +217,7 @@ responsive: false,
 maintainAspectRatio: true,
 
 // Boolean - Determines whether to draw tooltips on the canvas or not
-showTooltips: true,
+showTooltips: false,
 
 // Array - Array of string names to attach tooltip events
 tooltipEvents: ["mousemove", "touchstart", "touchmove"],

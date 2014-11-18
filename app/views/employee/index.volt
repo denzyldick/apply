@@ -1,3 +1,4 @@
+
 <h1 class="page-header">
       {{ amount}}
         <p class="lead">{{lang._('you_can_now_connect')}}</p>

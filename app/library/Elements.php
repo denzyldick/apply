@@ -21,6 +21,7 @@ class Elements extends Component
     {
     $this->di =  $di;
     $this->employeeMenu = array(
+            "<span class='glyphicon glyphicon-bell' id='notification'></span><div class='label label-arrow label-arrow-left' style='background-color: #FE0001'>1</div>"=>'',
             $this->lang->_("overview")=>"/employee",
             $this->lang->_("suggestions")=>"/suggestion"
     );

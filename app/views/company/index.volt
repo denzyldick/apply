@@ -28,7 +28,7 @@ background-position: 50px;">
 <input type="button" class="gllpSearchButton btn btn-sm btn-primary" style="float: left;margin-left:5px;margin-top:2px;" value="search">
 
 <p>  &nbsp;</p>
-  <div class="gllpMap well"><img src='/img/ajax-loader.gif'/></div>
+  <div class="gllpMap well " style="text-align: center;"><img src='/img/ajax-loader.gif' /></div>
   {{hidden_field("longitude","class":"gllpLongitude","value":longitude)}}
   {{hidden_field("latitude","class":"gllpLatitude","value":latitude)}}
   {{hidden_field("zoom","class":"gllpZoom","value":zoom)}}

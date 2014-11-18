@@ -67,7 +67,6 @@ class PercentCalculator extends Plugin{
 
       $common_skills  = $this->matchCommonSkills($vacancy_skills,$user_skills);
 
-    //echo "vacancy: ".count($vacancy_skills) . var_dump($vacancy_skills)." User: ".count($user_skills).var_dump($user_skills)." Common: ".count($common_skills).var_dump($common_skills)."<br/><hr/>";
 
     return $common_skills['percent'] = floor(count($common_skills)/count($vacancy_skills) *100);
 
