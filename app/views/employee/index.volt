@@ -19,7 +19,7 @@
         {% endif %}
         {% if suggestion.getEmployerAccepted() == 'no' and suggestion.getEmployeeAccepted() == 'yes' %}
 
-          <a href="#" class="btn btn-small btn-primary disabled"><span style="color: #Fff;" class="glyphicon glyphicon-ok"></span> {{this.lang._("pending")}}</a>&nbsp;<a href="/suggestion/decline/{{suggestion.getId()}}" class="btn btn-small btn-danger"><span class="glyphicon glyphicon-remove" style="color:#fff;" ></span> {{this.lang._("decline")}}</a>
+          <a href="#" class="btn btn-small btn-primary disabled"><span class="glyphicon glyphicon-ok"></span> {{this.lang._("pending")}}</a>&nbsp;<a href="/suggestion/decline/{{suggestion.getId()}}" class="btn btn-small btn-danger"><span class="glyphicon glyphicon-remove" style="color:#fff;" ></span> {{this.lang._("decline")}}</a>
         {% endif %}
 
 </div>

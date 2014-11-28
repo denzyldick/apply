@@ -97,5 +97,8 @@ $messages = array(
     '5_years'=>'5 years or more',
     'visit_site'=>'visit site',
     'we_are_located_somewhere_in_this_area'=>' Is located somewhere in this area',
-    'years_of_expertise'=>'Years of expertise needed'
+    'years_of_expertise'=>'Years of expertise needed',
+    'accounts_settings'=>'Account setting',
+    'welcome_message'=>'login',
+    'market_place' =>'Upgrades'
 );

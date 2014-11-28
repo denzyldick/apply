@@ -12,7 +12,7 @@
 "> <h4>{{match.vacancy.getFunction() }}</h4>
 							<span class="text-muted">{{match.getPercent()}}% match</span>
 							<br/>
-							<a href="/user/{{match.getUserId()}}" class="btn btn-small btn-primary"><span style="color: #Fff;" class="glyphicon glyphicon-ok"></span> accept</a>&nbsp;<a href="/matches/remove/{{match.getId()}}" class="btn btn-small btn-danger"><span class="glyphicon glyphicon-remove" style="color:#fff;" ></span> decline</a>
+							<a href="/user/{{match.getUserId()}}" class="btn btn-small btn-primary"><span  class="glyphicon glyphicon-ok"></span> accept</a>&nbsp;<a href="/matches/remove/{{match.getId()}}" class="btn btn-small btn-danger"><span class="glyphicon glyphicon-remove"  ></span> decline</a>
 						</div>
 {% endfor %}
 

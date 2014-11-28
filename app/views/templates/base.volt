@@ -10,10 +10,11 @@
 	width:100%;
 }
 </style>
+
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" href="/css/bootstrap-tagsinput.css" />
     <link href="/bootstrap/fonts/font-awesome.min.css" rel="stylesheet" type="text/css">
-		<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
    	<link rel="stylesheet" type="text/css" href="/css/socialicious.css" media="screen" />
 		<link rel="stylesheet" href="/css/style.css" type="text/css">
 		<link rel="stylesheet" href="/slider/css/slider.css" type="text/css">

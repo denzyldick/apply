@@ -177,4 +177,10 @@ class Notification extends \Phalcon\Mvc\Model
         return $this->sender;
     }
 
+    public function initialize()
+    {
+        $this->belongsTo('receiver','user','id');
+        $this->hasOne('sender','user','id');
+    }
+
 }

@@ -2,7 +2,7 @@
 <div class='row'>
   {% if remaining_vacancy > 0 %}
 
-<a href="/vacancy/new" class="btn btn-small btn-primary"><span class="glyphicon glyphicon-plus" style="color:#fff"></span> {{lang._('add_vacancy')}}</a>&nbsp;<br/><small>remaining vacancy {{remaining_vacancy}}</small>
+<a href="/vacancy/new" class="btn btn-small btn-primary"><span class="glyphicon glyphicon-plus"></span> {{lang._('add_vacancy')}}</a>&nbsp;<br/><small>remaining vacancy {{remaining_vacancy}}</small>
 
   {% endif %}
 

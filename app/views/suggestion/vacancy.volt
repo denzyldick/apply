@@ -13,12 +13,12 @@ height: 203px;" class="img-thumbnail" /><br/>
 <div class="row">
     <div class="col-md-3">
         {%  if suggestion.getEmployerAccepted() == 'yes' and suggestion.getEmployeeAccepted() == 'yes'%}
-            <a href="/contact/{{suggestion.getId()}}" class="btn btn-small btn-primary"><span style="color: #Fff;" class="glyphicon glyphicon-email"></span> {{this.lang._("contact")}}</a
+            <a href="/contact/{{suggestion.getId()}}" class="btn btn-small btn-primary"><span class="glyphicon glyphicon-email"></span> {{this.lang._("contact")}}</a
         {% endif %}
         {%  if suggestion.getEmployerAccepted() == 'no'and suggestion.getEmployeeAccepted() == 'yes' %}
-            <a href="/suggestion/accept/{{suggestion.getId()}}" class="btn btn-small btn-primary"><span style="color: #Fff;" class="glyphicon glyphicon-ok"></span> {{this.lang._("accept")}}</a>&nbsp;<a href="/suggestion/remove/" class="btn btn-small btn-default"><span class="glyphicon glyphicon-remove" style="color:#fff;" ></span> {{this.lang._("decline")}}</a>
+            <a href="/suggestion/accept/{{suggestion.getId()}}" class="btn btn-small btn-primary"><span  class="glyphicon glyphicon-ok"></span> {{this.lang._("accept")}}</a>&nbsp;<a href="/suggestion/remove/" class="btn btn-small btn-default"><span class="glyphicon glyphicon-remove"  ></span> {{this.lang._("decline")}}</a>
         {% else %}
-            <a href="/suggestion/accept/{{suggestion.getId()}}" class="btn btn-small btn-primary disabled"><span style="color: #Fff;" class="glyphicon glyphicon-time "></span> {{this.lang._("pending")}}</a>&nbsp;<a href="/suggestion/remove" class="btn btn-small btn-default"><span class="glyphicon glyphicon-remove" style="color:#fff;" ></span> {{this.lang._("decline")}}</a>
+            <a href="/suggestion/accept/{{suggestion.getId()}}" class="btn btn-small btn-primary disabled"><span class="glyphicon glyphicon-time "></span> {{this.lang._("pending")}}</a>&nbsp;<a href="/suggestion/remove" class="btn btn-small btn-default"><span class="glyphicon glyphicon-remove" ></span> {{this.lang._("decline")}}</a>
         {% endif %}
 
     </div>

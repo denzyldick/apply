@@ -1,32 +1,37 @@
-
 <body class="intro" style="width:100%;height:100%;position:relative;">
-<div class=awesome_well style="width:500px;margin:0px auto;">
-    <div class="header" style="margin-bottom: 5px;">Login to your Account</div>
-	<form action="/login/login" method="post">
-        <div class="row">
-            <div class="col-md-6 text-uppercase " ><h2 style="color:#fff">email</h2></div><div class="col-md-6"><input class=form-control type=text placeholder="E-mail" name='email'/>
-            </div>
-        </div>
+<div class=well style="width:500px;margin:0px auto;">
+    <fieldset>
 
-        <div class="row">
-            <div class="col-md-6 text-uppercase"><h2 style="color:#fff">password</h2></div><div class="col-md-6"><input class=form-control type=password placeholder="Password" name='password'/
+
+        <legend>{{ lang._("welcome_message") }}</legend>
+        <form action="/login/login" method="post">
+
+            <div class="form-group">
+                <label for="inputEmail" class="col-lg-2 control-label">{{ lang._("email") }}</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" id="inputEmail" placeholder="{{ lang._("email") }}" name="email">
+                </div>
             </div>
-        </div>
-<div class="row">
-    <div class="md-col-11 pull-left">
-        <input type="checkbox" id="remember" value="yes" /> Remember me</div>
+
+            <div class="form-group">
+                <label for="inputPassword" class="col-lg-2 control-label">{{ lang._("password") }}</label>
+                <div class="col-lg-10">
+                    <input type="password" class="form-control" id="inputPassword"  name="password" placeholder="{{ lang._("password") }}">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"> {{ lang._("remember_me") }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-10 col-lg-offset-2">
+                    <button class="btn btn-default">{{ lang._("forgot_password") }}</button>
+                    <button type="submit" class="btn btn-primary">{{ lang._("login") }}</button>
+                </div>
+            </div>
+        </form>
+    </fieldset>
 </div>
-        <div class="row">
-            <div class="col-md-6"><a href="/login/forgotpassword" class="btn btn-default">{{lang._('forgot_password')}}</a>
-                <input type="submit" value="Login" class="btn btn-small btn-primary" ></div>
-            {#<div class="col-md-6"><i class="icon-2x icon-facebook-sign"></i>&nbsp;<i class="icon-2x icon-linkedin-sign"></i>&nbsp;<i class="icon-2x icon-googleplus-sign"></i>#}
-            </div>
-
-
-
-
-</form>
-</div>
-
-    <div class="alert alert-danger" id="alert"></div>
+<div class="alert alert-danger" id="alert"></div>
 </body>

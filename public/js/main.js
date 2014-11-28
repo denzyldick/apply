@@ -144,3 +144,17 @@ onAnimationProgress: function(){},
 onAnimationComplete: function(){}
 
 };
+
+
+$(document).ready(function()
+{
+    //Notification
+    $.get("/notification",function(response)
+    {
+        //var count = response.length;
+        //console.log(count);
+        console.log(JSON.stringify(response));
+       // $("body").html(response);
+    });
+
+});

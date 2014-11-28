@@ -5,34 +5,21 @@
 
     }
 
-    .question_header {
-        font-size: 41px;
-        font-weight: lighter;
-        text-align: center;
-        background-color: #464848;
-        height: 60px;
-        margin-left: -20px;
-        margin-right: -20px;
-    }
 
-    .answers {
-        text-align: center;
-        padding-top: 30px;
-        margin-bottom: 20px;
-    }
 
     input {
-        max-width: 600px;
+        max-width: 300px;
     }
-
+    .well{
+        max-width:600px;
+        margin: 0px auto;
+        text-align:center;
+    }
     .btn-next {
         margin-right: 50px;
     }
 
 
-    h2 {
-        color: #fff;
-    }
 
 </style>
 <script>
@@ -48,16 +35,14 @@
 
 
 </script>
-<div class='awesome_well'>
+<div class="well">
     <form action="/signup/start" method=post>
         <div id='question_1'>
-            <div class='row question_header'>
+            <div class='row '>
+                <fieldset>
 
-                {{ lang._("what_are_you_looking_for")|upper }}
-            </div>
-            <div class='row'>
-                <div class="col-md-9 col-md-offset-3">
-                    <br/>
+                   <legend> {{ lang._("what_are_you_looking_for")|upper }}</legend>
+
 
                     <div class="btn-group btn-next" data-toggle="buttons">
                         <label class="btn btn-lg btn-primary">
@@ -68,6 +53,15 @@
                         </label>
 
                     </div>
+
+
+                </fieldset>
+
+            </div>
+            <div class='row'>
+                <div class="col-md-9 col-md-offset-3">
+                    <br/>
+
                 </div>
 
             </div>
@@ -75,53 +69,54 @@
         </div>
 
         <div id='question_2'>
-            <div class="row question_header page-header">Fill out</div>
-            <div class=' row'>
-
-                <div class="col-md-5 text-uppercase"><h2>firstname</h2></div>
-                <div class="col-md-7"><input type='text' class='form-control input-lg' name=firstname placeholder='Heli'/></div>
+           <fieldset>
 
 
+               <legend>{{ lang._("personal_information") }}</legend>
+
+               <div class="form-group">
+                   <label for="firstname" class="col-lg-2 control-label">{{ lang._("firstname") }}</label>
+                   <div class="col-10-lg"><input type='text' class='form-control input-lg' name=firstname placeholder='Heli'/></div>
+               </div>
+               <div class="form-group"><label class="col-lg-2 control-label" for="lastname">{{ lang._("lastname") }}</label>
+
+                   <div class="col-10-lg"><input type='text' class='form-control input-lg' name='lastname'
+                                                 placeholder='kopter'/></div>
+               </div>
+
+               <div class="form-group"><label class="col-lg-2 control-label" for="email">{{ lang._("email") }}</label>
+
+                   <div class="col-10-lg"><input type='text' class='form-control input-lg' name='email'
+                                                 placeholder='Helikopter@fly.com'/></div>
+               </div>
+
+               <div class="form-group"><label class="col-lg-2 control-label" for="password">{{ lang._("password") }}</label>
+
+                   <div class="col-10-lg"><input type='password' class='form-control input-lg' name='password'/></div>
+               </div>
+
+               <div class="form-group"><label class="col-lg-2 control-label" for="password">{{ lang._("re_password") }}</label>
+
+                   <div class="col-10-lg"><input type='password' class='form-control input-lg' name='re_password'/></div>
+               </div>
+
+           </fieldset>
+
+    <div>            <div>  <button class='btn btn-primary btn-lg btn-next  pull-right'>{{ lang._("next") }}</button>&nbsp;
+                <p></p>
+            </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-5 text-uppercase"><h2>lastname</h2></div>
-                <div class="col-md-7"><input type='text' class='form-control input-lg' name='lastname'
-                                             placeholder='kopter'/></div>
 
-            </div>
-
-
-            <div class='row'>
-                <div class="col-md-5 text-uppercase"><h2>email</h2></div>
-                <div class="col-md-7"><input type='text' class='form-control input-lg' name='email'
-                                             placeholder='Helikopter@fly.com'/></div>
-            </div>
-
-            <div class="row">
-
-                <div class="col-md-5 text-uppercase"><h2>password</h2></div>
-                <div class="col-md-7"><input type='password' class='form-control input-lg' name='password'/></div>
-
-            </div>
-            <div class="row">
-
-                <div class="col-md-5 text-uppercase"><h2>retype password</h2></div>
-                <div class="col-md-7"><input type='password' class='form-control input-lg' name='re_password'/></div>
-            </div>
-            <div class="row">
-                <br/>
-                <div>
-                <button class='btn btn-default btn-lg btn-next  pull-right'>Next</button>
-                    </div>
-            </div>
         </div>
 
         <div id='question_3'>
 
-            <div class='row question_header'>
-                Almost done !
-            </div>
+
+
+                <fieldset>
+                    <legend>{{ lang._("almost_done") }}</legend>
+
             <div class="row" style="text-align: center">
 
                 <div style="
@@ -130,7 +125,7 @@ max-width: 100%;
 margin-top: 10px;
 color: black;
 text-shadow: none;
-font-size: 23px;
+font-size: 10px;
 padding: 2px;
 font-weight: lighter;
 font-family: fantasy;
@@ -230,8 +225,9 @@ overflow-y: scroll;"><div class="container terms">
                 <p></p>
                 <button class='btn btn-default btn-lg' type="submit">I'm done</button>
             </div>
+                </fieldset>
 
-        </div>
+
 
     </form>
 </div>

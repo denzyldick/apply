@@ -1,5 +1,5 @@
 {% extends "templates/base.volt" %}
-{% block title %} {{ lang._("account_settings") }}{% endblock %}
+{% block title %} {{ lang._("accounts_settings") }}{% endblock %}
 {% block content %}
     <form method="post" action="settings/save">
 <h1>{{ lang._("account_settings") }}</h1>
