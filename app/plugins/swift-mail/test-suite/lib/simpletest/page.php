@@ -1,14 +1,14 @@
 <?php
 /**
  *  Base include file for SimpleTest
- *  @package    SimpleTest
- *  @subpackage WebTester
- *  @version    $Id: page.php 1786 2008-04-26 17:32:20Z pp11 $
+ * @package    SimpleTest
+ * @subpackage WebTester
+ * @version    $Id: page.php 1786 2008-04-26 17:32:20Z pp11 $
  */
 
 /**#@+
-    *   include other SimpleTest class files
-    */
+ *   include other SimpleTest class files
+ */
 require_once(dirname(__FILE__) . '/http.php');
 require_once(dirname(__FILE__) . '/parser.php');
 require_once(dirname(__FILE__) . '/tag.php');
@@ -19,31 +19,33 @@ require_once(dirname(__FILE__) . '/selector.php');
 /**
  *    Creates tags and widgets given HTML tag
  *    attributes.
- *    @package SimpleTest
- *    @subpackage WebTester
+ * @package SimpleTest
+ * @subpackage WebTester
  */
-class SimpleTagBuilder {
+class SimpleTagBuilder
+{
 
     /**
      *    Factory for the tag objects. Creates the
      *    appropriate tag object for the incoming tag name
      *    and attributes.
-     *    @param string $name        HTML tag name.
-     *    @param hash $attributes    Element attributes.
-     *    @return SimpleTag          Tag object.
-     *    @access public
+     * @param string $name HTML tag name.
+     * @param hash $attributes Element attributes.
+     * @return SimpleTag          Tag object.
+     * @access public
      */
-    function createTag($name, $attributes) {
+    function createTag($name, $attributes)
+    {
         static $map = array(
-                'a' => 'SimpleAnchorTag',
-                'title' => 'SimpleTitleTag',
-                'base' => 'SimpleBaseTag',
-                'button' => 'SimpleButtonTag',
-                'textarea' => 'SimpleTextAreaTag',
-                'option' => 'SimpleOptionTag',
-                'label' => 'SimpleLabelTag',
-                'form' => 'SimpleFormTag',
-                'frame' => 'SimpleFrameTag');
+            'a' => 'SimpleAnchorTag',
+            'title' => 'SimpleTitleTag',
+            'base' => 'SimpleBaseTag',
+            'button' => 'SimpleButtonTag',
+            'textarea' => 'SimpleTextAreaTag',
+            'option' => 'SimpleOptionTag',
+            'label' => 'SimpleLabelTag',
+            'form' => 'SimpleFormTag',
+            'frame' => 'SimpleFrameTag');
         $attributes = $this->keysToLowerCase($attributes);
         if (array_key_exists($name, $map)) {
             $tag_class = $map[$name];
@@ -57,12 +59,28 @@ class SimpleTagBuilder {
     }
 
     /**
-     *    Factory for selection fields.
-     *    @param hash $attributes    Element attributes.
-     *    @return SimpleTag          Tag object.
-     *    @access protected
+     *    Make the keys lower case for case insensitive look-ups.
+     * @param hash $map Hash to convert.
+     * @return hash       Unchanged values, but keys lower case.
+     * @access private
      */
-    protected function createSelectionTag($attributes) {
+    protected function keysToLowerCase($map)
+    {
+        $lower = array();
+        foreach ($map as $key => $value) {
+            $lower[strtolower($key)] = $value;
+        }
+        return $lower;
+    }
+
+    /**
+     *    Factory for selection fields.
+     * @param hash $attributes Element attributes.
+     * @return SimpleTag          Tag object.
+     * @access protected
+     */
+    protected function createSelectionTag($attributes)
+    {
         if (isset($attributes['multiple'])) {
             return new MultipleSelectionTag($attributes);
         }
@@ -71,71 +89,61 @@ class SimpleTagBuilder {
 
     /**
      *    Factory for input tags.
-     *    @param hash $attributes    Element attributes.
-     *    @return SimpleTag          Tag object.
-     *    @access protected
+     * @param hash $attributes Element attributes.
+     * @return SimpleTag          Tag object.
+     * @access protected
      */
-    protected function createInputTag($attributes) {
-        if (! isset($attributes['type'])) {
+    protected function createInputTag($attributes)
+    {
+        if (!isset($attributes['type'])) {
             return new SimpleTextTag($attributes);
         }
         $type = strtolower(trim($attributes['type']));
         $map = array(
-                'submit' => 'SimpleSubmitTag',
-                'image' => 'SimpleImageSubmitTag',
-                'checkbox' => 'SimpleCheckboxTag',
-                'radio' => 'SimpleRadioButtonTag',
-                'text' => 'SimpleTextTag',
-                'hidden' => 'SimpleTextTag',
-                'password' => 'SimpleTextTag',
-                'file' => 'SimpleUploadTag');
+            'submit' => 'SimpleSubmitTag',
+            'image' => 'SimpleImageSubmitTag',
+            'checkbox' => 'SimpleCheckboxTag',
+            'radio' => 'SimpleRadioButtonTag',
+            'text' => 'SimpleTextTag',
+            'hidden' => 'SimpleTextTag',
+            'password' => 'SimpleTextTag',
+            'file' => 'SimpleUploadTag');
         if (array_key_exists($type, $map)) {
             $tag_class = $map[$type];
             return new $tag_class($attributes);
         }
         return false;
     }
-
-    /**
-     *    Make the keys lower case for case insensitive look-ups.
-     *    @param hash $map   Hash to convert.
-     *    @return hash       Unchanged values, but keys lower case.
-     *    @access private
-     */
-    protected function keysToLowerCase($map) {
-        $lower = array();
-        foreach ($map as $key => $value) {
-            $lower[strtolower($key)] = $value;
-        }
-        return $lower;
-    }
 }
 
 /**
  *    SAX event handler. Maintains a list of
  *    open tags and dispatches them as they close.
- *    @package SimpleTest
- *    @subpackage WebTester
+ * @package SimpleTest
+ * @subpackage WebTester
  */
-class SimplePageBuilder extends SimpleSaxListener {
+class SimplePageBuilder extends SimpleSaxListener
+{
     private $tags;
     private $page;
     private $private_content_tag;
 
     /**
      *    Sets the builder up empty.
-     *    @access public
+     * @access public
      */
-    function __construct() {
+    function __construct()
+    {
         parent::__construct();
     }
-    
+
     /**
      *    Frees up any references so as to allow the PHP garbage
      *    collection from unset() to work.
-     *    @access public
+     * @access public
      */
-    function free() {
+    function free()
+    {
         unset($this->tags);
         unset($this->page);
         unset($this->private_content_tags);
@@ -144,11 +152,12 @@ class SimplePageBuilder extends SimpleSaxListener {
     /**
      *    Reads the raw content and send events
      *    into the page to be built.
-     *    @param $response SimpleHttpResponse  Fetched response.
-     *    @return SimplePage                   Newly parsed page.
-     *    @access public
+     * @param $response SimpleHttpResponse  Fetched response.
+     * @return SimplePage                   Newly parsed page.
+     * @access public
      */
-    function parse($response) {
+    function parse($response)
+    {
         $this->tags = array();
         $this->page = $this->createPage($response);
         $parser = $this->createParser($this);
@@ -159,36 +168,39 @@ class SimplePageBuilder extends SimpleSaxListener {
 
     /**
      *    Creates an empty page.
-     *    @return SimplePage        New unparsed page.
-     *    @access protected
+     * @return SimplePage        New unparsed page.
+     * @access protected
      */
-    protected function createPage($response) {
+    protected function createPage($response)
+    {
         return new SimplePage($response);
     }
 
     /**
      *    Creates the parser used with the builder.
-     *    @param $listener SimpleSaxListener   Target of parser.
-     *    @return SimpleSaxParser              Parser to generate
+     * @param $listener SimpleSaxListener   Target of parser.
+     * @return SimpleSaxParser              Parser to generate
      *                                         events for the builder.
-     *    @access protected
+     * @access protected
      */
-    protected function createParser(&$listener) {
+    protected function createParser(&$listener)
+    {
         return new SimpleHtmlSaxParser($listener);
     }
-    
+
     /**
      *    Start of element event. Opens a new tag.
-     *    @param string $name         Element name.
-     *    @param hash $attributes     Attributes without content
+     * @param string $name Element name.
+     * @param hash $attributes Attributes without content
      *                                are marked as true.
-     *    @return boolean             False on parse error.
-     *    @access public
+     * @return boolean             False on parse error.
+     * @access public
      */
-    function startElement($name, $attributes) {
+    function startElement($name, $attributes)
+    {
         $factory = new SimpleTagBuilder();
         $tag = $factory->createTag($name, $attributes);
-        if (! $tag) {
+        if (!$tag) {
             return true;
         }
         if ($tag->getTagName() == 'label') {
@@ -208,7 +220,7 @@ class SimplePageBuilder extends SimpleSaxListener {
             $this->page->acceptFrame($tag);
             return true;
         }
-        if ($tag->isPrivateContent() && ! isset($this->private_content_tag)) {
+        if ($tag->isPrivateContent() && !isset($this->private_content_tag)) {
             $this->private_content_tag = &$tag;
         }
         if ($tag->expectEndTag()) {
@@ -220,12 +232,28 @@ class SimplePageBuilder extends SimpleSaxListener {
     }
 
     /**
-     *    End of element event.
-     *    @param string $name        Element name.
-     *    @return boolean            False on parse error.
-     *    @access public
+     *    Opens a tag for receiving content. Multiple tags
+     *    will be receiving input at the same time.
+     * @param SimpleTag $tag New content tag.
+     * @access private
      */
-    function endElement($name) {
+    protected function openTag($tag)
+    {
+        $name = $tag->getTagName();
+        if (!in_array($name, array_keys($this->tags))) {
+            $this->tags[$name] = array();
+        }
+        $this->tags[$name][] = $tag;
+    }
+
+    /**
+     *    End of element event.
+     * @param string $name Element name.
+     * @return boolean            False on parse error.
+     * @access public
+     */
+    function endElement($name)
+    {
         if ($name == 'label') {
             $this->page->acceptLabelEnd();
             return true;
@@ -253,52 +281,24 @@ class SimplePageBuilder extends SimpleSaxListener {
     /**
      *    Test to see if there are any open tags awaiting
      *    closure that match the tag name.
-     *    @param string $name        Element name.
-     *    @return boolean            True if any are still open.
-     *    @access private
+     * @param string $name Element name.
+     * @return boolean            True if any are still open.
+     * @access private
      */
-    protected function hasNamedTagOnOpenTagStack($name) {
+    protected function hasNamedTagOnOpenTagStack($name)
+    {
         return isset($this->tags[$name]) && (count($this->tags[$name]) > 0);
-    }
-
-    /**
-     *    Unparsed, but relevant data. The data is added
-     *    to every open tag.
-     *    @param string $text        May include unparsed tags.
-     *    @return boolean            False on parse error.
-     *    @access public
-     */
-    function addContent($text) {
-        if (isset($this->private_content_tag)) {
-            $this->private_content_tag->addContent($text);
-        } else {
-            $this->addContentToAllOpenTags($text);
-        }
-        return true;
-    }
-
-    /**
-     *    Any content fills all currently open tags unless it
-     *    is part of an option tag.
-     *    @param string $text        May include unparsed tags.
-     *    @access private
-     */
-    protected function addContentToAllOpenTags($text) {
-        foreach (array_keys($this->tags) as $name) {
-            for ($i = 0, $count = count($this->tags[$name]); $i < $count; $i++) {
-                $this->tags[$name][$i]->addContent($text);
-            }
-        }
     }
 
     /**
      *    Parsed data in tag form. The parsed tag is added
      *    to every open tag. Used for adding options to select
      *    fields only.
-     *    @param SimpleTag $tag        Option tags only.
-     *    @access private
+     * @param SimpleTag $tag Option tags only.
+     * @access private
      */
-    protected function addContentTagToOpenTags(&$tag) {
+    protected function addContentTagToOpenTags(&$tag)
+    {
         if ($tag->getTagName() != 'option') {
             return;
         }
@@ -310,26 +310,45 @@ class SimplePageBuilder extends SimpleSaxListener {
     }
 
     /**
-     *    Opens a tag for receiving content. Multiple tags
-     *    will be receiving input at the same time.
-     *    @param SimpleTag $tag        New content tag.
-     *    @access private
+     *    Unparsed, but relevant data. The data is added
+     *    to every open tag.
+     * @param string $text May include unparsed tags.
+     * @return boolean            False on parse error.
+     * @access public
      */
-    protected function openTag($tag) {
-        $name = $tag->getTagName();
-        if (! in_array($name, array_keys($this->tags))) {
-            $this->tags[$name] = array();
+    function addContent($text)
+    {
+        if (isset($this->private_content_tag)) {
+            $this->private_content_tag->addContent($text);
+        } else {
+            $this->addContentToAllOpenTags($text);
         }
-        $this->tags[$name][] = $tag;
+        return true;
+    }
+
+    /**
+     *    Any content fills all currently open tags unless it
+     *    is part of an option tag.
+     * @param string $text May include unparsed tags.
+     * @access private
+     */
+    protected function addContentToAllOpenTags($text)
+    {
+        foreach (array_keys($this->tags) as $name) {
+            for ($i = 0, $count = count($this->tags[$name]); $i < $count; $i++) {
+                $this->tags[$name][$i]->addContent($text);
+            }
+        }
     }
 }
 
 /**
  *    A wrapper for a web page.
- *    @package SimpleTest
- *    @subpackage WebTester
+ * @package SimpleTest
+ * @subpackage WebTester
  */
-class SimplePage {
+class SimplePage
+{
     private $links;
     private $title;
     private $last_widget;
@@ -352,10 +371,11 @@ class SimplePage {
 
     /**
      *    Parses a page ready to access it's contents.
-     *    @param SimpleHttpResponse $response     Result of HTTP fetch.
-     *    @access public
+     * @param SimpleHttpResponse $response Result of HTTP fetch.
+     * @access public
      */
-    function __construct($response = false) {
+    function __construct($response = false)
+    {
         $this->links = array();
         $this->title = false;
         $this->left_over_labels = array();
@@ -374,10 +394,11 @@ class SimplePage {
 
     /**
      *    Extracts all of the response information.
-     *    @param SimpleHttpResponse $response    Response being parsed.
-     *    @access private
+     * @param SimpleHttpResponse $response Response being parsed.
+     * @access private
      */
-    protected function extractResponse($response) {
+    protected function extractResponse($response)
+    {
         $this->transport_error = $response->getError();
         $this->raw = $response->getContent();
         $this->sent = $response->getSent();
@@ -389,9 +410,10 @@ class SimplePage {
 
     /**
      *    Sets up a missing response.
-     *    @access private
+     * @access private
      */
-    protected function noResponse() {
+    protected function noResponse()
+    {
         $this->transport_error = 'No page fetched yet';
         $this->raw = false;
         $this->sent = false;
@@ -403,30 +425,33 @@ class SimplePage {
 
     /**
      *    Original request as bytes sent down the wire.
-     *    @return mixed              Sent content.
-     *    @access public
+     * @return mixed              Sent content.
+     * @access public
      */
-    function getRequest() {
+    function getRequest()
+    {
         return $this->sent;
     }
 
     /**
      *    Accessor for raw text of page.
-     *    @return string        Raw unparsed content.
-     *    @access public
+     * @return string        Raw unparsed content.
+     * @access public
      */
-    function getRaw() {
+    function getRaw()
+    {
         return $this->raw;
     }
 
     /**
      *    Accessor for plain text of page as a text browser
      *    would see it.
-     *    @return string        Plain text of page.
-     *    @access public
+     * @return string        Plain text of page.
+     * @access public
      */
-    function getText() {
-        if (! $this->text) {
+    function getText()
+    {
+        if (!$this->text) {
             $this->text = SimpleHtmlSaxParser::normalise($this->raw);
         }
         return $this->text;
@@ -434,10 +459,11 @@ class SimplePage {
 
     /**
      *    Accessor for raw headers of page.
-     *    @return string       Header block as text.
-     *    @access public
+     * @return string       Header block as text.
+     * @access public
      */
-    function getHeaders() {
+    function getHeaders()
+    {
         if ($this->headers) {
             return $this->headers->getRaw();
         }
@@ -446,55 +472,41 @@ class SimplePage {
 
     /**
      *    Original request method.
-     *    @return string        GET, POST or HEAD.
-     *    @access public
+     * @return string        GET, POST or HEAD.
+     * @access public
      */
-    function getMethod() {
+    function getMethod()
+    {
         return $this->method;
     }
 
     /**
-     *    Original resource name.
-     *    @return SimpleUrl        Current url.
-     *    @access public
-     */
-    function getUrl() {
-        return $this->url;
-    }
-
-    /**
-     *    Base URL if set via BASE tag page url otherwise
-     *    @return SimpleUrl        Base url.
-     *    @access public
-     */
-    function getBaseUrl() {
-        return $this->base;
-    }
-
-    /**
      *    Original request data.
-     *    @return mixed              Sent content.
-     *    @access public
+     * @return mixed              Sent content.
+     * @access public
      */
-    function getRequestData() {
+    function getRequestData()
+    {
         return $this->request_data;
     }
 
     /**
      *    Accessor for last error.
-     *    @return string        Error from last response.
-     *    @access public
+     * @return string        Error from last response.
+     * @access public
      */
-    function getTransportError() {
+    function getTransportError()
+    {
         return $this->transport_error;
     }
 
     /**
      *    Accessor for current MIME type.
-     *    @return string    MIME type as string; e.g. 'text/html'
-     *    @access public
+     * @return string    MIME type as string; e.g. 'text/html'
+     * @access public
      */
-    function getMimeType() {
+    function getMimeType()
+    {
         if ($this->headers) {
             return $this->headers->getMimeType();
         }
@@ -503,10 +515,11 @@ class SimplePage {
 
     /**
      *    Accessor for HTTP response code.
-     *    @return integer    HTTP response code received.
-     *    @access public
+     * @return integer    HTTP response code received.
+     * @access public
      */
-    function getResponseCode() {
+    function getResponseCode()
+    {
         if ($this->headers) {
             return $this->headers->getResponseCode();
         }
@@ -516,10 +529,11 @@ class SimplePage {
     /**
      *    Accessor for last Authentication type. Only valid
      *    straight after a challenge (401).
-     *    @return string    Description of challenge type.
-     *    @access public
+     * @return string    Description of challenge type.
+     * @access public
      */
-    function getAuthentication() {
+    function getAuthentication()
+    {
         if ($this->headers) {
             return $this->headers->getAuthentication();
         }
@@ -529,10 +543,11 @@ class SimplePage {
     /**
      *    Accessor for last Authentication realm. Only valid
      *    straight after a challenge (401).
-     *    @return string    Name of security realm.
-     *    @access public
+     * @return string    Name of security realm.
+     * @access public
      */
-    function getRealm() {
+    function getRealm()
+    {
         if ($this->headers) {
             return $this->headers->getRealm();
         }
@@ -542,46 +557,51 @@ class SimplePage {
     /**
      *    Accessor for current frame focus. Will be
      *    false as no frames.
-     *    @return array    Always empty.
-     *    @access public
+     * @return array    Always empty.
+     * @access public
      */
-    function getFrameFocus() {
+    function getFrameFocus()
+    {
         return array();
     }
 
     /**
      *    Sets the focus by index. The integer index starts from 1.
-     *    @param integer $choice    Chosen frame.
-     *    @return boolean           Always false.
-     *    @access public
+     * @param integer $choice Chosen frame.
+     * @return boolean           Always false.
+     * @access public
      */
-    function setFrameFocusByIndex($choice) {
+    function setFrameFocusByIndex($choice)
+    {
         return false;
     }
 
     /**
      *    Sets the focus by name. Always fails for a leaf page.
-     *    @param string $name    Chosen frame.
-     *    @return boolean        False as no frames.
-     *    @access public
+     * @param string $name Chosen frame.
+     * @return boolean        False as no frames.
+     * @access public
      */
-    function setFrameFocus($name) {
+    function setFrameFocus($name)
+    {
         return false;
     }
 
     /**
      *    Clears the frame focus. Does nothing for a leaf page.
-     *    @access public
+     * @access public
      */
-    function clearFrameFocus() {
+    function clearFrameFocus()
+    {
     }
 
     /**
      *    Adds a tag to the page.
-     *    @param SimpleTag $tag        Tag to accept.
-     *    @access public
+     * @param SimpleTag $tag Tag to accept.
+     * @access public
      */
-    function acceptTag($tag) {
+    function acceptTag($tag)
+    {
         if ($tag->getTagName() == "a") {
             $this->addLink($tag);
         } elseif ($tag->getTagName() == "base") {
@@ -597,20 +617,55 @@ class SimplePage {
     }
 
     /**
-     *    Opens a label for a described widget.
-     *    @param SimpleFormTag $tag      Tag to accept.
-     *    @access public
+     *    Adds a link to the page.
+     * @param SimpleAnchorTag $tag Link to accept.
+     * @access protected
      */
-    function acceptLabelStart($tag) {
+    protected function addLink($tag)
+    {
+        $this->links[] = $tag;
+    }
+
+    /**
+     *    Sets the base url for the page.
+     * @param SimpleTag $tag Base URL for page.
+     * @access protected
+     */
+    protected function setBase($tag)
+    {
+        $url = $tag->getAttribute('href');
+        $this->base = new SimpleUrl($url);
+    }
+
+    /**
+     *    Tests to see if a tag is a possible form
+     *    element.
+     * @param string $name HTML element name.
+     * @return boolean         True if form element.
+     * @access private
+     */
+    protected function isFormElement($name)
+    {
+        return in_array($name, array('input', 'button', 'textarea', 'select'));
+    }
+
+    /**
+     *    Opens a label for a described widget.
+     * @param SimpleFormTag $tag Tag to accept.
+     * @access public
+     */
+    function acceptLabelStart($tag)
+    {
         $this->label = $tag;
         unset($this->last_widget);
     }
 
     /**
      *    Closes the most recently opened label.
-     *    @access public
+     * @access public
      */
-    function acceptLabelEnd() {
+    function acceptLabelEnd()
+    {
         if (isset($this->label)) {
             if (isset($this->last_widget)) {
                 $this->last_widget->setLabel($this->label->getText());
@@ -623,30 +678,21 @@ class SimplePage {
     }
 
     /**
-     *    Tests to see if a tag is a possible form
-     *    element.
-     *    @param string $name     HTML element name.
-     *    @return boolean         True if form element.
-     *    @access private
-     */
-    protected function isFormElement($name) {
-        return in_array($name, array('input', 'button', 'textarea', 'select'));
-    }
-
-    /**
      *    Opens a form. New widgets go here.
-     *    @param SimpleFormTag $tag      Tag to accept.
-     *    @access public
+     * @param SimpleFormTag $tag Tag to accept.
+     * @access public
      */
-    function acceptFormStart($tag) {
+    function acceptFormStart($tag)
+    {
         $this->open_forms[] = new SimpleForm($tag, $this);
     }
 
     /**
      *    Closes the most recently opened form.
-     *    @access public
+     * @access public
      */
-    function acceptFormEnd() {
+    function acceptFormEnd()
+    {
         if (count($this->open_forms)) {
             $this->complete_forms[] = array_pop($this->open_forms);
         }
@@ -655,21 +701,37 @@ class SimplePage {
     /**
      *    Opens a frameset. A frameset may contain nested
      *    frameset tags.
-     *    @param SimpleFramesetTag $tag      Tag to accept.
-     *    @access public
+     * @param SimpleFramesetTag $tag Tag to accept.
+     * @access public
      */
-    function acceptFramesetStart($tag) {
-        if (! $this->isLoadingFrames()) {
+    function acceptFramesetStart($tag)
+    {
+        if (!$this->isLoadingFrames()) {
             $this->frameset = $tag;
         }
         $this->frameset_nesting_level++;
     }
 
     /**
-     *    Closes the most recently opened frameset.
-     *    @access public
+     *    Test to see if in the middle of reading
+     *    a frameset.
+     * @return boolean        True if inframeset.
+     * @access private
      */
-    function acceptFramesetEnd() {
+    protected function isLoadingFrames()
+    {
+        if (!$this->frameset) {
+            return false;
+        }
+        return ($this->frameset_nesting_level > 0);
+    }
+
+    /**
+     *    Closes the most recently opened frameset.
+     * @access public
+     */
+    function acceptFramesetEnd()
+    {
         if ($this->isLoadingFrames()) {
             $this->frameset_nesting_level--;
         }
@@ -678,10 +740,11 @@ class SimplePage {
     /**
      *    Takes a single frame tag and stashes it in
      *    the current frame set.
-     *    @param SimpleFrameTag $tag      Tag to accept.
-     *    @access public
+     * @param SimpleFrameTag $tag Tag to accept.
+     * @access public
      */
-    function acceptFrame($tag) {
+    function acceptFrame($tag)
+    {
         if ($this->isLoadingFrames()) {
             if ($tag->getAttribute('src')) {
                 $this->frames[] = $tag;
@@ -690,76 +753,46 @@ class SimplePage {
     }
 
     /**
-     *    Test to see if in the middle of reading
-     *    a frameset.
-     *    @return boolean        True if inframeset.
-     *    @access private
-     */
-    protected function isLoadingFrames() {
-        if (! $this->frameset) {
-            return false;
-        }
-        return ($this->frameset_nesting_level > 0);
-    }
-
-    /**
-     *    Test to see if link is an absolute one.
-     *    @param string $url     Url to test.
-     *    @return boolean        True if absolute.
-     *    @access protected
-     */
-    protected function linkIsAbsolute($url) {
-        $parsed = new SimpleUrl($url);
-        return (boolean)($parsed->getScheme() && $parsed->getHost());
-    }
-
-    /**
-     *    Adds a link to the page.
-     *    @param SimpleAnchorTag $tag      Link to accept.
-     *    @access protected
-     */
-    protected function addLink($tag) {
-        $this->links[] = $tag;
-    }
-
-    /**
      *    Marker for end of complete page. Any work in
      *    progress can now be closed.
-     *    @access public
+     * @access public
      */
-    function acceptPageEnd() {
+    function acceptPageEnd()
+    {
         while (count($this->open_forms)) {
             $this->complete_forms[] = array_pop($this->open_forms);
         }
         foreach ($this->left_over_labels as $label) {
             for ($i = 0, $count = count($this->complete_forms); $i < $count; $i++) {
                 $this->complete_forms[$i]->attachLabelBySelector(
-                        new SimpleById($label->getFor()),
-                        $label->getText());
+                    new SimpleById($label->getFor()),
+                    $label->getText());
             }
         }
     }
 
     /**
      *    Test for the presence of a frameset.
-     *    @return boolean        True if frameset.
-     *    @access public
+     * @return boolean        True if frameset.
+     * @access public
      */
-    function hasFrames() {
+    function hasFrames()
+    {
         return (boolean)$this->frameset;
     }
 
     /**
      *    Accessor for frame name and source URL for every frame that
      *    will need to be loaded. Immediate children only.
-     *    @return boolean/array     False if no frameset or
+     * @return boolean/array     False if no frameset or
      *                              otherwise a hash of frame URLs.
      *                              The key is either a numerical
      *                              base one index or the name attribute.
-     *    @access public
+     * @access public
      */
-    function getFrameset() {
-        if (! $this->frameset) {
+    function getFrameset()
+    {
+        if (!$this->frameset) {
             return false;
         }
         $urls = array();
@@ -772,22 +805,60 @@ class SimplePage {
     }
 
     /**
-     *    Fetches a list of loaded frames.
-     *    @return array/string    Just the URL for a single page.
-     *    @access public
+     *    Expands expandomatic URLs into fully qualified
+     *    URLs.
+     * @param SimpleUrl $url Relative URL.
+     * @return SimpleUrl            Absolute URL.
+     * @access public
      */
-    function getFrames() {
+    function expandUrl($url)
+    {
+        if (!is_object($url)) {
+            $url = new SimpleUrl($url);
+        }
+        $location = $this->getBaseUrl() ? $this->getBaseUrl() : new SimpleUrl();
+        return $url->makeAbsolute($location->makeAbsolute($this->getUrl()));
+    }
+
+    /**
+     *    Base URL if set via BASE tag page url otherwise
+     * @return SimpleUrl        Base url.
+     * @access public
+     */
+    function getBaseUrl()
+    {
+        return $this->base;
+    }
+
+    /**
+     *    Original resource name.
+     * @return SimpleUrl        Current url.
+     * @access public
+     */
+    function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     *    Fetches a list of loaded frames.
+     * @return array/string    Just the URL for a single page.
+     * @access public
+     */
+    function getFrames()
+    {
         $url = $this->expandUrl($this->getUrl());
         return $url->asString();
     }
 
     /**
      *    Accessor for a list of all links.
-     *    @return array   List of urls with scheme of
+     * @return array   List of urls with scheme of
      *                    http or https and hostname.
-     *    @access public
+     * @access public
      */
-    function getUrls() {
+    function getUrls()
+    {
         $all = array();
         foreach ($this->links as $link) {
             $url = $this->getUrlFromLink($link);
@@ -797,13 +868,29 @@ class SimplePage {
     }
 
     /**
+     *    Converts a link tag into a target URL.
+     * @param SimpleAnchor $link Parsed link.
+     * @return SimpleUrl            URL with frame target if any.
+     * @access private
+     */
+    protected function getUrlFromLink($link)
+    {
+        $url = $this->expandUrl($link->getHref());
+        if ($link->getAttribute('target')) {
+            $url->setTarget($link->getAttribute('target'));
+        }
+        return $url;
+    }
+
+    /**
      *    Accessor for URLs by the link label. Label will match
      *    regardess of whitespace issues and case.
-     *    @param string $label    Text of link.
-     *    @return array           List of links with that label.
-     *    @access public
+     * @param string $label Text of link.
+     * @return array           List of links with that label.
+     * @access public
      */
-    function getUrlsByLabel($label) {
+    function getUrlsByLabel($label)
+    {
         $matches = array();
         foreach ($this->links as $link) {
             if ($link->getText() == $label) {
@@ -815,11 +902,12 @@ class SimplePage {
 
     /**
      *    Accessor for a URL by the id attribute.
-     *    @param string $id       Id attribute of link.
-     *    @return SimpleUrl       URL with that id of false if none.
-     *    @access public
+     * @param string $id Id attribute of link.
+     * @return SimpleUrl       URL with that id of false if none.
+     * @access public
      */
-    function getUrlById($id) {
+    function getUrlById($id)
+    {
         foreach ($this->links as $link) {
             if ($link->getAttribute('id') === (string)$id) {
                 return $this->getUrlFromLink($link);
@@ -829,59 +917,12 @@ class SimplePage {
     }
 
     /**
-     *    Converts a link tag into a target URL.
-     *    @param SimpleAnchor $link    Parsed link.
-     *    @return SimpleUrl            URL with frame target if any.
-     *    @access private
-     */
-    protected function getUrlFromLink($link) {
-        $url = $this->expandUrl($link->getHref());
-        if ($link->getAttribute('target')) {
-            $url->setTarget($link->getAttribute('target'));
-        }
-        return $url;
-    }
-
-    /**
-     *    Expands expandomatic URLs into fully qualified
-     *    URLs.
-     *    @param SimpleUrl $url        Relative URL.
-     *    @return SimpleUrl            Absolute URL.
-     *    @access public
-     */
-    function expandUrl($url) {
-        if (! is_object($url)) {
-            $url = new SimpleUrl($url);
-        }
-        $location = $this->getBaseUrl() ? $this->getBaseUrl() : new SimpleUrl();
-        return $url->makeAbsolute($location->makeAbsolute($this->getUrl()));
-    }
-
-    /**
-     *    Sets the base url for the page.
-     *    @param SimpleTag $tag    Base URL for page.
-     *    @access protected
-     */
-    protected function setBase($tag) {
-        $url = $tag->getAttribute('href');
-        $this->base = new SimpleUrl($url);
-    }
-
-    /**
-     *    Sets the title tag contents.
-     *    @param SimpleTitleTag $tag    Title of page.
-     *    @access protected
-     */
-    protected function setTitle($tag) {
-        $this->title = $tag;
-    }
-
-    /**
      *    Accessor for parsed title.
-     *    @return string     Title or false if no title is present.
-     *    @access public
+     * @return string     Title or false if no title is present.
+     * @access public
      */
-    function getTitle() {
+    function getTitle()
+    {
         if ($this->title) {
             return $this->title->getText();
         }
@@ -889,14 +930,25 @@ class SimplePage {
     }
 
     /**
+     *    Sets the title tag contents.
+     * @param SimpleTitleTag $tag Title of page.
+     * @access protected
+     */
+    protected function setTitle($tag)
+    {
+        $this->title = $tag;
+    }
+
+    /**
      *    Finds a held form by button label. Will only
      *    search correctly built forms.
-     *    @param SimpleSelector $selector       Button finder.
-     *    @return SimpleForm                    Form object containing
+     * @param SimpleSelector $selector Button finder.
+     * @return SimpleForm                    Form object containing
      *                                          the button.
-     *    @access public
+     * @access public
      */
-    function &getFormBySubmit($selector) {
+    function &getFormBySubmit($selector)
+    {
         for ($i = 0; $i < count($this->complete_forms); $i++) {
             if ($this->complete_forms[$i]->hasSubmit($selector)) {
                 return $this->complete_forms[$i];
@@ -909,12 +961,13 @@ class SimplePage {
     /**
      *    Finds a held form by image using a selector.
      *    Will only search correctly built forms.
-     *    @param SimpleSelector $selector  Image finder.
-     *    @return SimpleForm               Form object containing
+     * @param SimpleSelector $selector Image finder.
+     * @return SimpleForm               Form object containing
      *                                     the image.
-     *    @access public
+     * @access public
      */
-    function getFormByImage($selector) {
+    function getFormByImage($selector)
+    {
         for ($i = 0; $i < count($this->complete_forms); $i++) {
             if ($this->complete_forms[$i]->hasImage($selector)) {
                 return $this->complete_forms[$i];
@@ -927,11 +980,12 @@ class SimplePage {
      *    Finds a held form by the form ID. A way of
      *    identifying a specific form when we have control
      *    of the HTML code.
-     *    @param string $id     Form label.
-     *    @return SimpleForm    Form object containing the matching ID.
-     *    @access public
+     * @param string $id Form label.
+     * @return SimpleForm    Form object containing the matching ID.
+     * @access public
      */
-    function getFormById($id) {
+    function getFormById($id)
+    {
         for ($i = 0; $i < count($this->complete_forms); $i++) {
             if ($this->complete_forms[$i]->getId() == $id) {
                 return $this->complete_forms[$i];
@@ -943,12 +997,13 @@ class SimplePage {
     /**
      *    Sets a field on each form in which the field is
      *    available.
-     *    @param SimpleSelector $selector    Field finder.
-     *    @param string $value               Value to set field to.
-     *    @return boolean                    True if value is valid.
-     *    @access public
+     * @param SimpleSelector $selector Field finder.
+     * @param string $value Value to set field to.
+     * @return boolean                    True if value is valid.
+     * @access public
      */
-    function setField($selector, $value, $position=false) {
+    function setField($selector, $value, $position = false)
+    {
         $is_set = false;
         for ($i = 0; $i < count($this->complete_forms); $i++) {
             if ($this->complete_forms[$i]->setField($selector, $value, $position)) {
@@ -960,13 +1015,14 @@ class SimplePage {
 
     /**
      *    Accessor for a form element value within a page.
-     *    @param SimpleSelector $selector    Field finder.
-     *    @return string/boolean             A string if the field is
+     * @param SimpleSelector $selector Field finder.
+     * @return string/boolean             A string if the field is
      *                                       present, false if unchecked
      *                                       and null if missing.
-     *    @access public
+     * @access public
      */
-    function getField($selector) {
+    function getField($selector)
+    {
         for ($i = 0; $i < count($this->complete_forms); $i++) {
             $value = $this->complete_forms[$i]->getValue($selector);
             if (isset($value)) {
@@ -975,5 +1031,18 @@ class SimplePage {
         }
         return null;
     }
+
+    /**
+     *    Test to see if link is an absolute one.
+     * @param string $url Url to test.
+     * @return boolean        True if absolute.
+     * @access protected
+     */
+    protected function linkIsAbsolute($url)
+    {
+        $parsed = new SimpleUrl($url);
+        return (boolean)($parsed->getScheme() && $parsed->getHost());
+    }
 }
+
 ?>

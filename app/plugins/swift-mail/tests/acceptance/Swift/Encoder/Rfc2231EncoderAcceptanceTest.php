@@ -45,7 +45,7 @@ class Swift_Encoder_Rfc2231EncoderAcceptanceTest extends UnitTestCase
                         urldecode(implode('', explode("\r\n", $encodedText))), $text,
                         '%s: Encoded string should decode back to original string for sample ' .
                         $sampleDir . '/' . $sampleFile
-                        );
+                    );
                 }
                 closedir($fileFp);
             }

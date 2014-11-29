@@ -14,12 +14,9 @@ class Swift_Events_TransportChangeEventTest extends Swift_Tests_SwiftUnitTestCas
         $this->assertReference($transport, $ref);
     }
 
-    public function testSourceIsTransport()
+    private function _createTransport()
     {
-        $transport = $this->_createTransport();
-        $evt = $this->_createEvent($transport);
-        $ref = $evt->getSource();
-        $this->assertReference($transport, $ref);
+        return $this->_stub('Swift_Transport');
     }
 
     // -- Creation Methods
@@ -29,8 +26,11 @@ class Swift_Events_TransportChangeEventTest extends Swift_Tests_SwiftUnitTestCas
         return new Swift_Events_TransportChangeEvent($source);
     }
 
-    private function _createTransport()
+    public function testSourceIsTransport()
     {
-        return $this->_stub('Swift_Transport');
+        $transport = $this->_createTransport();
+        $evt = $this->_createEvent($transport);
+        $ref = $evt->getSource();
+        $this->assertReference($transport, $ref);
     }
 }

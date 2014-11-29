@@ -11,7 +11,12 @@ class Swift_StreamFilters_StringReplacementFilterFactoryTest
         $factory = $this->_createFactory();
         $this->assertIsA($factory->createFilter('a', 'b'),
             'Swift_StreamFilters_StringReplacementFilter'
-            );
+        );
+    }
+
+    private function _createFactory()
+    {
+        return new Swift_StreamFilters_StringReplacementFilterFactory();
     }
 
     public function testSameInstancesAreCached()
@@ -22,6 +27,8 @@ class Swift_StreamFilters_StringReplacementFilterFactoryTest
         $this->assertSame($filter1, $filter2, '%s: Instances should be cached');
     }
 
+    // -- Creation methods
+
     public function testDifferingInstancesAreNotCached()
     {
         $factory = $this->_createFactory();
@@ -29,13 +36,6 @@ class Swift_StreamFilters_StringReplacementFilterFactoryTest
         $filter2 = $factory->createFilter('a', 'c');
         $this->assertNotEqual($filter1, $filter2,
             '%s: Differing instances should not be cached'
-            );
-    }
-
-    // -- Creation methods
-
-    private function _createFactory()
-    {
-        return new Swift_StreamFilters_StringReplacementFilterFactory();
+        );
     }
 }

@@ -11,7 +11,7 @@
  *
  * @author denzyl
  */
-class LogoutController extends \Phalcon\Mvc\Controller
+class LogoutController extends ControllerBase
 {
     public function indexAction()
     {
@@ -20,7 +20,7 @@ class LogoutController extends \Phalcon\Mvc\Controller
         $this->cookies->get("email")->delete();
         $this->cookies->get('password')->delete();
         $this->cookies->get('remember')->delete();
-        $this->response->redirect("/");
+        $this->dispatcher->forward(array("controller" => "index"));
 
     }
 }

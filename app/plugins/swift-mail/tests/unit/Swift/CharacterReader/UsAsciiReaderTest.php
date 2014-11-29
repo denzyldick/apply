@@ -31,7 +31,7 @@ class Swift_CharacterReader_UsAsciiReaderTest
         for ($ordinal = 0x00; $ordinal <= 0x7F; ++$ordinal) {
             $this->assertIdentical(
                 0, $this->_reader->validateByteSequence(array($ordinal), 1)
-                );
+            );
         }
     }
 
@@ -40,7 +40,7 @@ class Swift_CharacterReader_UsAsciiReaderTest
         for ($ordinal = 0x00; $ordinal <= 0x7F; $ordinal += 2) {
             $this->assertIdentical(
                 -1, $this->_reader->validateByteSequence(array($ordinal, $ordinal + 1), 2)
-                );
+            );
         }
     }
 
@@ -49,7 +49,7 @@ class Swift_CharacterReader_UsAsciiReaderTest
         for ($ordinal = 0x80; $ordinal <= 0xFF; ++$ordinal) {
             $this->assertIdentical(
                 -1, $this->_reader->validateByteSequence(array($ordinal), 1)
-                );
+            );
         }
     }
 }

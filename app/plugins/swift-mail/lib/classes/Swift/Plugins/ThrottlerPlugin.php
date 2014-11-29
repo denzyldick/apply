@@ -73,10 +73,10 @@ class Swift_Plugins_ThrottlerPlugin extends Swift_Plugins_BandwidthMonitorPlugin
     /**
      * Create a new ThrottlerPlugin.
      *
-     * @param integer               $rate
-     * @param integer               $mode,   defaults to {@link BYTES_PER_MINUTE}
+     * @param integer $rate
+     * @param integer $mode ,   defaults to {@link BYTES_PER_MINUTE}
      * @param Swift_Plugins_Sleeper $sleeper (only needed in testing)
-     * @param Swift_Plugins_Timer   $timer   (only needed in testing)
+     * @param Swift_Plugins_Timer $timer (only needed in testing)
      */
     public function __construct($rate, $mode = self::BYTES_PER_MINUTE, Swift_Plugins_Sleeper $sleeper = null, Swift_Plugins_Timer $timer = null)
     {
@@ -99,7 +99,7 @@ class Swift_Plugins_ThrottlerPlugin extends Swift_Plugins_BandwidthMonitorPlugin
         }
         $duration = $time - $this->_start;
 
-        switch($this->_mode) {
+        switch ($this->_mode) {
             case self::BYTES_PER_MINUTE :
                 $sleep = $this->_throttleBytesPerMinute($duration);
                 break;
@@ -120,14 +120,61 @@ class Swift_Plugins_ThrottlerPlugin extends Swift_Plugins_BandwidthMonitorPlugin
     }
 
     /**
-     * Invoked when a Message is sent.
+     * Get the current UNIX timestamp.
      *
-     * @param Swift_Events_SendEvent $evt
+     * @return int
      */
-    public function sendPerformed(Swift_Events_SendEvent $evt)
+    public function getTimestamp()
     {
-        parent::sendPerformed($evt);
-        ++$this->_messages;
+        if (isset($this->_timer)) {
+            return $this->_timer->getTimestamp();
+        } else {
+            return time();
+        }
+    }
+
+    /**
+     * Get a number of seconds to sleep for.
+     *
+     * @param integer $timePassed
+     *
+     * @return int
+     */
+    private function _throttleBytesPerMinute($timePassed)
+    {
+        $expectedDuration = $this->getBytesOut() / ($this->_rate / 60);
+
+        return (int)ceil($expectedDuration - $timePassed);
+    }
+
+    /**
+     * Get a number of seconds to sleep for.
+     *
+     * @param int $timePassed
+     *
+     * @return int
+     */
+    private function _throttleMessagesPerSecond($timePassed)
+    {
+        $expectedDuration = $this->_messages / ($this->_rate);
+
+        return (int)ceil($expectedDuration - $timePassed);
+    }
+
+    // -- Private methods
+
+    /**
+     * Get a number of seconds to sleep for.
+     *
+     * @param integer $timePassed
+     *
+     * @return int
+     */
+    private function _throttleMessagesPerMinute($timePassed)
+    {
+        $expectedDuration = $this->_messages / ($this->_rate / 60);
+
+        return (int)ceil($expectedDuration - $timePassed);
     }
 
     /**
@@ -145,60 +192,13 @@ class Swift_Plugins_ThrottlerPlugin extends Swift_Plugins_BandwidthMonitorPlugin
     }
 
     /**
-     * Get the current UNIX timestamp.
+     * Invoked when a Message is sent.
      *
-     * @return int
+     * @param Swift_Events_SendEvent $evt
      */
-    public function getTimestamp()
+    public function sendPerformed(Swift_Events_SendEvent $evt)
     {
-        if (isset($this->_timer)) {
-            return $this->_timer->getTimestamp();
-        } else {
-            return time();
-        }
-    }
-
-    // -- Private methods
-
-    /**
-     * Get a number of seconds to sleep for.
-     *
-     * @param integer $timePassed
-     *
-     * @return int
-     */
-    private function _throttleBytesPerMinute($timePassed)
-    {
-        $expectedDuration = $this->getBytesOut() / ($this->_rate / 60);
-
-        return (int) ceil($expectedDuration - $timePassed);
-    }
-
-    /**
-     * Get a number of seconds to sleep for.
-     *
-     * @param int $timePassed
-     *
-     * @return int
-     */
-    private function _throttleMessagesPerSecond($timePassed)
-    {
-        $expectedDuration = $this->_messages / ($this->_rate);
-
-        return (int) ceil($expectedDuration - $timePassed);
-    }
-
-    /**
-     * Get a number of seconds to sleep for.
-     *
-     * @param integer $timePassed
-     *
-     * @return int
-     */
-    private function _throttleMessagesPerMinute($timePassed)
-    {
-        $expectedDuration = $this->_messages / ($this->_rate / 60);
-
-        return (int) ceil($expectedDuration - $timePassed);
+        parent::sendPerformed($evt);
+        ++$this->_messages;
     }
 }

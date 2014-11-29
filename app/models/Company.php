@@ -70,6 +70,16 @@ class Company extends \Phalcon\Mvc\Model
     protected $work_enviroment_type;
 
     /**
+     * Returns the value of field id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * Method to set the value of field id
      *
      * @param integer $id
@@ -80,6 +90,16 @@ class Company extends \Phalcon\Mvc\Model
         $this->id = $id;
 
         return $this;
+    }
+
+    /**
+     * Returns the value of field name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
@@ -96,6 +116,16 @@ class Company extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns the value of field description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
      * Method to set the value of field description
      *
      * @param string $description
@@ -106,6 +136,16 @@ class Company extends \Phalcon\Mvc\Model
         $this->description = $description;
 
         return $this;
+    }
+
+    /**
+     * Returns the value of field longitude
+     *
+     * @return integer
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
     }
 
     /**
@@ -122,6 +162,16 @@ class Company extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns the value of field latitude
+     *
+     * @return integer
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
      * Method to set the value of field latitude
      *
      * @param integer $latitude
@@ -132,6 +182,16 @@ class Company extends \Phalcon\Mvc\Model
         $this->latitude = $latitude;
 
         return $this;
+    }
+
+    /**
+     * Returns the value of field user_id
+     *
+     * @return integer
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
     }
 
     /**
@@ -148,6 +208,16 @@ class Company extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns the value of field zoom
+     *
+     * @return integer
+     */
+    public function getZoom()
+    {
+        return $this->zoom;
+    }
+
+    /**
      * Method to set the value of field zoom
      *
      * @param integer $zoom
@@ -158,6 +228,16 @@ class Company extends \Phalcon\Mvc\Model
         $this->zoom = $zoom;
 
         return $this;
+    }
+
+    /**
+     * Returns the value of field location
+     *
+     * @return string
+     */
+    public function getLocation()
+    {
+        return $this->location;
     }
 
     /**
@@ -174,6 +254,16 @@ class Company extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns the value of field logo
+     *
+     * @return string
+     */
+    public function getLogo()
+    {
+        return $this->logo;
+    }
+
+    /**
      * Method to set the value of field logo
      *
      * @param string $logo
@@ -184,6 +274,16 @@ class Company extends \Phalcon\Mvc\Model
         $this->logo = $logo;
 
         return $this;
+    }
+
+    /**
+     * Returns the value of field website
+     *
+     * @return string
+     */
+    public function getWebsite()
+    {
+        return $this->website;
     }
 
     /**
@@ -200,6 +300,16 @@ class Company extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns the value of field work_enviroment_type
+     *
+     * @return string
+     */
+    public function getWorkEnviromentType()
+    {
+        return $this->work_enviroment_type;
+    }
+
+    /**
      * Method to set the value of field work_enviroment_type
      *
      * @param string $work_enviroment_type
@@ -212,123 +322,15 @@ class Company extends \Phalcon\Mvc\Model
         return $this;
     }
 
-    /**
-     * Returns the value of field id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Returns the value of field name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Returns the value of field description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Returns the value of field longitude
-     *
-     * @return integer
-     */
-    public function getLongitude()
-    {
-        return $this->longitude;
-    }
-
-    /**
-     * Returns the value of field latitude
-     *
-     * @return integer
-     */
-    public function getLatitude()
-    {
-        return $this->latitude;
-    }
-
-    /**
-     * Returns the value of field user_id
-     *
-     * @return integer
-     */
-    public function getUserId()
-    {
-        return $this->user_id;
-    }
-
-    /**
-     * Returns the value of field zoom
-     *
-     * @return integer
-     */
-    public function getZoom()
-    {
-        return $this->zoom;
-    }
-
-    /**
-     * Returns the value of field location
-     *
-     * @return string
-     */
-    public function getLocation()
-    {
-        return $this->location;
-    }
-
-    /**
-     * Returns the value of field logo
-     *
-     * @return string
-     */
-    public function getLogo()
-    {
-        return $this->logo;
-    }
-
-    /**
-     * Returns the value of field website
-     *
-     * @return string
-     */
-    public function getWebsite()
-    {
-        return $this->website;
-    }
-
-    /**
-     * Returns the value of field work_enviroment_type
-     *
-     * @return string
-     */
-    public function getWorkEnviromentType()
-    {
-        return $this->work_enviroment_type;
-    }
     public function columnMap()
     {
-        return array('id' => 'id', 'name' => 'name', 'description' => 'description', 'longitude' => 'longitude', 'latitude' => 'latitude', 'user_id' => 'user_id', 'location' => 'location', 'zoom' => 'zoom','logo'=>'logo','website'=>'website','work_enviroment_type'=>'work_enviroment_type');
+        return array('id' => 'id', 'name' => 'name', 'description' => 'description', 'longitude' => 'longitude', 'latitude' => 'latitude', 'user_id' => 'user_id', 'location' => 'location', 'zoom' => 'zoom', 'logo' => 'logo', 'website' => 'website', 'work_enviroment_type' => 'work_enviroment_type');
     }
+
     public function initialize()
     {
         $this->hasOne("user_id", "User", "id");
-        $this->hasOne("location_id","Location","id");
+        $this->hasOne("location_id", "Location", "id");
     }
 
 }

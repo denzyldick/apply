@@ -21,6 +21,11 @@ class Swift_Transport_Esmtp_AuthHandlerTest
         $this->assertEqual('AUTH', $auth->getHandledKeyword());
     }
 
+    private function _createHandler($authenticators)
+    {
+        return new Swift_Transport_Esmtp_AuthHandler($authenticators);
+    }
+
     public function testUsernameCanBeSetAndFetched()
     {
         $auth = $this->_createHandler(array());
@@ -48,22 +53,22 @@ class Swift_Transport_Esmtp_AuthHandlerTest
         $mixins = $auth->exposeMixinMethods();
         $this->assertTrue(in_array('getUsername', $mixins),
             '%s: getUsername() should be accessible via mixin'
-            );
+        );
         $this->assertTrue(in_array('setUsername', $mixins),
             '%s: setUsername() should be accessible via mixin'
-            );
+        );
         $this->assertTrue(in_array('getPassword', $mixins),
             '%s: getPassword() should be accessible via mixin'
-            );
+        );
         $this->assertTrue(in_array('setPassword', $mixins),
             '%s: setPassword() should be accessible via mixin'
-            );
+        );
         $this->assertTrue(in_array('setAuthMode', $mixins),
             '%s: setAuthMode() should be accessible via mixin'
-            );
+        );
         $this->assertTrue(in_array('getAuthMode', $mixins),
             '%s: getAuthMode() should be accessible via mixin'
-            );
+        );
     }
 
     public function testAuthenticatorsAreCalledAccordingToParamsAfterEhlo()
@@ -72,9 +77,9 @@ class Swift_Transport_Esmtp_AuthHandlerTest
         $a2 = $this->_createMockAuthenticator('LOGIN');
 
         $this->_checking(Expectations::create()
-            -> never($a1)->authenticate($this->_agent, 'jack', 'pass')
-            -> one($a2)->authenticate($this->_agent, 'jack', 'pass') -> returns(true)
-            );
+                ->never($a1)->authenticate($this->_agent, 'jack', 'pass')
+                ->one($a2)->authenticate($this->_agent, 'jack', 'pass')->returns(true)
+        );
 
         $auth = $this->_createHandler(array($a1, $a2));
         $auth->setUsername('jack');
@@ -84,15 +89,25 @@ class Swift_Transport_Esmtp_AuthHandlerTest
         $auth->afterEhlo($this->_agent);
     }
 
+    private function _createMockAuthenticator($type)
+    {
+        $authenticator = $this->_mock('Swift_Transport_Esmtp_Authenticator');
+        $this->_checking(Expectations::create()
+                ->ignoring($authenticator)->getAuthKeyword()->returns($type)
+        );
+
+        return $authenticator;
+    }
+
     public function testAuthenticatorsAreNotUsedIfNoUsernameSet()
     {
         $a1 = $this->_createMockAuthenticator('PLAIN');
         $a2 = $this->_createMockAuthenticator('LOGIN');
 
         $this->_checking(Expectations::create()
-            -> never($a1)->authenticate($this->_agent, 'jack', 'pass')
-            -> never($a2)->authenticate($this->_agent, 'jack', 'pass') -> returns(true)
-            );
+                ->never($a1)->authenticate($this->_agent, 'jack', 'pass')
+                ->never($a2)->authenticate($this->_agent, 'jack', 'pass')->returns(true)
+        );
 
         $auth = $this->_createHandler(array($a1, $a2));
 
@@ -100,15 +115,17 @@ class Swift_Transport_Esmtp_AuthHandlerTest
         $auth->afterEhlo($this->_agent);
     }
 
+    // -- Private helpers
+
     public function testSeveralAuthenticatorsAreTriedIfNeeded()
     {
         $a1 = $this->_createMockAuthenticator('PLAIN');
         $a2 = $this->_createMockAuthenticator('LOGIN');
 
         $this->_checking(Expectations::create()
-            -> one($a1)->authenticate($this->_agent, 'jack', 'pass') -> returns(false)
-            -> one($a2)->authenticate($this->_agent, 'jack', 'pass') -> returns(true)
-            );
+                ->one($a1)->authenticate($this->_agent, 'jack', 'pass')->returns(false)
+                ->one($a2)->authenticate($this->_agent, 'jack', 'pass')->returns(true)
+        );
 
         $auth = $this->_createHandler(array($a1, $a2));
         $auth->setUsername('jack');
@@ -125,10 +142,10 @@ class Swift_Transport_Esmtp_AuthHandlerTest
         $a3 = $this->_createMockAuthenticator('CRAM-MD5');
 
         $this->_checking(Expectations::create()
-            -> one($a1)->authenticate($this->_agent, 'jack', 'pass') -> returns(false)
-            -> one($a2)->authenticate($this->_agent, 'jack', 'pass') -> returns(true)
-            -> never($a3)->authenticate($this->_agent, 'jack', 'pass')
-            );
+                ->one($a1)->authenticate($this->_agent, 'jack', 'pass')->returns(false)
+                ->one($a2)->authenticate($this->_agent, 'jack', 'pass')->returns(true)
+                ->never($a3)->authenticate($this->_agent, 'jack', 'pass')
+        );
 
         $auth = $this->_createHandler(array($a1, $a2));
         $auth->setUsername('jack');
@@ -136,22 +153,5 @@ class Swift_Transport_Esmtp_AuthHandlerTest
 
         $auth->setKeywordParams(array('PLAIN', 'LOGIN', 'CRAM-MD5'));
         $auth->afterEhlo($this->_agent);
-    }
-
-    // -- Private helpers
-
-    private function _createHandler($authenticators)
-    {
-        return new Swift_Transport_Esmtp_AuthHandler($authenticators);
-    }
-
-    private function _createMockAuthenticator($type)
-    {
-        $authenticator = $this->_mock('Swift_Transport_Esmtp_Authenticator');
-        $this->_checking(Expectations::create()
-            -> ignoring($authenticator)->getAuthKeyword() -> returns($type)
-            );
-
-        return $authenticator;
     }
 }

@@ -1,14 +1,14 @@
 <?php
 
-use Phalcon\Events\Event,
-        Phalcon\Mvc\User\Plugin,
-        Phalcon\Mvc\Dispatcher,
-        Phalcon\Acl;
+use Phalcon\Acl;
+use Phalcon\Mvc\Dispatcher;
+use Phalcon\Mvc\User\Plugin;
 
 class StripePayment extends Plugin
 {
-    traits{
+traits
+{
 
-    }
+}
 
 }

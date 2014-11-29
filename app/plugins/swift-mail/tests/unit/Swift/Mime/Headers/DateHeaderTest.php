@@ -17,6 +17,11 @@ class Swift_Mime_Headers_DateHeaderTest
         $this->assertEqual(Swift_Mime_Header::TYPE_DATE, $header->getFieldType());
     }
 
+    private function _getHeader($name)
+    {
+        return new Swift_Mime_Headers_DateHeader($name, new Swift_Mime_Grammar());
+    }
+
     public function testGetTimestamp()
     {
         $timestamp = time();
@@ -57,6 +62,8 @@ class Swift_Mime_Headers_DateHeaderTest
         $this->assertEqual($timestamp, $header->getFieldBodyModel());
     }
 
+    // -- Private methods
+
     public function testToString()
     {
         $timestamp = time();
@@ -64,13 +71,6 @@ class Swift_Mime_Headers_DateHeaderTest
         $header->setTimestamp($timestamp);
         $this->assertEqual('Date: ' . date('r', $timestamp) . "\r\n",
             $header->toString()
-            );
-    }
-
-    // -- Private methods
-
-    private function _getHeader($name)
-    {
-        return new Swift_Mime_Headers_DateHeader($name, new Swift_Mime_Grammar());
+        );
     }
 }

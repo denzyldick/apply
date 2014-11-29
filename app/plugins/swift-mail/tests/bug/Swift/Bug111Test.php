@@ -7,7 +7,7 @@ class Swift_Bug111Test extends Swift_Tests_SwiftUnitTestCase
     public function testUnstructuredHeaderSlashesShouldNotBeEscaped()
     {
         $complicated_header = array(
-            'to'=> array(
+            'to' => array(
                 'email1@example.com',
                 'email2@example.com',
                 'email3@example.com',

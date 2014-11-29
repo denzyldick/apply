@@ -10,11 +10,11 @@ class Swift_Transport_StreamBuffer_SslSocketAcceptanceTest
         $streams = stream_get_transports();
         $this->skipIf(!in_array('ssl', $streams),
             'SSL is not configured for your system.  It is not possible to run this test'
-            );
+        );
         $this->skipIf(!SWIFT_SSL_HOST,
             'Cannot run test without an SSL enabled SMTP host to connect to (define ' .
             'SWIFT_SSL_HOST in tests/acceptance.conf.php if you wish to run this test)'
-            );
+        );
         parent::skip();
     }
 
@@ -31,6 +31,6 @@ class Swift_Transport_StreamBuffer_SslSocketAcceptanceTest
             'protocol' => 'ssl',
             'blocking' => 1,
             'timeout' => 15
-            ));
+        ));
     }
 }

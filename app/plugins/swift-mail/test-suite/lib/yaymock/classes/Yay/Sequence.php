@@ -27,17 +27,17 @@
 interface Yay_Sequence extends Yay_SelfDescribing
 {
 
-  /**
-   * Ask for a new Sequence Id and register the new sequence.
-   * @return integer $id
-   */
-  public function requestSequenceId();
+    /**
+     * Ask for a new Sequence Id and register the new sequence.
+     * @return integer $id
+     */
+    public function requestSequenceId();
 
-  /**
-   * Check if the sequence has progressed far enough for this sequence ID to be used.
-   * @param integer $id
-   * @return boolean
-   */
-  public function isInSequence($sequenceId);
+    /**
+     * Check if the sequence has progressed far enough for this sequence ID to be used.
+     * @param integer $id
+     * @return boolean
+     */
+    public function isInSequence($sequenceId);
 
 }

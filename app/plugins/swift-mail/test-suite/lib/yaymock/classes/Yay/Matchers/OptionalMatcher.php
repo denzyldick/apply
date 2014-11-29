@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
  */
- 
+
 //require 'Yay/Matcher.php';
 //require 'Yay/Matchers/IdenticalMatcher.php';
 
@@ -26,78 +26,68 @@
  */
 class Yay_Matchers_OptionalMatcher implements Yay_Matcher
 {
-  
-  /**
-   * A matcher to delegate to.
-   * @var Yay_Matcher
-   * @access private
-   */
-  private $_matcher;
-  
-  /**
-   * Create a new OptionalMatcher, optionally wrapping $value.
-   * @param mixed $value, optional
-   */
-  public function __construct($value = null)
-  {
-    if (isset($value))
+
+    /**
+     * A matcher to delegate to.
+     * @var Yay_Matcher
+     * @access private
+     */
+    private $_matcher;
+
+    /**
+     * Create a new OptionalMatcher, optionally wrapping $value.
+     * @param mixed $value , optional
+     */
+    public function __construct($value = null)
     {
-      if ($value instanceof Yay_Matcher)
-      {
-        $this->_matcher = $value;
-      }
-      else
-      {
-        $this->_matcher = new Yay_Matchers_IdenticalMatcher($value);
-      }
+        if (isset($value)) {
+            if ($value instanceof Yay_Matcher) {
+                $this->_matcher = $value;
+            } else {
+                $this->_matcher = new Yay_Matchers_IdenticalMatcher($value);
+            }
+        }
     }
-  }
-  
-  /**
-   * Returns true if no matcher set, otherwise it delegates to the given Matcher.
-   * @param mixed $value
-   * @return boolean
-   */
-  public function matches(&$value)
-  {
-    if (isset($this->_matcher))
+
+    /**
+     * Returns true if no matcher set, otherwise it delegates to the given Matcher.
+     * @param mixed $value
+     * @return boolean
+     */
+    public function matches(&$value)
     {
-      $matches = $this->_matcher->matches($value);
+        if (isset($this->_matcher)) {
+            $matches = $this->_matcher->matches($value);
+        } else {
+            $matches = true;
+        }
+        return $matches;
     }
-    else
+
+    /**
+     * Returns true if the argument doesn't need to be present.
+     * @return boolean
+     */
+    public function isOptional()
     {
-      $matches = true;
+        return true;
     }
-    return $matches;
-  }
-  
-  /**
-   * Returns true if the argument doesn't need to be present.
-   * @return boolean
-   */
-  public function isOptional()
-  {
-    return true;
-  }
-  
-  /**
-   * Writes the match description as a string following $format.
-   * $format is a sprintf() string with %s, $s as $matcherName, $value respectively.
-   * @param string $format
-   * @return string
-   */
-  public function describeMatch($format)
-  {
-    $name = 'optional';
-    if (isset($this->_matcher))
+
+    /**
+     * Writes the match description as a string following $format.
+     * $format is a sprintf() string with %s, $s as $matcherName, $value respectively.
+     * @param string $format
+     * @return string
+     */
+    public function describeMatch($format)
     {
-      $value = $this->_matcher->describeMatch($format);
+        $name = 'optional';
+        if (isset($this->_matcher)) {
+            $value = $this->_matcher->describeMatch($format);
+        } else {
+            $value = '*';
+        }
+        return sprintf($format, $name, $value);
     }
-    else
-    {
-      $value = '*';
-    }
-    return sprintf($format, $name, $value);
-  }
-  
+
 }

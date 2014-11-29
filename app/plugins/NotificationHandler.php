@@ -1,12 +1,13 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: denzyl
  * Date: 17-11-14
  * Time: 22:24
  */
-
-class NotificationHandler {
+class NotificationHandler
+{
 
     private $userid;
     private $message;
@@ -17,7 +18,7 @@ class NotificationHandler {
         $this->mailer = $mailer;
     }
 
-    public function add(User $receiver, User $sender, $message,$sendMail = true)
+    public function add(User $receiver, User $sender, $message, $sendMail = true)
     {
 
 

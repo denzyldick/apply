@@ -1,4 +1,5 @@
 <?php
+
 class VacancyController extends ControllerBase
 {
 
@@ -15,6 +16,7 @@ class VacancyController extends ControllerBase
 
         }
     }
+
     public function newAction()
     {
         if (!$this->companyHasBeenFilled()) {
@@ -22,20 +24,6 @@ class VacancyController extends ControllerBase
         }
     }
 
-    private function getRemaingVacancy()
-    {
-      // $vacancies = Vacancy::findByUser_id($this->user->getId());
-      // $premiums  = Premium::findByUser_id($this->user->getId());
-      //
-      // $amount = 0;
-      // foreach($premiums as $premium)
-      // {
-      //   $bundle = Bundle::findFirst($premium->getBundleIdbundle());
-      //   $amount = $amount + $bundle->getAmount();
-      // //$bundle->getAmount()."<br/>";
-      // }
-      // return ($amount - count($vacancies));
-    }
     public function saveAction()
     {
         if ($this->request->isPost() && $this->user->getVacancyCount() > 0) {
@@ -66,11 +54,13 @@ class VacancyController extends ControllerBase
 
         }
     }
+
     public function skillsAction($skills, $vacancy_id)
     {
         $this->view->skills = explode(",", $skills);
         $this->view->vacancy_id = $vacancy_id;
     }
+
     public function finishAction()
     {
         if ($this->request->isPost() && $this->user->getVacancyCount() > 0) {
@@ -85,7 +75,8 @@ class VacancyController extends ControllerBase
                 $skill->save();
                 $specification->setSkillsId($skill->getId());
                 $specification->save();
-            }      $this->user->setVacancycount($this->user->getVacancyCount()-1);
+            }
+            $this->user->setVacancycount($this->user->getVacancyCount() - 1);
             $this->user->save();
             $this->flash->success("Your vacancy has been succesfully save");
             $this->dispatcher->forward(array("controller" => "vacancy", "action" => "index"));
@@ -103,6 +94,7 @@ class VacancyController extends ControllerBase
             $this->session->set("skills_weight", $skillsWithWeight);
         }
     }
+
     public function removeAction($id)
     {
         if (isset($id)) {
@@ -117,5 +109,20 @@ class VacancyController extends ControllerBase
             $this->flash->error("Somethingwentwrong, pleasetryagain . ");
         }
         $this->dispatcher->forward(array("action" => "index"));
+    }
+
+    private function getRemaingVacancy()
+    {
+        // $vacancies = Vacancy::findByUser_id($this->user->getId());
+        // $premiums  = Premium::findByUser_id($this->user->getId());
+        //
+        // $amount = 0;
+        // foreach($premiums as $premium)
+        // {
+        //   $bundle = Bundle::findFirst($premium->getBundleIdbundle());
+        //   $amount = $amount + $bundle->getAmount();
+        // //$bundle->getAmount()."<br/>";
+        // }
+        // return ($amount - count($vacancies));
     }
 }

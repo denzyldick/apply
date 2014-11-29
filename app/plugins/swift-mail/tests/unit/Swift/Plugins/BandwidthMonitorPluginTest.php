@@ -10,6 +10,8 @@ require_once 'Swift/Mime/Message.php';
 class Swift_Plugins_BandwidthMonitorPluginTest
     extends Swift_Tests_SwiftUnitTestCase
 {
+    private $_bytes = 0;
+
     public function setUp()
     {
         $this->_monitor = new Swift_Plugins_BandwidthMonitorPlugin();
@@ -27,6 +29,29 @@ class Swift_Plugins_BandwidthMonitorPluginTest
         $this->assertEqual(12, $this->_monitor->getBytesOut());
     }
 
+    private function _createMessageWithByteCount($bytes)
+    {
+        $this->_bytes = $bytes;
+        $msg = $this->_mock('Swift_Mime_Message');
+        $this->_checking(Expectations::create()
+                ->ignoring($msg)->toByteStream(any())->calls(array($this, '_write'))
+        );
+
+        return $msg;
+    }
+
+    private function _createSendEvent($message)
+    {
+        $evt = $this->_mock('Swift_Events_SendEvent');
+        $this->_checking(Expectations::create()
+                ->ignoring($evt)->getMessage()->returns($message)
+        );
+
+        return $evt;
+    }
+
+    // -- Creation Methods
+
     public function testBytesOutIncreasesWhenCommandsSent()
     {
         $evt = $this->_createCommandEvent("RCPT TO: <foo@bar.com>\r\n");
@@ -38,6 +63,16 @@ class Swift_Plugins_BandwidthMonitorPluginTest
         $this->assertEqual(48, $this->_monitor->getBytesOut());
     }
 
+    private function _createCommandEvent($command)
+    {
+        $evt = $this->_mock('Swift_Events_CommandEvent');
+        $this->_checking(Expectations::create()
+                ->ignoring($evt)->getCommand()->returns($command)
+        );
+
+        return $evt;
+    }
+
     public function testBytesInIncreasesWhenResponsesReceived()
     {
         $evt = $this->_createResponseEvent("250 Ok\r\n");
@@ -47,6 +82,16 @@ class Swift_Plugins_BandwidthMonitorPluginTest
         $this->assertEqual(8, $this->_monitor->getBytesIn());
         $this->_monitor->responseReceived($evt);
         $this->assertEqual(16, $this->_monitor->getBytesIn());
+    }
+
+    private function _createResponseEvent($response)
+    {
+        $evt = $this->_mock('Swift_Events_ResponseEvent');
+        $this->_checking(Expectations::create()
+                ->ignoring($evt)->getResponse()->returns($response)
+        );
+
+        return $evt;
     }
 
     public function testCountersCanBeReset()
@@ -73,50 +118,6 @@ class Swift_Plugins_BandwidthMonitorPluginTest
         $this->assertEqual(0, $this->_monitor->getBytesIn());
     }
 
-    // -- Creation Methods
-
-    private function _createSendEvent($message)
-    {
-        $evt = $this->_mock('Swift_Events_SendEvent');
-        $this->_checking(Expectations::create()
-            -> ignoring($evt)->getMessage() -> returns($message)
-            );
-
-        return $evt;
-    }
-
-    private function _createCommandEvent($command)
-    {
-        $evt = $this->_mock('Swift_Events_CommandEvent');
-        $this->_checking(Expectations::create()
-            -> ignoring($evt)->getCommand() -> returns($command)
-            );
-
-        return $evt;
-    }
-
-    private function _createResponseEvent($response)
-    {
-        $evt = $this->_mock('Swift_Events_ResponseEvent');
-        $this->_checking(Expectations::create()
-            -> ignoring($evt)->getResponse() -> returns($response)
-            );
-
-        return $evt;
-    }
-
-    private function _createMessageWithByteCount($bytes)
-    {
-        $this->_bytes = $bytes;
-        $msg = $this->_mock('Swift_Mime_Message');
-        $this->_checking(Expectations::create()
-            -> ignoring($msg)->toByteStream(any()) -> calls(array($this, '_write'))
-        );
-
-        return $msg;
-    }
-
-    private $_bytes = 0;
     public function _write($invocation)
     {
         $args = $invocation->getArguments();

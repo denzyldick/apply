@@ -17,24 +17,36 @@ class Swift_Transport_StreamBuffer_SocketTimeoutTest
     {
         $this->_buffer = new Swift_Transport_StreamBuffer(
             $this->_stub('Swift_ReplacementFilterFactory')
-            );
+        );
     }
 
     public function skip()
     {
-        $serverStarted=false;
-        for ($i=0; $i<5; ++$i) {
-            $this->_randomHighPort=rand(50000,65000);
+        $serverStarted = false;
+        for ($i = 0; $i < 5; ++$i) {
+            $this->_randomHighPort = rand(50000, 65000);
             $this->_server = stream_socket_server('tcp://127.0.0.1:' . $this->_randomHighPort);
             if ($this->_server) {
-                $serverStarted=true;
+                $serverStarted = true;
             }
         }
         $this->skipUnless(SWIFT_SMTP_HOST,
             'Cannot run test without an SMTP host to connect to (define ' .
             'SWIFT_SMTP_HOST in tests/acceptance.conf.php if you wish to run this test)'
-            );
+        );
         parent::skip();
+    }
+
+    public function testTimeoutException()
+    {
+        $this->_initializeBuffer();
+        $e = null;
+        try {
+            $line = $this->_buffer->readLine(0);
+        } catch (Exception $e) {
+        }
+        $this->assertIsA($e, 'Swift_IoException', 'IO Exception Not Thrown On Connection Timeout');
+        $this->assertPattern('/Connection to .* Timed Out/', $e->getMessage());
     }
 
     protected function _initializeBuffer()
@@ -49,19 +61,7 @@ class Swift_Transport_StreamBuffer_SocketTimeoutTest
             'protocol' => 'tcp',
             'blocking' => 1,
             'timeout' => 1
-            ));
-    }
-
-    public function testTimeoutException()
-    {
-        $this->_initializeBuffer();
-        $e=null;
-        try {
-            $line = $this->_buffer->readLine(0);
-        } catch (Exception $e) {
-        }
-        $this->assertIsA($e, 'Swift_IoException', 'IO Exception Not Thrown On Connection Timeout');
-        $this->assertPattern('/Connection to .* Timed Out/', $e->getMessage());
+        ));
     }
 
     public function tearDown()

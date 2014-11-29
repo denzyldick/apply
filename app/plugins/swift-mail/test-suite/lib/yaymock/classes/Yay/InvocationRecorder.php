@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
  */
- 
+
 //require 'Yay/Invocation.php';
 //require 'Yay/ExpectationProvider.php';
 
@@ -26,11 +26,11 @@
  */
 interface Yay_InvocationRecorder extends Yay_ExpectationProvider
 {
-  
-  /**
-   * Record the given $invocation.
-   * @param Yay_Invocation $invocation
-   */
-  public function recordInvocation(Yay_Invocation $invocation);
-  
+
+    /**
+     * Record the given $invocation.
+     * @param Yay_Invocation $invocation
+     */
+    public function recordInvocation(Yay_Invocation $invocation);
+
 }

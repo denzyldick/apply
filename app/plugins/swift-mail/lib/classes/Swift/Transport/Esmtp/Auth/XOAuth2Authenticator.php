@@ -18,7 +18,7 @@
  *   ->setUsername('YOUR_EMAIL_ADDRESS')
  *   ->setPassword('YOUR_ACCESS_TOKEN');
  * </code>
- * 
+ *
  * @package    Swift
  * @subpackage Transport
  * @author     xu.li<AthenaLightenedMyPath@gmail.com>
@@ -40,8 +40,8 @@ class Swift_Transport_Esmtp_Auth_XOAuth2Authenticator implements Swift_Transport
      * Try to authenticate the user with $email and $token.
      *
      * @param Swift_Transport_SmtpAgent $agent
-     * @param string                    $email
-     * @param string                    $token
+     * @param string $email
+     * @param string $token
      *
      * @return boolean
      */
@@ -58,12 +58,12 @@ class Swift_Transport_Esmtp_Auth_XOAuth2Authenticator implements Swift_Transport
             return false;
         }
     }
-    
+
     /**
      * Construct the auth parameter
      *
      * @see https://developers.google.com/google-apps/gmail/xoauth2_protocol#the_sasl_xoauth2_mechanism
-     */ 
+     */
     protected function constructXOAuth2Params($email, $token)
     {
         return base64_encode("user=$email\1auth=Bearer $token\1\1");

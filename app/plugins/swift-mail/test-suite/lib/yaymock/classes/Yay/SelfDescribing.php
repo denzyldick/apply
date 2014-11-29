@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
  */
- 
+
 //require 'Yay/Description.php';
 
 /**
@@ -25,11 +25,11 @@
  */
 interface Yay_SelfDescribing
 {
-  
-  /**
-   * Write a description of this self describing object to Description.
-   * @param Yay_Description $description
-   */
-  public function describeTo(Yay_Description $description);
-  
+
+    /**
+     * Write a description of this self describing object to Description.
+     * @param Yay_Description $description
+     */
+    public function describeTo(Yay_Description $description);
+
 }

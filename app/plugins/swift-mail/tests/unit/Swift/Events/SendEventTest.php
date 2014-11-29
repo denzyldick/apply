@@ -17,7 +17,23 @@ class Swift_Events_SendEventTest extends Swift_Tests_SwiftUnitTestCase
         $ref = $evt->getMessage();
         $this->assertReference($message, $ref,
             '%s: Message should be returned from getMessage()'
-            );
+        );
+    }
+
+    private function _createMessage()
+    {
+        return $this->_stub('Swift_Mime_Message');
+    }
+
+    private function _createTransport()
+    {
+        return $this->_stub('Swift_Transport');
+    }
+
+    private function _createEvent(Swift_Transport $source,
+                                  Swift_Mime_Message $message)
+    {
+        return new Swift_Events_SendEvent($source, $message);
     }
 
     public function testTransportCanBeFetchViaGetter()
@@ -30,7 +46,7 @@ class Swift_Events_SendEventTest extends Swift_Tests_SwiftUnitTestCase
         $ref = $evt->getTransport();
         $this->assertReference($transport, $ref,
             '%s: Transport should be returned from getTransport()'
-            );
+        );
     }
 
     public function testTransportCanBeFetchViaGetSource()
@@ -43,8 +59,10 @@ class Swift_Events_SendEventTest extends Swift_Tests_SwiftUnitTestCase
         $ref = $evt->getSource();
         $this->assertReference($transport, $ref,
             '%s: Transport should be returned from getSource()'
-            );
+        );
     }
+
+    // -- Creation Methods
 
     public function testResultCanBeSetAndGet()
     {
@@ -55,7 +73,7 @@ class Swift_Events_SendEventTest extends Swift_Tests_SwiftUnitTestCase
 
         $evt->setResult(
             Swift_Events_SendEvent::RESULT_SUCCESS | Swift_Events_SendEvent::RESULT_TENTATIVE
-            );
+        );
 
         $this->assertTrue($evt->getResult() & Swift_Events_SendEvent::RESULT_SUCCESS);
         $this->assertTrue($evt->getResult() & Swift_Events_SendEvent::RESULT_TENTATIVE);
@@ -72,7 +90,7 @@ class Swift_Events_SendEventTest extends Swift_Tests_SwiftUnitTestCase
 
         $this->assertEqual(array('foo@bar', 'zip@button'), $evt->getFailedRecipients(),
             '%s: FailedRecipients should be returned from getter'
-            );
+        );
     }
 
     public function testFailedRecipientsGetsPickedUpCorrectly()
@@ -82,23 +100,5 @@ class Swift_Events_SendEventTest extends Swift_Tests_SwiftUnitTestCase
 
         $evt = $this->_createEvent($transport, $message);
         $this->assertEqual(array(), $evt->getFailedRecipients());
-    }
-
-    // -- Creation Methods
-
-    private function _createEvent(Swift_Transport $source,
-        Swift_Mime_Message $message)
-    {
-        return new Swift_Events_SendEvent($source, $message);
-    }
-
-    private function _createTransport()
-    {
-        return $this->_stub('Swift_Transport');
-    }
-
-    private function _createMessage()
-    {
-        return $this->_stub('Swift_Mime_Message');
     }
 }

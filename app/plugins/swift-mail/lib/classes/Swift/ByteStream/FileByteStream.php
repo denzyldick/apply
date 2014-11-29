@@ -41,7 +41,7 @@ class Swift_ByteStream_FileByteStream extends Swift_ByteStream_AbstractFilterabl
     /**
      * Create a new FileByteStream for $path.
      *
-     * @param string  $path
+     * @param string $path
      * @param boolean $writable if true
      */
     public function __construct($path, $writable = false)
@@ -102,35 +102,6 @@ class Swift_ByteStream_FileByteStream extends Swift_ByteStream_AbstractFilterabl
         }
     }
 
-    /**
-     * Move the internal read pointer to $byteOffset in the stream.
-     *
-     * @param integer $byteOffset
-     *
-     * @return boolean
-     */
-    public function setReadPointer($byteOffset)
-    {
-        if (isset($this->_reader)) {
-            $this->_seekReadStreamToPosition($byteOffset);
-        }
-        $this->_offset = $byteOffset;
-    }
-
-    // -- Private methods
-
-    /** Just write the bytes to the file */
-    protected function _commit($bytes)
-    {
-        fwrite($this->_getWriteHandle(), $bytes);
-        $this->_resetReadHandle();
-    }
-
-    /** Not used */
-    protected function _flush()
-    {
-    }
-
     /** Get the resource for reading */
     private function _getReadHandle()
     {
@@ -149,28 +120,7 @@ class Swift_ByteStream_FileByteStream extends Swift_ByteStream_AbstractFilterabl
         return $this->_reader;
     }
 
-    /** Get the resource for writing */
-    private function _getWriteHandle()
-    {
-        if (!isset($this->_writer)) {
-            if (!$this->_writer = fopen($this->_path, $this->_mode)) {
-                throw new Swift_IoException(
-                    'Unable to open file for writing [' . $this->_path . ']'
-                );
-            }
-        }
-
-        return $this->_writer;
-    }
-
-    /** Force a reload of the resource for reading */
-    private function _resetReadHandle()
-    {
-        if (isset($this->_reader)) {
-            fclose($this->_reader);
-            $this->_reader = null;
-        }
-    }
+    // -- Private methods
 
     /** Check if ReadOnly Stream is seekable */
     private function _getReadStreamSeekableStatus()
@@ -182,13 +132,13 @@ class Swift_ByteStream_FileByteStream extends Swift_ByteStream_AbstractFilterabl
     /** Streams in a readOnly stream ensuring copy if needed */
     private function _seekReadStreamToPosition($offset)
     {
-        if ($this->_seekable===null) {
+        if ($this->_seekable === null) {
             $this->_getReadStreamSeekableStatus();
         }
         if ($this->_seekable === false) {
             $currentPos = ftell($this->_reader);
-            if ($currentPos<$offset) {
-                $toDiscard = $offset-$currentPos;
+            if ($currentPos < $offset) {
+                $toDiscard = $offset - $currentPos;
                 fread($this->_reader, $toDiscard);
 
                 return;
@@ -221,5 +171,55 @@ class Swift_ByteStream_FileByteStream extends Swift_ByteStream_AbstractFilterabl
         fseek($tmpFile, $currentPos, SEEK_SET);
         fclose($source);
         $this->_reader = $tmpFile;
+    }
+
+    /** Force a reload of the resource for reading */
+    private function _resetReadHandle()
+    {
+        if (isset($this->_reader)) {
+            fclose($this->_reader);
+            $this->_reader = null;
+        }
+    }
+
+    /**
+     * Move the internal read pointer to $byteOffset in the stream.
+     *
+     * @param integer $byteOffset
+     *
+     * @return boolean
+     */
+    public function setReadPointer($byteOffset)
+    {
+        if (isset($this->_reader)) {
+            $this->_seekReadStreamToPosition($byteOffset);
+        }
+        $this->_offset = $byteOffset;
+    }
+
+    /** Just write the bytes to the file */
+    protected function _commit($bytes)
+    {
+        fwrite($this->_getWriteHandle(), $bytes);
+        $this->_resetReadHandle();
+    }
+
+    /** Get the resource for writing */
+    private function _getWriteHandle()
+    {
+        if (!isset($this->_writer)) {
+            if (!$this->_writer = fopen($this->_path, $this->_mode)) {
+                throw new Swift_IoException(
+                    'Unable to open file for writing [' . $this->_path . ']'
+                );
+            }
+        }
+
+        return $this->_writer;
+    }
+
+    /** Not used */
+    protected function _flush()
+    {
     }
 }

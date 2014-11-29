@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
  */
- 
+
 /**
  * The Exception thrown by Context::assertIsSatisfied() if assertion fails.
  * @author Chris Corbyn <chris@w3style.co.uk>
@@ -23,14 +23,14 @@
  */
 class Yay_NotSatisfiedException extends Exception
 {
-  
-  /**
-   * Create a new NotSatisfiedException with $message.
-   * @param string $message
-   */
-  public function __construct($message)
-  {
-    parent::__construct($message);
-  }
-  
+
+    /**
+     * Create a new NotSatisfiedException with $message.
+     * @param string $message
+     */
+    public function __construct($message)
+    {
+        parent::__construct($message);
+    }
+
 }

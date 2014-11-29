@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
  */
- 
+
 //require 'Yay/StatePredicate.php';
 
 /**
@@ -25,10 +25,10 @@
  */
 interface Yay_State extends Yay_StatePredicate
 {
-  
-  /**
-   * Make this State active.
-   */
-  public function activate();
-  
+
+    /**
+     * Make this State active.
+     */
+    public function activate();
+
 }

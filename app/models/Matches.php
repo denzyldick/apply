@@ -53,6 +53,16 @@ class Matches extends \Phalcon\Mvc\Model
     protected $softdeleted;
 
     /**
+     * Returns the value of field id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * Method to set the value of field id
      *
      * @param integer $id
@@ -63,6 +73,16 @@ class Matches extends \Phalcon\Mvc\Model
         $this->id = $id;
 
         return $this;
+    }
+
+    /**
+     * Returns the value of field percent
+     *
+     * @return integer
+     */
+    public function getPercent()
+    {
+        return $this->percent;
     }
 
     /**
@@ -79,6 +99,16 @@ class Matches extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns the value of field user_id
+     *
+     * @return integer
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    /**
      * Method to set the value of field user_id
      *
      * @param integer $user_id
@@ -89,6 +119,16 @@ class Matches extends \Phalcon\Mvc\Model
         $this->user_id = $user_id;
 
         return $this;
+    }
+
+    /**
+     * Returns the value of field vacancy_id
+     *
+     * @return integer
+     */
+    public function getVacancyId()
+    {
+        return $this->vacancy_id;
     }
 
     /**
@@ -105,6 +145,16 @@ class Matches extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns the value of field viewed
+     *
+     * @return string
+     */
+    public function getViewed()
+    {
+        return $this->viewed;
+    }
+
+    /**
      * Method to set the value of field viewed
      *
      * @param string $viewed
@@ -115,6 +165,16 @@ class Matches extends \Phalcon\Mvc\Model
         $this->viewed = $viewed;
 
         return $this;
+    }
+
+    /**
+     * Returns the value of field employer_accepted
+     *
+     * @return string
+     */
+    public function getEmployerAccepted()
+    {
+        return $this->employer_accepted;
     }
 
     /**
@@ -131,6 +191,16 @@ class Matches extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns the value of field employee_accepted
+     *
+     * @return string
+     */
+    public function getEmployeeAccepted()
+    {
+        return $this->employee_accepted;
+    }
+
+    /**
      * Method to set the value of field employee_accepted
      *
      * @param string $employee_accepted
@@ -141,6 +211,16 @@ class Matches extends \Phalcon\Mvc\Model
         $this->employee_accepted = $employee_accepted;
 
         return $this;
+    }
+
+    /**
+     * Returns the value of field softdeleted
+     *
+     * @return string
+     */
+    public function getSoftdeleted()
+    {
+        return $this->softdeleted;
     }
 
     /**
@@ -156,85 +236,6 @@ class Matches extends \Phalcon\Mvc\Model
         return $this;
     }
 
-    /**
-     * Returns the value of field id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Returns the value of field percent
-     *
-     * @return integer
-     */
-    public function getPercent()
-    {
-        return $this->percent;
-    }
-
-    /**
-     * Returns the value of field user_id
-     *
-     * @return integer
-     */
-    public function getUserId()
-    {
-        return $this->user_id;
-    }
-
-    /**
-     * Returns the value of field vacancy_id
-     *
-     * @return integer
-     */
-    public function getVacancyId()
-    {
-        return $this->vacancy_id;
-    }
-
-    /**
-     * Returns the value of field viewed
-     *
-     * @return string
-     */
-    public function getViewed()
-    {
-        return $this->viewed;
-    }
-
-    /**
-     * Returns the value of field employer_accepted
-     *
-     * @return string
-     */
-    public function getEmployerAccepted()
-    {
-        return $this->employer_accepted;
-    }
-
-    /**
-     * Returns the value of field employee_accepted
-     *
-     * @return string
-     */
-    public function getEmployeeAccepted()
-    {
-        return $this->employee_accepted;
-    }
-
-    /**
-     * Returns the value of field softdeleted
-     *
-     * @return string
-     */
-    public function getSoftdeleted()
-    {
-        return $this->softdeleted;
-    }
     public function columnMap()
     {
         return array(
@@ -243,16 +244,17 @@ class Matches extends \Phalcon\Mvc\Model
             'user_id' => 'user_id',
             'vacancy_id' => 'vacancy_id',
             'viewed' => 'viewed',
-            'employer_accepted'=>'employer_accepted',
-            'employee_accepted'=>'employee_accepted',
-            'softdeleted' =>'softdeleted',
-            'match_date'=>'match_date'
+            'employer_accepted' => 'employer_accepted',
+            'employee_accepted' => 'employee_accepted',
+            'softdeleted' => 'softdeleted',
+            'match_date' => 'match_date'
         );
     }
+
     public function initialize()
     {
-      $this->hasOne("user_id","User","id");
-      $this->hasOne("vacancy_id","Vacancy","id");
+        $this->hasOne("user_id", "User", "id");
+        $this->hasOne("vacancy_id", "Vacancy", "id");
     }
 
 }

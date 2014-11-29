@@ -48,10 +48,10 @@
                     </task>
                 </concern>
                 <concern name="extensions">
-                	<task>Ensure extensions are compatible with PHP5 constructor renaming in the current trunk.</task>
+                    <task>Ensure extensions are compatible with PHP5 constructor renaming in the current trunk.</task>
                 </concern>
                 <concern name="build">
-                	<task>Update PEAR package task to be compatible with latest PEAR installer.</task>
+                    <task>Update PEAR package task to be compatible with latest PEAR installer.</task>
                     <task status="done">PHP 5.3 compatible under E_STRICT</task>
                     <task>PHP 5.2.0-5 compatible under E_STRICT</task>
                     <task>PHP 5.1.0-6 compatible under E_STRICT</task>
@@ -129,7 +129,8 @@
     </content>
     <internal>
         <link>
-            <a href="#plan">Current iteration</a> is 1.1beta.
+            <a href="#plan">Current iteration</a>
+            is 1.1beta.
         </link>
         <link>
             Upcoming tasks for
@@ -140,7 +141,8 @@
             <a href="#browser">Browser</a>,
             <a href="#web-tester">Web tester</a>,
             <a href="#documentation">Documentation</a>,
-            <a href="#extensions">Extensions</a> and
+            <a href="#extensions">Extensions</a>
+            and
             <a href="#build">Build</a>.
         </link>
     </internal>
@@ -148,7 +150,8 @@
         <link>
             Trackers for :
             <a href="https://sourceforge.net/tracker/?group_id=76550&amp;atid=547458">feature requests</a>,
-            <a href="https://sourceforge.net/tracker/?group_id=76550&amp;atid=547455">bugs</a> and
+            <a href="https://sourceforge.net/tracker/?group_id=76550&amp;atid=547455">bugs</a>
+            and
             <a href="https://sourceforge.net/tracker/?group_id=76550&amp;atid=547457">patches</a>.
         </link>
     </external>

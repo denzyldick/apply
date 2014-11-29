@@ -53,7 +53,7 @@ class Swift_Events_SendEvent extends Swift_Events_EventObject
     /**
      * Create a new SendEvent for $source and $message.
      *
-     * @param Swift_Transport    $source
+     * @param Swift_Transport $source
      * @param Swift_Mime_Message $message
      */
     public function __construct(Swift_Transport $source, Swift_Mime_Message $message)
@@ -84,16 +84,6 @@ class Swift_Events_SendEvent extends Swift_Events_EventObject
     }
 
     /**
-     * Set the array of addresses that failed in sending.
-     *
-     * @param array $recipients
-     */
-    public function setFailedRecipients($recipients)
-    {
-        $this->_failedRecipients = $recipients;
-    }
-
-    /**
      * Get an recipient addresses which were not accepted for delivery.
      *
      * @return string[]
@@ -104,13 +94,13 @@ class Swift_Events_SendEvent extends Swift_Events_EventObject
     }
 
     /**
-     * Set the result of sending.
+     * Set the array of addresses that failed in sending.
      *
-     * @param integer $result
+     * @param array $recipients
      */
-    public function setResult($result)
+    public function setFailedRecipients($recipients)
     {
-        $this->_result = $result;
+        $this->_failedRecipients = $recipients;
     }
 
     /**
@@ -124,5 +114,15 @@ class Swift_Events_SendEvent extends Swift_Events_EventObject
     public function getResult()
     {
         return $this->_result;
+    }
+
+    /**
+     * Set the result of sending.
+     *
+     * @param integer $result
+     */
+    public function setResult($result)
+    {
+        $this->_result = $result;
     }
 }

@@ -35,22 +35,12 @@ class Swift_Plugins_RedirectingPlugin implements Swift_Events_SendListener
      * Create a new RedirectingPlugin.
      *
      * @param mixed $recipient
-     * @param array  $whitelist
+     * @param array $whitelist
      */
     public function __construct($recipient, array $whitelist = array())
     {
         $this->_recipient = $recipient;
         $this->_whitelist = $whitelist;
-    }
-
-    /**
-     * Set the recipient of all messages.
-     *
-     * @param mixed $recipient
-     */
-    public function setRecipient($recipient)
-    {
-        $this->_recipient = $recipient;
     }
 
     /**
@@ -64,13 +54,13 @@ class Swift_Plugins_RedirectingPlugin implements Swift_Events_SendListener
     }
 
     /**
-     * Set a list of regular expressions to whitelist certain recipients
+     * Set the recipient of all messages.
      *
-     * @param array $whitelist
+     * @param mixed $recipient
      */
-    public function setWhitelist(array $whitelist)
+    public function setRecipient($recipient)
     {
-        $this->_whitelist = $whitelist;
+        $this->_recipient = $recipient;
     }
 
     /**
@@ -81,6 +71,16 @@ class Swift_Plugins_RedirectingPlugin implements Swift_Events_SendListener
     public function getWhitelist()
     {
         return $this->_whitelist;
+    }
+
+    /**
+     * Set a list of regular expressions to whitelist certain recipients
+     *
+     * @param array $whitelist
+     */
+    public function setWhitelist(array $whitelist)
+    {
+        $this->_whitelist = $whitelist;
     }
 
     /**
@@ -113,7 +113,7 @@ class Swift_Plugins_RedirectingPlugin implements Swift_Events_SendListener
         $this->_filterHeaderSet($headers, 'Bcc');
 
         // Add each hard coded recipient
-        foreach ( (array) $this->_recipient as $recipient) {
+        foreach ((array)$this->_recipient as $recipient) {
             if (!array_key_exists($recipient, $message->getTo())) {
                 $message->addTo($recipient);
             }
@@ -161,7 +161,7 @@ class Swift_Plugins_RedirectingPlugin implements Swift_Events_SendListener
      */
     protected function _isWhitelisted($recipient)
     {
-        if (in_array($recipient, (array) $this->_recipient)) {
+        if (in_array($recipient, (array)$this->_recipient)) {
             return true;
         }
 

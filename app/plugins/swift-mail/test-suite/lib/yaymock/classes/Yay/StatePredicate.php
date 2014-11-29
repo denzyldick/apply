@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
  */
- 
+
 //require 'Yay/SelfDescribing.php';
 
 /**
@@ -25,11 +25,11 @@
  */
 interface Yay_StatePredicate extends Yay_SelfDescribing
 {
-  
-  /**
-   * Return true if the state machine is in this state.
-   * @return boolean
-   */
-  public function isActive();
-  
+
+    /**
+     * Return true if the state machine is in this state.
+     * @return boolean
+     */
+    public function isActive();
+
 }

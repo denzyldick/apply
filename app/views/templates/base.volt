@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     {{ assets.outputJs('jsHeader') }}
-    {{  assets.outputCSS() }}
+    {{ assets.outputCSS() }}
     <style>
         .bootstrap-tagsinput {
             width: 100%;

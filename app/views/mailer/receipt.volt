@@ -1,5 +1,5 @@
-<h1>{{welcome_message}}</h1>
+<h1>{{ welcome_message }}</h1>
 <pre>
-  {{body}}
+  {{ body }}
 </pre>
-<small>{{footer}}</small>
+<small>{{ footer }}</small>

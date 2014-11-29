@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
  */
- 
+
 //require 'Yay/SelfDescribing.php';
 
 /**
@@ -27,23 +27,23 @@
  */
 interface Yay_Invocation extends Yay_SelfDescribing
 {
-  
-  /**
-   * Get the object which this Invocation occured on.
-   * @return object
-   */
-  public function getObject();
-  
-  /**
-   * Get the method name of the invoked method.
-   * @return string
-   */
-  public function getMethod();
-  
-  /**
-   * Get the argument list in the Invocation.
-   * @return array
-   */
-  public function &getArguments();
-  
+
+    /**
+     * Get the object which this Invocation occured on.
+     * @return object
+     */
+    public function getObject();
+
+    /**
+     * Get the method name of the invoked method.
+     * @return string
+     */
+    public function getMethod();
+
+    /**
+     * Get the argument list in the Invocation.
+     * @return array
+     */
+    public function &getArguments();
+
 }

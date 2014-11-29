@@ -32,6 +32,16 @@ class Swift_Transport_SpoolTransport implements Swift_Transport
     }
 
     /**
+     * Get the spool object.
+     *
+     * @return Swift_Spool
+     */
+    public function getSpool()
+    {
+        return $this->_spool;
+    }
+
+    /**
      * Sets the spool object.
      *
      * @param Swift_Spool $spool
@@ -43,16 +53,6 @@ class Swift_Transport_SpoolTransport implements Swift_Transport
         $this->_spool = $spool;
 
         return $this;
-    }
-
-    /**
-     * Get the spool object.
-     *
-     * @return Swift_Spool
-     */
-    public function getSpool()
-    {
-        return $this->_spool;
     }
 
     /**
@@ -83,7 +83,7 @@ class Swift_Transport_SpoolTransport implements Swift_Transport
      * Sends the given message.
      *
      * @param Swift_Mime_Message $message
-     * @param string[]           $failedRecipients An array of failures by-reference
+     * @param string[] $failedRecipients An array of failures by-reference
      *
      * @return integer The number of sent e-mail's
      */

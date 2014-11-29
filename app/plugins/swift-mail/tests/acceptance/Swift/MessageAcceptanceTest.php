@@ -43,7 +43,7 @@ class Swift_MessageAcceptanceTest
             "\r\n\r\n" .
             '--' . $boundary . '--' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     // -- Private helpers

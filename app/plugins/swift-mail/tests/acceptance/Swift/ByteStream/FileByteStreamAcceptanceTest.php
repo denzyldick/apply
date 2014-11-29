@@ -16,7 +16,7 @@ class Swift_ByteStream_FileByteStreamAcceptanceTest
         $this->skipUnless(
             SWIFT_TMP_DIR, 'Cannot run test without a writable directory to use (' .
             'define SWIFT_TMP_DIR in tests/config.php if you wish to run this test)'
-            );
+        );
     }
 
     public function setUp()
@@ -41,6 +41,11 @@ class Swift_ByteStream_FileByteStreamAcceptanceTest
         $this->assertEqual('abcdefghijklm', $str);
     }
 
+    private function _createFileStream($file, $writable = false)
+    {
+        return new Swift_ByteStream_FileByteStream($file, $writable);
+    }
+
     public function testFileDataCanBeReadSequentially()
     {
         $file = $this->_createFileStream($this->_testFile);
@@ -59,7 +64,7 @@ class Swift_ByteStream_FileByteStreamAcceptanceTest
     {
         $file = $this->_createFileStream(
             $this->_testFile, true
-            );
+        );
         $file->write('foobar');
         $this->assertEqual('foobar', $file->read(8192));
     }
@@ -68,7 +73,7 @@ class Swift_ByteStream_FileByteStreamAcceptanceTest
     {
         $file = $this->_createFileStream(
             $this->_testFile, true
-            );
+        );
         $file->write('foobar');
         $this->assertEqual('foobar', $file->read(8192));
         $file->write('zipbutton');
@@ -79,7 +84,7 @@ class Swift_ByteStream_FileByteStreamAcceptanceTest
     {
         $file = $this->_createFileStream(
             $this->_testFile, true
-            );
+        );
         $file->addFilter($this->_createFilter(array("\r\n", "\r"), "\n"), 'allToLF');
         $file->write("foo\r\nbar\r");
         $file->write("\nzip\r\ntest\r");
@@ -87,19 +92,24 @@ class Swift_ByteStream_FileByteStreamAcceptanceTest
         $this->assertEqual("foo\nbar\nzip\ntest\n", file_get_contents($this->_testFile));
     }
 
+    private function _createFilter($search, $replace)
+    {
+        return new Swift_StreamFilters_StringReplacementFilter($search, $replace);
+    }
+
     public function testBindingOtherStreamsMirrorsWriteOperations()
     {
         $file = $this->_createFileStream(
             $this->_testFile, true
-            );
+        );
         $is1 = $this->_createMockInputStream();
         $is2 = $this->_createMockInputStream();
 
         $this->_checking(Expectations::create()
-            -> one($is1)->write('x')
-            -> one($is2)->write('x')
-            -> one($is1)->write('y')
-            -> one($is2)->write('y')
+                ->one($is1)->write('x')
+                ->one($is2)->write('x')
+                ->one($is1)->write('y')
+                ->one($is2)->write('y')
         );
 
         $file->bind($is1);
@@ -109,17 +119,24 @@ class Swift_ByteStream_FileByteStreamAcceptanceTest
         $file->write('y');
     }
 
+    // -- Creation methods
+
+    private function _createMockInputStream()
+    {
+        return $this->_mock('Swift_InputByteStream');
+    }
+
     public function testBindingOtherStreamsMirrorsFlushOperations()
     {
         $file = $this->_createFileStream(
             $this->_testFile, true
-            );
+        );
         $is1 = $this->_createMockInputStream();
         $is2 = $this->_createMockInputStream();
 
         $this->_checking(Expectations::create()
-            -> one($is1)->flushBuffers()
-            -> one($is2)->flushBuffers()
+                ->one($is1)->flushBuffers()
+                ->one($is2)->flushBuffers()
         );
 
         $file->bind($is1);
@@ -132,14 +149,14 @@ class Swift_ByteStream_FileByteStreamAcceptanceTest
     {
         $file = $this->_createFileStream(
             $this->_testFile, true
-            );
+        );
         $is1 = $this->_createMockInputStream();
         $is2 = $this->_createMockInputStream();
 
         $this->_checking(Expectations::create()
-            -> one($is1)->write('x')
-            -> one($is2)->write('x')
-            -> one($is1)->write('y')
+                ->one($is1)->write('x')
+                ->one($is2)->write('x')
+                ->one($is1)->write('y')
         );
 
         $file->bind($is1);
@@ -150,22 +167,5 @@ class Swift_ByteStream_FileByteStreamAcceptanceTest
         $file->unbind($is2);
 
         $file->write('y');
-    }
-
-    // -- Creation methods
-
-    private function _createFilter($search, $replace)
-    {
-        return new Swift_StreamFilters_StringReplacementFilter($search, $replace);
-    }
-
-    private function _createMockInputStream()
-    {
-        return $this->_mock('Swift_InputByteStream');
-    }
-
-    private function _createFileStream($file, $writable = false)
-    {
-        return new Swift_ByteStream_FileByteStream($file, $writable);
     }
 }

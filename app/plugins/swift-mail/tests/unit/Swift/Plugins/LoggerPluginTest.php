@@ -16,126 +16,12 @@ class Swift_Plugins_LoggerPluginTest extends Swift_Tests_SwiftUnitTestCase
     {
         $logger = $this->_createLogger();
         $this->_checking(Expectations::create()
-            -> one($logger)->add('foo')
-            );
+                ->one($logger)->add('foo')
+        );
 
         $plugin = $this->_createPlugin($logger);
         $plugin->add('foo');
     }
-
-    public function testLoggerDelegatesDumpingEntries()
-    {
-        $logger = $this->_createLogger();
-        $this->_checking(Expectations::create()
-            -> one($logger)->dump() -> returns('foobar')
-            );
-
-        $plugin = $this->_createPlugin($logger);
-        $this->assertEqual('foobar', $plugin->dump());
-    }
-
-    public function testLoggerDelegatesClearingEntries()
-    {
-        $logger = $this->_createLogger();
-        $this->_checking(Expectations::create()
-            -> one($logger)->clear()
-            );
-
-        $plugin = $this->_createPlugin($logger);
-        $plugin->clear();
-    }
-
-    public function testCommandIsSentToLogger()
-    {
-        $evt = $this->_createCommandEvent("foo\r\n");
-        $logger = $this->_createLogger();
-        $this->_checking(Expectations::create()
-            -> one($logger)->add(pattern('~foo\r\n~'))
-            );
-
-        $plugin = $this->_createPlugin($logger);
-        $plugin->commandSent($evt);
-    }
-
-    public function testResponseIsSentToLogger()
-    {
-        $evt = $this->_createResponseEvent("354 Go ahead\r\n");
-        $logger = $this->_createLogger();
-        $this->_checking(Expectations::create()
-            -> one($logger)->add(pattern('~354 Go ahead\r\n~'))
-            );
-
-        $plugin = $this->_createPlugin($logger);
-        $plugin->responseReceived($evt);
-    }
-
-    public function testTransportBeforeStartChangeIsSentToLogger()
-    {
-        $evt = $this->_createTransportChangeEvent();
-        $logger = $this->_createLogger();
-        $this->_checking(Expectations::create()
-            -> one($logger)->add(any())
-            );
-
-        $plugin = $this->_createPlugin($logger);
-        $plugin->beforeTransportStarted($evt);
-    }
-
-    public function testTransportStartChangeIsSentToLogger()
-    {
-        $evt = $this->_createTransportChangeEvent();
-        $logger = $this->_createLogger();
-        $this->_checking(Expectations::create()
-            -> one($logger)->add(any())
-            );
-
-        $plugin = $this->_createPlugin($logger);
-        $plugin->transportStarted($evt);
-    }
-
-    public function testTransportStopChangeIsSentToLogger()
-    {
-        $evt = $this->_createTransportChangeEvent();
-        $logger = $this->_createLogger();
-        $this->_checking(Expectations::create()
-            -> one($logger)->add(any())
-            );
-
-        $plugin = $this->_createPlugin($logger);
-        $plugin->transportStopped($evt);
-    }
-
-    public function testTransportBeforeStopChangeIsSentToLogger()
-    {
-        $evt = $this->_createTransportChangeEvent();
-        $logger = $this->_createLogger();
-        $this->_checking(Expectations::create()
-            -> one($logger)->add(any())
-            );
-
-        $plugin = $this->_createPlugin($logger);
-        $plugin->beforeTransportStopped($evt);
-    }
-
-    public function testExceptionsArePassedToDelegateAndLeftToBubbleUp()
-    {
-        $transport = $this->_createTransport();
-        $evt = $this->_createTransportExceptionEvent();
-        $logger = $this->_createLogger();
-        $this->_checking(Expectations::create()
-            -> one($logger)->add(any())
-            -> allowing($logger)
-            );
-
-        $plugin = $this->_createPlugin($logger);
-        try {
-            $plugin->exceptionThrown($evt);
-            $this->fail('Exception should bubble up.');
-        } catch (Swift_TransportException $ex) {
-        }
-    }
-
-    // -- Creation Methods
 
     private function _createLogger()
     {
@@ -147,24 +33,95 @@ class Swift_Plugins_LoggerPluginTest extends Swift_Tests_SwiftUnitTestCase
         return new Swift_Plugins_LoggerPlugin($logger);
     }
 
+    public function testLoggerDelegatesDumpingEntries()
+    {
+        $logger = $this->_createLogger();
+        $this->_checking(Expectations::create()
+                ->one($logger)->dump()->returns('foobar')
+        );
+
+        $plugin = $this->_createPlugin($logger);
+        $this->assertEqual('foobar', $plugin->dump());
+    }
+
+    public function testLoggerDelegatesClearingEntries()
+    {
+        $logger = $this->_createLogger();
+        $this->_checking(Expectations::create()
+                ->one($logger)->clear()
+        );
+
+        $plugin = $this->_createPlugin($logger);
+        $plugin->clear();
+    }
+
+    public function testCommandIsSentToLogger()
+    {
+        $evt = $this->_createCommandEvent("foo\r\n");
+        $logger = $this->_createLogger();
+        $this->_checking(Expectations::create()
+                ->one($logger)->add(pattern('~foo\r\n~'))
+        );
+
+        $plugin = $this->_createPlugin($logger);
+        $plugin->commandSent($evt);
+    }
+
     private function _createCommandEvent($command)
     {
         $evt = $this->_mock('Swift_Events_CommandEvent');
         $this->_checking(Expectations::create()
-            -> ignoring($evt)->getCommand() -> returns($command)
-            -> ignoring($evt)
-            );
+                ->ignoring($evt)->getCommand()->returns($command)
+                ->ignoring($evt)
+        );
 
         return $evt;
+    }
+
+    public function testResponseIsSentToLogger()
+    {
+        $evt = $this->_createResponseEvent("354 Go ahead\r\n");
+        $logger = $this->_createLogger();
+        $this->_checking(Expectations::create()
+                ->one($logger)->add(pattern('~354 Go ahead\r\n~'))
+        );
+
+        $plugin = $this->_createPlugin($logger);
+        $plugin->responseReceived($evt);
     }
 
     private function _createResponseEvent($response)
     {
         $evt = $this->_mock('Swift_Events_ResponseEvent');
         $this->_checking(Expectations::create()
-            -> ignoring($evt)->getResponse() -> returns($response)
-            -> ignoring($evt)
-            );
+                ->ignoring($evt)->getResponse()->returns($response)
+                ->ignoring($evt)
+        );
+
+        return $evt;
+    }
+
+    public function testTransportBeforeStartChangeIsSentToLogger()
+    {
+        $evt = $this->_createTransportChangeEvent();
+        $logger = $this->_createLogger();
+        $this->_checking(Expectations::create()
+                ->one($logger)->add(any())
+        );
+
+        $plugin = $this->_createPlugin($logger);
+        $plugin->beforeTransportStarted($evt);
+    }
+
+    // -- Creation Methods
+
+    private function _createTransportChangeEvent()
+    {
+        $evt = $this->_mock('Swift_Events_TransportChangeEvent');
+        $this->_checking(Expectations::create()
+                ->ignoring($evt)->getSource()->returns($this->_createTransport())
+                ->ignoring($evt)
+        );
 
         return $evt;
     }
@@ -174,24 +131,67 @@ class Swift_Plugins_LoggerPluginTest extends Swift_Tests_SwiftUnitTestCase
         return $this->_mock('Swift_Transport');
     }
 
-    private function _createTransportChangeEvent()
+    public function testTransportStartChangeIsSentToLogger()
     {
-        $evt = $this->_mock('Swift_Events_TransportChangeEvent');
+        $evt = $this->_createTransportChangeEvent();
+        $logger = $this->_createLogger();
         $this->_checking(Expectations::create()
-            -> ignoring($evt)->getSource() -> returns($this->_createTransport())
-            -> ignoring($evt)
-            );
+                ->one($logger)->add(any())
+        );
 
-        return $evt;
+        $plugin = $this->_createPlugin($logger);
+        $plugin->transportStarted($evt);
+    }
+
+    public function testTransportStopChangeIsSentToLogger()
+    {
+        $evt = $this->_createTransportChangeEvent();
+        $logger = $this->_createLogger();
+        $this->_checking(Expectations::create()
+                ->one($logger)->add(any())
+        );
+
+        $plugin = $this->_createPlugin($logger);
+        $plugin->transportStopped($evt);
+    }
+
+    public function testTransportBeforeStopChangeIsSentToLogger()
+    {
+        $evt = $this->_createTransportChangeEvent();
+        $logger = $this->_createLogger();
+        $this->_checking(Expectations::create()
+                ->one($logger)->add(any())
+        );
+
+        $plugin = $this->_createPlugin($logger);
+        $plugin->beforeTransportStopped($evt);
+    }
+
+    public function testExceptionsArePassedToDelegateAndLeftToBubbleUp()
+    {
+        $transport = $this->_createTransport();
+        $evt = $this->_createTransportExceptionEvent();
+        $logger = $this->_createLogger();
+        $this->_checking(Expectations::create()
+                ->one($logger)->add(any())
+                ->allowing($logger)
+        );
+
+        $plugin = $this->_createPlugin($logger);
+        try {
+            $plugin->exceptionThrown($evt);
+            $this->fail('Exception should bubble up.');
+        } catch (Swift_TransportException $ex) {
+        }
     }
 
     private function _createTransportExceptionEvent()
     {
         $evt = $this->_mock('Swift_Events_TransportExceptionEvent');
         $this->_checking(Expectations::create()
-            -> ignoring($evt)->getException() -> returns(new Swift_TransportException(''))
-            -> ignoring($evt)
-            );
+                ->ignoring($evt)->getException()->returns(new Swift_TransportException(''))
+                ->ignoring($evt)
+        );
 
         return $evt;
     }

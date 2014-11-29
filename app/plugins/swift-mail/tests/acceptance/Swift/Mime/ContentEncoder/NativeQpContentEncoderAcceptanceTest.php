@@ -55,7 +55,7 @@ class Swift_Mime_ContentEncoder_NativeQpContentEncoderAcceptanceTest
                         quoted_printable_decode($encoded),
                         // CR and LF are converted to CRLF
                         preg_replace('~\r(?!\n)|(?<!\r)\n~', "\r\n", $text),
-                        '%s: Encoded string should decode back to original string for sample '.$sampleDir.'/'.$sampleFile
+                        '%s: Encoded string should decode back to original string for sample ' . $sampleDir . '/' . $sampleFile
                     );
                 }
                 closedir($fileFp);
@@ -71,6 +71,12 @@ class Swift_Mime_ContentEncoder_NativeQpContentEncoderAcceptanceTest
         $this->assertSame('=C3=A4=C3=B6=C3=BC=C3=9F', $encoder->encodeString('äöüß'));
     }
 
+    private function _createEncoderFromContainer()
+    {
+        return Swift_DependencyContainer::getInstance()
+            ->lookup('mime.nativeqpcontentencoder');
+    }
+
     public function testCharsetChangeNotImplemented()
     {
         $this->_encoder->charsetChanged('utf-8');
@@ -79,17 +85,10 @@ class Swift_Mime_ContentEncoder_NativeQpContentEncoderAcceptanceTest
         $this->_encoder->encodeString('foo');
     }
 
+    // -- Private Methods
+
     public function testGetName()
     {
         $this->assertSame('quoted-printable', $this->_encoder->getName());
-    }
-
-    // -- Private Methods
-
-    private function _createEncoderFromContainer()
-    {
-        return Swift_DependencyContainer::getInstance()
-            ->lookup('mime.nativeqpcontentencoder')
-            ;
     }
 }

@@ -25,6 +25,11 @@ class Swift_Transport_Esmtp_Auth_PlainAuthenticatorTest
         $this->assertEqual('PLAIN', $login->getAuthKeyword());
     }
 
+    private function _getAuthenticator()
+    {
+        return new Swift_Transport_Esmtp_Auth_PlainAuthenticator();
+    }
+
     public function testSuccessfulAuthentication()
     {
         /* -- RFC 4616, 2.
@@ -36,36 +41,30 @@ class Swift_Transport_Esmtp_Auth_PlainAuthenticatorTest
 
         $plain = $this->_getAuthenticator();
         $this->_checking(Expectations::create()
-            -> one($this->_agent)->executeCommand('AUTH PLAIN ' . base64_encode(
-                'jack' . chr(0) . 'jack' . chr(0) . 'pass'
-                ) . "\r\n", array(235))
-            );
+                ->one($this->_agent)->executeCommand('AUTH PLAIN ' . base64_encode(
+                        'jack' . chr(0) . 'jack' . chr(0) . 'pass'
+                    ) . "\r\n", array(235))
+        );
 
         $this->assertTrue($plain->authenticate($this->_agent, 'jack', 'pass'),
             '%s: The buffer accepted all commands authentication should succeed'
-            );
+        );
     }
+
+    // -- Private helpers
 
     public function testAuthenticationFailureSendRsetAndReturnFalse()
     {
         $plain = $this->_getAuthenticator();
         $this->_checking(Expectations::create()
-            -> one($this->_agent)->executeCommand('AUTH PLAIN ' . base64_encode(
-                'jack' . chr(0) . 'jack' . chr(0) . 'pass'
-                ) . "\r\n", array(235)) -> throws(new Swift_TransportException(""))
-
-            -> one($this->_agent)->executeCommand("RSET\r\n", array(250))
-            );
+                ->one($this->_agent)->executeCommand('AUTH PLAIN ' . base64_encode(
+                        'jack' . chr(0) . 'jack' . chr(0) . 'pass'
+                    ) . "\r\n", array(235))->throws(new Swift_TransportException(""))
+                ->one($this->_agent)->executeCommand("RSET\r\n", array(250))
+        );
 
         $this->assertFalse($plain->authenticate($this->_agent, 'jack', 'pass'),
             '%s: Authentication fails, so RSET should be sent'
-            );
-    }
-
-    // -- Private helpers
-
-    private function _getAuthenticator()
-    {
-        return new Swift_Transport_Esmtp_Auth_PlainAuthenticator();
+        );
     }
 }

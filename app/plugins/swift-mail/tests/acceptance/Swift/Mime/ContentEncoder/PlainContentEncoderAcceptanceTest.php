@@ -40,7 +40,7 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderAcceptanceTest
                         $encodedText, $text,
                         '%s: Encoded string should be identical to original string for sample ' .
                         $sampleDir . '/' . $sampleFile
-                        );
+                    );
                 }
                 closedir($fileFp);
             }
@@ -85,7 +85,7 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderAcceptanceTest
                         $encoded, $text,
                         '%s: Encoded string should be identical to original string for sample ' .
                         $sampleDir . '/' . $sampleFile
-                        );
+                    );
                 }
                 closedir($fileFp);
             }

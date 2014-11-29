@@ -16,6 +16,16 @@ class Skills extends \Phalcon\Mvc\Model
     protected $name;
 
     /**
+     * Returns the value of field id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * Method to set the value of field id
      *
      * @param  integer $id
@@ -26,6 +36,16 @@ class Skills extends \Phalcon\Mvc\Model
         $this->id = $id;
 
         return $this;
+    }
+
+    /**
+     * Returns the value of field name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
@@ -41,25 +61,6 @@ class Skills extends \Phalcon\Mvc\Model
         return $this;
     }
 
-    /**
-     * Returns the value of field id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Returns the value of field name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
     public function columnMap()
     {
         return array(
@@ -70,7 +71,7 @@ class Skills extends \Phalcon\Mvc\Model
 
     public function initialize()
     {
-        $this->hasOne("id","Specification","skills_id");
+        $this->hasOne("id", "Specification", "skills_id");
     }
 
 }

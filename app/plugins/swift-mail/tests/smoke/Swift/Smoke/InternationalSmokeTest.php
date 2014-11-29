@@ -23,15 +23,14 @@ class Swift_Smoke_InternationalSmokeTest extends Swift_Tests_SwiftSmokeTestCase
                 PHP_EOL .
                 'Following is some arbitrary Greek text:' . PHP_EOL .
                 'Δεν βρέθηκαν λέξεις.'
-                )
+            )
             ->attach(Swift_Attachment::fromPath($this->_attFile)
-                ->setContentType('application/zip')
-                ->setFilename('κείμενο, εδάφιο, θέμα.zip')
-                )
-            ;
+                    ->setContentType('application/zip')
+                    ->setFilename('κείμενο, εδάφιο, θέμα.zip')
+            );
         $this->assertEqual(1, $mailer->send($message),
             '%s: The smoke test should send a single message'
-            );
+        );
         $this->_visualCheck('http://swiftmailer.org/smoke/4.0.0/international.jpg');
     }
 }

@@ -25,77 +25,73 @@
  * @package Yay
  */
 class Yay_Expectations_AtLeastExpectation
-  extends Yay_Expectations_AbstractExpectation
+    extends Yay_Expectations_AbstractExpectation
 {
 
-  /**
-   * The expected Invocation count.
-   * @var int
-   * @access private
-   */
-  private $_count = 0;
+    /**
+     * The expected Invocation count.
+     * @var int
+     * @access private
+     */
+    private $_count = 0;
 
-  /**
-   * The number of matched Invocations.
-   * @var int
-   * @access private
-   */
-  private $_matched = 0;
+    /**
+     * The number of matched Invocations.
+     * @var int
+     * @access private
+     */
+    private $_matched = 0;
 
-  /**
-   * Create a new AtLeastExpectation expecting at least $n Invocations.
-   * @param integer $n
-   */
-  public function __construct($n)
-  {
-    $this->_count = $n;
-  }
-
-  /**
-   * Test if all conditions of the Invocation are satisfied.
-   * @return boolean
-   */
-  public function isSatisfied()
-  {
-    return ($this->_matched >= $this->_count);
-  }
-
-  /**
-   * Increment the match counter by 1.
-   * @param Yay_Invocation $invocation
-   */
-  public function notifyMatchedInvocation(Yay_Invocation $invocation)
-  {
-    $this->_matched++;
-  }
-
-  /**
-   * Describe the boundaries of how many invocations can occur.
-   * @param Yay_Description $description
-   */
-  public function describeBounds(Yay_Description $description)
-  {
-    if ($this->_count > 0)
+    /**
+     * Create a new AtLeastExpectation expecting at least $n Invocations.
+     * @param integer $n
+     */
+    public function __construct($n)
     {
-      $description->appendText(sprintf('At least %d', $this->_count));
+        $this->_count = $n;
     }
-    else
-    {
-      $description->appendText('Any number');
-    }
-  }
 
-  /**
-   * Describe the current status of this expectation.
-   * @param Yay_Description $description
-   */
-  public function describeSatisfaction(Yay_Description $description)
-  {
-    if ($this->_matched >= $this->_count)
+    /**
+     * Test if all conditions of the Invocation are satisfied.
+     * @return boolean
+     */
+    public function isSatisfied()
     {
-      $description->appendText(' already');
+        return ($this->_matched >= $this->_count);
     }
-    $description->appendText(sprintf(' occurred %d times', $this->_matched));
-  }
+
+    /**
+     * Increment the match counter by 1.
+     * @param Yay_Invocation $invocation
+     */
+    public function notifyMatchedInvocation(Yay_Invocation $invocation)
+    {
+        $this->_matched++;
+    }
+
+    /**
+     * Describe the boundaries of how many invocations can occur.
+     * @param Yay_Description $description
+     */
+    public function describeBounds(Yay_Description $description)
+    {
+        if ($this->_count > 0) {
+            $description->appendText(sprintf('At least %d', $this->_count));
+        } else {
+            $description->appendText('Any number');
+        }
+    }
+
+    /**
+     * Describe the current status of this expectation.
+     * @param Yay_Description $description
+     */
+    public function describeSatisfaction(Yay_Description $description)
+    {
+        if ($this->_matched >= $this->_count) {
+            $description->appendText(' already');
+        }
+        $description->appendText(sprintf(' occurred %d times', $this->_matched));
+    }
 
 }

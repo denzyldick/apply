@@ -28,6 +28,16 @@ class Verification extends \Phalcon\Mvc\Model
     protected $user_id;
 
     /**
+     * Returns the value of field id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * Method to set the value of field id
      *
      * @param integer $id
@@ -38,6 +48,16 @@ class Verification extends \Phalcon\Mvc\Model
         $this->id = $id;
 
         return $this;
+    }
+
+    /**
+     * Returns the value of field type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**
@@ -54,6 +74,16 @@ class Verification extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns the value of field date
+     *
+     * @return string
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
      * Method to set the value of field date
      *
      * @param string $date
@@ -67,6 +97,16 @@ class Verification extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns the value of field user_id
+     *
+     * @return integer
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    /**
      * Method to set the value of field user_id
      *
      * @param integer $user_id
@@ -77,46 +117,6 @@ class Verification extends \Phalcon\Mvc\Model
         $this->user_id = $user_id;
 
         return $this;
-    }
-
-    /**
-     * Returns the value of field id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Returns the value of field type
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * Returns the value of field date
-     *
-     * @return string
-     */
-    public function getDate()
-    {
-        return $this->date;
-    }
-
-    /**
-     * Returns the value of field user_id
-     *
-     * @return integer
-     */
-    public function getUserId()
-    {
-        return $this->user_id;
     }
 
 }

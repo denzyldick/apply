@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
  */
- 
+
 //require 'Yay/Invocation.php';
 
 /**
@@ -25,12 +25,12 @@
  */
 interface Yay_InvocationHandler
 {
-  
-  /**
-   * Handle the given $invocation and return a value for it.
-   * @param Yay_Invocation $invocation
-   * @return mixed
-   */
-  public function &handleInvocation(Yay_Invocation $invocation);
-  
+
+    /**
+     * Handle the given $invocation and return a value for it.
+     * @param Yay_Invocation $invocation
+     * @return mixed
+     */
+    public function &handleInvocation(Yay_Invocation $invocation);
+
 }

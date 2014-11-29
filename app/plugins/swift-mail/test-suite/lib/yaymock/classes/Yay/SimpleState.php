@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
  */
- 
+
 //require 'Yay/State.php';
 //require 'Yay/States.php';
 //require 'Yay/SimpleStatePredicate.php';
@@ -27,23 +27,23 @@
  */
 class Yay_SimpleState extends Yay_SimpleStatePredicate implements Yay_State
 {
-  
-  /**
-   * Create a new State for $stateMachine to be $stateName.
-   * @param Yay_States $stateMachine
-   * @param string $stateName
-   */
-  public function __construct(Yay_States $stateMachine, $stateName)
-  {
-    parent::__construct($stateMachine, $stateName, true);
-  }
-  
-  /**
-   * Make this State active.
-   */
-  public function activate()
-  {
-    $this->_stateMachine->become($this->_stateName);
-  }
-  
+
+    /**
+     * Create a new State for $stateMachine to be $stateName.
+     * @param Yay_States $stateMachine
+     * @param string $stateName
+     */
+    public function __construct(Yay_States $stateMachine, $stateName)
+    {
+        parent::__construct($stateMachine, $stateName, true);
+    }
+
+    /**
+     * Make this State active.
+     */
+    public function activate()
+    {
+        $this->_stateMachine->become($this->_stateName);
+    }
+
 }

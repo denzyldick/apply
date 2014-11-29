@@ -70,6 +70,15 @@ class Swift_Bug38Test extends Swift_Tests_SwiftUnitTestCase
         );
     }
 
+    public function assertPatternInStream($pattern, $stream, $message = '%s')
+    {
+        $string = '';
+        while (false !== $bytes = $stream->read(8192)) {
+            $string .= $bytes;
+        }
+        $this->assertPattern($pattern, $string, $message);
+    }
+
     public function testWritingMessageToByteStreamTwiceProducesCorrectStructure()
     {
         $message = new Swift_Message();
@@ -89,33 +98,32 @@ class Swift_Bug38Test extends Swift_Tests_SwiftUnitTestCase
         $imgId = $image->getId();
 
         $pattern = '~^' .
-        'Message-ID: <' . $id . '>' . "\r\n" .
-        'Date: ' . $date . "\r\n" .
-        'Subject: test subject' . "\r\n" .
-        'From: user@domain.tld' . "\r\n" .
-        'To: user@domain.tld' . "\r\n" .
-        'Cc: other@domain.tld' . "\r\n" .
-        'MIME-Version: 1.0' . "\r\n" .
-        'Content-Type: multipart/related;' . "\r\n" .
-        ' boundary="' . $boundary . '"' . "\r\n" .
-        "\r\n\r\n" .
-        '--' . $boundary . "\r\n" .
-        'Content-Type: text/html; charset=utf-8' . "\r\n" .
-        'Content-Transfer-Encoding: quoted-printable' . "\r\n" .
-        "\r\n" .
-        'HTML part' .
-        "\r\n\r\n" .
-        '--' . $boundary . "\r\n" .
-        'Content-Type: image/gif; name=image.gif' . "\r\n" .
-        'Content-Transfer-Encoding: base64' . "\r\n" .
-        'Content-Disposition: inline; filename=image.gif' . "\r\n" .
-        'Content-ID: <' . preg_quote($imgId, '~') . '>' . "\r\n" .
-        "\r\n" .
-        preg_quote(base64_encode('<data>'), '~') .
-        "\r\n\r\n" .
-        '--' . $boundary . '--' . "\r\n" .
-        '$~D'
-        ;
+            'Message-ID: <' . $id . '>' . "\r\n" .
+            'Date: ' . $date . "\r\n" .
+            'Subject: test subject' . "\r\n" .
+            'From: user@domain.tld' . "\r\n" .
+            'To: user@domain.tld' . "\r\n" .
+            'Cc: other@domain.tld' . "\r\n" .
+            'MIME-Version: 1.0' . "\r\n" .
+            'Content-Type: multipart/related;' . "\r\n" .
+            ' boundary="' . $boundary . '"' . "\r\n" .
+            "\r\n\r\n" .
+            '--' . $boundary . "\r\n" .
+            'Content-Type: text/html; charset=utf-8' . "\r\n" .
+            'Content-Transfer-Encoding: quoted-printable' . "\r\n" .
+            "\r\n" .
+            'HTML part' .
+            "\r\n\r\n" .
+            '--' . $boundary . "\r\n" .
+            'Content-Type: image/gif; name=image.gif' . "\r\n" .
+            'Content-Transfer-Encoding: base64' . "\r\n" .
+            'Content-Disposition: inline; filename=image.gif' . "\r\n" .
+            'Content-ID: <' . preg_quote($imgId, '~') . '>' . "\r\n" .
+            "\r\n" .
+            preg_quote(base64_encode('<data>'), '~') .
+            "\r\n\r\n" .
+            '--' . $boundary . '--' . "\r\n" .
+            '$~D';
 
         $streamA = new Swift_ByteStream_ArrayByteStream();
         $streamB = new Swift_ByteStream_ArrayByteStream();
@@ -126,6 +134,8 @@ class Swift_Bug38Test extends Swift_Tests_SwiftUnitTestCase
         $this->assertPatternInStream($pattern, $streamA);
         $this->assertPatternInStream($pattern, $streamB);
     }
+
+    // -- Helpers
 
     public function testWritingMessageToByteStreamTwiceUsingAFileAttachment()
     {
@@ -173,24 +183,12 @@ class Swift_Bug38Test extends Swift_Tests_SwiftUnitTestCase
             preg_quote(base64_encode(file_get_contents($this->_attFile)), '~') .
             "\r\n\r\n" .
             '--' . $boundary . '--' . "\r\n" .
-            '$~D'
-            ;
+            '$~D';
 
         $message->toByteStream($streamA);
         $message->toByteStream($streamB);
 
         $this->assertPatternInStream($pattern, $streamA);
         $this->assertPatternInStream($pattern, $streamB);
-    }
-
-    // -- Helpers
-
-    public function assertPatternInStream($pattern, $stream, $message = '%s')
-    {
-        $string = '';
-        while (false !== $bytes = $stream->read(8192)) {
-            $string .= $bytes;
-        }
-        $this->assertPattern($pattern, $string, $message);
     }
 }

@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
  */
- 
+
 //require 'Yay/Action.php';
 
 /**
@@ -25,42 +25,42 @@
  */
 class Yay_Actions_ThrowAction implements Yay_Action
 {
-  
-  /**
-   * The Exception to throw.
-   * @var Exception
-   * @access private
-   */
-  private $_e;
-  
-  /**
-   * Create a new ThrowAction for $e.
-   * @param Exception $e
-   */
-  public function __construct(Exception $e)
-  {
-    $this->_e = $e;
-  }
-  
-  /**
-   * Mimmick the method Invocation and throw an Exception.
-   * @param Yay_Invocation $invocation
-   * @throws Exception
-   */
-  public function &invoke(Yay_Invocation $invocation)
-  {
-    throw $this->_e;
-  }
-  
-  /**
-   * Describe this Expectation to $description.
-   * @param Yay_Description $description
-   */
-  public function describeTo(Yay_Description $description)
-  {
-    $description->appendText(
-      sprintf(' Throws %s;', get_class($this->_e))
-      );
-  }
-  
+
+    /**
+     * The Exception to throw.
+     * @var Exception
+     * @access private
+     */
+    private $_e;
+
+    /**
+     * Create a new ThrowAction for $e.
+     * @param Exception $e
+     */
+    public function __construct(Exception $e)
+    {
+        $this->_e = $e;
+    }
+
+    /**
+     * Mimmick the method Invocation and throw an Exception.
+     * @param Yay_Invocation $invocation
+     * @throws Exception
+     */
+    public function &invoke(Yay_Invocation $invocation)
+    {
+        throw $this->_e;
+    }
+
+    /**
+     * Describe this Expectation to $description.
+     * @param Yay_Description $description
+     */
+    public function describeTo(Yay_Description $description)
+    {
+        $description->appendText(
+            sprintf(' Throws %s;', get_class($this->_e))
+        );
+    }
+
 }

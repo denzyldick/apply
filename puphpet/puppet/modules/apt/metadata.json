@@ -7,24 +7,24 @@
     "project_page": "https://github.com/puppetlabs/puppetlabs-apt",
     "summary": "Puppet Labs Apt Module",
     "operatingsystem_support": [
-      {
-        "operatingsystem": "Debian",
-        "operatingsystemrelease": [
-          "6",
-          "7"
-        ]
-      },
-      {
-        "operatingsystem": "Ubuntu",
-        "operatingsystemrelease": [
-          "10.04",
-          "12.04"
-        ]
-      }
+        {
+            "operatingsystem": "Debian",
+            "operatingsystemrelease": [
+                "6",
+                "7"
+            ]
+        },
+        {
+            "operatingsystem": "Ubuntu",
+            "operatingsystemrelease": [
+                "10.04",
+                "12.04"
+            ]
+        }
     ],
     "requirements": [
-      { "name": "pe", "version_requirement": "3.2.x" },
-      { "name": "puppet", "version_requirement": "3.x" }
+        {"name": "pe", "version_requirement": "3.2.x"},
+        {"name": "puppet", "version_requirement": "3.x"}
     ],
     "dependencies": []
 }

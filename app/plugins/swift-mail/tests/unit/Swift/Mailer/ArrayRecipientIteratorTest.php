@@ -38,7 +38,7 @@ class Swift_Mailer_ArrayRecipientIteratorTest
             'foo@bar' => 'Foo',
             'zip@button' => 'Zip thing',
             'test@test' => null
-            ));
+        ));
         $this->assertEqual(array('foo@bar' => 'Foo'), $it->nextRecipient());
         $this->assertEqual(array('zip@button' => 'Zip thing'), $it->nextRecipient());
         $this->assertEqual(array('test@test' => null), $it->nextRecipient());

@@ -78,9 +78,9 @@ class Swift_Events_SimpleEventDispatcherTest
         $this->_dispatcher->bindEventListener($listenerB);
 
         $this->_checking(Expectations::create()
-            -> one($listenerA)->transportStarted($evt)
-            -> one($listenerB)->transportStarted($evt)
-            );
+                ->one($listenerA)->transportStarted($evt)
+                ->one($listenerB)->transportStarted($evt)
+        );
 
         $this->_dispatcher->dispatchEvent($evt, 'transportStarted');
     }
@@ -99,9 +99,9 @@ class Swift_Events_SimpleEventDispatcherTest
         $this->_dispatcher->bindEventListener($otherListener);
 
         $this->_checking(Expectations::create()
-            -> one($targetListener)->sendPerformed($evt)
-            -> never($otherListener)
-            );
+                ->one($targetListener)->sendPerformed($evt)
+                ->never($otherListener)
+        );
 
         $this->_dispatcher->dispatchEvent($evt, 'sendPerformed');
     }
@@ -120,9 +120,9 @@ class Swift_Events_SimpleEventDispatcherTest
         $this->_dispatcher->bindEventListener($listenerB);
 
         $this->_checking(Expectations::create()
-            -> one($listenerA)->sendPerformed($evt) -> calls(array($this, '_cancelBubble'))
-            -> never($listenerB)
-            );
+                ->one($listenerA)->sendPerformed($evt)->calls(array($this, '_cancelBubble'))
+                ->never($listenerB)
+        );
 
         $this->_dispatcher->dispatchEvent($evt, 'sendPerformed');
 
@@ -141,9 +141,9 @@ class Swift_Events_SimpleEventDispatcherTest
         $this->_dispatcher->bindEventListener($listener);
 
         $this->_checking(Expectations::create()
-            -> one($listener)->transportStarted($evt)
-            -> never($listener)->transportStarted($evt)
-            );
+                ->one($listener)->transportStarted($evt)
+                ->never($listener)->transportStarted($evt)
+        );
 
         $this->_dispatcher->dispatchEvent($evt, 'transportStarted');
     }

@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
  */
- 
+
 /**
  * The Matcher interface for comparing arguments.
  * @author Chris Corbyn <chris@w3style.co.uk>
@@ -23,26 +23,26 @@
  */
 interface Yay_Matcher
 {
-  
-  /**
-   * Compare the $argument with whatever is expected to match it.
-   * @param mixed $argument
-   * @return boolean
-   */
-  public function matches(&$argument);
-  
-  /**
-   * Returns true if the argument doesn't need to be present.
-   * @return boolean
-   */
-  public function isOptional();
-  
-  /**
-   * Writes the match description as a string following $format.
-   * $format is a sprintf() string with %s, $s as $matcherName, $value respectively.
-   * @param string $format
-   * @return string
-   */
-  public function describeMatch($format);
-  
+
+    /**
+     * Compare the $argument with whatever is expected to match it.
+     * @param mixed $argument
+     * @return boolean
+     */
+    public function matches(&$argument);
+
+    /**
+     * Returns true if the argument doesn't need to be present.
+     * @return boolean
+     */
+    public function isOptional();
+
+    /**
+     * Writes the match description as a string following $format.
+     * $format is a sprintf() string with %s, $s as $matcherName, $value respectively.
+     * @param string $format
+     * @return string
+     */
+    public function describeMatch($format);
+
 }

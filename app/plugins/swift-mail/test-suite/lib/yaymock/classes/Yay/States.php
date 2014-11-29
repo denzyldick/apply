@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
  */
- 
+
 //require 'Yay/SelfDescribing.php';
 
 /**
@@ -25,38 +25,38 @@
  */
 interface Yay_States extends Yay_SelfDescribing
 {
-  
-  /**
-   * Set the initial state of this state machine.
-   * @param string $stateName
-   * @return Yay_States
-   */
-  public function startsAs($stateName);
-  
-  /**
-   * Get the state which puts the state machine into the named state.
-   * @param string $stateName
-   * @return Yay_State
-   */
-  public function is($stateName);
-  
-  /**
-   * Get the predicate which indicates the state machine is NOT in the named state.
-   * @param string $stateName
-   * @return Yay_StatePredicate
-   */
-  public function isNot($stateName);
-  
-  /**
-   * Become the named state.
-   * @param string $stateName
-   */
-  public function become($stateName);
-  
-  /**
-   * Get the name of the current state.
-   * @return string
-   */
-  public function getCurrentState();
-  
+
+    /**
+     * Set the initial state of this state machine.
+     * @param string $stateName
+     * @return Yay_States
+     */
+    public function startsAs($stateName);
+
+    /**
+     * Get the state which puts the state machine into the named state.
+     * @param string $stateName
+     * @return Yay_State
+     */
+    public function is($stateName);
+
+    /**
+     * Get the predicate which indicates the state machine is NOT in the named state.
+     * @param string $stateName
+     * @return Yay_StatePredicate
+     */
+    public function isNot($stateName);
+
+    /**
+     * Become the named state.
+     * @param string $stateName
+     */
+    public function become($stateName);
+
+    /**
+     * Get the name of the current state.
+     * @return string
+     */
+    public function getCurrentState();
+
 }

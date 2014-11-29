@@ -2,10 +2,10 @@
     <div class="container">
         <div class="navbar-header page-scroll">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
-                <i class="fa fa-bars" ></i>
+                <i class="fa fa-bars"></i>
             </button>
             <a class="navbar-brand" href="/">
-              <img src="/img/logo.png" width=20/>
+                <img src="/img/logo.png" width=20/>
             </a>
 
         </div>
@@ -21,11 +21,11 @@
                     <a href="#about">{{ lang._("about_us") }}</a>
                 </li>
                 <li class="page-scroll">
-                <a href="/login">{{ lang._("login") }}</a>
-</li>
-<li class="page-scroll">
-<a href="/signup">{{ lang._("signup") }}</a>
-</li>
+                    <a href="/login">{{ lang._("login") }}</a>
+                </li>
+                <li class="page-scroll">
+                    <a href="/signup">{{ lang._("signup") }}</a>
+                </li>
 
             </ul>
         </div>

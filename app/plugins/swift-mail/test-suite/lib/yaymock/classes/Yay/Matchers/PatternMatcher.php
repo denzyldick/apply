@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
  */
- 
+
 //require 'Yay/Matcher.php';
 
 /**
@@ -25,64 +25,64 @@
  */
 class Yay_Matchers_PatternMatcher implements Yay_Matcher
 {
-  
-  /**
-   * The expected pattern.
-   * @var string
-   * @access private
-   */
-  private $_pattern;
-  
-  /**
-   * The desired return value.
-   * @var boolean
-   * @access private
-   */
-  private $_result;
-  
-  /**
-   * Create a new PatternMatcher expecting $pattern.
-   * @param string $pattern
-   * @param boolean $result to be expected
-   */
-  public function __construct($pattern, $result = true)
-  {
-    $this->_pattern = $pattern;
-    $this->_result = $result;
-  }
-  
-  /**
-   * Compare $value with the expected pattern and return true if it matches.
-   * @param string $value
-   * @return boolean
-   */
-  public function matches(&$value)
-  {
-    $return = (
-      (is_string($value) || is_numeric($value))
-        && preg_match($this->_pattern, $value)
-      );
-    return (($this->_result && $return) || (!$this->_result && !$return));
-  }
-  
-  /**
-   * Returns true if the argument doesn't need to be present.
-   * @return boolean
-   */
-  public function isOptional()
-  {
-    return false;
-  }
-  
-  /**
-   * Writes the match description as a string following $format.
-   * $format is a sprintf() string with %s, $s as $matcherName, $value respectively.
-   * @param string $format
-   * @return string
-   */
-  public function describeMatch($format)
-  {
-    return sprintf($format, 'pattern', $this->_pattern);
-  }
-  
+
+    /**
+     * The expected pattern.
+     * @var string
+     * @access private
+     */
+    private $_pattern;
+
+    /**
+     * The desired return value.
+     * @var boolean
+     * @access private
+     */
+    private $_result;
+
+    /**
+     * Create a new PatternMatcher expecting $pattern.
+     * @param string $pattern
+     * @param boolean $result to be expected
+     */
+    public function __construct($pattern, $result = true)
+    {
+        $this->_pattern = $pattern;
+        $this->_result = $result;
+    }
+
+    /**
+     * Compare $value with the expected pattern and return true if it matches.
+     * @param string $value
+     * @return boolean
+     */
+    public function matches(&$value)
+    {
+        $return = (
+            (is_string($value) || is_numeric($value))
+            && preg_match($this->_pattern, $value)
+        );
+        return (($this->_result && $return) || (!$this->_result && !$return));
+    }
+
+    /**
+     * Returns true if the argument doesn't need to be present.
+     * @return boolean
+     */
+    public function isOptional()
+    {
+        return false;
+    }
+
+    /**
+     * Writes the match description as a string following $format.
+     * $format is a sprintf() string with %s, $s as $matcherName, $value respectively.
+     * @param string $format
+     * @return string
+     */
+    public function describeMatch($format)
+    {
+        return sprintf($format, 'pattern', $this->_pattern);
+    }
+
 }

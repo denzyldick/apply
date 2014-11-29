@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
  */
- 
+
 //require 'Yay/Matchers/IdenticalMatcher.php';
 
 /**
@@ -25,26 +25,26 @@
  */
 class Yay_Matchers_EqualMatcher extends Yay_Matchers_IdenticalMatcher
 {
-  
-  /**
-   * Create a new EqualMatcher expecting $expected.
-   * @param mixed $expected
-   * @param boolean $result to be expected
-   */
-  public function __construct($expected, $result = true)
-  {
-    parent::__construct($expected, $result);
-  }
-  
-  /**
-   * Compare $value with the expected value and return true if it is equal.
-   * @param mixed $value
-   * @return boolean
-   */
-  public function matches(&$value)
-  {
-    $return =  (($this->_expected == $value) && ($value == $this->_expected));
-    return (($this->_result && $return) || (!$this->_result && !$return));
-  }
-  
+
+    /**
+     * Create a new EqualMatcher expecting $expected.
+     * @param mixed $expected
+     * @param boolean $result to be expected
+     */
+    public function __construct($expected, $result = true)
+    {
+        parent::__construct($expected, $result);
+    }
+
+    /**
+     * Compare $value with the expected value and return true if it is equal.
+     * @param mixed $value
+     * @return boolean
+     */
+    public function matches(&$value)
+    {
+        $return = (($this->_expected == $value) && ($value == $this->_expected));
+        return (($this->_result && $return) || (!$this->_result && !$return));
+    }
+
 }

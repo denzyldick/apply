@@ -34,16 +34,13 @@ class Vacancy extends \Phalcon\Mvc\Model
     protected $location_id;
 
     /**
-     * Method to set the value of field id
+     * Returns the value of field function
      *
-     * @param integer $id
-     * @return $this
+     * @return string
      */
-    public function setId($id)
+    public function getFunction()
     {
-        $this->id = $id;
-
-        return $this;
+        return $this->function;
     }
 
     /**
@@ -60,6 +57,16 @@ class Vacancy extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns the value of field posted_date
+     *
+     * @return string
+     */
+    public function getPostedDate()
+    {
+        return $this->posted_date;
+    }
+
+    /**
      * Method to set the value of field posted_date
      *
      * @param string $posted_date
@@ -70,6 +77,16 @@ class Vacancy extends \Phalcon\Mvc\Model
         $this->posted_date = $posted_date;
 
         return $this;
+    }
+
+    /**
+     * Returns the value of field user_id
+     *
+     * @return integer
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
     }
 
     /**
@@ -86,6 +103,16 @@ class Vacancy extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns the value of field location_id
+     *
+     * @return integer
+     */
+    public function getLocationId()
+    {
+        return $this->location_id;
+    }
+
+    /**
      * Method to set the value of field location_id
      *
      * @param integer $location_id
@@ -96,6 +123,12 @@ class Vacancy extends \Phalcon\Mvc\Model
         $this->location_id = $location_id;
 
         return $this;
+    }
+
+    public function countSkills()
+    {
+        return (Specification::count(array("vacancy_id=" . $this->getId())));
+
     }
 
     /**
@@ -109,60 +142,30 @@ class Vacancy extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Returns the value of field function
+     * Method to set the value of field id
      *
-     * @return string
+     * @param integer $id
+     * @return $this
      */
-    public function getFunction()
+    public function setId($id)
     {
-        return $this->function;
+        $this->id = $id;
+
+        return $this;
     }
 
-    /**
-     * Returns the value of field posted_date
-     *
-     * @return string
-     */
-    public function getPostedDate()
-    {
-        return $this->posted_date;
-    }
-
-    /**
-     * Returns the value of field user_id
-     *
-     * @return integer
-     */
-    public function getUserId()
-    {
-        return $this->user_id;
-    }
-
-    /**
-     * Returns the value of field location_id
-     *
-     * @return integer
-     */
-    public function getLocationId()
-    {
-        return $this->location_id;
-    }
-     public function countSkills()
-    {
-        return (Specification::count(array("vacancy_id=".$this->getId())));
-
-    }
     public function countMatches()
     {
-      return (Matches::count(array("vacancy_id=".$this->getId())));
+        return (Matches::count(array("vacancy_id=" . $this->getId())));
 
     }
+
     public function initialize()
     {
-      $this->hasMany("id","matches","id");
-      $this->hasOne("location_id","Location","id");
-      $this->hasOne("user_id","User","id");
-      $this->hasMany("id","Specification","vacancy_id");
+        $this->hasMany("id", "matches", "id");
+        $this->hasOne("location_id", "Location", "id");
+        $this->hasOne("user_id", "User", "id");
+        $this->hasMany("id", "Specification", "vacancy_id");
     }
 
 }

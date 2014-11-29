@@ -15,6 +15,31 @@ class Swift_Mime_SimpleHeaderFactoryTest extends Swift_Tests_SwiftUnitTestCase
         $this->_factory = $this->_createFactory();
     }
 
+    private function _createFactory($encoder = null, $paramEncoder = null)
+    {
+        return new Swift_Mime_SimpleHeaderFactory(
+            $encoder
+                ? $encoder : $this->_createHeaderEncoder(),
+            $paramEncoder
+                ? $paramEncoder : $this->_createParamEncoder(),
+            new Swift_Mime_Grammar()
+        );
+    }
+
+    private function _createHeaderEncoder($stub = true)
+    {
+        return $stub
+            ? $this->_stub('Swift_Mime_HeaderEncoder')
+            : $this->_mock('Swift_Mime_HeaderEncoder');
+    }
+
+    private function _createParamEncoder($stub = true)
+    {
+        return $stub
+            ? $this->_stub('Swift_Encoder')
+            : $this->_mock('Swift_Encoder');
+    }
+
     public function testMailboxHeaderIsCorrectType()
     {
         $header = $this->_factory->createMailboxHeader('X-Foo');
@@ -30,9 +55,9 @@ class Swift_Mime_SimpleHeaderFactoryTest extends Swift_Tests_SwiftUnitTestCase
     public function testMailboxHeaderHasCorrectModel()
     {
         $header = $this->_factory->createMailboxHeader('X-Foo',
-            array('foo@bar'=>'FooBar')
-            );
-        $this->assertEqual(array('foo@bar'=>'FooBar'), $header->getFieldBodyModel());
+            array('foo@bar' => 'FooBar')
+        );
+        $this->assertEqual(array('foo@bar' => 'FooBar'), $header->getFieldBodyModel());
     }
 
     public function testDateHeaderHasCorrectType()
@@ -93,8 +118,8 @@ class Swift_Mime_SimpleHeaderFactoryTest extends Swift_Tests_SwiftUnitTestCase
     {
         $header = $this->_factory->createParameterizedHeader('X-Foo', 'bar',
             array('zip' => 'button')
-            );
-        $this->assertEqual(array('zip'=>'button'), $header->getParameters());
+        );
+        $this->assertEqual(array('zip' => 'button'), $header->getParameters());
     }
 
     public function testIdHeaderHasCorrectType()
@@ -121,6 +146,8 @@ class Swift_Mime_SimpleHeaderFactoryTest extends Swift_Tests_SwiftUnitTestCase
         $this->assertIsA($header, 'Swift_Mime_Headers_PathHeader');
     }
 
+    // -- Creation methods
+
     public function testPathHeaderHasCorrectName()
     {
         $header = $this->_factory->createPathHeader('X-Path');
@@ -141,39 +168,12 @@ class Swift_Mime_SimpleHeaderFactoryTest extends Swift_Tests_SwiftUnitTestCase
         $factory = $this->_createFactory($encoder, $paramEncoder);
 
         $this->_checking(Expectations::create()
-            -> one($encoder)->charsetChanged('utf-8')
-            -> one($paramEncoder)->charsetChanged('utf-8')
-            -> ignoring($encoder)
-            -> ignoring($paramEncoder)
-            );
+                ->one($encoder)->charsetChanged('utf-8')
+                ->one($paramEncoder)->charsetChanged('utf-8')
+                ->ignoring($encoder)
+                ->ignoring($paramEncoder)
+        );
 
         $factory->charsetChanged('utf-8');
-    }
-
-    // -- Creation methods
-
-    private function _createFactory($encoder = null, $paramEncoder = null)
-    {
-        return new Swift_Mime_SimpleHeaderFactory(
-            $encoder
-                ? $encoder : $this->_createHeaderEncoder(),
-            $paramEncoder
-                ? $paramEncoder : $this->_createParamEncoder(),
-            new Swift_Mime_Grammar()
-            );
-    }
-
-    private function _createHeaderEncoder($stub = true)
-    {
-        return $stub
-            ? $this->_stub('Swift_Mime_HeaderEncoder')
-            : $this->_mock('Swift_Mime_HeaderEncoder');
-    }
-
-    private function _createParamEncoder($stub = true)
-    {
-        return $stub
-            ? $this->_stub('Swift_Encoder')
-            : $this->_mock('Swift_Encoder');
     }
 }

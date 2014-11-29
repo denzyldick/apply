@@ -22,6 +22,16 @@ class Bundle extends \Phalcon\Mvc\Model
     protected $price;
 
     /**
+     * Returns the value of field idbundle
+     *
+     * @return integer
+     */
+    public function getIdbundle()
+    {
+        return $this->idbundle;
+    }
+
+    /**
      * Method to set the value of field idbundle
      *
      * @param  integer $idbundle
@@ -32,6 +42,16 @@ class Bundle extends \Phalcon\Mvc\Model
         $this->idbundle = $idbundle;
 
         return $this;
+    }
+
+    /**
+     * Returns the value of field amount
+     *
+     * @return integer
+     */
+    public function getAmount()
+    {
+        return $this->amount;
     }
 
     /**
@@ -48,6 +68,16 @@ class Bundle extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns the value of field price
+     *
+     * @return double
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
      * Method to set the value of field price
      *
      * @param  double $price
@@ -60,35 +90,6 @@ class Bundle extends \Phalcon\Mvc\Model
         return $this;
     }
 
-    /**
-     * Returns the value of field idbundle
-     *
-     * @return integer
-     */
-    public function getIdbundle()
-    {
-        return $this->idbundle;
-    }
-
-    /**
-     * Returns the value of field amount
-     *
-     * @return integer
-     */
-    public function getAmount()
-    {
-        return $this->amount;
-    }
-
-    /**
-     * Returns the value of field price
-     *
-     * @return double
-     */
-    public function getPrice()
-    {
-        return $this->price;
-    }
     public function columnMap()
     {
         return array(
@@ -97,5 +98,5 @@ class Bundle extends \Phalcon\Mvc\Model
             'price' => 'price'
         );
     }
-  
+
 }

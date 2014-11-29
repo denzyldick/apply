@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
  */
- 
+
 //require 'Yay/Action.php';
 
 /**
@@ -25,76 +25,63 @@
  */
 class Yay_Actions_ReturnValueAction implements Yay_Action
 {
-  
-  /**
-   * The value to return.
-   * @var mixed
-   * @access private
-   */
-  private $_value;
-  
-  /**
-   * Create a new ReturnValueAction for $value.
-   * @param mixed $value
-   */
-  public function __construct($value)
-  {
-    $this->_value = $value;
-  }
-  
-  /**
-   * Mimmick the method Invocation and return a value.
-   * @param Yay_Invocation $invocation
-   * @return mixed
-   */
-  public function &invoke(Yay_Invocation $invocation)
-  {
-    $value = $this->_value;
-    return $value;
-  }
-  
-  /**
-   * Describe this Expectation to $description.
-   * @param Yay_Description $description
-   */
-  public function describeTo(Yay_Description $description)
-  {
-    $description->appendText(sprintf(' Returns %s;', $this->_describeValue('%s [%s]')));
-  }
-  
-  private function _describeValue($format)
-  {
-    $description = '';
-    $value = $this->_value;
-    if (is_int($value))
+
+    /**
+     * The value to return.
+     * @var mixed
+     * @access private
+     */
+    private $_value;
+
+    /**
+     * Create a new ReturnValueAction for $value.
+     * @param mixed $value
+     */
+    public function __construct($value)
     {
-      $description = sprintf($format, 'int', $value);
+        $this->_value = $value;
     }
-    elseif (is_float($value))
+
+    /**
+     * Mimmick the method Invocation and return a value.
+     * @param Yay_Invocation $invocation
+     * @return mixed
+     */
+    public function &invoke(Yay_Invocation $invocation)
     {
-      $description = sprintf($format, 'float', preg_replace('/^(.{8}).+/', '$1..', $value));
+        $value = $this->_value;
+        return $value;
     }
-    elseif (is_numeric($value))
+
+    /**
+     * Describe this Expectation to $description.
+     * @param Yay_Description $description
+     */
+    public function describeTo(Yay_Description $description)
     {
-      $description = sprintf($format, 'number', preg_replace('/^(.{8}).+/', '$1..', $value));
+        $description->appendText(sprintf(' Returns %s;', $this->_describeValue('%s [%s]')));
     }
-    elseif (is_string($value))
+
+    private function _describeValue($format)
     {
-      $description = sprintf($format, 'string', preg_replace('/^(.{8}).+/', '$1..', $value));
+        $description = '';
+        $value = $this->_value;
+        if (is_int($value)) {
+            $description = sprintf($format, 'int', $value);
+        } elseif (is_float($value)) {
+            $description = sprintf($format, 'float', preg_replace('/^(.{8}).+/', '$1..', $value));
+        } elseif (is_numeric($value)) {
+            $description = sprintf($format, 'number', preg_replace('/^(.{8}).+/', '$1..', $value));
+        } elseif (is_string($value)) {
+            $description = sprintf($format, 'string', preg_replace('/^(.{8}).+/', '$1..', $value));
+        } elseif (is_object($value)) {
+            $description = sprintf($format, 'object', get_class($value));
+        } elseif (is_array($value)) {
+            $description = sprintf($format, 'array', count($value) . ' items');
+        } else {
+            $description = sprintf($format, gettype($value), preg_replace('/^(.{8}).+/', '$1..', (string)$value));
+        }
+        return $description;
     }
-    elseif (is_object($value))
-    {
-      $description = sprintf($format, 'object', get_class($value));
-    }
-    elseif (is_array($value))
-    {
-      $description = sprintf($format, 'array', count($value) . ' items');
-    }
-    else
-    {
-      $description = sprintf($format, gettype($value), preg_replace('/^(.{8}).+/', '$1..', (string) $value));
-    }
-    return $description;
-  }
-  
+
 }

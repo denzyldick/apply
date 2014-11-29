@@ -17,7 +17,7 @@ class Swift_CharacterReader_Utf8ReaderTest
         for ($ordinal = 0x00; $ordinal <= 0x7F; ++$ordinal) {
             $this->assertIdentical(
                 0, $this->_reader->validateByteSequence(array($ordinal), 1)
-                );
+            );
         }
     }
 
@@ -26,7 +26,7 @@ class Swift_CharacterReader_Utf8ReaderTest
         for ($octet = 0xC0; $octet <= 0xDF; ++$octet) {
             $this->assertIdentical(
                 1, $this->_reader->validateByteSequence(array($octet), 1)
-                );
+            );
         }
     }
 
@@ -35,7 +35,7 @@ class Swift_CharacterReader_Utf8ReaderTest
         for ($octet = 0xE0; $octet <= 0xEF; ++$octet) {
             $this->assertIdentical(
                 2, $this->_reader->validateByteSequence(array($octet), 1)
-                );
+            );
         }
     }
 
@@ -44,7 +44,7 @@ class Swift_CharacterReader_Utf8ReaderTest
         for ($octet = 0xF0; $octet <= 0xF7; ++$octet) {
             $this->assertIdentical(
                 3, $this->_reader->validateByteSequence(array($octet), 1)
-                );
+            );
         }
     }
 
@@ -52,8 +52,8 @@ class Swift_CharacterReader_Utf8ReaderTest
     {
         for ($octet = 0xF8; $octet <= 0xFB; ++$octet) {
             $this->assertIdentical(
-                4, $this->_reader->validateByteSequence(array($octet),1)
-                );
+                4, $this->_reader->validateByteSequence(array($octet), 1)
+            );
         }
     }
 
@@ -61,8 +61,8 @@ class Swift_CharacterReader_Utf8ReaderTest
     {
         for ($octet = 0xFC; $octet <= 0xFD; ++$octet) {
             $this->assertIdentical(
-                5, $this->_reader->validateByteSequence(array($octet),1)
-                );
+                5, $this->_reader->validateByteSequence(array($octet), 1)
+            );
         }
     }
 }

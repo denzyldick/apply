@@ -12,6 +12,19 @@ class Swift_Events_CommandEventTest extends Swift_Tests_SwiftUnitTestCase
         $this->assertEqual("FOO\r\n", $evt->getCommand());
     }
 
+    private function _createEvent(Swift_Transport $source, $command,
+                                  $successCodes = array())
+    {
+        return new Swift_Events_CommandEvent($source, $command, $successCodes);
+    }
+
+    private function _createTransport()
+    {
+        return $this->_stub('Swift_Transport');
+    }
+
+    // -- Creation Methods
+
     public function testSuccessCodesCanBeFetchedViaGetter()
     {
         $evt = $this->_createEvent($this->_createTransport(), "FOO\r\n", array(250));
@@ -24,18 +37,5 @@ class Swift_Events_CommandEventTest extends Swift_Tests_SwiftUnitTestCase
         $evt = $this->_createEvent($transport, "FOO\r\n");
         $ref = $evt->getSource();
         $this->assertReference($transport, $ref);
-    }
-
-    // -- Creation Methods
-
-    private function _createEvent(Swift_Transport $source, $command,
-        $successCodes = array())
-    {
-        return new Swift_Events_CommandEvent($source, $command, $successCodes);
-    }
-
-    private function _createTransport()
-    {
-        return $this->_stub('Swift_Transport');
     }
 }

@@ -8,15 +8,15 @@ require_once 'Swift/Events/EventDispatcher.php';
 class Swift_Transport_SendmailTransportTest
     extends Swift_Transport_AbstractSmtpEventSupportTest
 {
-    protected function _getTransport($buf, $dispatcher = null, $command = '/usr/sbin/sendmail -bs')
+    public function testCommandCanBeSetAndFetched()
     {
-        if (!$dispatcher) {
-            $dispatcher = $this->_createEventDispatcher();
-        }
-        $transport = new Swift_Transport_SendmailTransport($buf, $dispatcher);
-        $transport->setCommand($command);
+        $buf = $this->_getBuffer();
+        $sendmail = $this->_getSendmail($buf);
 
-        return $transport;
+        $sendmail->setCommand('/usr/sbin/sendmail -bs');
+        $this->assertEqual('/usr/sbin/sendmail -bs', $sendmail->getCommand());
+        $sendmail->setCommand('/usr/sbin/sendmail -oi -t');
+        $this->assertEqual('/usr/sbin/sendmail -oi -t', $sendmail->getCommand());
     }
 
     protected function _getSendmail($buf, $dispatcher = null)
@@ -29,17 +29,6 @@ class Swift_Transport_SendmailTransportTest
         return $sendmail;
     }
 
-    public function testCommandCanBeSetAndFetched()
-    {
-        $buf = $this->_getBuffer();
-        $sendmail = $this->_getSendmail($buf);
-
-        $sendmail->setCommand('/usr/sbin/sendmail -bs');
-        $this->assertEqual('/usr/sbin/sendmail -bs', $sendmail->getCommand());
-        $sendmail->setCommand('/usr/sbin/sendmail -oi -t');
-        $this->assertEqual('/usr/sbin/sendmail -oi -t', $sendmail->getCommand());
-    }
-
     public function testSendingMessageIn_t_ModeUsesSimplePipe()
     {
         $buf = $this->_getBuffer();
@@ -47,15 +36,15 @@ class Swift_Transport_SendmailTransportTest
         $message = $this->_createMessage();
 
         $this->_checking(Expectations::create()
-            -> allowing($message)->getTo() -> returns(array('foo@bar'=>'Foobar', 'zip@button'=>'Zippy'))
-            -> one($message)->toByteStream($buf)
-            -> ignoring($message)
-            -> one($buf)->initialize()
-            -> one($buf)->terminate()
-            -> one($buf)->setWriteTranslations(array("\r\n"=>"\n", "\n." => "\n.."))
-            -> one($buf)->setWriteTranslations(array())
-            -> ignoring($buf)
-            );
+                ->allowing($message)->getTo()->returns(array('foo@bar' => 'Foobar', 'zip@button' => 'Zippy'))
+                ->one($message)->toByteStream($buf)
+                ->ignoring($message)
+                ->one($buf)->initialize()
+                ->one($buf)->terminate()
+                ->one($buf)->setWriteTranslations(array("\r\n" => "\n", "\n." => "\n.."))
+                ->one($buf)->setWriteTranslations(array())
+                ->ignoring($buf)
+        );
 
         $sendmail->setCommand('/usr/sbin/sendmail -t');
         $this->assertEqual(2, $sendmail->send($message));
@@ -68,15 +57,15 @@ class Swift_Transport_SendmailTransportTest
         $message = $this->_createMessage();
 
         $this->_checking(Expectations::create()
-            -> allowing($message)->getTo() -> returns(array('foo@bar'=>'Foobar', 'zip@button'=>'Zippy'))
-            -> one($message)->toByteStream($buf)
-            -> ignoring($message)
-            -> one($buf)->initialize()
-            -> one($buf)->terminate()
-            -> one($buf)->setWriteTranslations(array("\r\n"=>"\n"))
-            -> one($buf)->setWriteTranslations(array())
-            -> ignoring($buf)
-            );
+                ->allowing($message)->getTo()->returns(array('foo@bar' => 'Foobar', 'zip@button' => 'Zippy'))
+                ->one($message)->toByteStream($buf)
+                ->ignoring($message)
+                ->one($buf)->initialize()
+                ->one($buf)->terminate()
+                ->one($buf)->setWriteTranslations(array("\r\n" => "\n"))
+                ->one($buf)->setWriteTranslations(array())
+                ->ignoring($buf)
+        );
 
         $sendmail->setCommand('/usr/sbin/sendmail -i -t');
         $this->assertEqual(2, $sendmail->send($message));
@@ -89,15 +78,15 @@ class Swift_Transport_SendmailTransportTest
         $message = $this->_createMessage();
 
         $this->_checking(Expectations::create()
-            -> allowing($message)->getTo() -> returns(array('foo@bar'=>'Foobar', 'zip@button'=>'Zippy'))
-            -> one($message)->toByteStream($buf)
-            -> ignoring($message)
-            -> one($buf)->initialize()
-            -> one($buf)->terminate()
-            -> one($buf)->setWriteTranslations(array("\r\n"=>"\n"))
-            -> one($buf)->setWriteTranslations(array())
-            -> ignoring($buf)
-            );
+                ->allowing($message)->getTo()->returns(array('foo@bar' => 'Foobar', 'zip@button' => 'Zippy'))
+                ->one($message)->toByteStream($buf)
+                ->ignoring($message)
+                ->one($buf)->initialize()
+                ->one($buf)->terminate()
+                ->one($buf)->setWriteTranslations(array("\r\n" => "\n"))
+                ->one($buf)->setWriteTranslations(array())
+                ->ignoring($buf)
+        );
 
         $sendmail->setCommand('/usr/sbin/sendmail -oi -t');
         $this->assertEqual(2, $sendmail->send($message));
@@ -110,15 +99,15 @@ class Swift_Transport_SendmailTransportTest
         $message = $this->_createMessage();
 
         $this->_checking(Expectations::create()
-            -> allowing($message)->getTo() -> returns(array('foo@bar'=>'Foobar', 'zip@button'=>'Zippy'))
-            -> one($message)->generateId()
-            -> ignoring($message)
-            -> one($buf)->initialize()
-            -> one($buf)->terminate()
-            -> one($buf)->setWriteTranslations(array("\r\n"=>"\n", "\n." => "\n.."))
-            -> one($buf)->setWriteTranslations(array())
-            -> ignoring($buf)
-            );
+                ->allowing($message)->getTo()->returns(array('foo@bar' => 'Foobar', 'zip@button' => 'Zippy'))
+                ->one($message)->generateId()
+                ->ignoring($message)
+                ->one($buf)->initialize()
+                ->one($buf)->terminate()
+                ->one($buf)->setWriteTranslations(array("\r\n" => "\n", "\n." => "\n.."))
+                ->one($buf)->setWriteTranslations(array())
+                ->ignoring($buf)
+        );
 
         $sendmail->setCommand('/usr/sbin/sendmail -t');
         $this->assertEqual(2, $sendmail->send($message));
@@ -131,5 +120,16 @@ class Swift_Transport_SendmailTransportTest
 
         $ref = $sendmail->setCommand('/foo');
         $this->assertReference($ref, $sendmail);
+    }
+
+    protected function _getTransport($buf, $dispatcher = null, $command = '/usr/sbin/sendmail -bs')
+    {
+        if (!$dispatcher) {
+            $dispatcher = $this->_createEventDispatcher();
+        }
+        $transport = new Swift_Transport_SendmailTransport($buf, $dispatcher);
+        $transport->setCommand($command);
+
+        return $transport;
     }
 }

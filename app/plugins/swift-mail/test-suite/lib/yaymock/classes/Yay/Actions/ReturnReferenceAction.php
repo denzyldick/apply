@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
  */
- 
+
 //require 'Yay/Action.php';
 
 /**
@@ -25,40 +25,40 @@
  */
 class Yay_Actions_ReturnReferenceAction implements Yay_Action
 {
-  
-  /**
-   * The reference to return.
-   * @var mixed
-   * @access private
-   */
-  private $_ref;
-  
-  /**
-   * Create a new ReturnReferenceAction for &$ref.
-   * @param mixed $ref
-   */
-  public function __construct(&$ref)
-  {
-    $this->_ref =& $ref;
-  }
-  
-  /**
-   * Mimmick the method Invocation and return the reference.
-   * @param Yay_Invocation $invocation
-   * @return mixed
-   */
-  public function &invoke(Yay_Invocation $invocation)
-  {
-    return $this->_ref;
-  }
-  
-  /**
-   * Describe this Expectation to $description.
-   * @param Yay_Description $description
-   */
-  public function describeTo(Yay_Description $description)
-  {
-    $description->appendText(' Returns a reference;');
-  }
-  
+
+    /**
+     * The reference to return.
+     * @var mixed
+     * @access private
+     */
+    private $_ref;
+
+    /**
+     * Create a new ReturnReferenceAction for &$ref.
+     * @param mixed $ref
+     */
+    public function __construct(&$ref)
+    {
+        $this->_ref =& $ref;
+    }
+
+    /**
+     * Mimmick the method Invocation and return the reference.
+     * @param Yay_Invocation $invocation
+     * @return mixed
+     */
+    public function &invoke(Yay_Invocation $invocation)
+    {
+        return $this->_ref;
+    }
+
+    /**
+     * Describe this Expectation to $description.
+     * @param Yay_Description $description
+     */
+    public function describeTo(Yay_Description $description)
+    {
+        $description->appendText(' Returns a reference;');
+    }
+
 }

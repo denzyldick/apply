@@ -26,12 +26,12 @@
  */
 interface Yay_Action extends Yay_SelfDescribing
 {
-  
-  /**
-   * Mimmick the method Invocation and return a value.
-   * @param Yay_Invocation $invocation
-   * @return mixed
-   */
-  public function &invoke(Yay_Invocation $invocation);
-  
+
+    /**
+     * Mimmick the method Invocation and return a value.
+     * @param Yay_Invocation $invocation
+     * @return mixed
+     */
+    public function &invoke(Yay_Invocation $invocation);
+
 }

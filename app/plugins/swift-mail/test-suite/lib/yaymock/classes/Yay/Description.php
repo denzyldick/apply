@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
  */
- 
+
 /**
  * A Description container for error messages.
  * @author Chris Corbyn <chris@w3style.co.uk>
@@ -23,23 +23,23 @@
  */
 interface Yay_Description
 {
-  
-  /**
-   * Append an existing Description to this Description.
-   * @param Yay_Description
-   */
-  public function appendDescription(Yay_Description $description);
-  
-  /**
-   * Append text content to this Description.
-   * @param string $text
-   */
-  public function appendText($text);
-  
-  /**
-   * Get this description back as a formatted string.
-   * @return string
-   */
-  public function toString();
-  
+
+    /**
+     * Append an existing Description to this Description.
+     * @param Yay_Description
+     */
+    public function appendDescription(Yay_Description $description);
+
+    /**
+     * Append text content to this Description.
+     * @param string $text
+     */
+    public function appendText($text);
+
+    /**
+     * Get this description back as a formatted string.
+     * @return string
+     */
+    public function toString();
+
 }

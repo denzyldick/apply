@@ -1,8 +1,7 @@
 <?php
-use Phalcon\Events\Event,
-        Phalcon\Mvc\User\Plugin,
-        Phalcon\Mvc\Dispatcher,
-        Phalcon\Acl;
+use Phalcon\Acl;
+use Phalcon\Mvc\Dispatcher;
+use Phalcon\Mvc\User\Plugin;
 
 class PremiumHandler extends Plugin
 {
@@ -14,13 +13,14 @@ class PremiumHandler extends Plugin
 
     public function __construct($di)
     {
-      $this->di =  $di;
+        $this->di = $di;
     }
+
     public function upgrade()
     {
         $now = new DateTime();
 
-        $premium =  new Premium();
+        $premium = new Premium();
         $premium->setUserId($this->user->getId());
         $premium->setBuyDate($now->format('d-m-Y H:i:s'));
         $bundle = new Bundle();
@@ -30,23 +30,24 @@ class PremiumHandler extends Plugin
         $premium->setBundleIdbundle($bundle->getIdbundle());
         $premium->save();
     }
+
     public function setVacancyAmount($vacancy_amount)
     {
-      $this->vacancy_amount = $vacancy_amount;
+        $this->vacancy_amount = $vacancy_amount;
     }
+
     public function setMoney(Money $money)
     {
-      $this->money = $money;
+        $this->money = $money;
     }
+
     public function setUser(User $user)
     {
-      if($user->getUserType() == 'employer')
-      {
-        $this->user =  $user;
-      }else
-      {
-        throw new Exception('This is user is not an employer.');
-      }
+        if ($user->getUserType() == 'employer') {
+            $this->user = $user;
+        } else {
+            throw new Exception('This is user is not an employer.');
+        }
     }
 
 }

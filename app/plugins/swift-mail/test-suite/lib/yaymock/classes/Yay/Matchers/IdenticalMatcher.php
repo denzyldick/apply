@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
  */
- 
+
 //require 'Yay/Matcher.php';
 
 /**
@@ -25,92 +25,79 @@
  */
 class Yay_Matchers_IdenticalMatcher implements Yay_Matcher
 {
-  
-  /**
-   * The expected value.
-   * @var mixed
-   * @access protected
-   */
-  protected $_expected;
-  
-  /**
-   * The expected return value.
-   * @var boolean
-   * @access protected
-   */
-  protected $_result;
-  
-  /**
-   * Create a new IdenticalMatcher expecting $expected.
-   * @param mixed $expected
-   * @param boolean $result to be expected
-   */
-  public function __construct($expected, $result = true)
-  {
-    $this->_expected = $expected;
-    $this->_result = $result;
-  }
-  
-  /**
-   * Compare $value with the expected value and return true if it matches in
-   * type and in value.
-   * @param mixed $value
-   * @return boolean
-   */
-  public function matches(&$value)
-  {
-    $return = (($this->_expected === $value) && ($value === $this->_expected));
-    return (($this->_result && $return) || (!$this->_result && !$return));
-  }
-  
-  /**
-   * Returns true if the argument doesn't need to be present.
-   * @return boolean
-   */
-  public function isOptional()
-  {
-    return false;
-  }
-  
-  /**
-   * Writes the match description as a string following $format.
-   * $format is a sprintf() string with %s, $s as $matcherName, $value respectively.
-   * @param string $format
-   * @return string
-   */
-  public function describeMatch($format)
-  {
-    $description = '';
-    $value = $this->_expected;
-    if (is_int($value))
+
+    /**
+     * The expected value.
+     * @var mixed
+     * @access protected
+     */
+    protected $_expected;
+
+    /**
+     * The expected return value.
+     * @var boolean
+     * @access protected
+     */
+    protected $_result;
+
+    /**
+     * Create a new IdenticalMatcher expecting $expected.
+     * @param mixed $expected
+     * @param boolean $result to be expected
+     */
+    public function __construct($expected, $result = true)
     {
-      $description = sprintf($format, 'int', $value);
+        $this->_expected = $expected;
+        $this->_result = $result;
     }
-    elseif (is_float($value))
+
+    /**
+     * Compare $value with the expected value and return true if it matches in
+     * type and in value.
+     * @param mixed $value
+     * @return boolean
+     */
+    public function matches(&$value)
     {
-      $description = sprintf($format, 'float', preg_replace('/^(.{8}).+/', '$1..', $value));
+        $return = (($this->_expected === $value) && ($value === $this->_expected));
+        return (($this->_result && $return) || (!$this->_result && !$return));
     }
-    elseif (is_numeric($value))
+
+    /**
+     * Returns true if the argument doesn't need to be present.
+     * @return boolean
+     */
+    public function isOptional()
     {
-      $description = sprintf($format, 'number', preg_replace('/^(.{8}).+/', '$1..', $value));
+        return false;
     }
-    elseif (is_string($value))
+
+    /**
+     * Writes the match description as a string following $format.
+     * $format is a sprintf() string with %s, $s as $matcherName, $value respectively.
+     * @param string $format
+     * @return string
+     */
+    public function describeMatch($format)
     {
-      $description = sprintf($format, 'string', preg_replace('/^(.{8}).+/', '$1..', $value));
+        $description = '';
+        $value = $this->_expected;
+        if (is_int($value)) {
+            $description = sprintf($format, 'int', $value);
+        } elseif (is_float($value)) {
+            $description = sprintf($format, 'float', preg_replace('/^(.{8}).+/', '$1..', $value));
+        } elseif (is_numeric($value)) {
+            $description = sprintf($format, 'number', preg_replace('/^(.{8}).+/', '$1..', $value));
+        } elseif (is_string($value)) {
+            $description = sprintf($format, 'string', preg_replace('/^(.{8}).+/', '$1..', $value));
+        } elseif (is_object($value)) {
+            $description = sprintf($format, 'object', get_class($value));
+        } elseif (is_array($value)) {
+            $description = sprintf($format, 'array', count($value) . ' items');
+        } else {
+            $description = sprintf($format, gettype($value), preg_replace('/^(.{8}).+/', '$1..', (string)$value));
+        }
+        return $description;
     }
-    elseif (is_object($value))
-    {
-      $description = sprintf($format, 'object', get_class($value));
-    }
-    elseif (is_array($value))
-    {
-      $description = sprintf($format, 'array', count($value) . ' items');
-    }
-    else
-    {
-      $description = sprintf($format, gettype($value), preg_replace('/^(.{8}).+/', '$1..', (string) $value));
-    }
-    return $description;
-  }
-  
+
 }

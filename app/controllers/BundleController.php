@@ -1,5 +1,5 @@
 <?php
- 
+
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model as Paginator;
 
@@ -46,7 +46,7 @@ class BundleController extends ControllerBase
 
         $paginator = new Paginator(array(
             "data" => $bundle,
-            "limit"=> 10,
+            "limit" => 10,
             "page" => $numberPage
         ));
 

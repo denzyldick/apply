@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
  */
- 
+
 //require 'Yay/Action.php';
 //require 'Yay/Description.php';
 
@@ -26,41 +26,41 @@
  */
 class Yay_Actions_CallbackAction implements Yay_Action
 {
-  
-  /**
-   * The callback to invoke.
-   * @var callback
-   * @access private
-   */
-  private $_callback;
-  
-  /**
-   * Create a new CallbackAction for $callback.
-   * @param callback $callback
-   */
-  public function __construct($callback)
-  {
-    $this->_callback = $callback;
-  }
-  
-  /**
-   * Mimmick the method Invocation and return a value.
-   * @param Yay_Invocation $invocation
-   * @return mixed
-   */
-  public function &invoke(Yay_Invocation $invocation)
-  {
-    $ret = call_user_func($this->_callback, $invocation);
-    return $ret;
-  }
-  
-  /**
-   * Describe this Expectation to $description.
-   * @param Yay_Description $description
-   */
-  public function describeTo(Yay_Description $description)
-  {
-    $description->appendText(' Runs a callback;');
-  }
-  
+
+    /**
+     * The callback to invoke.
+     * @var callback
+     * @access private
+     */
+    private $_callback;
+
+    /**
+     * Create a new CallbackAction for $callback.
+     * @param callback $callback
+     */
+    public function __construct($callback)
+    {
+        $this->_callback = $callback;
+    }
+
+    /**
+     * Mimmick the method Invocation and return a value.
+     * @param Yay_Invocation $invocation
+     * @return mixed
+     */
+    public function &invoke(Yay_Invocation $invocation)
+    {
+        $ret = call_user_func($this->_callback, $invocation);
+        return $ret;
+    }
+
+    /**
+     * Describe this Expectation to $description.
+     * @param Yay_Description $description
+     */
+    public function describeTo(Yay_Description $description)
+    {
+        $description->appendText(' Runs a callback;');
+    }
+
 }

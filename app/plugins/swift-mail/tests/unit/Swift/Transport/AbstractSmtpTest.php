@@ -8,9 +8,6 @@ require_once 'Swift/Transport/IoBuffer.php';
 abstract class Swift_Transport_AbstractSmtpTest
     extends Swift_Tests_SwiftUnitTestCase
 {
-    /** Abstract test method */
-    abstract protected function _getTransport($buf);
-
     public function testStartAccepts220ServiceGreeting()
     {
         /* -- RFC 2821, 4.2.
@@ -28,9 +25,9 @@ abstract class Swift_Transport_AbstractSmtpTest
         $smtp = $this->_getTransport($buf);
         $s = $this->_sequence('SMTP-convo');
         $this->_checking(Expectations::create()
-            -> one($buf)->initialize() -> inSequence($s)
-            -> one($buf)->readLine(0) -> inSequence($s) -> returns("220 some.server.tld bleh\r\n")
-            );
+                ->one($buf)->initialize()->inSequence($s)
+                ->one($buf)->readLine(0)->inSequence($s)->returns("220 some.server.tld bleh\r\n")
+        );
         $this->_finishBuffer($buf);
         try {
             $this->assertFalse($smtp->isStarted(), '%s: SMTP should begin non-started');
@@ -41,15 +38,43 @@ abstract class Swift_Transport_AbstractSmtpTest
         }
     }
 
+    protected function _getBuffer()
+    {
+        return $this->_mock('Swift_Transport_IoBuffer');
+    }
+
+    /** Abstract test method */
+    abstract protected function _getTransport($buf);
+
+    protected function _finishBuffer($buf)
+    {
+        $this->_checking(Expectations::create()
+                ->ignoring($buf)->readLine(0)->returns('220 server.com foo' . "\r\n")
+                ->ignoring($buf)->write(pattern('~^(EH|HE)LO .*?\r\n$~D'))->returns($x = uniqid())
+                ->ignoring($buf)->readLine($x)->returns('250 ServerName' . "\r\n")
+                ->ignoring($buf)->write(pattern('~^MAIL FROM: <.*?>\r\n$~D'))->returns($x = uniqid())
+                ->ignoring($buf)->readLine($x)->returns('250 OK' . "\r\n")
+                ->ignoring($buf)->write(pattern('~^RCPT TO: <.*?>\r\n$~D'))->returns($x = uniqid())
+                ->ignoring($buf)->readLine($x)->returns('250 OK' . "\r\n")
+                ->ignoring($buf)->write("DATA\r\n")->returns($x = uniqid())
+                ->ignoring($buf)->readLine($x)->returns('354 OK' . "\r\n")
+                ->ignoring($buf)->write("\r\n.\r\n")->returns($x = uniqid())
+                ->ignoring($buf)->readLine($x)->returns('250 OK' . "\r\n")
+                ->ignoring($buf)->write("RSET\r\n")->returns($x = uniqid())
+                ->ignoring($buf)->readLine($x)->returns("250 OK\r\n")
+                ->ignoring($buf)->returns(false)
+        );
+    }
+
     public function testBadGreetingCausesException()
     {
         $buf = $this->_getBuffer();
         $smtp = $this->_getTransport($buf);
         $s = $this->_sequence('SMTP-convo');
         $this->_checking(Expectations::create()
-            -> one($buf)->initialize() -> inSequence($s)
-            -> one($buf)->readLine(0) -> inSequence($s) -> returns("554 I'm busy\r\n")
-            );
+                ->one($buf)->initialize()->inSequence($s)
+                ->one($buf)->readLine(0)->inSequence($s)->returns("554 I'm busy\r\n")
+        );
         $this->_finishBuffer($buf);
         try {
             $this->assertFalse($smtp->isStarted(), '%s: SMTP should begin non-started');
@@ -100,11 +125,11 @@ abstract class Swift_Transport_AbstractSmtpTest
         $smtp = $this->_getTransport($buf);
         $s = $this->_sequence('SMTP-convo');
         $this->_checking(Expectations::create()
-            -> one($buf)->initialize() -> inSequence($s)
-            -> one($buf)->readLine(0) -> inSequence($s) -> returns("220 some.server.tld bleh\r\n")
-            -> one($buf)->write(pattern('~^HELO .*?\r\n$~D')) -> inSequence($s) -> returns(1)
-            -> one($buf)->readLine(1) -> inSequence($s) -> returns('250 ServerName' . "\r\n")
-            );
+                ->one($buf)->initialize()->inSequence($s)
+                ->one($buf)->readLine(0)->inSequence($s)->returns("220 some.server.tld bleh\r\n")
+                ->one($buf)->write(pattern('~^HELO .*?\r\n$~D'))->inSequence($s)->returns(1)
+                ->one($buf)->readLine(1)->inSequence($s)->returns('250 ServerName' . "\r\n")
+        );
         $this->_finishBuffer($buf);
         try {
             $smtp->start();
@@ -119,11 +144,11 @@ abstract class Swift_Transport_AbstractSmtpTest
         $smtp = $this->_getTransport($buf);
         $s = $this->_sequence('SMTP-convo');
         $this->_checking(Expectations::create()
-            -> one($buf)->initialize() -> inSequence($s)
-            -> one($buf)->readLine(0) -> inSequence($s) -> returns("220 some.server.tld bleh\r\n")
-            -> one($buf)->write(pattern('~^HELO .*?\r\n$~D')) -> inSequence($s) -> returns(1)
-            -> one($buf)->readLine(1) -> inSequence($s) -> returns('504 WTF' . "\r\n")
-            );
+                ->one($buf)->initialize()->inSequence($s)
+                ->one($buf)->readLine(0)->inSequence($s)->returns("220 some.server.tld bleh\r\n")
+                ->one($buf)->write(pattern('~^HELO .*?\r\n$~D'))->inSequence($s)->returns(1)
+                ->one($buf)->readLine(1)->inSequence($s)->returns('504 WTF' . "\r\n")
+        );
         $this->_finishBuffer($buf);
         try {
             $this->assertFalse($smtp->isStarted(), '%s: SMTP should begin non-started');
@@ -151,11 +176,11 @@ abstract class Swift_Transport_AbstractSmtpTest
         $smtp = $this->_getTransport($buf);
         $s = $this->_sequence('SMTP-convo');
         $this->_checking(Expectations::create()
-            -> one($buf)->initialize() -> inSequence($s)
-            -> one($buf)->readLine(0) -> inSequence($s) -> returns("220 some.server.tld bleh\r\n")
-            -> one($buf)->write("HELO mydomain.com\r\n") -> inSequence($s) -> returns(1)
-            -> one($buf)->readLine(1) -> inSequence($s) -> returns('250 ServerName' . "\r\n")
-            );
+                ->one($buf)->initialize()->inSequence($s)
+                ->one($buf)->readLine(0)->inSequence($s)->returns("220 some.server.tld bleh\r\n")
+                ->one($buf)->write("HELO mydomain.com\r\n")->inSequence($s)->returns(1)
+                ->one($buf)->readLine(1)->inSequence($s)->returns('250 ServerName' . "\r\n")
+        );
         $this->_finishBuffer($buf);
         $smtp->setLocalDomain('mydomain.com');
         $smtp->start();
@@ -202,20 +227,24 @@ abstract class Swift_Transport_AbstractSmtpTest
         $smtp = $this->_getTransport($buf);
         $message = $this->_createMessage();
         $this->_checking(Expectations::create()
-            -> allowing($message)->getFrom() -> returns(array('me@domain.com'=>'Me'))
-            -> allowing($message)->getTo() -> returns(array('foo@bar'=>null))
-            -> allowing($message)
-
-            -> one($buf)->write("MAIL FROM: <me@domain.com>\r\n") -> returns(1)
-            -> one($buf)->readLine(1) -> returns('250 OK' . "\r\n")
-            );
+                ->allowing($message)->getFrom()->returns(array('me@domain.com' => 'Me'))
+                ->allowing($message)->getTo()->returns(array('foo@bar' => null))
+                ->allowing($message)
+                ->one($buf)->write("MAIL FROM: <me@domain.com>\r\n")->returns(1)
+                ->one($buf)->readLine(1)->returns('250 OK' . "\r\n")
+        );
         $this->_finishBuffer($buf);
         try {
             $smtp->start();
             $smtp->send($message);
         } catch (Exception $e) {
-     $this->fail('MAIL FROM should accept a 250 response');
+            $this->fail('MAIL FROM should accept a 250 response');
         }
+    }
+
+    protected function _createMessage()
+    {
+        return $this->_mock('Swift_Mime_Message');
     }
 
     public function testInvalidResponseCodeFromMailCausesException()
@@ -224,13 +253,12 @@ abstract class Swift_Transport_AbstractSmtpTest
         $smtp = $this->_getTransport($buf);
         $message = $this->_createMessage();
         $this->_checking(Expectations::create()
-            -> allowing($message)->getFrom() -> returns(array('me@domain.com'=>'Me'))
-            -> allowing($message)->getTo() -> returns(array('foo@bar'=>null))
-            -> allowing($message)
-
-            -> one($buf)->write("MAIL FROM: <me@domain.com>\r\n") -> returns(1)
-            -> one($buf)->readLine(1) -> returns('553 Bad' . "\r\n")
-            );
+                ->allowing($message)->getFrom()->returns(array('me@domain.com' => 'Me'))
+                ->allowing($message)->getTo()->returns(array('foo@bar' => null))
+                ->allowing($message)
+                ->one($buf)->write("MAIL FROM: <me@domain.com>\r\n")->returns(1)
+                ->one($buf)->readLine(1)->returns('553 Bad' . "\r\n")
+        );
         $this->_finishBuffer($buf);
         try {
             $smtp->start();
@@ -246,14 +274,13 @@ abstract class Swift_Transport_AbstractSmtpTest
         $smtp = $this->_getTransport($buf);
         $message = $this->_createMessage();
         $this->_checking(Expectations::create()
-            -> allowing($message)->getFrom() -> returns(array('me@domain.com'=>'Me'))
-            -> allowing($message)->getSender() -> returns(array('another@domain.com'=>'Someone'))
-            -> allowing($message)->getTo() -> returns(array('foo@bar'=>null))
-            -> allowing($message)
-
-            -> one($buf)->write("MAIL FROM: <another@domain.com>\r\n") -> returns(1)
-            -> one($buf)->readLine(1) -> returns('250 OK' . "\r\n")
-            );
+                ->allowing($message)->getFrom()->returns(array('me@domain.com' => 'Me'))
+                ->allowing($message)->getSender()->returns(array('another@domain.com' => 'Someone'))
+                ->allowing($message)->getTo()->returns(array('foo@bar' => null))
+                ->allowing($message)
+                ->one($buf)->write("MAIL FROM: <another@domain.com>\r\n")->returns(1)
+                ->one($buf)->readLine(1)->returns('250 OK' . "\r\n")
+        );
         $this->_finishBuffer($buf);
         $smtp->start();
         $smtp->send($message);
@@ -265,15 +292,14 @@ abstract class Swift_Transport_AbstractSmtpTest
         $smtp = $this->_getTransport($buf);
         $message = $this->_createMessage();
         $this->_checking(Expectations::create()
-            -> allowing($message)->getFrom() -> returns(array('me@domain.com'=>'Me'))
-            -> allowing($message)->getSender() -> returns(array('another@domain.com'=>'Someone'))
-            -> allowing($message)->getReturnPath() -> returns('more@domain.com')
-            -> allowing($message)->getTo() -> returns(array('foo@bar'=>null))
-            -> allowing($message)
-
-            -> one($buf)->write("MAIL FROM: <more@domain.com>\r\n") -> returns(1)
-            -> one($buf)->readLine(1) -> returns('250 OK' . "\r\n")
-            );
+                ->allowing($message)->getFrom()->returns(array('me@domain.com' => 'Me'))
+                ->allowing($message)->getSender()->returns(array('another@domain.com' => 'Someone'))
+                ->allowing($message)->getReturnPath()->returns('more@domain.com')
+                ->allowing($message)->getTo()->returns(array('foo@bar' => null))
+                ->allowing($message)
+                ->one($buf)->write("MAIL FROM: <more@domain.com>\r\n")->returns(1)
+                ->one($buf)->readLine(1)->returns('250 OK' . "\r\n")
+        );
         $this->_finishBuffer($buf);
         $smtp->start();
         $smtp->send($message);
@@ -334,15 +360,14 @@ abstract class Swift_Transport_AbstractSmtpTest
         $message = $this->_createMessage();
         $s = $this->_sequence('SMTP-envelope');
         $this->_checking(Expectations::create()
-            -> allowing($message)->getFrom() -> returns(array('me@domain.com'=>'Me'))
-            -> allowing($message)->getTo() -> returns(array('foo@bar'=>null))
-            -> allowing($message)
-
-            -> one($buf)->write("MAIL FROM: <me@domain.com>\r\n") -> inSequence($s) -> returns(1)
-            -> one($buf)->readLine(1) -> returns('250 OK' . "\r\n")
-            -> one($buf)->write("RCPT TO: <foo@bar>\r\n") -> inSequence($s) -> returns(2)
-            -> one($buf)->readLine(2) -> returns('250 OK' . "\r\n")
-            );
+                ->allowing($message)->getFrom()->returns(array('me@domain.com' => 'Me'))
+                ->allowing($message)->getTo()->returns(array('foo@bar' => null))
+                ->allowing($message)
+                ->one($buf)->write("MAIL FROM: <me@domain.com>\r\n")->inSequence($s)->returns(1)
+                ->one($buf)->readLine(1)->returns('250 OK' . "\r\n")
+                ->one($buf)->write("RCPT TO: <foo@bar>\r\n")->inSequence($s)->returns(2)
+                ->one($buf)->readLine(2)->returns('250 OK' . "\r\n")
+        );
         $this->_finishBuffer($buf);
         try {
             $smtp->start();
@@ -359,16 +384,15 @@ abstract class Swift_Transport_AbstractSmtpTest
         $message = $this->_createMessage();
         $s = $this->_sequence('SMTP-envelope');
         $this->_checking(Expectations::create()
-            -> allowing($message)->getFrom() -> returns(array('me@domain.com'=>'Me'))
-            -> allowing($message)->getTo() -> returns(array('foo@bar'=>null))
-            -> allowing($message)
-
-            -> one($buf)->write("MAIL FROM: <me@domain.com>\r\n") -> inSequence($s) -> returns(1)
-            -> one($buf)->readLine(1) -> returns('250 OK' . "\r\n")
-            -> one($buf)->write("RCPT TO: <foo@bar>\r\n") -> inSequence($s) -> returns(2)
-            -> one($buf)->readLine(2) -> returns('250 OK' . "\r\n")
-            -> never($buf)->write("MAIL FROM: <me@domain.com>\r\n")
-            );
+                ->allowing($message)->getFrom()->returns(array('me@domain.com' => 'Me'))
+                ->allowing($message)->getTo()->returns(array('foo@bar' => null))
+                ->allowing($message)
+                ->one($buf)->write("MAIL FROM: <me@domain.com>\r\n")->inSequence($s)->returns(1)
+                ->one($buf)->readLine(1)->returns('250 OK' . "\r\n")
+                ->one($buf)->write("RCPT TO: <foo@bar>\r\n")->inSequence($s)->returns(2)
+                ->one($buf)->readLine(2)->returns('250 OK' . "\r\n")
+                ->never($buf)->write("MAIL FROM: <me@domain.com>\r\n")
+        );
         $this->_finishBuffer($buf);
         $smtp->start();
         $smtp->send($message);
@@ -380,21 +404,20 @@ abstract class Swift_Transport_AbstractSmtpTest
         $smtp = $this->_getTransport($buf);
         $message = $this->_createMessage();
         $this->_checking(Expectations::create()
-            -> allowing($message)->getFrom() -> returns(array('me@domain.com'=>'Me'))
-            -> allowing($message)->getTo() -> returns(array(
-                'foo@bar' => null,
-                'zip@button' => 'Zip Button',
-                'test@domain' => 'Test user'
+                ->allowing($message)->getFrom()->returns(array('me@domain.com' => 'Me'))
+                ->allowing($message)->getTo()->returns(array(
+                    'foo@bar' => null,
+                    'zip@button' => 'Zip Button',
+                    'test@domain' => 'Test user'
                 ))
-            -> allowing($message)
-
-            -> one($buf)->write("RCPT TO: <foo@bar>\r\n") -> returns(1)
-            -> one($buf)->readLine(1) -> returns('250 OK' . "\r\n")
-            -> one($buf)->write("RCPT TO: <zip@button>\r\n") -> returns(2)
-            -> one($buf)->readLine(2) -> returns('250 OK' . "\r\n")
-            -> one($buf)->write("RCPT TO: <test@domain>\r\n") -> returns(3)
-            -> one($buf)->readLine(3) -> returns('250 OK' . "\r\n")
-            );
+                ->allowing($message)
+                ->one($buf)->write("RCPT TO: <foo@bar>\r\n")->returns(1)
+                ->one($buf)->readLine(1)->returns('250 OK' . "\r\n")
+                ->one($buf)->write("RCPT TO: <zip@button>\r\n")->returns(2)
+                ->one($buf)->readLine(2)->returns('250 OK' . "\r\n")
+                ->one($buf)->write("RCPT TO: <test@domain>\r\n")->returns(3)
+                ->one($buf)->readLine(3)->returns('250 OK' . "\r\n")
+        );
         $this->_finishBuffer($buf);
         $smtp->start();
         $smtp->send($message);
@@ -406,21 +429,20 @@ abstract class Swift_Transport_AbstractSmtpTest
         $smtp = $this->_getTransport($buf);
         $message = $this->_createMessage();
         $this->_checking(Expectations::create()
-            -> allowing($message)->getFrom() -> returns(array('me@domain.com'=>'Me'))
-            -> allowing($message)->getTo() -> returns(array('foo@bar' => null))
-            -> allowing($message)->getCc() -> returns(array(
-                'zip@button' => 'Zip Button',
-                'test@domain' => 'Test user'
+                ->allowing($message)->getFrom()->returns(array('me@domain.com' => 'Me'))
+                ->allowing($message)->getTo()->returns(array('foo@bar' => null))
+                ->allowing($message)->getCc()->returns(array(
+                    'zip@button' => 'Zip Button',
+                    'test@domain' => 'Test user'
                 ))
-            -> allowing($message)
-
-            -> one($buf)->write("RCPT TO: <foo@bar>\r\n") -> returns(1)
-            -> one($buf)->readLine(1) -> returns('250 OK' . "\r\n")
-            -> one($buf)->write("RCPT TO: <zip@button>\r\n") -> returns(2)
-            -> one($buf)->readLine(2) -> returns('250 OK' . "\r\n")
-            -> one($buf)->write("RCPT TO: <test@domain>\r\n") -> returns(3)
-            -> one($buf)->readLine(3) -> returns('250 OK' . "\r\n")
-            );
+                ->allowing($message)
+                ->one($buf)->write("RCPT TO: <foo@bar>\r\n")->returns(1)
+                ->one($buf)->readLine(1)->returns('250 OK' . "\r\n")
+                ->one($buf)->write("RCPT TO: <zip@button>\r\n")->returns(2)
+                ->one($buf)->readLine(2)->returns('250 OK' . "\r\n")
+                ->one($buf)->write("RCPT TO: <test@domain>\r\n")->returns(3)
+                ->one($buf)->readLine(3)->returns('250 OK' . "\r\n")
+        );
         $this->_finishBuffer($buf);
         $smtp->start();
         $smtp->send($message);
@@ -432,26 +454,25 @@ abstract class Swift_Transport_AbstractSmtpTest
         $smtp = $this->_getTransport($buf);
         $message = $this->_createMessage();
         $this->_checking(Expectations::create()
-            -> allowing($message)->getFrom() -> returns(array('me@domain.com'=>'Me'))
-            -> allowing($message)->getTo() -> returns(array('foo@bar' => null))
-            -> allowing($message)->getCc() -> returns(array(
-                'zip@button' => 'Zip Button',
-                'test@domain' => 'Test user'
+                ->allowing($message)->getFrom()->returns(array('me@domain.com' => 'Me'))
+                ->allowing($message)->getTo()->returns(array('foo@bar' => null))
+                ->allowing($message)->getCc()->returns(array(
+                    'zip@button' => 'Zip Button',
+                    'test@domain' => 'Test user'
                 ))
-            -> allowing($message)
-
-            -> one($buf)->write("RCPT TO: <foo@bar>\r\n") -> returns(1)
-            -> one($buf)->readLine(1) -> returns('250 OK' . "\r\n")
-            -> one($buf)->write("RCPT TO: <zip@button>\r\n") -> returns(2)
-            -> one($buf)->readLine(2) -> returns('501 Nobody here' . "\r\n")
-            -> one($buf)->write("RCPT TO: <test@domain>\r\n") -> returns(3)
-            -> one($buf)->readLine(3) -> returns('250 OK' . "\r\n")
-            );
+                ->allowing($message)
+                ->one($buf)->write("RCPT TO: <foo@bar>\r\n")->returns(1)
+                ->one($buf)->readLine(1)->returns('250 OK' . "\r\n")
+                ->one($buf)->write("RCPT TO: <zip@button>\r\n")->returns(2)
+                ->one($buf)->readLine(2)->returns('501 Nobody here' . "\r\n")
+                ->one($buf)->write("RCPT TO: <test@domain>\r\n")->returns(3)
+                ->one($buf)->readLine(3)->returns('250 OK' . "\r\n")
+        );
         $this->_finishBuffer($buf);
         $smtp->start();
         $this->assertEqual(2, $smtp->send($message),
             '%s: 1 of 3 recipients failed so 2 should be returned'
-            );
+        );
     }
 
     public function testRsetIsSentIfNoSuccessfulRecipients()
@@ -474,20 +495,19 @@ abstract class Swift_Transport_AbstractSmtpTest
         $smtp = $this->_getTransport($buf);
         $message = $this->_createMessage();
         $this->_checking(Expectations::create()
-            -> allowing($message)->getFrom() -> returns(array('me@domain.com'=>'Me'))
-            -> allowing($message)->getTo() -> returns(array('foo@bar' => null))
-            -> allowing($message)
-
-            -> one($buf)->write("RCPT TO: <foo@bar>\r\n") -> returns(1)
-            -> one($buf)->readLine(1) -> returns('503 Bad' . "\r\n")
-            -> one($buf)->write("RSET\r\n") -> returns(2)
-            -> one($buf)->readLine(2) -> returns('250 OK' . "\r\n")
-            );
+                ->allowing($message)->getFrom()->returns(array('me@domain.com' => 'Me'))
+                ->allowing($message)->getTo()->returns(array('foo@bar' => null))
+                ->allowing($message)
+                ->one($buf)->write("RCPT TO: <foo@bar>\r\n")->returns(1)
+                ->one($buf)->readLine(1)->returns('503 Bad' . "\r\n")
+                ->one($buf)->write("RSET\r\n")->returns(2)
+                ->one($buf)->readLine(2)->returns('250 OK' . "\r\n")
+        );
         $this->_finishBuffer($buf);
         $smtp->start();
         $this->assertEqual(0, $smtp->send($message),
             '%s: 1 of 1 recipients failed so 0 should be returned'
-            );
+        );
     }
 
     public function testSuccessfulDataCommand()
@@ -526,13 +546,12 @@ abstract class Swift_Transport_AbstractSmtpTest
         $smtp = $this->_getTransport($buf);
         $message = $this->_createMessage();
         $this->_checking(Expectations::create()
-            -> allowing($message)->getFrom() -> returns(array('me@domain.com'=>'Me'))
-            -> allowing($message)->getTo() -> returns(array('foo@bar' => null))
-            -> allowing($message)
-
-            -> one($buf)->write("DATA\r\n") -> returns(1)
-            -> one($buf)->readLine(1) -> returns('354 Go ahead' . "\r\n")
-            );
+                ->allowing($message)->getFrom()->returns(array('me@domain.com' => 'Me'))
+                ->allowing($message)->getTo()->returns(array('foo@bar' => null))
+                ->allowing($message)
+                ->one($buf)->write("DATA\r\n")->returns(1)
+                ->one($buf)->readLine(1)->returns('354 Go ahead' . "\r\n")
+        );
         $this->_finishBuffer($buf);
         try {
             $smtp->start();
@@ -548,13 +567,12 @@ abstract class Swift_Transport_AbstractSmtpTest
         $smtp = $this->_getTransport($buf);
         $message = $this->_createMessage();
         $this->_checking(Expectations::create()
-            -> allowing($message)->getFrom() -> returns(array('me@domain.com'=>'Me'))
-            -> allowing($message)->getTo() -> returns(array('foo@bar' => null))
-            -> allowing($message)
-
-            -> one($buf)->write("DATA\r\n") -> returns(1)
-            -> one($buf)->readLine(1) -> returns('451 Bad' . "\r\n")
-            );
+                ->allowing($message)->getFrom()->returns(array('me@domain.com' => 'Me'))
+                ->allowing($message)->getTo()->returns(array('foo@bar' => null))
+                ->allowing($message)
+                ->one($buf)->write("DATA\r\n")->returns(1)
+                ->one($buf)->readLine(1)->returns('451 Bad' . "\r\n")
+        );
         $this->_finishBuffer($buf);
         try {
             $smtp->start();
@@ -571,17 +589,15 @@ abstract class Swift_Transport_AbstractSmtpTest
         $message = $this->_createMessage();
         $s = $this->_sequence('DATA Streaming');
         $this->_checking(Expectations::create()
-            -> allowing($message)->getFrom() -> returns(array('me@domain.com'=>'Me'))
-            -> allowing($message)->getTo() -> returns(array('foo@bar' => null))
-
-            -> one($buf)->write("DATA\r\n") -> inSequence($s) -> returns(1)
-            -> one($buf)->readLine(1) -> returns('354 OK' . "\r\n")
-            -> one($message)->toByteStream($buf) -> inSequence($s)
-            -> one($buf)->write("\r\n.\r\n") -> inSequence($s) -> returns(2)
-            -> one($buf)->readLine(2) -> returns('250 OK' . "\r\n")
-
-            -> allowing($message)
-            );
+                ->allowing($message)->getFrom()->returns(array('me@domain.com' => 'Me'))
+                ->allowing($message)->getTo()->returns(array('foo@bar' => null))
+                ->one($buf)->write("DATA\r\n")->inSequence($s)->returns(1)
+                ->one($buf)->readLine(1)->returns('354 OK' . "\r\n")
+                ->one($message)->toByteStream($buf)->inSequence($s)
+                ->one($buf)->write("\r\n.\r\n")->inSequence($s)->returns(2)
+                ->one($buf)->readLine(2)->returns('250 OK' . "\r\n")
+                ->allowing($message)
+        );
         $this->_finishBuffer($buf);
         $smtp->start();
         $smtp->send($message);
@@ -594,17 +610,15 @@ abstract class Swift_Transport_AbstractSmtpTest
         $message = $this->_createMessage();
         $s = $this->_sequence('DATA Streaming');
         $this->_checking(Expectations::create()
-            -> allowing($message)->getFrom() -> returns(array('me@domain.com'=>'Me'))
-            -> allowing($message)->getTo() -> returns(array('foo@bar' => null))
-
-            -> one($buf)->write("DATA\r\n") -> inSequence($s) -> returns(1)
-            -> one($buf)->readLine(1) -> returns('354 OK' . "\r\n")
-            -> one($message)->toByteStream($buf) -> inSequence($s)
-            -> one($buf)->write("\r\n.\r\n") -> inSequence($s) -> returns(2)
-            -> one($buf)->readLine(2) -> returns('554 Error' . "\r\n")
-
-            -> allowing($message)
-            );
+                ->allowing($message)->getFrom()->returns(array('me@domain.com' => 'Me'))
+                ->allowing($message)->getTo()->returns(array('foo@bar' => null))
+                ->one($buf)->write("DATA\r\n")->inSequence($s)->returns(1)
+                ->one($buf)->readLine(1)->returns('354 OK' . "\r\n")
+                ->one($message)->toByteStream($buf)->inSequence($s)
+                ->one($buf)->write("\r\n.\r\n")->inSequence($s)->returns(2)
+                ->one($buf)->readLine(2)->returns('554 Error' . "\r\n")
+                ->allowing($message)
+        );
         $this->_finishBuffer($buf);
         try {
             $smtp->start();
@@ -637,15 +651,15 @@ abstract class Swift_Transport_AbstractSmtpTest
         $smtp = $this->_getTransport($buf);
         $message = $this->_createMessage();
         $this->_checking(Expectations::create()
-            -> allowing($message)->getFrom() -> returns(array('me@domain.com'=>'Me'))
-            -> allowing($message)->getTo() -> returns(array('foo@bar' => null))
-            -> allowing($message)->getBcc() -> returns(array(
-                'zip@button' => 'Zip Button',
-                'test@domain' => 'Test user'
+                ->allowing($message)->getFrom()->returns(array('me@domain.com' => 'Me'))
+                ->allowing($message)->getTo()->returns(array('foo@bar' => null))
+                ->allowing($message)->getBcc()->returns(array(
+                    'zip@button' => 'Zip Button',
+                    'test@domain' => 'Test user'
                 ))
-            -> atLeast(1)->of($message)->setBcc(array())
-            -> allowing($message)
-            );
+                ->atLeast(1)->of($message)->setBcc(array())
+                ->allowing($message)
+        );
         $this->_finishBuffer($buf);
         $smtp->start();
         $smtp->send($message);
@@ -657,48 +671,45 @@ abstract class Swift_Transport_AbstractSmtpTest
         $smtp = $this->_getTransport($buf);
         $message = $this->_createMessage();
         $this->_checking(Expectations::create()
-            -> allowing($message)->getFrom() -> returns(array('me@domain.com'=>'Me'))
-            -> allowing($message)->getTo() -> returns(array('foo@bar' => null))
-            -> allowing($message)->getBcc() -> returns(array(
-                'zip@button' => 'Zip Button',
-                'test@domain' => 'Test user'
+                ->allowing($message)->getFrom()->returns(array('me@domain.com' => 'Me'))
+                ->allowing($message)->getTo()->returns(array('foo@bar' => null))
+                ->allowing($message)->getBcc()->returns(array(
+                    'zip@button' => 'Zip Button',
+                    'test@domain' => 'Test user'
                 ))
-            -> atLeast(1)->of($message)->setBcc(array())
-            -> one($message)->setBcc(array('zip@button' => 'Zip Button'))
-            -> one($message)->setBcc(array('test@domain' => 'Test user'))
-            -> atLeast(1)->of($message)->setBcc(array(
-                'zip@button' => 'Zip Button',
-                'test@domain' => 'Test user'
+                ->atLeast(1)->of($message)->setBcc(array())
+                ->one($message)->setBcc(array('zip@button' => 'Zip Button'))
+                ->one($message)->setBcc(array('test@domain' => 'Test user'))
+                ->atLeast(1)->of($message)->setBcc(array(
+                    'zip@button' => 'Zip Button',
+                    'test@domain' => 'Test user'
                 ))
-            -> allowing($message)
-
-            -> one($buf)->write("MAIL FROM: <me@domain.com>\r\n") -> returns(1)
-            -> one($buf)->readLine(1) -> returns("250 OK\r\n")
-            -> one($buf)->write("RCPT TO: <foo@bar>\r\n") -> returns(2)
-            -> one($buf)->readLine(2) -> returns("250 OK\r\n")
-            -> one($buf)->write("DATA\r\n") -> returns(3)
-            -> one($buf)->readLine(3) -> returns("354 OK\r\n")
-            -> one($buf)->write("\r\n.\r\n") -> returns(4)
-            -> one($buf)->readLine(4) -> returns("250 OK\r\n")
-
-            -> one($buf)->write("MAIL FROM: <me@domain.com>\r\n") -> returns(5)
-            -> one($buf)->readLine(5) -> returns("250 OK\r\n")
-            -> one($buf)->write("RCPT TO: <zip@button>\r\n") -> returns(6)
-            -> one($buf)->readLine(6) -> returns("250 OK\r\n")
-            -> one($buf)->write("DATA\r\n") -> returns(7)
-            -> one($buf)->readLine(7) -> returns("354 OK\r\n")
-            -> one($buf)->write("\r\n.\r\n") -> returns(8)
-            -> one($buf)->readLine(8) -> returns("250 OK\r\n")
-
-            -> one($buf)->write("MAIL FROM: <me@domain.com>\r\n") -> returns(9)
-            -> one($buf)->readLine(9) -> returns("250 OK\r\n")
-            -> one($buf)->write("RCPT TO: <test@domain>\r\n") -> returns(10)
-            -> one($buf)->readLine(10) -> returns("250 OK\r\n")
-            -> one($buf)->write("DATA\r\n") -> returns(11)
-            -> one($buf)->readLine(11) -> returns("354 OK\r\n")
-            -> one($buf)->write("\r\n.\r\n") -> returns(12)
-            -> one($buf)->readLine(12) -> returns("250 OK\r\n")
-            );
+                ->allowing($message)
+                ->one($buf)->write("MAIL FROM: <me@domain.com>\r\n")->returns(1)
+                ->one($buf)->readLine(1)->returns("250 OK\r\n")
+                ->one($buf)->write("RCPT TO: <foo@bar>\r\n")->returns(2)
+                ->one($buf)->readLine(2)->returns("250 OK\r\n")
+                ->one($buf)->write("DATA\r\n")->returns(3)
+                ->one($buf)->readLine(3)->returns("354 OK\r\n")
+                ->one($buf)->write("\r\n.\r\n")->returns(4)
+                ->one($buf)->readLine(4)->returns("250 OK\r\n")
+                ->one($buf)->write("MAIL FROM: <me@domain.com>\r\n")->returns(5)
+                ->one($buf)->readLine(5)->returns("250 OK\r\n")
+                ->one($buf)->write("RCPT TO: <zip@button>\r\n")->returns(6)
+                ->one($buf)->readLine(6)->returns("250 OK\r\n")
+                ->one($buf)->write("DATA\r\n")->returns(7)
+                ->one($buf)->readLine(7)->returns("354 OK\r\n")
+                ->one($buf)->write("\r\n.\r\n")->returns(8)
+                ->one($buf)->readLine(8)->returns("250 OK\r\n")
+                ->one($buf)->write("MAIL FROM: <me@domain.com>\r\n")->returns(9)
+                ->one($buf)->readLine(9)->returns("250 OK\r\n")
+                ->one($buf)->write("RCPT TO: <test@domain>\r\n")->returns(10)
+                ->one($buf)->readLine(10)->returns("250 OK\r\n")
+                ->one($buf)->write("DATA\r\n")->returns(11)
+                ->one($buf)->readLine(11)->returns("354 OK\r\n")
+                ->one($buf)->write("\r\n.\r\n")->returns(12)
+                ->one($buf)->readLine(12)->returns("250 OK\r\n")
+        );
         $this->_finishBuffer($buf);
         $smtp->start();
         $this->assertEqual(3, $smtp->send($message));
@@ -710,25 +721,25 @@ abstract class Swift_Transport_AbstractSmtpTest
         $smtp = $this->_getTransport($buf);
         $message = $this->_createMessage();
         $this->_checking(Expectations::create()
-            -> allowing($message)->getFrom() -> returns(array('me@domain.com'=>'Me'))
-            -> allowing($message)->getTo() -> returns(array('foo@bar' => null))
-            -> allowing($message)->getBcc() -> returns(array(
-                'zip@button' => 'Zip Button',
-                'test@domain' => 'Test user'
+                ->allowing($message)->getFrom()->returns(array('me@domain.com' => 'Me'))
+                ->allowing($message)->getTo()->returns(array('foo@bar' => null))
+                ->allowing($message)->getBcc()->returns(array(
+                    'zip@button' => 'Zip Button',
+                    'test@domain' => 'Test user'
                 ))
-            -> one($message)->setBcc(array())
-            -> one($message)->setBcc(array(
-                'zip@button' => 'Zip Button',
-                'test@domain' => 'Test user'
+                ->one($message)->setBcc(array())
+                ->one($message)->setBcc(array(
+                    'zip@button' => 'Zip Button',
+                    'test@domain' => 'Test user'
                 ))
-            -> allowing($message)
-            -> one($buf)->write("MAIL FROM: <me@domain.com>\r\n") -> returns(1)
-            -> one($buf)->readLine(1) -> returns("250 OK\r\n")
-            -> one($buf)->write("RCPT TO: <foo@bar>\r\n") -> returns(2)
-            -> one($buf)->readLine(2) -> returns("250 OK\r\n")
-            -> one($buf)->write("DATA\r\n") -> returns(3)
-            -> one($buf)->readLine(3) -> returns("451 No\r\n")
-            );
+                ->allowing($message)
+                ->one($buf)->write("MAIL FROM: <me@domain.com>\r\n")->returns(1)
+                ->one($buf)->readLine(1)->returns("250 OK\r\n")
+                ->one($buf)->write("RCPT TO: <foo@bar>\r\n")->returns(2)
+                ->one($buf)->readLine(2)->returns("250 OK\r\n")
+                ->one($buf)->write("DATA\r\n")->returns(3)
+                ->one($buf)->readLine(3)->returns("451 No\r\n")
+        );
         $this->_finishBuffer($buf);
 
         $smtp->start();
@@ -767,11 +778,11 @@ abstract class Swift_Transport_AbstractSmtpTest
         $smtp = $this->_getTransport($buf);
         $message = $this->_createMessage();
         $this->_checking(Expectations::create()
-            -> one($buf)->initialize()
-            -> one($buf)->write("QUIT\r\n") -> returns(1)
-            -> one($buf)->readLine(1) -> returns("221 Bye\r\n")
-            -> one($buf)->terminate()
-            );
+                ->one($buf)->initialize()
+                ->one($buf)->write("QUIT\r\n")->returns(1)
+                ->one($buf)->readLine(1)->returns("221 Bye\r\n")
+                ->one($buf)->terminate()
+        );
         $this->_finishBuffer($buf);
 
         $this->assertFalse($smtp->isStarted());
@@ -795,14 +806,16 @@ abstract class Swift_Transport_AbstractSmtpTest
         $smtp = $this->_getTransport($buf);
         $message = $this->_createMessage();
         $this->_checking(Expectations::create()
-            -> one($buf)->write("FOO\r\n") -> returns(1)
-            -> one($buf)->readLine(1) -> returns("250 OK\r\n")
-            -> ignoring($buf)
-            );
+                ->one($buf)->write("FOO\r\n")->returns(1)
+                ->one($buf)->readLine(1)->returns("250 OK\r\n")
+                ->ignoring($buf)
+        );
 
         $res = $smtp->executeCommand("FOO\r\n");
         $this->assertEqual("250 OK\r\n", $res);
     }
+
+    // -- Protected methods
 
     public function testResponseCodesAreValidated()
     {
@@ -810,10 +823,10 @@ abstract class Swift_Transport_AbstractSmtpTest
         $smtp = $this->_getTransport($buf);
         $message = $this->_createMessage();
         $this->_checking(Expectations::create()
-            -> one($buf)->write("FOO\r\n") -> returns(1)
-            -> one($buf)->readLine(1) -> returns("551 Not ok\r\n")
-            -> ignoring($buf)
-            );
+                ->one($buf)->write("FOO\r\n")->returns(1)
+                ->one($buf)->readLine(1)->returns("551 Not ok\r\n")
+                ->ignoring($buf)
+        );
 
         try {
             $smtp->executeCommand("FOO\r\n", array(250, 251));
@@ -828,50 +841,47 @@ abstract class Swift_Transport_AbstractSmtpTest
         $smtp = $this->_getTransport($buf);
         $message = $this->_createMessage();
         $this->_checking(Expectations::create()
-            -> allowing($message)->getFrom() -> returns(array('me@domain.com'=>'Me'))
-            -> allowing($message)->getTo() -> returns(array('foo@bar' => null))
-            -> allowing($message)->getBcc() -> returns(array(
-                'zip@button' => 'Zip Button',
-                'test@domain' => 'Test user'
+                ->allowing($message)->getFrom()->returns(array('me@domain.com' => 'Me'))
+                ->allowing($message)->getTo()->returns(array('foo@bar' => null))
+                ->allowing($message)->getBcc()->returns(array(
+                    'zip@button' => 'Zip Button',
+                    'test@domain' => 'Test user'
                 ))
-            -> atLeast(1)->of($message)->setBcc(array())
-            -> one($message)->setBcc(array('zip@button' => 'Zip Button'))
-            -> one($message)->setBcc(array('test@domain' => 'Test user'))
-            -> atLeast(1)->of($message)->setBcc(array(
-                'zip@button' => 'Zip Button',
-                'test@domain' => 'Test user'
+                ->atLeast(1)->of($message)->setBcc(array())
+                ->one($message)->setBcc(array('zip@button' => 'Zip Button'))
+                ->one($message)->setBcc(array('test@domain' => 'Test user'))
+                ->atLeast(1)->of($message)->setBcc(array(
+                    'zip@button' => 'Zip Button',
+                    'test@domain' => 'Test user'
                 ))
-            -> allowing($message)
-
-            -> one($buf)->write("MAIL FROM: <me@domain.com>\r\n") -> returns(1)
-            -> one($buf)->readLine(1) -> returns("250 OK\r\n")
-            -> one($buf)->write("RCPT TO: <foo@bar>\r\n") -> returns(2)
-            -> one($buf)->readLine(2) -> returns("250 OK\r\n")
-            -> one($buf)->write("DATA\r\n") -> returns(3)
-            -> one($buf)->readLine(3) -> returns("354 OK\r\n")
-            -> one($buf)->write("\r\n.\r\n") -> returns(4)
-            -> one($buf)->readLine(4) -> returns("250 OK\r\n")
-
-            -> one($buf)->write("MAIL FROM: <me@domain.com>\r\n") -> returns(5)
-            -> one($buf)->readLine(5) -> returns("250 OK\r\n")
-            -> one($buf)->write("RCPT TO: <zip@button>\r\n") -> returns(6)
-            -> one($buf)->readLine(6) -> returns("500 Bad\r\n")
-            -> one($buf)->write("RSET\r\n") -> returns(7)
-            -> one($buf)->readLine(7) -> returns("250 OK\r\n")
-
-            -> one($buf)->write("MAIL FROM: <me@domain.com>\r\n") -> returns(8)
-            -> one($buf)->readLine(8) -> returns("250 OK\r\n")
-            -> one($buf)->write("RCPT TO: <test@domain>\r\n") -> returns(9)
-            -> one($buf)->readLine(9) -> returns("500 Bad\r\n")
-            -> one($buf)->write("RSET\r\n") -> returns(10)
-            -> one($buf)->readLine(10) -> returns("250 OK\r\n")
-            );
+                ->allowing($message)
+                ->one($buf)->write("MAIL FROM: <me@domain.com>\r\n")->returns(1)
+                ->one($buf)->readLine(1)->returns("250 OK\r\n")
+                ->one($buf)->write("RCPT TO: <foo@bar>\r\n")->returns(2)
+                ->one($buf)->readLine(2)->returns("250 OK\r\n")
+                ->one($buf)->write("DATA\r\n")->returns(3)
+                ->one($buf)->readLine(3)->returns("354 OK\r\n")
+                ->one($buf)->write("\r\n.\r\n")->returns(4)
+                ->one($buf)->readLine(4)->returns("250 OK\r\n")
+                ->one($buf)->write("MAIL FROM: <me@domain.com>\r\n")->returns(5)
+                ->one($buf)->readLine(5)->returns("250 OK\r\n")
+                ->one($buf)->write("RCPT TO: <zip@button>\r\n")->returns(6)
+                ->one($buf)->readLine(6)->returns("500 Bad\r\n")
+                ->one($buf)->write("RSET\r\n")->returns(7)
+                ->one($buf)->readLine(7)->returns("250 OK\r\n")
+                ->one($buf)->write("MAIL FROM: <me@domain.com>\r\n")->returns(8)
+                ->one($buf)->readLine(8)->returns("250 OK\r\n")
+                ->one($buf)->write("RCPT TO: <test@domain>\r\n")->returns(9)
+                ->one($buf)->readLine(9)->returns("500 Bad\r\n")
+                ->one($buf)->write("RSET\r\n")->returns(10)
+                ->one($buf)->readLine(10)->returns("250 OK\r\n")
+        );
         $this->_finishBuffer($buf);
         $smtp->start();
         $this->assertEqual(1, $smtp->send($message, $failures));
         $this->assertEqual(array('zip@button', 'test@domain'), $failures,
             '%s: Failures should be caught in an array'
-            );
+        );
     }
 
     public function testSendingRegeneratesMessageId()
@@ -880,45 +890,13 @@ abstract class Swift_Transport_AbstractSmtpTest
         $smtp = $this->_getTransport($buf);
         $message = $this->_createMessage();
         $this->_checking(Expectations::create()
-            -> allowing($message)->getFrom() -> returns(array('me@domain.com'=>'Me'))
-            -> allowing($message)->getTo() -> returns(array('foo@bar'=>null))
-            -> one($message)->generateId()
-            -> allowing($message)
-            );
+                ->allowing($message)->getFrom()->returns(array('me@domain.com' => 'Me'))
+                ->allowing($message)->getTo()->returns(array('foo@bar' => null))
+                ->one($message)->generateId()
+                ->allowing($message)
+        );
         $this->_finishBuffer($buf);
         $smtp->start();
         $smtp->send($message);
-    }
-
-    // -- Protected methods
-
-    protected function _getBuffer()
-    {
-        return $this->_mock('Swift_Transport_IoBuffer');
-    }
-
-    protected function _createMessage()
-    {
-        return $this->_mock('Swift_Mime_Message');
-    }
-
-    protected function _finishBuffer($buf)
-    {
-        $this->_checking(Expectations::create()
-            -> ignoring($buf)->readLine(0) -> returns('220 server.com foo' . "\r\n")
-            -> ignoring($buf)->write(pattern('~^(EH|HE)LO .*?\r\n$~D')) -> returns($x = uniqid())
-            -> ignoring($buf)->readLine($x) -> returns('250 ServerName' . "\r\n")
-            -> ignoring($buf)->write(pattern('~^MAIL FROM: <.*?>\r\n$~D')) -> returns($x = uniqid())
-            -> ignoring($buf)->readLine($x) -> returns('250 OK' . "\r\n")
-            -> ignoring($buf)->write(pattern('~^RCPT TO: <.*?>\r\n$~D')) -> returns($x = uniqid())
-            -> ignoring($buf)->readLine($x) -> returns('250 OK' . "\r\n")
-            -> ignoring($buf)->write("DATA\r\n") -> returns($x = uniqid())
-            -> ignoring($buf)->readLine($x) -> returns('354 OK' . "\r\n")
-            -> ignoring($buf)->write("\r\n.\r\n") -> returns($x = uniqid())
-            -> ignoring($buf)->readLine($x) -> returns('250 OK' . "\r\n")
-            -> ignoring($buf)->write("RSET\r\n") -> returns($x = uniqid())
-            -> ignoring($buf)->readLine($x) -> returns("250 OK\r\n")
-            -> ignoring($buf) -> returns(false)
-            );
     }
 }

@@ -19,11 +19,39 @@ class Swift_Plugins_PopBeforeSmtpPluginTest
         $evt = $this->_createTransportChangeEvent($transport);
 
         $this->_checking(Expectations::create()
-            -> one($connection)->connect()
-            -> ignoring($connection)
+                ->one($connection)->connect()
+                ->ignoring($connection)
         );
 
         $plugin->beforeTransportStarted($evt);
+    }
+
+    public function _createConnection()
+    {
+        return $this->_mock('Swift_Plugins_Pop_Pop3Connection');
+    }
+
+    public function _createPlugin($host, $port, $crypto = null)
+    {
+        return new Swift_Plugins_PopBeforeSmtpPlugin($host, $port, $crypto);
+    }
+
+    private function _createTransport()
+    {
+        return $this->_mock('Swift_Transport');
+    }
+
+    // -- Creation Methods
+
+    private function _createTransportChangeEvent($transport)
+    {
+        $evt = $this->_mock('Swift_Events_TransportChangeEvent');
+        $this->_checking(Expectations::create()
+                ->ignoring($evt)->getSource()->returns($transport)
+                ->ignoring($evt)->getTransport()->returns($transport)
+        );
+
+        return $evt;
     }
 
     public function testPluginDisconnectsFromPop3HostBeforeTransportStarts()
@@ -37,8 +65,8 @@ class Swift_Plugins_PopBeforeSmtpPluginTest
         $evt = $this->_createTransportChangeEvent($transport);
 
         $this->_checking(Expectations::create()
-            -> one($connection)->disconnect()
-            -> ignoring($connection)
+                ->one($connection)->disconnect()
+                ->ignoring($connection)
         );
 
         $plugin->beforeTransportStarted($evt);
@@ -58,7 +86,7 @@ class Swift_Plugins_PopBeforeSmtpPluginTest
         $evt = $this->_createTransportChangeEvent($transport);
 
         $this->_checking(Expectations::create()
-            -> never($connection)
+                ->never($connection)
         );
 
         $plugin->beforeTransportStarted($evt);
@@ -77,38 +105,10 @@ class Swift_Plugins_PopBeforeSmtpPluginTest
         $evt = $this->_createTransportChangeEvent($smtp);
 
         $this->_checking(Expectations::create()
-            -> one($connection)->connect()
-            -> ignoring($connection)
+                ->one($connection)->connect()
+                ->ignoring($connection)
         );
 
         $plugin->beforeTransportStarted($evt);
-    }
-
-    // -- Creation Methods
-
-    private function _createTransport()
-    {
-        return $this->_mock('Swift_Transport');
-    }
-
-    private function _createTransportChangeEvent($transport)
-    {
-        $evt = $this->_mock('Swift_Events_TransportChangeEvent');
-        $this->_checking(Expectations::create()
-            -> ignoring($evt)->getSource() -> returns($transport)
-            -> ignoring($evt)->getTransport() -> returns($transport)
-            );
-
-        return $evt;
-    }
-
-    public function _createConnection()
-    {
-        return $this->_mock('Swift_Plugins_Pop_Pop3Connection');
-    }
-
-    public function _createPlugin($host, $port, $crypto = null)
-    {
-        return new Swift_Plugins_PopBeforeSmtpPlugin($host, $port, $crypto);
     }
 }

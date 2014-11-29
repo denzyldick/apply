@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
  */
- 
+
 /**
  * An Invocation expectation provider.
  * @author Chris Corbyn <chris@w3style.co.uk>
@@ -23,11 +23,11 @@
  */
 interface Yay_ExpectationProvider
 {
-  
-  /**
-   * Returns the Expectations.
-   * @return array of Yay_Expectation
-   */
-  public function getExpectations();
-  
+
+    /**
+     * Returns the Expectations.
+     * @return array of Yay_Expectation
+     */
+    public function getExpectations();
+
 }

@@ -10,7 +10,7 @@ class Swift_Transport_StreamBuffer_BasicSocketAcceptanceTest
         $this->skipUnless(SWIFT_SMTP_HOST,
             'Cannot run test without an SMTP host to connect to (define ' .
             'SWIFT_SMTP_HOST in tests/acceptance.conf.php if you wish to run this test)'
-            );
+        );
         parent::skip();
     }
 
@@ -27,6 +27,6 @@ class Swift_Transport_StreamBuffer_BasicSocketAcceptanceTest
             'protocol' => 'tcp',
             'blocking' => 1,
             'timeout' => 15
-            ));
+        ));
     }
 }

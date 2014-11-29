@@ -15,10 +15,26 @@ class ControllerBase extends \Phalcon\Mvc\Controller
     protected $permission = false;
     protected $user;
 
+    public function initialize()
+    {
+
+        $this->setAssets();
+        if ($this->session->get("user-type") != "guest" and $this->session->has("user-type") == true) {
+            $this->view->show_settings = true;
+            $this->companyHasBeenFilled();
+            $this->skillsHasBeenFilled();
+            $this->user = User::findFirst($this->session->get("user-id"));
+            $this->matcher->generateMatches($this->user);
+            $this->view->user = $this->user;
+
+        } else {
+            $this->view->show_settings = false;
+        }
+    }
+
     public function setAssets()
     {
         $this->assets
-
             ->addCss("bootstrap/css/bootstrap.min.css")
             ->addCss("css/bootstrap-tagsinput.css")
             ->addCss("bootstrap/fonts/font-awesome.min.css")
@@ -45,34 +61,6 @@ class ControllerBase extends \Phalcon\Mvc\Controller
 
     }
 
-    public function initialize()
-    {
-
-        $this->setAssets();
-        if ($this->session->get("user-type") != "guest" and $this->session->has("user-type") == true) {
-            $this->view->show_settings = true;
-            $this->companyHasBeenFilled();
-            $this->skillsHasBeenFilled();
-            $this->user = User::findFirst($this->session->get("user-id"));
-            $this->matcher->generateMatches($this->user);
-            $this->view->user = $this->user;
-
-        } else {
-            $this->view->show_settings = false;
-        }
-    }
-
-    protected function skillsHasBeenFilled()
-    {
-
-        if ($this->session->get("user-type") == "employee") {
-            if (count(Specification::find(array("user_id =" . $this->session->get("user-id")))) < 1 && $this->dispatcher->getControllerName() != 'employee' && $this->dispatcher->getActionName() != 'options') {
-                $this->flash->notice($this->lang->_("add_skills") . "&nbsp;&nbsp;<a href=/employee/options class='btn btn-small btn-primary'>{$this->lang->_('click_here')}</a>");
-            }
-
-        }
-    }
-
     protected function companyHasBeenFilled()
     {
         if ($this->session->get("user-type") == "employer" && $this->dispatcher->getControllerName()
@@ -91,6 +79,23 @@ class ControllerBase extends \Phalcon\Mvc\Controller
         }
     }
 
+    protected function skillsHasBeenFilled()
+    {
+
+        if ($this->session->get("user-type") == "employee") {
+            if (count(Specification::find(array("user_id =" . $this->session->get("user-id")))) < 1 && $this->dispatcher->getControllerName() != 'employee' && $this->dispatcher->getActionName() != 'options') {
+                $this->flash->notice($this->lang->_("add_skills") . "&nbsp;&nbsp;<a href=/employee/options class='btn btn-small btn-primary'>{$this->lang->_('click_here')}</a>");
+            }
+
+        }
+    }
+
+    public function notFoundAction()
+    {
+        // Send a HTTP 404 response header
+        $this->response->setStatusCode(404, "Not Found");
+    }
+
     protected function known()
     {
         if ($this->cookies->has("email") && $this->cookies->has("password")) {
@@ -98,24 +103,6 @@ class ControllerBase extends \Phalcon\Mvc\Controller
         }
 
         return false;
-    }
-
-    protected function remember($email, $password)
-    {
-        $this->cookies->useEncryption(true);
-        $this->cookies->set("email", $email);
-        $this->cookies->set("password", $password);
-    }
-
-    protected function setType(User $user)
-    {
-        if ($user->getType() == "employee") {
-            $controller = "employee";
-        } else {
-            $controller = "employer";
-        }
-        $this->session->set("user-id", $user->getId());
-        $this->session->set("user-type", $user->getType());
     }
 
     protected function check($email, $password, $remember = "no")
@@ -135,10 +122,22 @@ class ControllerBase extends \Phalcon\Mvc\Controller
         return false;
     }
 
-    public function notFoundAction()
+    protected function setType(User $user)
     {
-        // Send a HTTP 404 response header
-        $this->response->setStatusCode(404, "Not Found");
+        if ($user->getType() == "employee") {
+            $controller = "employee";
+        } else {
+            $controller = "employer";
+        }
+        $this->session->set("user-id", $user->getId());
+        $this->session->set("user-type", $user->getType());
+    }
+
+    protected function remember($email, $password)
+    {
+        $this->cookies->useEncryption(true);
+        $this->cookies->set("email", $email);
+        $this->cookies->set("password", $password);
     }
 
 }

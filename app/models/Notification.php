@@ -40,6 +40,16 @@ class Notification extends \Phalcon\Mvc\Model
     protected $sender;
 
     /**
+     * Returns the value of field id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * Method to set the value of field id
      *
      * @param integer $id
@@ -50,6 +60,16 @@ class Notification extends \Phalcon\Mvc\Model
         $this->id = $id;
 
         return $this;
+    }
+
+    /**
+     * Returns the value of field message_key
+     *
+     * @return string
+     */
+    public function getMessageKey()
+    {
+        return $this->message_key;
     }
 
     /**
@@ -66,6 +86,16 @@ class Notification extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns the value of field date
+     *
+     * @return string
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
      * Method to set the value of field date
      *
      * @param string $date
@@ -76,6 +106,16 @@ class Notification extends \Phalcon\Mvc\Model
         $this->date = $date;
 
         return $this;
+    }
+
+    /**
+     * Returns the value of field viewed
+     *
+     * @return string
+     */
+    public function getViewed()
+    {
+        return $this->viewed;
     }
 
     /**
@@ -92,6 +132,16 @@ class Notification extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns the value of field receiver
+     *
+     * @return integer
+     */
+    public function getReceiver()
+    {
+        return $this->receiver;
+    }
+
+    /**
      * Method to set the value of field receiver
      *
      * @param integer $receiver
@@ -102,6 +152,16 @@ class Notification extends \Phalcon\Mvc\Model
         $this->receiver = $receiver;
 
         return $this;
+    }
+
+    /**
+     * Returns the value of field sender
+     *
+     * @return integer
+     */
+    public function getSender()
+    {
+        return $this->sender;
     }
 
     /**
@@ -117,70 +177,11 @@ class Notification extends \Phalcon\Mvc\Model
         return $this;
     }
 
-    /**
-     * Returns the value of field id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Returns the value of field message_key
-     *
-     * @return string
-     */
-    public function getMessageKey()
-    {
-        return $this->message_key;
-    }
-
-    /**
-     * Returns the value of field date
-     *
-     * @return string
-     */
-    public function getDate()
-    {
-        return $this->date;
-    }
-
-    /**
-     * Returns the value of field viewed
-     *
-     * @return string
-     */
-    public function getViewed()
-    {
-        return $this->viewed;
-    }
-
-    /**
-     * Returns the value of field receiver
-     *
-     * @return integer
-     */
-    public function getReceiver()
-    {
-        return $this->receiver;
-    }
-
-    /**
-     * Returns the value of field sender
-     *
-     * @return integer
-     */
-    public function getSender()
-    {
-        return $this->sender;
-    }
-
     public function initialize()
     {
-        $this->belongsTo('receiver','user','id');
-        $this->hasOne('sender','user','id');
+        $this->belongsTo('receiver', 'user', 'id');
+        $this->hasOne('sender', 'user', 'id');
+
     }
 
 }

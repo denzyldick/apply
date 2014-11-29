@@ -15,11 +15,12 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
  */
- 
+
 /**
  * A tag placed on any MockObjects generated in the context of YayMock.
  * @author Chris Corbyn <chris@w3style.co.uk>
  * @package Yay
  */
-interface Yay_MockObject {
+interface Yay_MockObject
+{
 }

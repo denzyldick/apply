@@ -40,6 +40,16 @@ class Location extends \Phalcon\Mvc\Model
     protected $zoom;
 
     /**
+     * Returns the value of field id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * Method to set the value of field id
      *
      * @param  integer $id
@@ -50,6 +60,16 @@ class Location extends \Phalcon\Mvc\Model
         $this->id = $id;
 
         return $this;
+    }
+
+    /**
+     * Returns the value of field longitude
+     *
+     * @return double
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
     }
 
     /**
@@ -66,6 +86,16 @@ class Location extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns the value of field latitude
+     *
+     * @return double
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
      * Method to set the value of field latitude
      *
      * @param  double $latitude
@@ -76,6 +106,16 @@ class Location extends \Phalcon\Mvc\Model
         $this->latitude = $latitude;
 
         return $this;
+    }
+
+    /**
+     * Returns the value of field travel_distance
+     *
+     * @return integer
+     */
+    public function getTravelDistance()
+    {
+        return $this->travel_distance;
     }
 
     /**
@@ -92,6 +132,16 @@ class Location extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns the value of field location
+     *
+     * @return string
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
      * Method to set the value of field location
      *
      * @param  string $location
@@ -105,6 +155,16 @@ class Location extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns the value of field zoom
+     *
+     * @return integer
+     */
+    public function getZoom()
+    {
+        return $this->zoom;
+    }
+
+    /**
      * Method to set the value of field zoom
      *
      * @param  integer $zoom
@@ -115,66 +175,6 @@ class Location extends \Phalcon\Mvc\Model
         $this->zoom = $zoom;
 
         return $this;
-    }
-
-    /**
-     * Returns the value of field id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Returns the value of field longitude
-     *
-     * @return double
-     */
-    public function getLongitude()
-    {
-        return $this->longitude;
-    }
-
-    /**
-     * Returns the value of field latitude
-     *
-     * @return double
-     */
-    public function getLatitude()
-    {
-        return $this->latitude;
-    }
-
-    /**
-     * Returns the value of field travel_distance
-     *
-     * @return integer
-     */
-    public function getTravelDistance()
-    {
-        return $this->travel_distance;
-    }
-
-    /**
-     * Returns the value of field location
-     *
-     * @return string
-     */
-    public function getLocation()
-    {
-        return $this->location;
-    }
-
-    /**
-     * Returns the value of field zoom
-     *
-     * @return integer
-     */
-    public function getZoom()
-    {
-        return $this->zoom;
     }
 
 }

@@ -29,19 +29,6 @@ class Swift_Tests_SwiftUnitTestCase extends UnitTestCase
     }
 
     /**
-     * Assert two binary strings are an exact match.
-     * @param string $a
-     * @param string $b
-     * @param string $s formatted message
-     */
-    public function assertIdenticalBinary($a, $b, $s = '%s')
-    {
-        return $this->assert(new Swift_Tests_IdenticalBinaryExpectation($a), $b, $s);
-    }
-
-    // -- Protected methods
-
-    /**
      * Returns a singleton-per-test method for Yay_Mockery.
      * @return Yay_Mockery
      */
@@ -54,9 +41,22 @@ class Swift_Tests_SwiftUnitTestCase extends UnitTestCase
         return $this->_mockery;
     }
 
+    // -- Protected methods
+
+    /**
+     * Assert two binary strings are an exact match.
+     * @param string $a
+     * @param string $b
+     * @param string $s formatted message
+     */
+    public function assertIdenticalBinary($a, $b, $s = '%s')
+    {
+        return $this->assert(new Swift_Tests_IdenticalBinaryExpectation($a), $b, $s);
+    }
+
     /**
      * Create a mock object.
-     * @param  string   $class
+     * @param  string $class
      * @return Yay_Mock
      */
     protected function _mock($class)
@@ -75,15 +75,15 @@ class Swift_Tests_SwiftUnitTestCase extends UnitTestCase
 
     /**
      * Create a mock object which does nothing.
-     * @param  string   $class
+     * @param  string $class
      * @return Yay_Mock
      */
     protected function _stub($class)
     {
         $stub = $this->_mockery()->mock($class);
         $this->_mockery()->checking(Yay_Expectations::create()
-            -> ignoring($stub)
-            );
+                ->ignoring($stub)
+        );
 
         return $stub;
     }

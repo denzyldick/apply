@@ -8,10 +8,13 @@ require_once 'Swift/OutputByteStream.php';
 class Swift_StreamCollector implements Yay_Action
 {
     public $content = '';
-    public function &invoke(Yay_Invocation $inv) {
+
+    public function &invoke(Yay_Invocation $inv)
+    {
         $args = $inv->getArguments();
         $this->content .= current($args);
     }
+
     public function describeTo(Yay_Description $description)
     {
         $description->appendText(' gathers input;');
@@ -28,6 +31,11 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderTest
 
         $encoder = $this->_getEncoder('8bit');
         $this->assertEqual('8bit', $encoder->getName());
+    }
+
+    private function _getEncoder($name, $canonical = false)
+    {
+        return new Swift_Mime_ContentEncoder_PlainContentEncoder($name, $canonical);
     }
 
     public function testNoOctetsAreModifiedInString()
@@ -50,18 +58,30 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderTest
             $collection = new Swift_StreamCollector();
 
             $this->_checking(Expectations::create()
-                -> allowing($is)->write(any(), optional()) -> will($collection)
-                -> ignoring($is)
-
-                -> one($os)->read(optional()) -> returns($byte)
-                -> allowing($os)->read(optional()) -> returns(false)
-
-                -> ignoring($os)
-                );
+                    ->allowing($is)->write(any(), optional())->will($collection)
+                    ->ignoring($is)
+                    ->one($os)->read(optional())->returns($byte)
+                    ->allowing($os)->read(optional())->returns(false)
+                    ->ignoring($os)
+            );
 
             $encoder->encodeByteStream($os, $is);
             $this->assertIdenticalBinary($byte, $collection->content);
         }
+    }
+
+    private function _createOutputByteStream($stub = false)
+    {
+        return $stub
+            ? $this->_stub('Swift_OutputByteStream')
+            : $this->_mock('Swift_OutputByteStream');
+    }
+
+    private function _createInputByteStream($stub = false)
+    {
+        return $stub
+            ? $this->_stub('Swift_InputByteStream')
+            : $this->_mock('Swift_InputByteStream');
     }
 
     public function testLineLengthCanBeSpecified()
@@ -79,7 +99,7 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderTest
             'a a a a a a a a a a a a a a a a a a a a a a a a a',            //99
             $encoder->encodeString($input, 0, 50),
             '%s: Lines should be wrapped at 50 chars'
-            );
+        );
     }
 
     public function testLineLengthCanBeSpecifiedInByteStream()
@@ -91,25 +111,25 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderTest
         $collection = new Swift_StreamCollector();
 
         $this->_checking(Expectations::create()
-            -> allowing($is)->write(any(), optional()) -> will($collection)
-            -> ignoring($is)
-            );
+                ->allowing($is)->write(any(), optional())->will($collection)
+                ->ignoring($is)
+        );
 
         for ($i = 0; $i < 50; $i++) {
             $this->_checking(Expectations::create()
-                -> one($os)->read(optional()) -> returns('a ')
-                );
+                    ->one($os)->read(optional())->returns('a ')
+            );
         }
 
         $this->_checking(Expectations::create()
-            -> allowing($os)->read(optional()) -> returns(false)
-            );
+                ->allowing($os)->read(optional())->returns(false)
+        );
 
         $encoder->encodeByteStream($os, $is, 0, 50);
         $this->assertEqual(
             str_repeat('a ', 25) . "\r\n" . str_repeat('a ', 25),
             $collection->content
-            );
+        );
     }
 
     public function testencodeStringGeneratesCorrectCrlf()
@@ -117,19 +137,19 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderTest
         $encoder = $this->_getEncoder('7bit', true);
         $this->assertEqual("a\r\nb", $encoder->encodeString("a\rb"),
             '%s: Line endings should be standardized'
-            );
+        );
         $this->assertEqual("a\r\nb", $encoder->encodeString("a\nb"),
             '%s: Line endings should be standardized'
-            );
+        );
         $this->assertEqual("a\r\n\r\nb", $encoder->encodeString("a\n\rb"),
             '%s: Line endings should be standardized'
-            );
+        );
         $this->assertEqual("a\r\n\r\nb", $encoder->encodeString("a\r\rb"),
             '%s: Line endings should be standardized'
-            );
+        );
         $this->assertEqual("a\r\n\r\nb", $encoder->encodeString("a\n\nb"),
             '%s: Line endings should be standardized'
-            );
+        );
     }
 
     public function testCanonicEncodeByteStreamGeneratesCorrectCrlf_1()
@@ -141,16 +161,14 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderTest
         $collection = new Swift_StreamCollector();
 
         $this->_checking(Expectations::create()
-            -> allowing($is)->write(any(), optional()) -> will($collection)
-            -> ignoring($is)
-
-            -> one($os)->read(optional()) -> returns('a')
-            -> one($os)->read(optional()) -> returns("\r")
-            -> one($os)->read(optional()) -> returns('b')
-            -> allowing($os)->read(optional()) -> returns(false)
-
-            -> ignoring($os)
-            );
+                ->allowing($is)->write(any(), optional())->will($collection)
+                ->ignoring($is)
+                ->one($os)->read(optional())->returns('a')
+                ->one($os)->read(optional())->returns("\r")
+                ->one($os)->read(optional())->returns('b')
+                ->allowing($os)->read(optional())->returns(false)
+                ->ignoring($os)
+        );
 
         $encoder->encodeByteStream($os, $is);
         $this->assertEqual("a\r\nb", $collection->content);
@@ -165,20 +183,20 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderTest
         $collection = new Swift_StreamCollector();
 
         $this->_checking(Expectations::create()
-            -> allowing($is)->write(any(), optional()) -> will($collection)
-            -> ignoring($is)
-
-            -> one($os)->read(optional()) -> returns('a')
-            -> one($os)->read(optional()) -> returns("\n")
-            -> one($os)->read(optional()) -> returns('b')
-            -> allowing($os)->read(optional()) -> returns(false)
-
-            -> ignoring($os)
-            );
+                ->allowing($is)->write(any(), optional())->will($collection)
+                ->ignoring($is)
+                ->one($os)->read(optional())->returns('a')
+                ->one($os)->read(optional())->returns("\n")
+                ->one($os)->read(optional())->returns('b')
+                ->allowing($os)->read(optional())->returns(false)
+                ->ignoring($os)
+        );
 
         $encoder->encodeByteStream($os, $is);
         $this->assertEqual("a\r\nb", $collection->content);
     }
+
+    // -- Private helpers
 
     public function testCanonicEncodeByteStreamGeneratesCorrectCrlf_3()
     {
@@ -189,16 +207,14 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderTest
         $collection = new Swift_StreamCollector();
 
         $this->_checking(Expectations::create()
-            -> allowing($is)->write(any(), optional()) -> will($collection)
-            -> ignoring($is)
-
-            -> one($os)->read(optional()) -> returns('a')
-            -> one($os)->read(optional()) -> returns("\n\r")
-            -> one($os)->read(optional()) -> returns('b')
-            -> allowing($os)->read(optional()) -> returns(false)
-
-            -> ignoring($os)
-            );
+                ->allowing($is)->write(any(), optional())->will($collection)
+                ->ignoring($is)
+                ->one($os)->read(optional())->returns('a')
+                ->one($os)->read(optional())->returns("\n\r")
+                ->one($os)->read(optional())->returns('b')
+                ->allowing($os)->read(optional())->returns(false)
+                ->ignoring($os)
+        );
 
         $encoder->encodeByteStream($os, $is);
         $this->assertEqual("a\r\n\r\nb", $collection->content);
@@ -213,16 +229,14 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderTest
         $collection = new Swift_StreamCollector();
 
         $this->_checking(Expectations::create()
-            -> allowing($is)->write(any(), optional()) -> will($collection)
-            -> ignoring($is)
-
-            -> one($os)->read(optional()) -> returns('a')
-            -> one($os)->read(optional()) -> returns("\n\n")
-            -> one($os)->read(optional()) -> returns('b')
-            -> allowing($os)->read(optional()) -> returns(false)
-
-            -> ignoring($os)
-            );
+                ->allowing($is)->write(any(), optional())->will($collection)
+                ->ignoring($is)
+                ->one($os)->read(optional())->returns('a')
+                ->one($os)->read(optional())->returns("\n\n")
+                ->one($os)->read(optional())->returns('b')
+                ->allowing($os)->read(optional())->returns(false)
+                ->ignoring($os)
+        );
 
         $encoder->encodeByteStream($os, $is);
         $this->assertEqual("a\r\n\r\nb", $collection->content);
@@ -237,41 +251,16 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderTest
         $collection = new Swift_StreamCollector();
 
         $this->_checking(Expectations::create()
-            -> allowing($is)->write(any(), optional()) -> will($collection)
-            -> ignoring($is)
-
-            -> one($os)->read(optional()) -> returns('a')
-            -> one($os)->read(optional()) -> returns("\r\r")
-            -> one($os)->read(optional()) -> returns('b')
-            -> allowing($os)->read(optional()) -> returns(false)
-
-            -> ignoring($os)
-            );
+                ->allowing($is)->write(any(), optional())->will($collection)
+                ->ignoring($is)
+                ->one($os)->read(optional())->returns('a')
+                ->one($os)->read(optional())->returns("\r\r")
+                ->one($os)->read(optional())->returns('b')
+                ->allowing($os)->read(optional())->returns(false)
+                ->ignoring($os)
+        );
 
         $encoder->encodeByteStream($os, $is);
         $this->assertEqual("a\r\n\r\nb", $collection->content);
-    }
-
-    // -- Private helpers
-
-    private function _getEncoder($name, $canonical = false)
-    {
-        return new Swift_Mime_ContentEncoder_PlainContentEncoder($name, $canonical);
-    }
-
-    private function _createOutputByteStream($stub = false)
-    {
-        return $stub
-            ? $this->_stub('Swift_OutputByteStream')
-            : $this->_mock('Swift_OutputByteStream')
-            ;
-    }
-
-    private function _createInputByteStream($stub = false)
-    {
-        return $stub
-            ? $this->_stub('Swift_InputByteStream')
-            : $this->_mock('Swift_InputByteStream')
-            ;
     }
 }

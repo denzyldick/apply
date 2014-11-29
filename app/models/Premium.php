@@ -34,6 +34,16 @@ class Premium extends \Phalcon\Mvc\Model
     protected $buy_date;
 
     /**
+     * Returns the value of field idpremium
+     *
+     * @return integer
+     */
+    public function getIdpremium()
+    {
+        return $this->idpremium;
+    }
+
+    /**
      * Method to set the value of field idpremium
      *
      * @param  integer $idpremium
@@ -44,6 +54,16 @@ class Premium extends \Phalcon\Mvc\Model
         $this->idpremium = $idpremium;
 
         return $this;
+    }
+
+    /**
+     * Returns the value of field used_amount
+     *
+     * @return integer
+     */
+    public function getUsedAmount()
+    {
+        return $this->used_amount;
     }
 
     /**
@@ -60,6 +80,16 @@ class Premium extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns the value of field user_id
+     *
+     * @return integer
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    /**
      * Method to set the value of field user_id
      *
      * @param  integer $user_id
@@ -70,6 +100,16 @@ class Premium extends \Phalcon\Mvc\Model
         $this->user_id = $user_id;
 
         return $this;
+    }
+
+    /**
+     * Returns the value of field bundle_idbundle
+     *
+     * @return integer
+     */
+    public function getBundleIdbundle()
+    {
+        return $this->bundle_idbundle;
     }
 
     /**
@@ -86,6 +126,16 @@ class Premium extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns the value of field buy_date
+     *
+     * @return string
+     */
+    public function getBuyDate()
+    {
+        return $this->buy_date;
+    }
+
+    /**
      * Method to set the value of field buy_date
      *
      * @param  string $buy_date
@@ -98,55 +148,6 @@ class Premium extends \Phalcon\Mvc\Model
         return $this;
     }
 
-    /**
-     * Returns the value of field idpremium
-     *
-     * @return integer
-     */
-    public function getIdpremium()
-    {
-        return $this->idpremium;
-    }
-
-    /**
-     * Returns the value of field used_amount
-     *
-     * @return integer
-     */
-    public function getUsedAmount()
-    {
-        return $this->used_amount;
-    }
-
-    /**
-     * Returns the value of field user_id
-     *
-     * @return integer
-     */
-    public function getUserId()
-    {
-        return $this->user_id;
-    }
-
-    /**
-     * Returns the value of field bundle_idbundle
-     *
-     * @return integer
-     */
-    public function getBundleIdbundle()
-    {
-        return $this->bundle_idbundle;
-    }
-
-    /**
-     * Returns the value of field buy_date
-     *
-     * @return string
-     */
-    public function getBuyDate()
-    {
-        return $this->buy_date;
-    }
     public function columnMap()
     {
         return array(
@@ -157,10 +158,11 @@ class Premium extends \Phalcon\Mvc\Model
             'buy_date' => 'buy_date'
         );
     }
+
     public function intialize()
     {
-      $this->belongsTo("user_id","User","id");
-      $this->hasOne("bundle_idbundle","Bundle","idbundle");
+        $this->belongsTo("user_id", "User", "id");
+        $this->hasOne("bundle_idbundle", "Bundle", "idbundle");
     }
 
 }

@@ -13,10 +13,10 @@ class Swift_KeyCache_SimpleKeyCacheInputStreamTest
     {
         $cache = $this->_createKeyCache();
         $this->_checking(Expectations::create()
-            -> one($cache)->setString($this->_nsKey, 'foo', 'a', Swift_KeyCache::MODE_APPEND)
-            -> one($cache)->setString($this->_nsKey, 'foo', 'b', Swift_KeyCache::MODE_APPEND)
-            -> one($cache)->setString($this->_nsKey, 'foo', 'c', Swift_KeyCache::MODE_APPEND)
-            );
+                ->one($cache)->setString($this->_nsKey, 'foo', 'a', Swift_KeyCache::MODE_APPEND)
+                ->one($cache)->setString($this->_nsKey, 'foo', 'b', Swift_KeyCache::MODE_APPEND)
+                ->one($cache)->setString($this->_nsKey, 'foo', 'c', Swift_KeyCache::MODE_APPEND)
+        );
 
         $stream = new Swift_KeyCache_SimpleKeyCacheInputStream();
         $stream->setKeyCache($cache);
@@ -28,12 +28,17 @@ class Swift_KeyCache_SimpleKeyCacheInputStreamTest
         $stream->write('c');
     }
 
+    private function _createKeyCache()
+    {
+        return $this->_mock('Swift_KeyCache');
+    }
+
     public function testFlushContentClearsKey()
     {
         $cache = $this->_createKeyCache();
         $this->_checking(Expectations::create()
-            -> one($cache)->clearKey($this->_nsKey, 'foo')
-            );
+                ->one($cache)->clearKey($this->_nsKey, 'foo')
+        );
 
         $stream = new Swift_KeyCache_SimpleKeyCacheInputStream();
         $stream->setKeyCache($cache);
@@ -43,14 +48,16 @@ class Swift_KeyCache_SimpleKeyCacheInputStreamTest
         $stream->flushBuffers();
     }
 
+    // -- Creation Methods
+
     public function testClonedStreamStillReferencesSameCache()
     {
         $cache = $this->_createKeyCache();
         $this->_checking(Expectations::create()
-            -> one($cache)->setString($this->_nsKey, 'foo', 'a', Swift_KeyCache::MODE_APPEND)
-            -> one($cache)->setString($this->_nsKey, 'foo', 'b', Swift_KeyCache::MODE_APPEND)
-            -> one($cache)->setString('test', 'bar', 'x', Swift_KeyCache::MODE_APPEND)
-            );
+                ->one($cache)->setString($this->_nsKey, 'foo', 'a', Swift_KeyCache::MODE_APPEND)
+                ->one($cache)->setString($this->_nsKey, 'foo', 'b', Swift_KeyCache::MODE_APPEND)
+                ->one($cache)->setString('test', 'bar', 'x', Swift_KeyCache::MODE_APPEND)
+        );
 
         $stream = new Swift_KeyCache_SimpleKeyCacheInputStream();
         $stream->setKeyCache($cache);
@@ -66,12 +73,5 @@ class Swift_KeyCache_SimpleKeyCacheInputStreamTest
         $newStream->setItemKey('bar');
 
         $newStream->write('x');
-    }
-
-    // -- Creation Methods
-
-    private function _createKeyCache()
-    {
-        return $this->_mock('Swift_KeyCache');
     }
 }

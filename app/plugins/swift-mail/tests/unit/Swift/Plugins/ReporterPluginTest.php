@@ -15,93 +15,17 @@ class Swift_Plugins_ReporterPluginTest extends Swift_Tests_SwiftUnitTestCase
         $reporter = $this->_createReporter();
 
         $this->_checking(Expectations::create()
-            -> allowing($message)->getTo() -> returns(array('foo@bar.tld' => 'Foo'))
-            -> allowing($evt)->getMessage() -> returns($message)
-            -> allowing($evt)->getFailedRecipients() -> returns(array())
-            -> one($reporter)->notify($message, 'foo@bar.tld', Swift_Plugins_Reporter::RESULT_PASS)
-            -> ignoring($message)
-            -> ignoring($evt)
-            );
+                ->allowing($message)->getTo()->returns(array('foo@bar.tld' => 'Foo'))
+                ->allowing($evt)->getMessage()->returns($message)
+                ->allowing($evt)->getFailedRecipients()->returns(array())
+                ->one($reporter)->notify($message, 'foo@bar.tld', Swift_Plugins_Reporter::RESULT_PASS)
+                ->ignoring($message)
+                ->ignoring($evt)
+        );
 
         $plugin = new Swift_Plugins_ReporterPlugin($reporter);
         $plugin->sendPerformed($evt);
     }
-
-    public function testReportingFailedTo()
-    {
-        $message = $this->_createMessage();
-        $evt = $this->_createSendEvent();
-        $reporter = $this->_createReporter();
-
-        $this->_checking(Expectations::create()
-            -> allowing($message)->getTo() -> returns(array(
-                'foo@bar.tld' => 'Foo', 'zip@button' => 'Zip'
-                ))
-            -> allowing($evt)->getMessage() -> returns($message)
-            -> allowing($evt)->getFailedRecipients() -> returns(array('zip@button'))
-            -> one($reporter)->notify($message, 'foo@bar.tld', Swift_Plugins_Reporter::RESULT_PASS)
-            -> one($reporter)->notify($message, 'zip@button', Swift_Plugins_Reporter::RESULT_FAIL)
-            -> ignoring($message)
-            -> ignoring($evt)
-            );
-
-        $plugin = new Swift_Plugins_ReporterPlugin($reporter);
-        $plugin->sendPerformed($evt);
-    }
-
-    public function testReportingFailedCc()
-    {
-        $message = $this->_createMessage();
-        $evt = $this->_createSendEvent();
-        $reporter = $this->_createReporter();
-
-        $this->_checking(Expectations::create()
-            -> allowing($message)->getTo() -> returns(array(
-                'foo@bar.tld' => 'Foo'
-                ))
-            -> allowing($message)->getCc() -> returns(array(
-                'zip@button' => 'Zip', 'test@test.com' => 'Test'
-                ))
-            -> allowing($evt)->getMessage() -> returns($message)
-            -> allowing($evt)->getFailedRecipients() -> returns(array('zip@button'))
-            -> one($reporter)->notify($message, 'foo@bar.tld', Swift_Plugins_Reporter::RESULT_PASS)
-            -> one($reporter)->notify($message, 'zip@button', Swift_Plugins_Reporter::RESULT_FAIL)
-            -> one($reporter)->notify($message, 'test@test.com', Swift_Plugins_Reporter::RESULT_PASS)
-            -> ignoring($message)
-            -> ignoring($evt)
-            );
-
-        $plugin = new Swift_Plugins_ReporterPlugin($reporter);
-        $plugin->sendPerformed($evt);
-    }
-
-    public function testReportingFailedBcc()
-    {
-        $message = $this->_createMessage();
-        $evt = $this->_createSendEvent();
-        $reporter = $this->_createReporter();
-
-        $this->_checking(Expectations::create()
-            -> allowing($message)->getTo() -> returns(array(
-                'foo@bar.tld' => 'Foo'
-                ))
-            -> allowing($message)->getBcc() -> returns(array(
-                'zip@button' => 'Zip', 'test@test.com' => 'Test'
-                ))
-            -> allowing($evt)->getMessage() -> returns($message)
-            -> allowing($evt)->getFailedRecipients() -> returns(array('zip@button'))
-            -> one($reporter)->notify($message, 'foo@bar.tld', Swift_Plugins_Reporter::RESULT_PASS)
-            -> one($reporter)->notify($message, 'zip@button', Swift_Plugins_Reporter::RESULT_FAIL)
-            -> one($reporter)->notify($message, 'test@test.com', Swift_Plugins_Reporter::RESULT_PASS)
-            -> ignoring($message)
-            -> ignoring($evt)
-            );
-
-        $plugin = new Swift_Plugins_ReporterPlugin($reporter);
-        $plugin->sendPerformed($evt);
-    }
-
-    // -- Creation Methods
 
     private function _createMessage()
     {
@@ -116,5 +40,81 @@ class Swift_Plugins_ReporterPluginTest extends Swift_Tests_SwiftUnitTestCase
     private function _createReporter()
     {
         return $this->_mock('Swift_Plugins_Reporter');
+    }
+
+    // -- Creation Methods
+
+    public function testReportingFailedTo()
+    {
+        $message = $this->_createMessage();
+        $evt = $this->_createSendEvent();
+        $reporter = $this->_createReporter();
+
+        $this->_checking(Expectations::create()
+                ->allowing($message)->getTo()->returns(array(
+                    'foo@bar.tld' => 'Foo', 'zip@button' => 'Zip'
+                ))
+                ->allowing($evt)->getMessage()->returns($message)
+                ->allowing($evt)->getFailedRecipients()->returns(array('zip@button'))
+                ->one($reporter)->notify($message, 'foo@bar.tld', Swift_Plugins_Reporter::RESULT_PASS)
+                ->one($reporter)->notify($message, 'zip@button', Swift_Plugins_Reporter::RESULT_FAIL)
+                ->ignoring($message)
+                ->ignoring($evt)
+        );
+
+        $plugin = new Swift_Plugins_ReporterPlugin($reporter);
+        $plugin->sendPerformed($evt);
+    }
+
+    public function testReportingFailedCc()
+    {
+        $message = $this->_createMessage();
+        $evt = $this->_createSendEvent();
+        $reporter = $this->_createReporter();
+
+        $this->_checking(Expectations::create()
+                ->allowing($message)->getTo()->returns(array(
+                    'foo@bar.tld' => 'Foo'
+                ))
+                ->allowing($message)->getCc()->returns(array(
+                    'zip@button' => 'Zip', 'test@test.com' => 'Test'
+                ))
+                ->allowing($evt)->getMessage()->returns($message)
+                ->allowing($evt)->getFailedRecipients()->returns(array('zip@button'))
+                ->one($reporter)->notify($message, 'foo@bar.tld', Swift_Plugins_Reporter::RESULT_PASS)
+                ->one($reporter)->notify($message, 'zip@button', Swift_Plugins_Reporter::RESULT_FAIL)
+                ->one($reporter)->notify($message, 'test@test.com', Swift_Plugins_Reporter::RESULT_PASS)
+                ->ignoring($message)
+                ->ignoring($evt)
+        );
+
+        $plugin = new Swift_Plugins_ReporterPlugin($reporter);
+        $plugin->sendPerformed($evt);
+    }
+
+    public function testReportingFailedBcc()
+    {
+        $message = $this->_createMessage();
+        $evt = $this->_createSendEvent();
+        $reporter = $this->_createReporter();
+
+        $this->_checking(Expectations::create()
+                ->allowing($message)->getTo()->returns(array(
+                    'foo@bar.tld' => 'Foo'
+                ))
+                ->allowing($message)->getBcc()->returns(array(
+                    'zip@button' => 'Zip', 'test@test.com' => 'Test'
+                ))
+                ->allowing($evt)->getMessage()->returns($message)
+                ->allowing($evt)->getFailedRecipients()->returns(array('zip@button'))
+                ->one($reporter)->notify($message, 'foo@bar.tld', Swift_Plugins_Reporter::RESULT_PASS)
+                ->one($reporter)->notify($message, 'zip@button', Swift_Plugins_Reporter::RESULT_FAIL)
+                ->one($reporter)->notify($message, 'test@test.com', Swift_Plugins_Reporter::RESULT_PASS)
+                ->ignoring($message)
+                ->ignoring($evt)
+        );
+
+        $plugin = new Swift_Plugins_ReporterPlugin($reporter);
+        $plugin->sendPerformed($evt);
     }
 }

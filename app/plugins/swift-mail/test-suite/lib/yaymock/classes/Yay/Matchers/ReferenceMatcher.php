@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
  */
- 
+
 //require 'Yay/Matcher.php';
 
 /**
@@ -25,80 +25,74 @@
  */
 class Yay_Matchers_ReferenceMatcher implements Yay_Matcher
 {
-  
-  /**
-   * The expected reference.
-   * @var mixed
-   * @access private
-   */
-  private $_ref;
-  
-  /**
-   * The desired return value.
-   * @var boolean
-   * @access private
-   */
-  private $_result;
-  
-  /**
-   * Create a new IdenticalMatcher expecting $expected.
-   * @param mixed $expected
-   * @param boolean $result to be expected
-   */
-  public function __construct(&$ref, $result = true)
-  {
-    $this->_ref =& $ref;
-    $this->_result = $result;
-  }
-  
-  /**
-   * Compare $ref with the expected reference and return true if it is the same reference.
-   * @param mixed $ref
-   * @return boolean
-   */
-  public function matches(&$ref)
-  {
-    if (is_object($ref))
+
+    /**
+     * The expected reference.
+     * @var mixed
+     * @access private
+     */
+    private $_ref;
+
+    /**
+     * The desired return value.
+     * @var boolean
+     * @access private
+     */
+    private $_result;
+
+    /**
+     * Create a new IdenticalMatcher expecting $expected.
+     * @param mixed $expected
+     * @param boolean $result to be expected
+     */
+    public function __construct(&$ref, $result = true)
     {
-      $isRef = ($this->_ref === $ref);
+        $this->_ref =& $ref;
+        $this->_result = $result;
     }
-    else
+
+    /**
+     * Compare $ref with the expected reference and return true if it is the same reference.
+     * @param mixed $ref
+     * @return boolean
+     */
+    public function matches(&$ref)
     {
-      if ($this->_ref === $ref)
-      {
-        $copy = $ref;
-        $randomString = uniqid('yay');
-        $ref = $randomString;
-        $isRef = ($this->_ref === $ref);
-        $ref = $copy;
-      }
-      else
-      {
-        $isRef = false;
-      }
+        if (is_object($ref)) {
+            $isRef = ($this->_ref === $ref);
+        } else {
+            if ($this->_ref === $ref) {
+                $copy = $ref;
+                $randomString = uniqid('yay');
+                $ref = $randomString;
+                $isRef = ($this->_ref === $ref);
+                $ref = $copy;
+            } else {
+                $isRef = false;
+            }
+        }
+
+        return (($this->_result && $isRef) || (!$this->_result && !$isRef));
     }
-    
-    return (($this->_result && $isRef) || (!$this->_result && !$isRef));
-  }
-  
-  /**
-   * Returns true if the argument doesn't need to be present.
-   * @return boolean
-   */
-  public function isOptional()
-  {
-    return false;
-  }
-  
-  /**
-   * Writes the match description as a string following $format.
-   * $format is a sprintf() string with %s, $s as $matcherName, $value respectively.
-   * @param string $format
-   * @return string
-   */
-  public function describeMatch($format)
-  {
-    return '[reference]';
-  }
-  
+
+    /**
+     * Returns true if the argument doesn't need to be present.
+     * @return boolean
+     */
+    public function isOptional()
+    {
+        return false;
+    }
+
+    /**
+     * Writes the match description as a string following $format.
+     * $format is a sprintf() string with %s, $s as $matcherName, $value respectively.
+     * @param string $format
+     * @return string
+     */
+    public function describeMatch($format)
+    {
+        return '[reference]';
+    }
+
 }

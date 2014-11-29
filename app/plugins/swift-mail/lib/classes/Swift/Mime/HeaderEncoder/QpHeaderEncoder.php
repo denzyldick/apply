@@ -27,16 +27,6 @@ class Swift_Mime_HeaderEncoder_QpHeaderEncoder extends Swift_Encoder_QpEncoder i
         parent::__construct($charStream);
     }
 
-    protected function initSafeMap()
-    {
-        foreach (array_merge(
-            range(0x61, 0x7A), range(0x41, 0x5A),
-            range(0x30, 0x39), array(0x20, 0x21, 0x2A, 0x2B, 0x2D, 0x2F)
-        ) as $byte) {
-            $this->_safeMap[$byte] = chr($byte);
-        }
-    }
-
     /**
      * Get the name of this encoding scheme.
      *
@@ -52,9 +42,9 @@ class Swift_Mime_HeaderEncoder_QpHeaderEncoder extends Swift_Encoder_QpEncoder i
     /**
      * Takes an unencoded string and produces a QP encoded string from it.
      *
-     * @param string  $string          string to encode
+     * @param string $string string to encode
      * @param integer $firstLineOffset optional
-     * @param integer $maxLineLength   optional, 0 indicates the default of 76 chars
+     * @param integer $maxLineLength optional, 0 indicates the default of 76 chars
      *
      * @return string
      */
@@ -63,5 +53,15 @@ class Swift_Mime_HeaderEncoder_QpHeaderEncoder extends Swift_Encoder_QpEncoder i
         return str_replace(array(' ', '=20', "=\r\n"), array('_', '_', "\r\n"),
             parent::encodeString($string, $firstLineOffset, $maxLineLength)
         );
+    }
+
+    protected function initSafeMap()
+    {
+        foreach (array_merge(
+                     range(0x61, 0x7A), range(0x41, 0x5A),
+                     range(0x30, 0x39), array(0x20, 0x21, 0x2A, 0x2B, 0x2D, 0x2F)
+                 ) as $byte) {
+            $this->_safeMap[$byte] = chr($byte);
+        }
     }
 }

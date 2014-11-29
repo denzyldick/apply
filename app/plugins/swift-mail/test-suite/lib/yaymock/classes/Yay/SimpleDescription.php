@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
  */
- 
+
 //require 'Yay/Description.php';
 
 /**
@@ -25,39 +25,39 @@
  */
 class Yay_SimpleDescription implements Yay_Description
 {
-  
-  /**
-   * An internal text buffer.
-   * @var string
-   * @access private
-   */
-  private $_text = '';
-  
-  /**
-   * Append an existing Description to this Description.
-   * @param Yay_Description
-   */
-  public function appendDescription(Yay_Description $description)
-  {
-    $this->_text .= $description->toString();
-  }
-  
-  /**
-   * Append text content to this Description.
-   * @param string $text
-   */
-  public function appendText($text)
-  {
-    $this->_text .= $text;
-  }
-  
-  /**
-   * Get this description back as a formatted string.
-   * @return string
-   */
-  public function toString()
-  {
-    return $this->_text;
-  }
-  
+
+    /**
+     * An internal text buffer.
+     * @var string
+     * @access private
+     */
+    private $_text = '';
+
+    /**
+     * Append an existing Description to this Description.
+     * @param Yay_Description
+     */
+    public function appendDescription(Yay_Description $description)
+    {
+        $this->_text .= $description->toString();
+    }
+
+    /**
+     * Append text content to this Description.
+     * @param string $text
+     */
+    public function appendText($text)
+    {
+        $this->_text .= $text;
+    }
+
+    /**
+     * Get this description back as a formatted string.
+     * @return string
+     */
+    public function toString()
+    {
+        return $this->_text;
+    }
+
 }

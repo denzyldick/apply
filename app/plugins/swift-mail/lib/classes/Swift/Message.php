@@ -32,7 +32,7 @@ class Swift_Message extends Swift_Mime_SimpleMessage
      */
     private $savedMessage = array();
 
-	/**
+    /**
      * Create a new Message.
      *
      * Details may be optionally passed into the constructor.
@@ -48,7 +48,7 @@ class Swift_Message extends Swift_Mime_SimpleMessage
             array($this, 'Swift_Mime_SimpleMessage::__construct'),
             Swift_DependencyContainer::getInstance()
                 ->createDependenciesFor('mime.message')
-            );
+        );
 
         if (!isset($charset)) {
             $charset = Swift_DependencyContainer::getInstance()
@@ -81,8 +81,8 @@ class Swift_Message extends Swift_Mime_SimpleMessage
      * Add a MimePart to this Message.
      *
      * @param string|Swift_OutputByteStream $body
-     * @param string                        $contentType
-     * @param string                        $charset
+     * @param string $contentType
+     * @param string $charset
      *
      * @return Swift_Mime_SimpleMessage
      */
@@ -90,9 +90,9 @@ class Swift_Message extends Swift_Mime_SimpleMessage
     {
         return $this->attach(Swift_MimePart::newInstance(
             $body, $contentType, $charset
-            ));
+        ));
     }
-    
+
     /**
      * Attach a new signature handler to the message.
      *
@@ -106,7 +106,7 @@ class Swift_Message extends Swift_Mime_SimpleMessage
         } elseif ($signer instanceof Swift_Signers_BodySigner) {
             $this->bodySigners[] = $signer;
         }
-    
+
         return $this;
     }
 
@@ -132,11 +132,11 @@ class Swift_Message extends Swift_Mime_SimpleMessage
                     return $this;
                 }
             }
-    	}
-    
-    	return $this;
+        }
+
+        return $this;
     }
-    
+
     /**
      * Get this message as a complete string.
      *
@@ -144,21 +144,106 @@ class Swift_Message extends Swift_Mime_SimpleMessage
      */
     public function toString()
     {
-    	if (empty($this->headerSigners) && empty($this->bodySigners)) {
-    		return parent::toString();
-    	}
-    	
+        if (empty($this->headerSigners) && empty($this->bodySigners)) {
+            return parent::toString();
+        }
+
         $this->saveMessage();
-        
+
         $this->doSign();
-        
+
         $string = parent::toString();
-        
+
         $this->restoreMessage();
-    
-    	return $string;
+
+        return $string;
     }
-    
+
+    /**
+     * save the message before any signature is applied
+     */
+    protected function saveMessage()
+    {
+        $this->savedMessage = array('headers' => array());
+        $this->savedMessage['body'] = $this->getBody();
+        $this->savedMessage['children'] = $this->getChildren();
+        if (count($this->savedMessage['children']) > 0 && $this->getBody() != '') {
+            $this->setChildren(array_merge(array($this->_becomeMimePart()), $this->savedMessage['children']));
+            $this->setBody('');
+        }
+    }
+
+    /**
+     * loops through signers and apply the signatures
+     */
+    protected function doSign()
+    {
+        foreach ($this->bodySigners as $signer) {
+            $altered = $signer->getAlteredHeaders();
+            $this->saveHeaders($altered);
+            $signer->signMessage($this);
+        }
+
+        foreach ($this->headerSigners as $signer) {
+            $altered = $signer->getAlteredHeaders();
+            $this->saveHeaders($altered);
+            $signer->reset();
+
+            $signer->setHeaders($this->getHeaders());
+
+            $signer->startBody();
+            $this->_bodyToByteStream($signer);
+            $signer->endBody();
+
+            $signer->addSignature($this->getHeaders());
+        }
+    }
+
+    /* -- Protected Methods -- */
+
+    /**
+     * save the original headers
+     * @param array $altered
+     */
+    protected function saveHeaders(array $altered)
+    {
+        foreach ($altered as $head) {
+            $lc = strtolower($head);
+
+            if (!isset($this->savedMessage['headers'][$lc])) {
+                $this->savedMessage['headers'][$lc] = $this->getHeaders()->getAll($head);
+            }
+        }
+    }
+
+    /**
+     * Restore message body
+     */
+    protected function restoreMessage()
+    {
+        $this->setBody($this->savedMessage['body']);
+        $this->setChildren($this->savedMessage['children']);
+
+        $this->restoreHeaders();
+        $this->savedMessage = array();
+    }
+
+    /**
+     * Remove or restore altered headers
+     */
+    protected function restoreHeaders()
+    {
+        foreach ($this->savedMessage['headers'] as $name => $savedValue) {
+            $headers = $this->getHeaders()->getAll($name);
+
+            foreach ($headers as $key => $value) {
+                if (!isset($savedValue[$key])) {
+                    $this->getHeaders()->remove($name, $key);
+                }
+            }
+        }
+    }
+
     /**
      * Write this message to a {@link Swift_InputByteStream}.
      *
@@ -170,104 +255,19 @@ class Swift_Message extends Swift_Mime_SimpleMessage
             parent::toByteStream($is);
             return;
         }
-        
+
         $this->saveMessage();
-        
+
         $this->doSign();
-        
+
         parent::toByteStream($is);
-        
+
         $this->restoreMessage();
-    	
+
     }
-    
+
     public function __wakeup()
     {
         Swift_DependencyContainer::getInstance()->createDependenciesFor('mime.message');
-    }
-    
-    /* -- Protected Methods -- */
-    
-    /**
-     * loops through signers and apply the signatures
-     */
-    protected function doSign()
-    {
-    	foreach ($this->bodySigners as $signer) {
-    		$altered = $signer->getAlteredHeaders();
-    		$this->saveHeaders($altered);
-    		$signer->signMessage($this);
-    	}
-    
-    	foreach ($this->headerSigners as $signer) {
-    		$altered = $signer->getAlteredHeaders();
-    		$this->saveHeaders($altered);
-    		$signer->reset();
-    
-    		$signer->setHeaders($this->getHeaders());
-    
-    		$signer->startBody();
-    		$this->_bodyToByteStream($signer);
-    		$signer->endBody();
-    
-    		$signer->addSignature($this->getHeaders());
-    	}
-    }
-    
-    /**
-     * save the message before any signature is applied
-     */
-    protected function saveMessage()
-    {
-    	$this->savedMessage = array('headers'=> array());
-    	$this->savedMessage['body'] = $this->getBody();
-    	$this->savedMessage['children'] = $this->getChildren();
-    	if (count($this->savedMessage['children']) > 0 && $this->getBody() != '') {
-    		$this->setChildren(array_merge(array($this->_becomeMimePart()), $this->savedMessage['children']));
-    		$this->setBody('');
-    	}
-    }
-    
-    /**
-     * save the original headers
-     * @param array $altered
-     */
-    protected function saveHeaders(array $altered)
-    {
-    	foreach ($altered as $head) {
-    		$lc = strtolower($head);
-    
-    		if (!isset($this->savedMessage['headers'][$lc])) {
-    			$this->savedMessage['headers'][$lc] = $this->getHeaders()->getAll($head);
-    		}
-    	}
-    }
-    
-    /**
-     * Remove or restore altered headers
-     */
-    protected function restoreHeaders()
-    {
-    	foreach ($this->savedMessage['headers'] as $name => $savedValue) {
-    		$headers = $this->getHeaders()->getAll($name);
-    
-    		foreach ($headers as $key => $value) {
-    			if (!isset($savedValue[$key])) {
-    				$this->getHeaders()->remove($name, $key);
-    			}
-    		}
-    	}
-    }
-    
-    /**
-     * Restore message body
-     */
-    protected function restoreMessage()
-    {
-    	$this->setBody($this->savedMessage['body']);
-    	$this->setChildren($this->savedMessage['children']);
-    
-    	$this->restoreHeaders();
-    	$this->savedMessage = array();
     }
 }

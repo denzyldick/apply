@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
  */
- 
+
 //require 'Yay/State.php';
 //require 'Yay/SimpleState.php';
 //require 'Yay/StatePredicate.php';
@@ -28,86 +28,86 @@
  */
 class Yay_StateMachine implements Yay_States
 {
-  
-  /**
-   * The name of this state machine.
-   * @var string
-   * @access private
-   */
-  private $_name;
-  
-  /**
-   * The current state.
-   * @var string
-   * @access private
-   */
-  private $_state;
-  
-  /**
-   * Create a new State machine with $name.
-   * @param string $name
-   */
-  public function __construct($name)
-  {
-    $this->_name = $name;
-  }
-  
-  /**
-   * Set the initial state of this state machine.
-   * @param string $stateName
-   * @return Yay_States
-   */
-  public function startsAs($stateName)
-  {
-    $this->become($stateName);
-    return $this;
-  }
-  
-  /**
-   * Get the state which puts the state machine into the named state.
-   * @param string $stateName
-   * @return Yay_State
-   */
-  public function is($stateName)
-  {
-    return new Yay_SimpleState($this, $stateName);
-  }
-  
-  /**
-   * Get the predicate which indicates the state machine is NOT in the named state.
-   * @param string $stateName
-   * @return Yay_StatePredicate
-   */
-  public function isNot($stateName)
-  {
-    return new Yay_SimpleStatePredicate($this, $stateName, false);
-  }
-  
-  /**
-   * Become the named state.
-   * @param string $stateName
-   */
-  public function become($stateName)
-  {
-    $this->_state = $stateName;
-  }
-  
-  /**
-   * Get the name of the current state.
-   * @return string
-   */
-  public function getCurrentState()
-  {
-    return $this->_state;
-  }
-  
-  /**
-   * Write a description of this self describing object to Description.
-   * @param Yay_Description $description
-   */
-  public function describeTo(Yay_Description $description)
-  {
-    $description->appendText(sprintf(' %s', $this->_name));
-  }
-  
+
+    /**
+     * The name of this state machine.
+     * @var string
+     * @access private
+     */
+    private $_name;
+
+    /**
+     * The current state.
+     * @var string
+     * @access private
+     */
+    private $_state;
+
+    /**
+     * Create a new State machine with $name.
+     * @param string $name
+     */
+    public function __construct($name)
+    {
+        $this->_name = $name;
+    }
+
+    /**
+     * Set the initial state of this state machine.
+     * @param string $stateName
+     * @return Yay_States
+     */
+    public function startsAs($stateName)
+    {
+        $this->become($stateName);
+        return $this;
+    }
+
+    /**
+     * Become the named state.
+     * @param string $stateName
+     */
+    public function become($stateName)
+    {
+        $this->_state = $stateName;
+    }
+
+    /**
+     * Get the state which puts the state machine into the named state.
+     * @param string $stateName
+     * @return Yay_State
+     */
+    public function is($stateName)
+    {
+        return new Yay_SimpleState($this, $stateName);
+    }
+
+    /**
+     * Get the predicate which indicates the state machine is NOT in the named state.
+     * @param string $stateName
+     * @return Yay_StatePredicate
+     */
+    public function isNot($stateName)
+    {
+        return new Yay_SimpleStatePredicate($this, $stateName, false);
+    }
+
+    /**
+     * Get the name of the current state.
+     * @return string
+     */
+    public function getCurrentState()
+    {
+        return $this->_state;
+    }
+
+    /**
+     * Write a description of this self describing object to Description.
+     * @param Yay_Description $description
+     */
+    public function describeTo(Yay_Description $description)
+    {
+        $description->appendText(sprintf(' %s', $this->_name));
+    }
+
 }
