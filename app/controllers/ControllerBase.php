@@ -4,6 +4,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
 */
+
 /**
  * Description of ControllerBase
  *
@@ -13,29 +14,40 @@ class ControllerBase extends \Phalcon\Mvc\Controller
 {
     protected $permission = false;
     protected $user;
+
     public function setAssets()
     {
-     $this->assets
-    ->collection('jsfooter')
-    ->setTargetPath('final.js')
-    ->setTargetUri('final.js')
+        $this->assets
 
-    ->addJs('js/grayscale.js');
+            ->addCss("bootstrap/css/bootstrap.min.css")
+            ->addCss("css/bootstrap-tagsinput.css")
+            ->addCss("bootstrap/fonts/font-awesome.min.css")
+            ->addCss("http://fonts.googleapis.com/css?family=Roboto")
+            ->addCss("css/socialicious.css")
+            ->addCss("css/style.css")
+            ->addCss("slider/css/slider.css")
+            ->addCSs("");
 
-    $this->assets
-    ->collection('jsheader')
-    ->addJs('js/Chart.js')
-    ->addJs('js/jquery/jquery.min.js')
-    ->addJs('bootstrap/js/bootstrap.min.js')
-    ->addJs('js/jquery-gmaps-latlon-picker.js')
-    ->addJs('js/bootstrap-tagsinput.min.js')
-    ->addJs('slider/js/bootstrap-slider.js')
-    ->addJs('js/main.js')
-    ->addJs('https://maps.googleapis.com/maps/api/js?key=AIzaSyAwk6wzMEnz2z58YepPrxwwcCf_tOd20lg', false, false);
+        $this->assets
+            ->collection('jsHeader')
+            ->addJs('js/Chart.js');
+
+        $this->assets
+            ->collection('jsFooter')
+            ->addJs('js/jquery/jquery.min.js')
+            ->addJs('bootstrap/js/bootstrap.min.js')
+            ->addJs('js/jquery-gmaps-latlon-picker.js')
+            ->addJs('js/bootstrap-tagsinput.min.js')
+            ->addJs('slider/js/bootstrap-slider.js')
+            ->addJs("http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js", false, false)
+            ->addJs('js/main.js')
+            ->addJs('https://maps.googleapis.com/maps/api/js?key=AIzaSyAwk6wzMEnz2z58YepPrxwwcCf_tOd20lg', false, false);
 
     }
+
     public function initialize()
     {
+
         $this->setAssets();
         if ($this->session->get("user-type") != "guest" and $this->session->has("user-type") == true) {
             $this->view->show_settings = true;
@@ -43,28 +55,32 @@ class ControllerBase extends \Phalcon\Mvc\Controller
             $this->skillsHasBeenFilled();
             $this->user = User::findFirst($this->session->get("user-id"));
             $this->matcher->generateMatches($this->user);
+            $this->view->user = $this->user;
 
         } else {
             $this->view->show_settings = false;
         }
     }
+
     protected function skillsHasBeenFilled()
     {
 
-      if ($this->session->get("user-type")=="employee") {
-        if (count(Specification::find(array("user_id =".$this->session->get("user-id")))) < 1 && $this->dispatcher->getControllerName() !='employee' && $this->dispatcher->getActionName() !='options') {
-            $this->flash->notice($this->lang->_("add_skills")."&nbsp;&nbsp;<a href=/employee/options class='btn btn-small btn-primary'>{$this->lang->_('click_here')}</a>");
-        }
+        if ($this->session->get("user-type") == "employee") {
+            if (count(Specification::find(array("user_id =" . $this->session->get("user-id")))) < 1 && $this->dispatcher->getControllerName() != 'employee' && $this->dispatcher->getActionName() != 'options') {
+                $this->flash->notice($this->lang->_("add_skills") . "&nbsp;&nbsp;<a href=/employee/options class='btn btn-small btn-primary'>{$this->lang->_('click_here')}</a>");
+            }
 
-      }
+        }
     }
+
     protected function companyHasBeenFilled()
     {
         if ($this->session->get("user-type") == "employer" && $this->dispatcher->getControllerName()
-        !='company') {
-            $company =  Company::findFirst(array("user_id = {$this->session->get('user-id')}"));
+            != 'company'
+        ) {
+            $company = Company::findFirst(array("user_id = {$this->session->get('user-id')}"));
 
-              if ($company->getName() == null) {
+            if ($company->getName() == null) {
 
                 $this->flash->notice("Please enter all your company information &nbsp;&nbsp;<a href=/company class='btn btn-small btn-primary'> click here</a>");
 
@@ -74,6 +90,7 @@ class ControllerBase extends \Phalcon\Mvc\Controller
             return true;
         }
     }
+
     protected function known()
     {
         if ($this->cookies->has("email") && $this->cookies->has("password")) {
@@ -82,12 +99,14 @@ class ControllerBase extends \Phalcon\Mvc\Controller
 
         return false;
     }
+
     protected function remember($email, $password)
     {
         $this->cookies->useEncryption(true);
         $this->cookies->set("email", $email);
         $this->cookies->set("password", $password);
     }
+
     protected function setType(User $user)
     {
         if ($user->getType() == "employee") {
@@ -98,6 +117,7 @@ class ControllerBase extends \Phalcon\Mvc\Controller
         $this->session->set("user-id", $user->getId());
         $this->session->set("user-type", $user->getType());
     }
+
     protected function check($email, $password, $remember = "no")
     {
         $user = User::findFirstByEmail(trim($email));
@@ -115,7 +135,7 @@ class ControllerBase extends \Phalcon\Mvc\Controller
         return false;
     }
 
-      public function notFoundAction()
+    public function notFoundAction()
     {
         // Send a HTTP 404 response header
         $this->response->setStatusCode(404, "Not Found");
