@@ -2,17 +2,11 @@
 
 class SignupController extends ControllerBase
 {
-    public function indexAction()
+    public function indexAction(User $user = null)
     {
-    }
+        $user = (is_null($user) ? new User : $user);
 
-    public function employerAction()
-    {
-
-    }
-
-    public function employeeAction()
-    {
+        $this->view->trying_to_reg_user = $user;
 
     }
 
@@ -35,74 +29,65 @@ class SignupController extends ControllerBase
     public function startAction()
     {
 
-
         if ($this->request->isPost() == true) {
-
+            $user = new User();
             $email = $this->request->getPost('email');
             $firstname = $this->request->getPost('firstname');
             $lastname = $this->request->getPost('lastname');
             $password = $this->request->getPost('password');
             $re_type = $this->request->getPost('re_type');
             $type = $this->request->getPost('type');
-            if (!$this->userExsists($email)) {
-
-                $user = new User();
-                $user->setEmail($email);
-                $user->setFirstname($firstname);
-                $user->setLastname($lastname);
-                $user->setPassword($this->security->hash($password));
-                $user->setType($type);
-                $user->setValidated('no');
-                $user->setVacancyCount(3);
-                $user->setSignupDate($this->getCurrentTime);
-
-                $location = new Location();
-                $location->setLongitude(0);
-                $location->setLatitude(0);
-
-                $location->save();
-                $user->setLocationId($location->getId());
-
-                if ($user->save()) {
-
-                    $this->sendRegistrationMail($user);
-                    if ($user->getType() == "employer") {
-                        $company = new Company();
-                        $company->setUserId($user->getId());
-                        $company->save();
-                    }
 
 
-                    $this->flash->success("Your account has been created.");
-                    $this->check($user->getEmail(), $password, null);
-                    if ($user->getUserType() == "employer") {
-                        $this->dispatcher->forward(array("controller" => "company"));
+            $user->setEmail($email);
+            $user->setFirstname($firstname);
+            $user->setLastname($lastname);
+            $user->setPassword($password);
+            $user->setUsertype($type);
+            $user->setValidated('no');
+            $user->setVacancyCount(3);
+            $user->setSignupDate($this->date);
 
-                    } else if ($user->getUserType() == "employee") {
-                        $this->dispatcher->forward(array("controller" => "employee", "action" => "options"));
-                    }
+            $location = new Location();
+            $location->setLongitude(0);
+            $location->setLatitude(0);
 
-                } else if ($user->save() == false) {
-                    $this->flash->notice($this->lang->_('user_already_exsists'));
-                    $this->dispatcher->forward(array('controller' => 'signup', 'action' => 'index'));
+            $location->save();
+            $user->setLocationId($location->getId());
+
+            if (is_null($user->validation())) {
+
+                if ($user->getUsertype() == "employer") {
+                    $company = new Company();
+                    $company->setUserId($user->getId());
+                    $company->save();
                 }
+                $this->sendRegistrationMail($user);
+                $user->save();
+                $this->check($user->getEmail(), $user->getPassword(), null);
+                $this->dispatcher->forward(array("controller" => "index"));
             } else {
-                $this->flash->notice($this->lang->_('user_already_exsists'));
-                $this->dispatcher->forward(array('controller' => 'signup', 'action' => 'start'));
+
+                $this->flash->error($this->lang->_($user->getMessages()[0]));
+                $this->dispatcher->forward(array('controller' => 'signup', 'action' => 'index', 'params' => array($user)));
+
             }
         }
+        $this->view->trying_to_reg_user = $user;
+
 
     }
 
-    private function userExsists($email)
-    {
-        $result = User::findFirstByEmail($email);
-
-        return (count($result) < 0);
-    }
 
     private function sendRegistrationMail(User $user)
     {
+
+        $verification = new Verification();
+        $verification->setDate($this->date);
+        $verification->setUserId($user->getId());
+        $verification->setType("activation");
+        $verification->save();
+        $key = $verification->getKey();
 
         $this->view->start();
         $this->view->setVar("fullname", "$user->getFirstname()} {$user->getLastname()}");
