@@ -1,6 +1,9 @@
 <?php
 
+use Phalcon\DI;
 use Phalcon\Mvc\Model\Validator\Email as Email;
+use Phalcon\Mvc\Model\Validator\Inclusionin;
+use Phalcon\Mvc\Model\Validator\PresenceOf;
 use Phalcon\Mvc\Model\Validator\Uniqueness;
 
 class User extends \Phalcon\Mvc\Model
@@ -259,6 +262,7 @@ class User extends \Phalcon\Mvc\Model
      */
     public function getPassword()
     {
+
         return $this->password;
     }
 
@@ -272,10 +276,7 @@ class User extends \Phalcon\Mvc\Model
     public function setPassword($password)
     {
         $this->password = $password;
-
-        return $this;
     }
-
     /**
      * Returns the value of field usertype
      *
@@ -519,41 +520,76 @@ class User extends \Phalcon\Mvc\Model
     public function validation()
     {
 
-        $this->validate(
-            new Email(
-                array(
-                    'field' => 'email',
-                    'required' => true,
-                )
-            )
-        );
+
         $this->validate(new Uniqueness(
             array(
                 "field" => "email",
-                "message" => "email is already in use."
+                "message" => "email_already_in_use"
             )
         ));
+        $this->validate(new PresenceOf(
+            array(
+                "field" => "email",
+                "message" => "email_is_missing"
+            )
+        ));
+
+
+        $this->validate(new PresenceOf(
+                array(
+                    "field" => "firstname",
+                    "message" => "firstname_is_missing"
+                )
+            )
+
+        );
+
+        $this->validate(
+            new PresenceOf(
+                array(
+                    "field" => "lastname",
+                    "message" => "lastname_is_missing"
+                )
+            )
+        );
+        $this->validate(
+            new PresenceOf(
+                array(
+                    "field" => "password",
+                    "message" => "password_is_missing"
+                )
+            )
+        );
+        $this->validate(
+            new Inclusionin(
+                array(
+                    "field" => "usertype",
+                    "domain" => array("employee", "employer"),
+                    "message" => "not_a_valid_account_type"
+                )
+            )
+        );
         if ($this->validationHasFailed() == true) {
             return false;
         }
+
     }
 
-    public function getType()
+    public function beforeSave()
     {
-        return $this->usertype;
+        $this->password = $this->hashPassword($this->password);
     }
 
-    public function setType($type)
+    public function login()
     {
-        if (!empty($type)) {
-            $this->usertype = $type;
 
-            return true;
-        }
-
-        return false;
     }
 
+    private function hashPassword($password)
+    {
+        $security = new \Phalcon\Security();
+        return $security->hash($password);
+    }
     public function initialize()
     {
         $this->hasOne("location_id", "Location", "id");
