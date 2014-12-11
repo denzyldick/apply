@@ -182,21 +182,21 @@ class Matcher extends Plugin
         }
     }
 
-    private function getVacancyMatches()
-    {
-        $phql = "SELECT *
-                FROM Vacancy
-                JOIN Specification
-                JOIN Skills
-
-                WHERE Skills.name in (SELECT Skills.name FROM Skills
-                   JOIN Specification
-                   JOIN User ON User.id = Specification.skills_id)
-                ";
-        $result = $this->modelsManager($phql, array(
-            "id" => $vacancy->id
-        ));
-
-    }
+//    private function getVacancyMatches()
+//    {
+//        $phql = "SELECT *
+//                FROM Vacancy
+//                JOIN Specification
+//                JOIN Skills
+//
+//                WHERE Skills.name in (SELECT Skills.name FROM Skills
+//                   JOIN Specification
+//                   JOIN User ON User.id = Specification.skills_id)
+//                ";
+//        $result = $this->modelsManager($phql, array(
+//            "id" => $vacancy->id
+//        ));
+//
+//    }
 
 }

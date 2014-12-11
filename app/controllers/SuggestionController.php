@@ -25,9 +25,9 @@ class SuggestionController extends ControllerBase
     public function indexAction()
     {
 
-        if ($this->user->getType() == "employer") {
+        if ($this->user->getUserType() == "employer") {
             $this->getEmployersuggestion();
-        } elseif ($this->user->getType() == "employee") {
+        } elseif ($this->user->getUserType() == "employee") {
             $this->dispatcher->forward(array("controller" => "suggestion", "action" => "vacancies", "params" => array($this->getEmployeesuggestion())));
         }
 
@@ -120,8 +120,6 @@ class SuggestionController extends ControllerBase
             $notification->setMessageKey('new_nudge');
             $notification->setSender($this->user->getId());
             $notification->setReceiver($match->Vacancy->user->getId());
-
-
             $match->setEmployeeAccepted('yes');
         } else if ($this->user->getUserType() == 'employer') {
             $match->setEmployerAccepted('yes');

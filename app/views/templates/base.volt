@@ -14,17 +14,14 @@
     </style>
 
 
-    <link href="/" rel="stylesheet" type="text/css">
-    <link href='' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="/css/socialicious.css" media="screen"/>
-    <link rel="stylesheet" href="/" type="text/css">
-    <link rel="stylesheet" href="/" type="text/css">
+
     <title>{% block title %}{% endblock %}</title>
 </head>
 
 </head>
+
 <body>
-{{ flash.output() }}
+
 <nav class="navbar navbar-custom navbar-fixed-top top-nav-collapse" role="navigation">
     <div class="container">
         <div class="navbar-header page-scroll">
@@ -32,7 +29,7 @@
                 <i class="fa fa-bars"></i>
             </button>
             <a class="navbar-brand" href="/">
-                <img src="/img/logo.png" style="width:20px;"/>
+
             </a>
         </div>
         {% if show_settings %}
@@ -44,6 +41,10 @@
     </div>
     <!-- /.container -->
 </nav>
+<div class="row">
+    <div class="col-md-2 col-md-offset-5">{{ flash.output() }}</div>
+</div>
+
 <div class="col-md-8 col-md-offset-2" id="main">
     {% block content %}{% endblock %}
 </div>

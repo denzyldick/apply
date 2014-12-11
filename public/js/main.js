@@ -141,7 +141,7 @@ var options = {
     }
 
 };
-
+;
 
 $(document).ready(function () {
     //Notification
@@ -169,4 +169,12 @@ $(function () {
         }, 1500, 'easeInOutExpo');
         event.preventDefault();
     });
+});
+
+
+$(document).ready(function () {
+
+    $(".bootstrap-tagsinput").addClass("material-input");
+    $('#description').wysihtml5();
+    bootstro.start($(".bootstro-first"));
 });

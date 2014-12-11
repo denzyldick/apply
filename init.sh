@@ -18,7 +18,11 @@ apt-get -q -y install mysql-server
 #
 # PHP
 #
-sudo apt-get install -y php5 php5-dev apache2 libapache2-mod-php5 php5-mysql php5-curl php5-mcrypt libpcre3-dev
+sudo apt-get install -y php5 php5-dev apache2 libapache2-mod-php5 php5-mysql php5-curl php5-mcrypt libpcre3-dev php5-xdebug
+sudo php5enmod xdebug
+#sudo -i cat 'xdebug.remote_enable = on' >>  /etc/php5/mods-available/xdebug.ini
+#sudo -i cat 'xdebug.remote_connect_back = on' >> /etc/php5/mods-available/xdebug.ini
+#sudo -i cat 'xdebug.idekey = "vagrant"' >> /etc/php5/mods-available/xdebug.ini
 
 #
 # Redis

@@ -16,12 +16,12 @@
         </div>
         <div class="col-md-6">
 
-            <h3 class="page-header">{{ lang._("Need more vacancies") }}</h3>
+            <h3 class="page-header">{{ lang._("buy_more_vacancies") }}</h3>
 
             <form action="/premium/charge" method="post">
                 <script src="https://checkout.stripe.com/checkout.js" class='stripe-button'
                         data-key="<?php echo $this->config->stripe['publishable_key']; ?>"
-                        data-label="Buy ${{ price }}"
+                        data-label="{{ lang._("buy") }}"
                         data-amount="{{ price_in_cents }}" data-email="{{ user.getEmail() }}"
                         data-description="{{ lang._('pay_vacancies') }}" data-image="/img/logo.png"
                         data-allow-remember-me="false"

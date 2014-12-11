@@ -11,6 +11,9 @@ label {
 #notification-dropdown {
     width: auto;
 }
+.popover-content{
+    color:#636565;
+}
 
 .copright {
     color: #636565 !important;
@@ -43,13 +46,14 @@ label {
     top: 10%;
     min-width: 200px;
     max-width: 300px;
+    margin:0px auto;
     /* left: 50%; */
     /* margin-left: auto; */
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
+    /*position: absolute;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*margin-left: auto;*/
+    /*margin-right: auto;*/
     display: none;
 }
 
@@ -76,7 +80,12 @@ footer {
 
     position: relative;
     bottom: 0px;
-}
+}.dropdown-menu{
+    color:#fff;
+ }
+ .navbar{
+     color:#fff;
+ }
 
 /* end CSS */
 .slider {
@@ -155,9 +164,9 @@ a:focus {
 
 .navbar {
     margin-bottom: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, .3);
+    border-bottom: 1px solid #E8EAF6;
     text-transform: uppercase;
-    background-color: rgb(87, 119, 202);
+    background-color: #3f51b5;
 }
 
 .navbar-custom .nav li a {
@@ -169,7 +178,7 @@ a:focus {
 .navbar-custom .nav li a:focus,
 .navbar-custom .nav li.active {
     outline: 0;
-    background-color: rgba(255, 255, 255, .2);
+    background-color: #E8EAF6;
 }
 
 .navbar-toggle {
@@ -196,7 +205,9 @@ a:focus {
 
     .top-nav-collapse {
         padding: 0;
-        background-color: rgb(87, 119, 202);
+        border-bottom: 1px solid #E8EAF6;
+        text-transform: uppercase;
+        background-color: #3f51b5;
     }
 
     .navbar-custom.top-nav-collapse {
@@ -449,4 +460,7 @@ body {
 
 .label-info.label-arrow:before {
     border-right-color: #5bc0de;
+}
+.bootstrap-tagsinput{
+    width:100%;
 }

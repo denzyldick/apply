@@ -112,6 +112,7 @@ class Security extends Plugin
             'index' => array('index', 'show'),
             'login' => array('index', 'login', 'forgotpassword'),
             'signup' => array('index', 'start', 'activate'),
+            'verification'=>array('index')
 
         );
         foreach ($publicResources as $resource => $actions) {

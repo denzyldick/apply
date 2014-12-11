@@ -35,42 +35,54 @@ class ControllerBase extends \Phalcon\Mvc\Controller
     public function setAssets()
     {
         $this->assets
+
             ->addCss("bootstrap/css/bootstrap.min.css")
             ->addCss("css/bootstrap-tagsinput.css")
-            ->addCss("bootstrap/fonts/font-awesome.min.css")
+            ->addCss("font-awesome/css/font-awesome.min.css")
             ->addCss("http://fonts.googleapis.com/css?family=Roboto")
             ->addCss("css/socialicious.css")
-            ->addCss("css/style.css")
+            ->addCss("bootstrap/fonts/font-awesome.min.css")
             ->addCss("slider/css/slider.css")
-            ->addCSs("");
+            //    ->addCSs("material/css/material.min.css")
+            ->addCss("material/css/ripples.min.css")
+            //     ->addCss("material/css/material-wfont.min.css")
+
+            ->addCss("css/style.css");
+
 
         $this->assets
             ->collection('jsHeader')
+            ->addJs('js/jquery/jquery.min.js')
             ->addJs('js/Chart.js');
 
         $this->assets
             ->collection('jsFooter')
-            ->addJs('js/jquery/jquery.min.js')
+
+            ->addJs("material/js/material.min.js")
+            ->addJs("material/js/ripples.min.js")
+            ->addJs('https://maps.googleapis.com/maps/api/js?key=AIzaSyAwk6wzMEnz2z58YepPrxwwcCf_tOd20lg', false, false)
             ->addJs('bootstrap/js/bootstrap.min.js')
             ->addJs('js/jquery-gmaps-latlon-picker.js')
             ->addJs('js/bootstrap-tagsinput.min.js')
             ->addJs('slider/js/bootstrap-slider.js')
             ->addJs("http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js", false, false)
+
             ->addJs('js/main.js')
-            ->addJs('https://maps.googleapis.com/maps/api/js?key=AIzaSyAwk6wzMEnz2z58YepPrxwwcCf_tOd20lg', false, false);
+
+           ;
 
     }
 
     protected function companyHasBeenFilled()
     {
-        if ($this->session->get("user-type") == "employer" && $this->dispatcher->getControllerName()
-            != 'company'
+        if ($this->session->get("user-type") === "employer" && $this->dispatcher->getControllerName()
+            !== 'company'
         ) {
-            $company = Company::findFirst(array("user_id = {$this->session->get('user-id')}"));
+            $company = Company::findFirstByUserId($this->session->get('user-id'));
 
-            if ($company->getName() == null) {
+            if ($company->getName() === null) {
 
-                $this->flash->notice("Please enter all your company information &nbsp;&nbsp;<a href=/company class='btn btn-small btn-primary'> click here</a>");
+                $this->flash->notice("Please enter all your company information &nbsp;&nbsp;<a href=company class='btn btn-small btn-primary'> click here</a>");
 
                 return false;
             }
@@ -82,12 +94,13 @@ class ControllerBase extends \Phalcon\Mvc\Controller
     protected function skillsHasBeenFilled()
     {
 
-        if ($this->session->get("user-type") == "employee") {
-            if (count(Specification::find(array("user_id =" . $this->session->get("user-id")))) < 1 && $this->dispatcher->getControllerName() != 'employee' && $this->dispatcher->getActionName() != 'options') {
-                $this->flash->notice($this->lang->_("add_skills") . "&nbsp;&nbsp;<a href=/employee/options class='btn btn-small btn-primary'>{$this->lang->_('click_here')}</a>");
+
+            if (count(Specification::find(array("user_id =" . $this->session->get("user-id")))) < 1 && $this->dispatcher->getControllerName() !== 'employee' && $this->dispatcher->getActionName() !== 'options' && $this->session->get("user-type") == "employee") {
+
+              //  $this->flash->notice($this->lang->_("add_skills") . "&nbsp;&nbsp;<a href=/employee/options class='btn btn-small btn-primary'>{$this->lang->_('click_here')}</a>");
             }
 
-        }
+
     }
 
     public function notFoundAction()
@@ -124,13 +137,8 @@ class ControllerBase extends \Phalcon\Mvc\Controller
 
     protected function setType(User $user)
     {
-        if ($user->getType() == "employee") {
-            $controller = "employee";
-        } else {
-            $controller = "employer";
-        }
         $this->session->set("user-id", $user->getId());
-        $this->session->set("user-type", $user->getType());
+        $this->session->set("user-type", $user->getUserType());
     }
 
     protected function remember($email, $password)

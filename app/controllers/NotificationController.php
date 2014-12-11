@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Created by PhpStorm.
+ * Notification Controller
  * User: denzyl
  * Date: 20-11-14
  * Time: 9:36
@@ -24,7 +24,9 @@ class NotificationController extends ControllerBase
                 array("receiver={$this->user->getId()} AND id = {$this->request->getPost('notification')}")
             );
             if (count($notification) == 1) {
+                $notification->setSeen('yes');
             }
+
 
         }
     }

@@ -33,14 +33,20 @@ class LoginController extends ControllerBase
 
             $user = User::findFirstByEmail($this->request->getPost('email'));
             if (count($user) == 0) {
-                $this->flash->notice($this->lang->_('U email adres bestaat niet in onze database'));
+                $this->flash->notice($this->lang->_("email_doesn't_exsits"));
 
             } else {
-                $this->flash->notice($this->lang->_('U email adres bestaat niet in onze database'));
+                $this->flash->success($this->lang->_('email_with_password_has_been_send'));
             }
-            $verification_code = $this->crypt->encrypt($user->getEmail());
+            $verification = new Verification();
+            $verification->setUserId($user->getId());
+            $verification->setDate($this->date);
+            $verification->setType('fogotpassword');
+            $verification->save();
 
-            $this->mailer->setSubject('');
+            $key =  $verification->getKey();
+
+            $this->mailer->setSubject($this->lang->_("forgot_password_subject"));
             $this->mailer->setRecipments(array($this->request->getPost('email')));
             $this->mailer->setSender($this->config->smpt->email);
             $this->mailer->send();

@@ -26,7 +26,7 @@ class Verification extends \Phalcon\Mvc\Model
      * @var integer
      */
     protected $user_id;
-
+    protected $key;
     /**
      * Returns the value of field id
      *
@@ -36,7 +36,14 @@ class Verification extends \Phalcon\Mvc\Model
     {
         return $this->id;
     }
-
+    public function getKey()
+    {
+        return $this->key;
+    }
+    public function setKey($key)
+    {
+        $this->key = $key;
+    }
     /**
      * Method to set the value of field id
      *

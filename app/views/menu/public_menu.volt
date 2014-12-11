@@ -5,7 +5,7 @@
                 <i class="fa fa-bars"></i>
             </button>
             <a class="navbar-brand" href="/">
-                <img src="/img/logo.png" width=20/>
+                <img src="{{ url("img/logo.png") }}" width=20/>
             </a>
 
         </div>

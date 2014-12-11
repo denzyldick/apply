@@ -33,6 +33,7 @@ class VacancyController extends ControllerBase
             $zoom = $this->request->getPost("zoom");
             $location_name = $this->request->getPost("location");
             $skills = $this->request->getPost("skills");
+            $culture = $this->request->getPOst("culture");
 
             $location = new Location();
             $location->setLongitude($longitude);
@@ -43,9 +44,10 @@ class VacancyController extends ControllerBase
 
             $vacancy = new Vacancy();
             $vacancy->setFunction($name);
-            $vacancy->setPostedDate(date(DATE_RFC2822));
+            $vacancy->setPostedDate($this->date);
             $vacancy->setUserId($this->session->get("user-id"));
             $vacancy->setLocationId($location->getId());
+            $vacancy->setWorkEnviromentType($culture);
 
             if ($vacancy->save()) {
 
@@ -104,9 +106,9 @@ class VacancyController extends ControllerBase
             }
         }
         if ($status) {
-            $this->flash->success("Vacancyhasbeensuccesfullydeleted . ");
+            $this->flash->success($this->lang->_("Your_vacancy_has_been_successfully_deleted"));
         } else {
-            $this->flash->error("Somethingwentwrong, pleasetryagain . ");
+            $this->flash->error($this->lang->_("something_went_wrong_try_again"));
         }
         $this->dispatcher->forward(array("action" => "index"));
     }

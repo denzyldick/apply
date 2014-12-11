@@ -57,14 +57,19 @@ class SignupController extends ControllerBase
 
             if (is_null($user->validation())) {
 
-                if ($user->getUsertype() == "employer") {
+                $user->save();
+                if ($user->getUsertype() === "employer") {
+
                     $company = new Company();
                     $company->setUserId($user->getId());
                     $company->save();
+
                 }
-                $this->sendRegistrationMail($user);
-                $user->save();
+
+
+                //   $this->sendRegistrationMail($user);
                 $this->check($user->getEmail(), $user->getPassword(), null);
+                $this->flash->success($this->lang->_("your_account_has_been_created"));
                 $this->dispatcher->forward(array("controller" => "index"));
             } else {
 
@@ -83,15 +88,16 @@ class SignupController extends ControllerBase
     {
 
         $verification = new Verification();
-        $verification->setDate($this->date);
+
         $verification->setUserId($user->getId());
+        $verification->setDate($this->date);
         $verification->setType("activation");
+        $verification->setKey($this->crypt->encryptBase64($user->getEmail()));
         $verification->save();
-        $key = $verification->getKey();
+
 
         $this->view->start();
-        $this->view->setVar("fullname", "$user->getFirstname()} {$user->getLastname()}");
-        $this->view->setVar("verification_code", $this->crypt->encrypt($user->getId()));
+        $$this->view->setVar("verification_url", $this->url->get(array("for" => "verification", "key" => $verification->getKey())));
         $this->view->render('mailer', 'activation');
         $this->view->finish();
 

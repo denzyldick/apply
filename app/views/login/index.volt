@@ -34,7 +34,7 @@
             <div class="row">
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        <button class="btn btn-default">{{ lang._("forgot_password") }}</button>
+                        <a href="login/forgotpassword" class="btn btn-default">{{ lang._("forgot_password") }}</a>
                         <button type="submit" class="btn btn-primary">{{ lang._("login") }}</button>
                     </div>
                 </div>

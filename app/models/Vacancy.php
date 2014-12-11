@@ -33,6 +33,7 @@ class Vacancy extends \Phalcon\Mvc\Model
      */
     protected $location_id;
 
+    protected $work_enviroment_type;
     /**
      * Returns the value of field function
      *
@@ -158,6 +159,14 @@ class Vacancy extends \Phalcon\Mvc\Model
     {
         return (Matches::count(array("vacancy_id=" . $this->getId())));
 
+    }
+    public function setWorkEnviromentType($work_enviroment_type)
+    {
+        $this->work_enviroment_type = $work_enviroment_type;
+    }
+    public function getWorkEnviromentType()
+    {
+        return $this->work_enviroment_type;
     }
 
     public function initialize()

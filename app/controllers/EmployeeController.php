@@ -9,11 +9,10 @@ class EmployeeController extends ControllerBase
 
     public function indexAction()
     {
-        if ($this->user->getType() == "employee") {
 
             $this->view->amount = count($this->getEmployeeMatches());
             $this->view->matches = $this->getEmployeeMatches();
-        }
+
     }
 
     public function getEmployeeMatches()
@@ -28,8 +27,9 @@ class EmployeeController extends ControllerBase
             $skills = $this->request->get();
             unset($skills["_url"]);
             $status = true;
-            $this->deleteSpecification();
+
             foreach ($skills as $key => $value) {
+
                 $skill = new Skills();
                 $skill->setName($key);
                 $skill->save();
@@ -62,10 +62,24 @@ class EmployeeController extends ControllerBase
 
     }
 
-    public function skillsAction($skills)
+    public function skillsAction($new_skills)
     {
+       // $this->view->disable();
+        var_dump($new_skills);
+        $skills = Array();
+        foreach(explode(",",$new_skills) as $new) {
 
-        $this->view->skills = explode(",", $skills);
+            $skills[$new] =0;
+        }
+        foreach ($this->user->specification as $specification) {
+            unset($skills[$specification->skills->getName()]);
+           $skills[$specification->skills->getName()]  = $specification->getPercent();
+
+        }
+     //   $this->view->disable();
+
+        var_dump($skills);
+        $this->view->skills = $skills;
 
     }
 
@@ -73,7 +87,7 @@ class EmployeeController extends ControllerBase
     {
         if ($this->request->isPost()) {
 
-
+            $save_it = true;
             if (!is_numeric($this->user->getLocationId())) {
                 $location = new Location();
                 $this->user->setLocationId($location->getId());
@@ -86,14 +100,25 @@ class EmployeeController extends ControllerBase
 
             $skills = $this->request->getPost("skills");
             $character = $this->request->getPost("character");
-            $work_enviroment = $this->request->getPost("work_enviroment");
+            $work_environment = $this->request->getPost("work_enviroment");
             $travel_distance = $this->request->getPost("travel_distance");
             $location_name = $this->request->getPost("location");
             $longitude = $this->request->getPost("longitude");
             $latitude = $this->request->getPost("latitude");
             $zoom = $this->request->getPost("zoom");
 
-
+         //   $this->view->disable();
+            var_dump($this->request->getPost());
+            if(0 === strlen(trim($skills)))
+            {
+                $this->flash->error($this->lang->_("please_enter_some_skills"));
+                $save_it = false;
+            }
+            if(0 == strlen(trim($latitude)) || 0 == strlen(trim($longitude)) ||  0 == strlen(trim($location_name)))
+            {
+                $this->flash->error($this->lang->_("where_is_this_vacancy_located"));
+                $save_it = false;
+            }
             $location->setZoom($zoom);
             $location->setLocation($location);
             $location->setLongitude($longitude);
@@ -102,10 +127,10 @@ class EmployeeController extends ControllerBase
             $location->setLocation($location_name);
 
 
-            $this->user->setWorkEnviromentType($work_enviroment);
+            $this->user->setWorkEnviromentType($work_environment);
 
-            if ($this->user->save()) {
-                $matches = Matches::find(
+            if ($this->user->save() && $save_it == true) {
+                Matches::find(
                     array("user_id = {$this->user->getId()}")
                 )->delete();
 

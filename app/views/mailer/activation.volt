@@ -1,5 +1,7 @@
-{% extends "templates/base.volt" %}
+{% extends "templates/email.volt" %}
 {% block content %}
-    <h1>Please active your account</h1>
-    <a href="" class="btn btn-primary btn-lg">{{ lang._("activate") }}</a>
+    <h4>{{ lang._("thank_you") }}</h4>
+    <small class="lead" >{{ lang._("you_need_to_activate") }}</small><p></p>
+
+    <a href="{{ verification_url }}">{{ lang._("activate") }}</a>
 {% endblock %}

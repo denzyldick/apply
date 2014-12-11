@@ -108,5 +108,16 @@ $messages = array(
     'interested_in_you' => '%s is interested in you skills',
     'individuals_matching_your_vacancies' => 'Individuals matching your vacancies',
     'individuals_matching_this_vacancy' => 'Individuals matching this vacancy',
-    'vacancy' => 'vacancy'
+    'vacancy' => 'vacancy',
+    "company_culture"=>'company culture',
+    "email_already_in_use"=>"Sorry, but this email is already registered",
+    "firstname_is_missing"=>"Please, enter your firstname",
+    "Your_vacancy_has_been_successfully_deleted"=>'Vacancy has been successfully deleted',
+    "something_went_wrong_try_again"=>"Oops! something went wrong, try again!",
+    "thank_you"=>"Thank you for registering",
+    "you_need_to_activate"=>"You need to activate your account",
+    "where_is_the_vacancy_located"=>"Where is this vacancy located ?",
+    "skills_you_are_looking_for"=>"Which skills are you looking for?",
+    "what_type_of_function_are_you_looking_for"=>"What type of function are you looking for?",
+    "add_skills"=>"add skills"
 );

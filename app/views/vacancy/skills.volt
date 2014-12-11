@@ -1,4 +1,4 @@
-<h3>{{ lang._('how_many_years_of_experience_are_you_looking_for') }}</h3>
+<h4>{{ lang._('how_many_years_of_experience_are_you_looking_for') }}</h4>
 {{ form('vacancy/finish', 'method': 'post') }}
 
 <input type="hidden" value='{{ skills|json_encode }}' name="skills">
@@ -25,5 +25,5 @@ border-bottom: 1px solid #D8D7D6;">
 {% endfor %}
 <p>&nbsp;</p>
 
-{{ submit_button('save',"class":"btn btn-sm btn-primary") }}
+{{ submit_button('save',"class":"btn btn-sm btn-primary ripple-on") }}
 </form>

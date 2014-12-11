@@ -1,7 +1,7 @@
 <?php
 use Phalcon\Events\Events;
 use Phalcon\Mvc\User\Plugin;
-use Phalcon\Mvs\Dispatcher;
+use Phalcon\Mvc\Dispatcher;
 
 /**
  *Percent Calculator
@@ -12,7 +12,8 @@ class PercentCalculator extends Plugin
 {
     private $vacancy = null;
     private $user = null;
-    private $percent;
+    const SKILLS_PERCENTAGE = 90;
+    const WORK_ENVIRONMENT_TYPE_PERCENTAGE = 10;
 
     public function setVacancy(Vacancy $vacancy)
     {
@@ -37,17 +38,23 @@ class PercentCalculator extends Plugin
         }
     }
 
-    private function calculate($vacancy, $user)
+    private function calculate(Vacancy $vacancy, User $user)
     {
         $vacancy_skills = $this->specificationsToArraySkills($vacancy->getSpecification());
         $user_skills = $this->specificationsToArraySkills($user->getSpecification());
-
         $common_skills = $this->matchCommonSkills($vacancy_skills, $user_skills);
+        $work_type = $this->workEnvironment($vacancy, $user);
 
+        return $common_skills['percent'] = floor(count($common_skills) / count($vacancy_skills) * (self::SKILLS_PERCENTAGE + $work_type));
 
-        return $common_skills['percent'] = floor(count($common_skills) / count($vacancy_skills) * 100);
+    }
 
-
+    private function workEnvironment(Vacancy $vacancy, User $user)
+    {
+        if ($vacancy->getWorkEnviromentType() === $user->getWorkEnviromentType() || $vacancy->User->Company->getWorkEnviromentType() === $user->getWorkEnviromentType()) {
+            return self::WORK_ENVIRONMENT_TYPE_PERCENTAGE;
+        }
+        return 0;
     }
 
     private function specificationsToArraySkills($specifications)
