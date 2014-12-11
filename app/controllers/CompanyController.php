@@ -31,6 +31,8 @@ class CompanyController extends ControllerBase
         $this->view->zoom = $this->company->getZoom();
         $this->view->company_foto = $this->company->getLogo();
         $this->view->website = $this->company->getWebsite();
+        $this->view->work_enviroment = $this->company->getWorkEnviromentType();
+
     }
 
     public function saveAction()
@@ -43,6 +45,7 @@ class CompanyController extends ControllerBase
             $this->company->location = $this->request->getPost("location", "string");
             $this->company->zoom = $this->request->getPost("zoom", "int");
             $this->company->website = $this->request->getPost('website', 'string');
+            $this->company->setWorkEnviromentType($this->request->getPost("work_enviroment","string"));
 
             if ($this->request->hasFiles()) {
                 $file = $this->request->getUploadedFiles();
