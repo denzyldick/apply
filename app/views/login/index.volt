@@ -4,7 +4,8 @@
 
 
         <legend>{{ lang._("welcome_message") }}</legend>
-        <form action="/login/login" method="post">
+{{ form("login/login","method":"post") }}
+    
             <div class="row">
                 <div class="form-group">
                     <label for="inputEmail" class="col-lg-2 control-label">{{ lang._("email") }}</label>
