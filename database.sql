@@ -61,6 +61,7 @@ CREATE TABLE IF NOT EXISTS `appply`.`user` (
   `id_stripe` VARCHAR(255) NULL,
   `location_diameter` INT NULL DEFAULT 100,
   `signup_date` DATE NULL,
+  `login_date` DATE NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `user` (`email` ASC),
   CONSTRAINT `fk_user_work_enviroment1`
@@ -262,6 +263,7 @@ CREATE TABLE IF NOT EXISTS `appply`.`notification` (
   `viewed` ENUM('yes','no') NULL DEFAULT 'no',
   `receiver` INT(11) NOT NULL,
   `sender` INT(11) NULL,
+  `matches` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_Notification_user1`
     FOREIGN KEY (`receiver`)
@@ -271,6 +273,11 @@ CREATE TABLE IF NOT EXISTS `appply`.`notification` (
   CONSTRAINT `fk_Notification_user2`
     FOREIGN KEY (`sender`)
     REFERENCES `appply`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_notification_matches1`
+    FOREIGN KEY (`matches`)
+    REFERENCES `appply`.`matches` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

@@ -32,7 +32,7 @@ function SweetyXpath() {
             var nodes = _getRootNode(node).evaluate(
                 expr, node, _getNsResolver(node), XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
 
-            var nodeSet = new Array();
+            var nodeSet = [];
             for (var i = 0, len = nodes.snapshotLength; i < len; i++) {
                 nodeSet.push(nodes.snapshotItem(i));
             }
@@ -48,7 +48,7 @@ function SweetyXpath() {
         this.getValue = function getValue(expr, node) {
             return _getRootNode(node).evaluate(
                 expr, node, _getNsResolver(node), XPathResult.STRING_TYPE, null).stringValue;
-        }
+        };
 
     /**
      * Get the root node from which run evaluate.
@@ -65,7 +65,7 @@ function SweetyXpath() {
                 return document;
             }
         }
-    }
+    };
 
     /**
      * Get the NS Resolver used when searching.
@@ -102,13 +102,13 @@ function SweetyReporter() { //Interface/Base Class
      */
     this.getReporterFor = function getReporterFor(testCaseName) {
         return _this;
-    }
+    };
 
     /**
      * Start reporting.
      */
     this.start = function start() {
-    }
+    };
 
     /**
      * Handle a skipped test case.
@@ -116,7 +116,7 @@ function SweetyReporter() { //Interface/Base Class
      * @param {String} path
      */
     this.reportSkip = function reportSkip(message, path) {
-    }
+    };
 
     /**
      * Handle a passing assertion.
@@ -124,7 +124,7 @@ function SweetyReporter() { //Interface/Base Class
      * @param {String} path
      */
     this.reportPass = function reportPass(message, path) {
-    }
+    };
 
     /**
      * Handle a failing assertion.
@@ -132,7 +132,7 @@ function SweetyReporter() { //Interface/Base Class
      * @param {String} path
      */
     this.reportFail = function reportFail(message, path) {
-    }
+    };
 
     /**
      * Handle an unexpected exception.
@@ -140,7 +140,7 @@ function SweetyReporter() { //Interface/Base Class
      * @param {String} path
      */
     this.reportException = function reportException(message, path) {
-    }
+    };
 
     /**
      * Handle miscellaneous test output.
@@ -148,7 +148,7 @@ function SweetyReporter() { //Interface/Base Class
      * @param {String} path
      */
     this.reportOutput = function reportOutput(output, path) {
-    }
+    };
 
     /**
      * Finish reporting.
@@ -176,7 +176,7 @@ function SweetyTestCaseRun(testClass, reporter) {
 
     /** Callback function for completion event */
     this.oncompletion = function oncompletion() {
-    }
+    };
 
     /**
      * Run this test.
@@ -194,7 +194,7 @@ function SweetyTestCaseRun(testClass, reporter) {
         _req.open("GET", "?test=" + testClass + "&format=xml", true);
         _req.onreadystatechange = _handleXml;
         _req.send(null);
-    }
+    };
 
     /**
      * Get an XmlHttpRequest instance, cross browser compatible.
@@ -222,7 +222,7 @@ function SweetyTestCaseRun(testClass, reporter) {
         }
 
         return req;
-    }
+    };
 
     /**
      * Handle the XML response from the test.
@@ -264,7 +264,7 @@ function SweetyTestCaseRun(testClass, reporter) {
             //Invoke the callback
             _this.oncompletion();
         }
-    }
+    };
 
     /**
      * Cross browser method for reading the value of a node in XML.
@@ -277,14 +277,14 @@ function SweetyTestCaseRun(testClass, reporter) {
         } else {
             return node.textContent;
         }
-    }
+    };
 
     var _stripTags = function _stripTags(txt) {
         txt = txt.replace(/[\r\n]+/g, "");
         return txt.replace(
             /<\/?(?:a|b|br|p|strong|u|i|em|span|div|ul|ol|li|table|thead|tbody|th|td|tr)\b.*?\/?>/g,
             "");
-    }
+    };
 
     /**
      * Parse an arbitrary message output.
@@ -293,7 +293,7 @@ function SweetyTestCaseRun(testClass, reporter) {
      */
     var _parseMessage = function _parseMessage(node, path) {
         reporter.reportOutput(_textValueOf(node), path);
-    }
+    };
 
     /**
      * Parse formatted text output (such as a dump()).
@@ -302,7 +302,7 @@ function SweetyTestCaseRun(testClass, reporter) {
      */
     var _parseFormatted = function _parseFormatted(node, path) {
         reporter.reportOutput(_textValueOf(node), path);
-    }
+    };
 
     /**
      * Parse failing test assertion.
@@ -311,7 +311,7 @@ function SweetyTestCaseRun(testClass, reporter) {
      */
     var _parseFail = function _parseFail(node, path) {
         reporter.reportFail(_textValueOf(node), path);
-    }
+    };
 
     /**
      * Parse an Exception.
@@ -320,7 +320,7 @@ function SweetyTestCaseRun(testClass, reporter) {
      */
     var _parseException = function _parseException(node, path) {
         reporter.reportException(_textValueOf(node), path);
-    }
+    };
 
     /**
      * Parse passing test assertion.
@@ -329,7 +329,7 @@ function SweetyTestCaseRun(testClass, reporter) {
      */
     var _parsePass = function _parsePass(node, path) {
         reporter.reportPass(_textValueOf(node), path);
-    }
+    };
 
     /**
      * Parse an entire test case
@@ -373,7 +373,7 @@ function SweetyTestCaseRun(testClass, reporter) {
                 _parsePass(passNode, path + " -> " + testMethodName);
             }
         }
-    }
+    };
 
     /**
      * Parse an entire grouped or single test case.
@@ -422,7 +422,7 @@ function SweetyTestRunner() {
      */
     this.cancelTesting = function cancelTesting(cancel) {
         _cancelled = cancel;
-    }
+    };
 
     /**
      * Run the given list of test cases.
@@ -466,4 +466,4 @@ SweetyTestRunner._currentInstance = null;
  */
 SweetyTestRunner.getCurrentInstance = function getCurrentInstance() {
     return this._currentInstance;
-}
+};

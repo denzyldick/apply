@@ -28,4 +28,4 @@ window.onload = function () {
     catch (e) {
         alert(e.stack)
     }
-}
+};

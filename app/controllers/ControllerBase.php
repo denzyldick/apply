@@ -122,6 +122,7 @@ class ControllerBase extends \Phalcon\Mvc\Controller
     {
         $user = User::findFirstByEmail(trim($email));
         if ($user) {
+            $this->user = $user;
             if ($this->security->checkHash($password, $user->getPassword())) {
                 $this->setType($user);
                 ($remember === "yes") ? $this->remember($email, $password) : "";
@@ -132,6 +133,13 @@ class ControllerBase extends \Phalcon\Mvc\Controller
             return false;
         }
 
+        return false;
+    }
+    protected function isFirstTime(User $user)
+    {
+        if(is_null($user->getLoginDate()))
+        { return true;
+        }
         return false;
     }
 

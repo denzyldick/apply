@@ -114,14 +114,14 @@ class SuggestionController extends ControllerBase
         $notification = new Notification();
         $match = Matches::findFirst($match);
 
-        if ($this->user->getUserType() == 'employee') {
+        if ($this->user->getUserType() == 'employer') {
             $notification->setViewed('no');
             $notification->setDate($this->date);
             $notification->setMessageKey('new_nudge');
             $notification->setSender($this->user->getId());
             $notification->setReceiver($match->Vacancy->user->getId());
             $match->setEmployeeAccepted('yes');
-        } else if ($this->user->getUserType() == 'employer') {
+        } else if ($this->user->getUserType() == 'employee') {
             $match->setEmployerAccepted('yes');
             $notification->setViewed('no');
             $notification->setDate($this->date);

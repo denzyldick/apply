@@ -145,7 +145,7 @@ $(document).ready(function(){
                     selectorArr.push(e.selector);
             });
             return selectorArr.join(",");
-        }
+        };
 
         //get the element to intro at stack i 
         get_element = function(i)
@@ -166,7 +166,7 @@ $(document).ready(function(){
                 })
                 */
             }
-        }
+        };
         
         get_popup = function(i)
         {
@@ -209,7 +209,7 @@ $(document).ready(function(){
             
             return p;
             
-        }
+        };
 
         //===================PUBLIC METHODS======================
         //destroy popover at stack index i
@@ -361,7 +361,7 @@ $(document).ready(function(){
         bootstro.set_bootstrap_version = function(ver)
         {
             bootstrapVersion = ver;
-        }
+        };
           
         //bind the nav buttons click event
         bootstro.bind = function()

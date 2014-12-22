@@ -15,7 +15,11 @@
 
                 {% for notification in user.Notification %}
                     <li>
-                        <a href=#>{{ lang._(notification.getMessageKey())| format(user.getFirstname(),notification) }}</a>
+                        {%  set link = "" %} }}
+                        {% if(notification.getMessageKey() == "new_nudge") %}
+                        {% set link = notification.getReceiver() %}
+                        {% endif %}
+                        <a href="{{ link }}">{{ lang._(notification.getMessageKey()) }}</a>
                     </li>
                 {% endfor %}
 

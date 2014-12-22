@@ -141,8 +141,6 @@ var options = {
     }
 
 };
-;
-
 $(document).ready(function () {
     //Notification
     $.get("/notification", function (response) {

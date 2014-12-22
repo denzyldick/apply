@@ -636,7 +636,7 @@ if (!document.implementation
         if (path.needContextNode) {
             this.needContextNode = true;
         }
-    }
+    };
     UnionExpr.prototype.show = function (indent) {
         indent = indent || '';
         var t = '';
@@ -1234,7 +1234,7 @@ if (!document.implementation
                     prevNodeset.reserveDelByNode(node, prevIndex, true);
                 }
                 if (test.match(node)) nodeset.unshift(node);
-            } while (node = node.parentNode)
+            } while (node = node.parentNode);
             return nodeset;
         }],
 
@@ -1257,7 +1257,7 @@ if (!document.implementation
                     }
                 }
                 else {
-                    var attr = attrs.getNamedItem(test.name)
+                    var attr = attrs.getNamedItem(test.name);
 
                     /*@cc_on @if (@_jscript)
                      if (attr && attr.nodeValue) {
@@ -1732,7 +1732,7 @@ if (!document.implementation
 
 
     Number.parse = function (lexer) {
-        return new Number(lexer.next());
+        return Number(lexer.next());
     };
 
     Number.prototype = new BaseExpr();
@@ -2045,7 +2045,7 @@ if (!document.implementation
             }
             for (var t = '', i = 0, l = s1.length; i < l; i++) {
                 var ch = s1.charAt(i);
-                var replace = map[ch]
+                var replace = map[ch];
                 t += (replace != undefined) ? replace : ch;
             }
             return t;

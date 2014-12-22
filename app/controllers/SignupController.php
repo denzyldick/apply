@@ -37,8 +37,6 @@ class SignupController extends ControllerBase
             $password = $this->request->getPost('password');
             $re_type = $this->request->getPost('re_type');
             $type = $this->request->getPost('type');
-
-
             $user->setEmail($email);
             $user->setFirstname($firstname);
             $user->setLastname($lastname);
@@ -47,14 +45,11 @@ class SignupController extends ControllerBase
             $user->setValidated('no');
             $user->setVacancyCount(3);
             $user->setSignupDate($this->date);
-
             $location = new Location();
             $location->setLongitude(0);
             $location->setLatitude(0);
-
             $location->save();
             $user->setLocationId($location->getId());
-
             if (is_null($user->validation())) {
 
                 $user->save();
@@ -88,19 +83,15 @@ class SignupController extends ControllerBase
     {
 
         $verification = new Verification();
-
         $verification->setUserId($user->getId());
         $verification->setDate($this->date);
         $verification->setType("activation");
         $verification->setKey($this->crypt->encryptBase64($user->getEmail()));
         $verification->save();
-
-
         $this->view->start();
         $$this->view->setVar("verification_url", $this->url->get(array("for" => "verification", "key" => $verification->getKey())));
         $this->view->render('mailer', 'activation');
         $this->view->finish();
-
         $this->mailer->setBody($this->view->getContent());
         $this->mailer->setSubject($this->lang->_('activation_mail_subject'));
         $this->mailer->setRecipments(array($user->getEmail() => "{$user->getFirstname()} {$user->getLastname()}"));

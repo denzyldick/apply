@@ -29,7 +29,7 @@ function SweetyUIManager() {
         _this.loadTestList();
         _this.resetMessageDiv();
         _this.resetTotals();
-    }
+    };
 
     /**
      * Show or hide an entire package.
@@ -74,7 +74,7 @@ function SweetyUIManager() {
                 headerImg.src = "templates/sweety/images/rarr.gif";
             }
         }
-    }
+    };
 
     /**
      * Enable or disable user input.
@@ -110,14 +110,14 @@ function SweetyUIManager() {
                 };
             }
         }
-    }
+    };
 
     /**
      * Display the filter box.
      */
     this.showFilterBox = function showFilterBox() {
         _getFilter().style.visibility = 'visible';
-    }
+    };
 
     /**
      * Restore the UI on a new page load or reload.
@@ -135,7 +135,7 @@ function SweetyUIManager() {
         for (var pkg in _pkgs) {
             this.togglePackage(pkg, _pkgs[pkg]);
         }
-    }
+    };
 
     /**
      * Hide all the checkboxes which are only applicable to the non-JS version.
@@ -148,7 +148,7 @@ function SweetyUIManager() {
             }
         }
         delete inputs;
-    }
+    };
 
     /**
      * Load the available test case list in the UI.
@@ -196,7 +196,7 @@ function SweetyUIManager() {
             this.showPkgCount(pkgName, len);
             this.showHidePkg(pkgName, display);
         }
-    }
+    };
 
     /**
      * Shows or hides the headers for the given package.
@@ -210,12 +210,12 @@ function SweetyUIManager() {
         } else {
             pkgDiv.style.display = "none";
         }
-    }
+    };
 
     this.showPkgCount = function showPkgCount(pkg, n) {
         var countBox = _getElementById("sweety-pkg-count-" + pkg);
         _setContent(countBox, "(" + n + ")");
-    }
+    };
 
     /**
      * Reset all the aggregate results in the UI.
@@ -228,7 +228,7 @@ function SweetyUIManager() {
         _this.paintNumExceptions(0);
 
         _this.paintAllIdle();
-    }
+    };
 
     /**
      * Paint or unpaint the networking icon to indicate communication with the server.
@@ -240,7 +240,7 @@ function SweetyUIManager() {
         } else {
             _getCommIcon().style.display = "none";
         }
-    }
+    };
 
     /**
      * Flush the contents of the assertion message area.
@@ -248,7 +248,7 @@ function SweetyUIManager() {
     this.resetMessageDiv = function resetMessageDiv() {
         _getMessages().innerHTML = "";
         _getElementById("sweety-smoke-images").innerHTML = "";
-    }
+    };
 
     /**
      * Marks a given package as running (yellow) in the UI.
@@ -256,7 +256,7 @@ function SweetyUIManager() {
      */
     this.paintPkgRunning = function paintPkgRunning(pkg) {
         _getElementById("sweety-package-" + pkg).className = "sweety-package-header sweety-running";
-    }
+    };
 
     /**
      * Marks a given package as idle (grey) in the UI.
@@ -264,7 +264,7 @@ function SweetyUIManager() {
      */
     this.paintPkgIdle = function paintPkgIdle(pkg) {
         _getElementById("sweety-package-" + pkg).className = "sweety-package-header sweety-pkg-idle";
-    }
+    };
 
     /**
      * Marks a given package as passed (green) in the UI.
@@ -272,7 +272,7 @@ function SweetyUIManager() {
      */
     this.paintPkgPassed = function paintPkgPassed(pkg) {
         _getElementById("sweety-package-" + pkg).className = "sweety-package-header sweety-pass";
-    }
+    };
 
     /**
      * Marks a given package as failed (red) in the UI.
@@ -280,7 +280,7 @@ function SweetyUIManager() {
      */
     this.paintPkgFailed = function paintPkgFailed(pkg) {
         _getElementById("sweety-package-" + pkg).className = "sweety-package-header sweety-fail";
-    }
+    };
 
     /**
      * Marks a given test case as running (yellow) in the UI.
@@ -288,7 +288,7 @@ function SweetyUIManager() {
      */
     this.paintTestCaseRunning = function paintTestCaseRunning(testCase) {
         _getElementById(testCase).className = "sweety-test sweety-running";
-    }
+    };
 
     /**
      * Marks a given test case as idle (grey) in the UI.
@@ -296,7 +296,7 @@ function SweetyUIManager() {
      */
     this.paintTestCaseIdle = function paintTestCaseIdle(testCase) {
         _getElementById(testCase).className = "sweety-test sweety-idle";
-    }
+    };
 
     /**
      * Marks a given test case as failed (red) in the UI.
@@ -304,7 +304,7 @@ function SweetyUIManager() {
      */
     this.paintTestCaseFailed = function paintTestCaseFailed(testCase) {
         _getElementById(testCase).className = "sweety-test sweety-fail";
-    }
+    };
 
     /**
      * Marks a given test case as passed (green) in the UI.
@@ -312,7 +312,7 @@ function SweetyUIManager() {
      */
     this.paintTestCasePassed = function paintTestCasePassed(testCase) {
         _getElementById(testCase).className = "sweety-test sweety-pass";
-    }
+    };
 
     /**
      * Paints a skipped testcase message to the message area.
@@ -334,7 +334,7 @@ function SweetyUIManager() {
         skipDiv.appendChild(pathDiv);
 
         _getMessages().appendChild(skipDiv);
-    }
+    };
 
     /**
      * Paints an unexpected exception notice to the message area.
@@ -356,7 +356,7 @@ function SweetyUIManager() {
         exceptionDiv.appendChild(pathDiv);
 
         _getMessages().appendChild(exceptionDiv);
-    }
+    };
 
     /**
      * Paints a failed assertion message to the message area.
@@ -378,7 +378,7 @@ function SweetyUIManager() {
         failDiv.appendChild(pathDiv);
 
         _getMessages().appendChild(failDiv);
-    }
+    };
 
     /**
      * Paints dump() output to the message area.
@@ -396,7 +396,7 @@ function SweetyUIManager() {
 
             _getMessages().appendChild(outputPane);
         }
-    }
+    };
 
     this.paintSmokeImage = function paintSmokeImage(imageSrc) {
         var imagePane = _getElementById("sweety-smoke-images");
@@ -408,7 +408,7 @@ function SweetyUIManager() {
             window.open(imageSrc);
         };
         imagePane.appendChild(smokeImg);
-    }
+    };
 
     /**
      * Paints an internal message to the message area.
@@ -421,7 +421,7 @@ function SweetyUIManager() {
         _setContent(messageDiv, message);
 
         _getMessages().appendChild(messageDiv);
-    }
+    };
 
     /**
      * Paints the current number of test cases to the summary bar.
@@ -429,7 +429,7 @@ function SweetyUIManager() {
      */
     this.paintNumCases = function paintNumCases(num) {
         _setContent(_getCases(), num);
-    }
+    };
 
     /**
      * Paints the current number of finished test cases to the summary bar.
@@ -437,7 +437,7 @@ function SweetyUIManager() {
      */
     this.paintNumRun = function paintNumRun(num) {
         _setContent(_getComplete(), num);
-    }
+    };
 
     /**
      * Paints the current number of passing assertions to the summary bar.
@@ -445,7 +445,7 @@ function SweetyUIManager() {
      */
     this.paintNumPasses = function paintNumPasses(num) {
         _setContent(_getPasses(), num);
-    }
+    };
 
     /**
      * Paints the current number of failing assertions to the summary bar.
@@ -453,7 +453,7 @@ function SweetyUIManager() {
      */
     this.paintNumFails = function paintNumFails(num) {
         _setContent(_getFails(), num);
-    }
+    };
 
     /**
      * Paints the current number of exceptions to the summary bar.
@@ -461,49 +461,49 @@ function SweetyUIManager() {
      */
     this.paintNumExceptions = function paintNumExceptions(num) {
         _setContent(_getExceptions(), num);
-    }
+    };
 
     /**
      * Paints the summary bar (green) as passed.
      */
     this.paintConclusionPassed = function paintConclusionPassed() {
         _getResultsBar().className = "sweety-pass";
-    }
+    };
 
     /**
      * Paints the summary bar (red) as failed.
      */
     this.paintConclusionFailed = function paintConclusionFailed() {
         _getResultsBar().className = "sweety-fail";
-    }
+    };
 
     /**
      * Paints the summary bar (yellow) as running.
      */
     this.paintAllRunning = function paintAllRunning() {
         _getResultsBar().className = "sweety-running";
-    }
+    };
 
     /**
      * Paints the summary bar (grey) as idle.
      */
     this.paintAllIdle = function paintAllIdle() {
         _getResultsBar().className = "sweety-idle";
-    }
+    };
 
     /**
      * Puts the filter box in searching L&F.
      */
     this.paintSearching = function paintSearching() {
         _getFilter().className = "sweety-text sweety-waiting";
-    }
+    };
 
     /**
      * Returns the filter box the idle L&F.
      */
     this.paintSearchComplete = function paintSearchComplete() {
         _getFilter().className = "sweety-text";
-    }
+    };
 
     /**
      * Apply data to a page element.
@@ -516,7 +516,7 @@ function SweetyUIManager() {
         } else {
             el.innerHTML = content;
         }
-    }
+    };
 
     /**
      * Create a label used at the start of a message to indicate a skipped test case.
@@ -528,7 +528,7 @@ function SweetyUIManager() {
         skipLabel.className = "sweety-skip-text";
         _setContent(skipLabel, label);
         return skipLabel;
-    }
+    };
 
     /**
      * Create a label used at the start of a message to indicate failure.
@@ -540,7 +540,7 @@ function SweetyUIManager() {
         failLabel.className = "sweety-fail-text";
         _setContent(failLabel, label);
         return failLabel;
-    }
+    };
 
     /**
      * Creates the text which shows the complete pathway to a test method.
@@ -553,7 +553,7 @@ function SweetyUIManager() {
         pathDiv.className = "sweety-test-path";
         _setContent(pathDiv, "in " + path);
         return pathDiv;
-    }
+    };
 
     var _paintFilterDisabled = function _paintFilterDisabled(disabled) {
         if (disabled) {
@@ -563,7 +563,7 @@ function SweetyUIManager() {
             _getFilter().disabled = false;
             _getFilter().className = "sweety-text";
         }
-    }
+    };
 
     /**
      * A caching wrapper around document.getElementById().
@@ -575,7 +575,7 @@ function SweetyUIManager() {
             _cached[elId] = document.getElementById(elId);
         }
         return _cached[elId];
-    }
+    };
 
     /**
      * Get the icon which shows network activity.
@@ -583,7 +583,7 @@ function SweetyUIManager() {
      */
     var _getCommIcon = function _getCommIcon() {
         return _getElementById("sweety-communication");
-    }
+    };
 
     /**
      * Get the container which holds the list of test cases.
@@ -591,7 +591,7 @@ function SweetyUIManager() {
      */
     var _getListContainer = function _getListContainer() {
         return _getElementById("sweety-testlist-container");
-    }
+    };
 
     /**
      * Get the container where all assertion messages go.
@@ -599,7 +599,7 @@ function SweetyUIManager() {
      */
     var _getMessages = function _getMessages() {
         return _getElementById("sweety-messages");
-    }
+    };
 
     /**
      * Get the element for number of test cases.
@@ -607,7 +607,7 @@ function SweetyUIManager() {
      */
     var _getCases = function _getCases() {
         return _getElementById("sweety-num-cases");
-    }
+    };
 
     /**
      * Get the container for number of test cases finished.
@@ -615,7 +615,7 @@ function SweetyUIManager() {
      */
     var _getComplete = function _getComplete() {
         return _getElementById("sweety-num-run");
-    }
+    };
 
     /**
      * Get the container for number of exceptions.
@@ -623,7 +623,7 @@ function SweetyUIManager() {
      */
     var _getExceptions = function _getExceptions() {
         return _getElementById("sweety-num-exceptions");
-    }
+    };
 
     /**
      * Get the container for number of fails.
@@ -631,7 +631,7 @@ function SweetyUIManager() {
      */
     var _getFails = function _getFails() {
         return _getElementById("sweety-num-fails");
-    }
+    };
 
     /**
      * Get the container for number of passes.
@@ -639,7 +639,7 @@ function SweetyUIManager() {
      */
     var _getPasses = function _getPasses() {
         return _getElementById("sweety-num-passes");
-    }
+    };
 
 
     /**
@@ -648,7 +648,7 @@ function SweetyUIManager() {
      */
     var _getResultsBar = function _getResutsBar() {
         return _getElementById("sweety-results");
-    }
+    };
 
     /**
      * Get the filter input box.
@@ -656,7 +656,7 @@ function SweetyUIManager() {
      */
     var _getFilter = function _getFilter() {
         return _getElementById("sweety-filter");
-    }
+    };
 
     /**
      * Get the button which operates the filter.
@@ -664,7 +664,7 @@ function SweetyUIManager() {
      */
     var _getRunButton = function _getRunButton() {
         return _getElementById("sweety-run-button");
-    }
+    };
 
     var _loadPkgsFromCookie = function _loadPkgsFromCookie() {
         for (var testCase in sweetyTestCases) {
@@ -680,7 +680,7 @@ function SweetyUIManager() {
             _pkgs[unescape(nvp[0])] = (nvp[1] == "0") ? false : true;
             //alert(unescape(nvp[0]) +  " => " + _pkgs[unescape(nvp[0])]);
         }
-    }
+    };
 
     var _pkgFor = function _pkgFor(testName) {
         return testName.replace(/_?[^_]+$/, "");
@@ -713,7 +713,7 @@ function SweetyFilter() {
     this.repaintUI = function repaintUI() {
         sweetyUI.initialize();
         sweetyUI.paintSearchComplete();
-    }
+    };
 
     /**
      * Search for matching test cases.
@@ -752,7 +752,7 @@ function SweetyFilter() {
 
         //Only apply the search in 500ms, since user may be typing
         _timer = window.setTimeout(_this.repaintUI, 500);
-    }
+    };
 
     /**
      * Get a lazy loaded reference to the input element.
@@ -817,7 +817,7 @@ function SweetyTemplateAggregateReporter(testCaseList, reportPkgs) {
 
         var reporter = new SweetyTemplateCaseReporter(testCase, _this);
         return reporter;
-    }
+    };
 
     /**
      * Updates the UI with the new aggregate totals.
@@ -835,7 +835,7 @@ function SweetyTemplateAggregateReporter(testCaseList, reportPkgs) {
         sweetyUI.paintNumPasses(_aggregates.passes);
         sweetyUI.paintNumFails(_aggregates.fails);
         sweetyUI.paintNumExceptions(_aggregates.exceptions);
-    }
+    };
 
     /**
      * Returns true if this reporter instance is running.
@@ -843,7 +843,7 @@ function SweetyTemplateAggregateReporter(testCaseList, reportPkgs) {
      */
     this.isStarted = function isStarted() {
         return _started;
-    }
+    };
 
     /**
      * Start reporting.
@@ -864,7 +864,7 @@ function SweetyTemplateAggregateReporter(testCaseList, reportPkgs) {
         sweetyUI.allowInteractivity(false);
         sweetyUI.paintNetworking(true);
         sweetyUI.paintAllRunning();
-    }
+    };
 
     /**
      * Report a skipped test case.
@@ -873,7 +873,7 @@ function SweetyTemplateAggregateReporter(testCaseList, reportPkgs) {
      */
     this.reportSkip = function reportSkip(message, path) {
         sweetyUI.paintSkip(message, path);
-    }
+    };
 
     /**
      * Report a passing assertion.
@@ -886,7 +886,7 @@ function SweetyTemplateAggregateReporter(testCaseList, reportPkgs) {
         if (reportPkgs) {
             _pkgs[_currentPkg].passes++;
         }
-    }
+    };
 
     /**
      * Report a failing assertion.
@@ -901,7 +901,7 @@ function SweetyTemplateAggregateReporter(testCaseList, reportPkgs) {
         }
 
         sweetyUI.paintFail(message, path);
-    }
+    };
 
     /**
      * Report an unexpected exception.
@@ -916,7 +916,7 @@ function SweetyTemplateAggregateReporter(testCaseList, reportPkgs) {
         }
 
         sweetyUI.paintException(message, path);
-    }
+    };
 
     /**
      * Handle test case output from something like a dump().
@@ -925,7 +925,7 @@ function SweetyTemplateAggregateReporter(testCaseList, reportPkgs) {
      */
     this.reportOutput = function reportOutput(output, path) {
         sweetyUI.paintOutput(output, path);
-    }
+    };
 
     /**
      * End reporting.
@@ -960,11 +960,11 @@ function SweetyTemplateAggregateReporter(testCaseList, reportPkgs) {
                 " Incomplete test cases are shown in yellow.  Click the HTML link " +
                 "next to the test for more detail.");
         }
-    }
+    };
 
     var _getPkgName = function _getPkgName(testCase) {
         return testCase.replace(/_?[^_]+$/, "");
-    }
+    };
 
     var _updatePkgStatus = function _updatePkgStatus(pkg) {
         if ((!_pkgs[pkg].fails && !_pkgs[pkg].exceptions)
@@ -1002,7 +1002,7 @@ function SweetyTemplateCaseReporter(testCase, reporter) {
      */
     this.getReporterFor = function getReporterFor(testCase) {
         return _this;
-    }
+    };
 
     /**
      * Returns true when the reporter is started.
@@ -1010,7 +1010,7 @@ function SweetyTemplateCaseReporter(testCase, reporter) {
      */
     this.isStarted = function isStarted() {
         return _started;
-    }
+    };
 
     /**
      * Start reporting.
@@ -1018,7 +1018,7 @@ function SweetyTemplateCaseReporter(testCase, reporter) {
     this.start = function start() {
         _started = true;
         sweetyUI.paintTestCaseRunning(testCase);
-    }
+    };
 
     /**
      * Report a skipped test case.
@@ -1027,7 +1027,7 @@ function SweetyTemplateCaseReporter(testCase, reporter) {
      */
     this.reportSkip = function reportSkip(message, path) {
         reporter.reportSkip(message, path);
-    }
+    };
 
     /**
      * Report a passing assertion.
@@ -1037,7 +1037,7 @@ function SweetyTemplateCaseReporter(testCase, reporter) {
     this.reportPass = function reportPass(message, path) {
         _aggregates.passes++;
         reporter.reportPass(message, path);
-    }
+    };
 
     /**
      * Report a failing assertion.
@@ -1047,7 +1047,7 @@ function SweetyTemplateCaseReporter(testCase, reporter) {
     this.reportFail = function reportFail(message, path) {
         _aggregates.fails++;
         reporter.reportFail(message, path);
-    }
+    };
 
     /**
      * Report an unexpected exception.
@@ -1057,7 +1057,7 @@ function SweetyTemplateCaseReporter(testCase, reporter) {
     this.reportException = function reportException(message, path) {
         _aggregates.exceptions++;
         reporter.reportException(message, path);
-    }
+    };
 
     /**
      * Handle output from a test case in the form of something like a dump().
@@ -1066,7 +1066,7 @@ function SweetyTemplateCaseReporter(testCase, reporter) {
      */
     this.reportOutput = function reportOutput(output, path) {
         reporter.reportOutput(output, path);
-    }
+    };
 
     /**
      * End reporting.
@@ -1100,14 +1100,14 @@ function SweetyTestWrapper() {
      * @param {String} testClass
      */
     this.runTestCase = function runTestCase(testClass) {
-        var testCaseList = new Array();
+        var testCaseList = [];
         testCaseList.push(testClass);
 
         var reporter = new SweetyTemplateAggregateReporter(testCaseList);
 
         var runner = new SweetyTestRunner();
         runner.runTests(testCaseList, reporter);
-    }
+    };
 
     /**
      * Run all selected test cases.
@@ -1118,7 +1118,7 @@ function SweetyTestWrapper() {
             pkgRegex = new RegExp("^" + pkg + "_[^_]+$");
         }
 
-        var testCaseList = new Array();
+        var testCaseList = [];
 
         for (var testCase in sweetyTestCases) {
             if (!sweetyTestCases[testCase] || (pkg && !testCase.match(pkgRegex))) {

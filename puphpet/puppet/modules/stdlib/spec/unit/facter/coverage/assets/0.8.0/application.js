@@ -7542,7 +7542,6 @@ $(document).ready(function () {
             });
             source_table.addClass('highlighted');
         }
-        ;
     });
 
     var prev_anchor;
@@ -7611,12 +7610,11 @@ $(document).ready(function () {
             $('link[rel="shortcut icon"]').remove();
             $('head').append('<link rel="shortcut icon" type="image/png" href="' + favicon_path + '" />');
         }
-        ;
         return false;
     });
 
     if (jQuery.url.attr('anchor')) {
-        var anchor = jQuery.url.attr('anchor')
+        var anchor = jQuery.url.attr('anchor');
         if (anchor.length == 40) {
             $('a.src_link[href=#' + anchor + ']').click();
         } else {
@@ -7625,8 +7623,6 @@ $(document).ready(function () {
     } else {
         $('.group_tabs a:first').click();
     }
-    ;
-
     $("abbr.timeago").timeago();
     $('#loading').fadeOut();
     $('#wrapper').show();
