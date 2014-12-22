@@ -1,7 +1,6 @@
 <?php
 
 use Phalcon\DI;
-use Phalcon\Mvc\Model\Validator\Email as Email;
 use Phalcon\Mvc\Model\Validator\Inclusionin;
 use Phalcon\Mvc\Model\Validator\PresenceOf;
 use Phalcon\Mvc\Model\Validator\Uniqueness;
@@ -111,6 +110,7 @@ class User extends \Phalcon\Mvc\Model
      */
     protected $signup_date;
 
+    protected $login_date;
     /**
      * Returns the value of field id
      *
@@ -517,6 +517,16 @@ class User extends \Phalcon\Mvc\Model
         return $this;
     }
 
+    public function getLoginDate()
+    {
+        return $this->login_date;
+    }
+
+    public function setLoginDate($logindate)
+    {
+        $this->login_date = $logindate;
+    }
+
     public function validation()
     {
 
@@ -572,6 +582,7 @@ class User extends \Phalcon\Mvc\Model
         if ($this->validationHasFailed() == true) {
             return false;
         }
+        return true;
 
     }
 
@@ -580,16 +591,17 @@ class User extends \Phalcon\Mvc\Model
         $this->password = $this->hashPassword($this->password);
     }
 
-    public function login()
-    {
-
-    }
-
     private function hashPassword($password)
     {
         $security = new \Phalcon\Security();
         return $security->hash($password);
     }
+
+    public function login()
+    {
+
+    }
+
     public function initialize()
     {
         $this->hasOne("location_id", "Location", "id");
