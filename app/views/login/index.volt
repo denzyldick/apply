@@ -4,7 +4,7 @@
 
 
         <legend>{{ lang._("welcome_message") }}</legend>
-{{ form("login/login","method":"post") }}
+{{ form("login","method":"post") }}
     
             <div class="row">
                 <div class="form-group">
