@@ -2,27 +2,28 @@
 
 class LoginController extends ControllerBase
 {
-    public function indexAction()
-    {
-    }
 
-    public function loginAction()
+
+    public function indexAction()
     {
 
         if ($this->request->isPost()) {
             $email = $this->request->getPost("email");
             $password = $this->request->getPost("password");
             $remember = $this->request->getPost("remember");
+
+
             if ($this->check($email, $password, $remember)) {
 
                 if ($this->isFirstTime($this->user)) {
                     $this->firstTimeRedirect();
                 }
                 $this->user->setLoginDate($this->date);
+
                 $this->dispatcher->forward(array("controller" => "suggestion"));
             } else {
                 $this->flash->error($this->lang->_('wrong_credentials'));
-                $this->dispatcher->forward(array("action" => "index"));
+
             }
         }
     }
