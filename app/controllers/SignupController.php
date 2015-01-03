@@ -45,14 +45,17 @@ class SignupController extends ControllerBase
             $user->setValidated('no');
             $user->setVacancyCount(3);
             $user->setSignupDate($this->date);
+            $user->setLoginDate($this->date);
             $location = new Location();
             $location->setLongitude(0);
             $location->setLatitude(0);
             $location->save();
             $user->setLocationId($location->getId());
-            if (is_null($user->validation())) {
+
+            if (is_null($user->validation())|| $user->validation() ){
 
                 $user->save();
+
                 if ($user->getUsertype() === "employer") {
 
                     $company = new Company();
@@ -60,7 +63,6 @@ class SignupController extends ControllerBase
                     $company->save();
 
                 }
-
 
                 //   $this->sendRegistrationMail($user);
                 $this->check($user->getEmail(), $user->getPassword(), null);
