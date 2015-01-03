@@ -18,7 +18,7 @@
                     <a href="#page-top"></a>
                 </li>
                 <li class="page-scroll">
-                    <a href="#about">{{ lang._("about_us") }}</a>
+                    <a href="/#about">{{ lang._("about_us") }}</a>
                 </li>
                 <li class="page-scroll">
                     <a href="/login">{{ lang._("login") }}</a>
