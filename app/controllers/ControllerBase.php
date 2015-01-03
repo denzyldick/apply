@@ -35,7 +35,6 @@ class ControllerBase extends \Phalcon\Mvc\Controller
     public function setAssets()
     {
         $this->assets
-
             ->addCss("bootstrap/css/bootstrap.min.css")
             ->addCss("css/bootstrap-tagsinput.css")
             ->addCss("font-awesome/css/font-awesome.min.css")
@@ -57,7 +56,6 @@ class ControllerBase extends \Phalcon\Mvc\Controller
 
         $this->assets
             ->collection('jsFooter')
-
             ->addJs("material/js/material.min.js")
             ->addJs("material/js/ripples.min.js")
             ->addJs('https://maps.googleapis.com/maps/api/js?key=AIzaSyAwk6wzMEnz2z58YepPrxwwcCf_tOd20lg', false, false)
@@ -66,10 +64,7 @@ class ControllerBase extends \Phalcon\Mvc\Controller
             ->addJs('js/bootstrap-tagsinput.min.js')
             ->addJs('slider/js/bootstrap-slider.js')
             ->addJs("http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js", false, false)
-
-            ->addJs('js/main.js')
-
-           ;
+            ->addJs('js/main.js');
 
     }
 
@@ -82,7 +77,7 @@ class ControllerBase extends \Phalcon\Mvc\Controller
 
             if ($company->getName() === null) {
 
-                $this->flash->notice("Please enter all your company information &nbsp;&nbsp;<a href=company class='btn btn-small btn-primary'> click here</a>");
+                $this->flash->notice("Please enter all your company information &nbsp;&nbsp;<a href=/company class='btn btn-small btn-primary'> click here</a>");
 
                 return false;
             }
@@ -95,10 +90,10 @@ class ControllerBase extends \Phalcon\Mvc\Controller
     {
 
 
-            if (count(Specification::find(array("user_id =" . $this->session->get("user-id")))) < 1 && $this->dispatcher->getControllerName() !== 'employee' && $this->dispatcher->getActionName() !== 'options' && $this->session->get("user-type") == "employee") {
+        if (count(Specification::find(array("user_id =" . $this->session->get("user-id")))) < 1 && $this->dispatcher->getControllerName() !== 'employee' && $this->dispatcher->getActionName() !== 'options' && $this->session->get("user-type") == "employee") {
 
-              //  $this->flash->notice($this->lang->_("add_skills") . "&nbsp;&nbsp;<a href=/employee/options class='btn btn-small btn-primary'>{$this->lang->_('click_here')}</a>");
-            }
+            //  $this->flash->notice($this->lang->_("add_skills") . "&nbsp;&nbsp;<a href=/employee/options class='btn btn-small btn-primary'>{$this->lang->_('click_here')}</a>");
+        }
 
 
     }
@@ -120,10 +115,12 @@ class ControllerBase extends \Phalcon\Mvc\Controller
 
     protected function check($email, $password, $remember = "no")
     {
-        $user = User::findFirstByEmail(trim($email));
-        if ($user) {
-            $this->user = $user;
-            if ($this->security->checkHash($password, $user->getPassword())) {
+        $user = User::findFirst(array("email = '{$email}'"));
+
+
+        if (count($user) == 1) {
+            $this->user = $user;;
+            if ($this->security->checkHash($password, $this->user->getPassword())) {
                 $this->setType($user);
                 ($remember === "yes") ? $this->remember($email, $password) : "";
 
@@ -135,10 +132,11 @@ class ControllerBase extends \Phalcon\Mvc\Controller
 
         return false;
     }
+
     protected function isFirstTime(User $user)
     {
-        if(is_null($user->getLoginDate()))
-        { return true;
+        if (is_null($user->getLoginDate())) {
+            return true;
         }
         return false;
     }
