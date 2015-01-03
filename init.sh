@@ -19,33 +19,28 @@ apt-get -q -y install mysql-server
 # PHP
 #
 sudo apt-get install -y php5 php5-dev apache2 libapache2-mod-php5 php5-mysql php5-curl php5-mcrypt libpcre3-dev php5-xdebug
+
+
 sudo php5enmod xdebug
 #sudo -i cat 'xdebug.remote_enable = on' >>  /etc/php5/mods-available/xdebug.ini
 #sudo -i cat 'xdebug.remote_connect_back = on' >> /etc/php5/mods-available/xdebug.ini
 #sudo -i cat 'xdebug.idekey = "vagrant"' >> /etc/php5/mods-available/xdebug.ini
-
 #
-# Redis
-#
-sudo apt-get install -y redis-server
-
-#
-# MongoDB
-#
-sudo apt-get install mongodb-clients mongodb-server
+sudo echo '
+zend_extension=xdebug.so
+xdebug.default_enable = 1
+xdebug.idekey = "vagrant"
+xdebug.remote_enable = 1
+xdebug.remote_autostart = 1
+xdebug.remote_port = 9000
+xdebug.remote_handler=dbgp
+xdebug.remote_log="/var/log/xdebug/xdebug.log"
+xdebug.remote_host=10.0.2.2 ; IDE-Environments IP, from vagrant box.'> /etc/php5/mods-available/xdebug.ini
 
 #
 # Utilities
 #
 sudo apt-get install -y make curl htop git-core vim
-
-#
-# Redis Configuration
-# Allow us to Remote from Vagrant with Port
-#
-sudo cp /etc/redis/redis.conf /etc/redis/redis.bkup.conf
-sudo sed -i 's/bind 127.0.0.1/bind 0.0.0.0/' /etc/redis/redis.conf
-sudo /etc/init.d/redis-server restart
 
 #
 # MySQL Configuration
@@ -65,7 +60,11 @@ sudo mysql --user=root --execute="source /vagrant/database.sql";
 # Composer for PHP
 #
 sudo curl -sS https://getcomposer.org/installer | php
-sudo mv composer.phar /usr/local/bin/composer
+sudo mv composer.pha#sudo -i cat 'xdebug.remote_enable = on' >>  /etc/php5/mods-available/xdebug.ini
+#sudo -i cat 'xdebug.remote_connect_back = on' >> /etc/php5/mods-available/xdebug.ini
+#sudo -i cat 'xdebug.idekey = "vagrant"' >> /etc/php5/mods-available/xdebug.ini
+#
+r /usr/local/bin/composer
 
 #
 # Apache VHost
@@ -90,13 +89,9 @@ sudo a2enmod rewrite
 # Install PhalconPHP
 # Enable it
 #
-cd ~
-git clone --depth=1 https://github.com/phalcon/cphalcon.git
-cd cphalcon/build
-sudo ./install
-
-echo "extension=phalcon.so" > phalcon.ini
-sudo mv phalcon.ini /etc/php5/mods-available
+sudo apt-add-repository ppa:phalcon/stable
+sudo apt-get update
+sudo apt-get install -y php5-phalcon
 sudo php5enmod phalcon
 sudo php5enmod curl
 sudo php5enmod mcrypt
