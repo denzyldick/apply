@@ -28,7 +28,7 @@
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
                 <i class="fa fa-bars"></i>
             </button>
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="/"><img src="/img/logo.png" width="20"/>
 
             </a>
         </div>
