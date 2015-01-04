@@ -121,7 +121,7 @@ class ControllerBase extends \Phalcon\Mvc\Controller
 
         if (count($user) == 1 && $user instanceof User) {
             $this->user = $user;
-            $stored_password = $this->user->getPassword();
+            $stored_password = $this->user->getPassword()   ;
             if ($this->security->checkHash($password, $stored_password)) {
                 $this->setType($user);
                 ($remember === "yes") ? $this->remember($email, $password) : "";
