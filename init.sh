@@ -20,6 +20,7 @@ apt-get -q -y install mysql-server
 #
 sudo apt-get install -y php5 php5-dev apache2 libapache2-mod-php5 php5-mysql php5-curl php5-mcrypt libpcre3-dev php5-xdebug
 
+sudo apt-get -y autoremove;
 
 sudo php5enmod xdebug
 #sudo -i cat 'xdebug.remote_enable = on' >>  /etc/php5/mods-available/xdebug.ini
