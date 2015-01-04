@@ -37,6 +37,12 @@ class Notification extends \Phalcon\Mvc\Model
      *
      * @var integer
      */
+    protected $matches;
+
+    /**
+     *
+     * @var integer
+     */
     protected $sender;
 
     /**
@@ -177,6 +183,25 @@ class Notification extends \Phalcon\Mvc\Model
         return $this;
     }
 
+    /**
+     * Method to set the value of field matches
+     * @param integer $matches
+     * @return $this
+     */
+    public function setMatches($matches)
+    {
+        $this->matches = $matches;
+        return $this;
+    }
+
+    /**
+     * Method to get the value of field matches
+     * @return $matches
+     */
+    public function getMatches()
+    {
+        return $this->matches;
+    }
     public function initialize()
     {
         $this->belongsTo('receiver', 'user', 'id');

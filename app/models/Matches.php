@@ -236,6 +236,15 @@ class Matches extends \Phalcon\Mvc\Model
         return $this;
     }
 
+    public function setMatchDate($match_date)
+    {
+        $this->match_date = $match_date;
+        return $this;
+    }
+    public function getMatchDate()
+    {
+        return $this->match_date;
+    }
     public function columnMap()
     {
         return array(
