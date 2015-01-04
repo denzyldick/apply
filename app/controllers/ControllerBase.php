@@ -71,7 +71,7 @@ class ControllerBase extends \Phalcon\Mvc\Controller
     protected function companyHasBeenFilled()
     {
         if ($this->session->get("user-type") === "employer" && $this->dispatcher->getControllerName()
-            !== 'company'
+            != 'company'
         ) {
             $company = Company::findFirstByUserId($this->session->get('user-id'));
 
@@ -81,6 +81,7 @@ class ControllerBase extends \Phalcon\Mvc\Controller
 
                 return false;
             }
+
 
             return true;
         }
@@ -118,9 +119,10 @@ class ControllerBase extends \Phalcon\Mvc\Controller
         $user = User::findFirst(array("email = '{$email}'"));
 
 
-        if (count($user) == 1) {
-            $this->user = $user;;
-            if ($this->security->checkHash($password, $this->user->getPassword())) {
+        if (count($user) == 1 && $user instanceof User) {
+            $this->user = $user;
+            $stored_password = $this->user->getPassword();
+            if ($this->security->checkHash($password, $stored_password)) {
                 $this->setType($user);
                 ($remember === "yes") ? $this->remember($email, $password) : "";
 

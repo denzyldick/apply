@@ -111,46 +111,27 @@ class SuggestionController extends ControllerBase
 
     public function acceptAction($match)
     {
-        $notification = new Notification();
+
         $match = Matches::findFirst($match);
-
-        $vacancy_owner = $match->Vacancy->User;
-
-
+        $vacancy_owner = $match->Vacancy->User->getId();
+        $notification = new Notification();
+        $notification->setViewed('no');
+        $notification->setDate($this->date);
+        $notification->setSender($this->user->getId());
+        $notification->setMatches($match);
+        $notification->setReceiver($vacancy_owner);
         if ($this->user->getUserType() == 'employer') {
-            $notification->setViewed('no');
-            $notification->setDate($this->date);
             $notification->setMessageKey('new_nudge');
-            $notification->setSender($this->user->getId());
-            $notification->setReceiver($vacancy_owner->getId());
             $match->setEmployerAccepted('yes');
         } else if ($this->user->getUserType() == 'employee') {
             $match->setEmployeeAccepted('yes');
-            $notification->setViewed('no');
-            $notification->setDate($this->date);
             $notification->setMessageKey('interested_in_you');
-            $notification->setReceiver($vacancy_owner->getId());
-            $notification->setSender($this->user->getId());
-
         }
-
         if ($match->save()) {
-//            xdebug_var_dump($notification->save());
-//            xdebug_var_dump($notification->getMessages());
-//            xdebug_break();
+            $notification->save();
 
             $this->flash->success($this->lang->_("vacancy_poster_will_be_notified"));
             $this->dispatcher->forward(array("controller" => "index"));
         }
-    }
-
-    private function sendEmailToEmployer($user)
-    {
-
-    }
-
-    private function sendEmailToEmployee($user)
-    {
-
     }
 }
