@@ -98,13 +98,14 @@ footer {
 }
 
 .alert {
-    position: absolute;
-    min-width: 300px;
+    min-width: 400px;
     left: 50%;
     margin-left: -200px;
     top: 35px;
     z-index: 2000;
     position: fixed;
+    font-size: larger;
+    font-weight: bolder;
 }
 
 .match {
