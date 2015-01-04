@@ -116,7 +116,7 @@ class EmployeeController extends ControllerBase
             }
             if(0 == strlen(trim($latitude)) || 0 == strlen(trim($longitude)) ||  0 == strlen(trim($location_name)))
             {
-                $this->flash->error($this->lang->_("where_is_this_vacancy_located"));
+                $this->flash->error($this->lang->_(where_do_you_live));
                 $save_it = false;
             }
             $location->setZoom($zoom);
