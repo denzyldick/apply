@@ -1,7 +1,7 @@
-<h1 class="page-header">
-    {{ amount }}
+<h4 class="page-header">
+    {{ amount | upper}}
     <p class="lead">{{ lang._("job") }} {{ lang._("job_suggestion") }}</p>
-</h1>
+</h4>
 
 <div class="row placeholders">
     {% for suggestion in suggestions %}

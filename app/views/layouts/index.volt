@@ -8,12 +8,26 @@
     <meta name="author" content="">
     <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <title>{{ config.company.name }}</title>
+
+    {{ assets.outputJs('jsHeader') }}
     {{ assets.outputCss() }}
 </head>
 
 <body id="page-top" data-spy="scroll" data-target=".navbar-custom">
+<nav class="navbar navbar-custom navbar-fixed-top top-nav-collapse" role="navigation">
+    <div class="container">
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand" href="/"><img src="/img/logo.png" width="20"/>
 
+            </a>
+        </div>
 {% include "menu/public_menu.volt" %}
+    </div>
+    <!-- /.container -->
+</nav>
 
 <section class="intro">
     <div class="intro-body">

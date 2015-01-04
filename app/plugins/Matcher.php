@@ -127,6 +127,8 @@ class Matcher extends Plugin
         $match->setEmployerAccepted('no');
         $match->setViewed('no');
         $match->setSoftdeleted('no');
+        $match->setMatchDate($this->date);
+
         if (count(Matches::find(
                 array(" user_id = {$user->getId()} AND vacancy_id = {$vacancy->getId()}"))) == 0 && $calculator->getPercent() > 0
         ) {
