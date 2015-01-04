@@ -52,13 +52,15 @@ class ControllerBase extends \Phalcon\Mvc\Controller
         $this->assets
             ->collection('jsHeader')
             ->addJs('js/jquery/jquery.min.js')
-            ->addJs('js/Chart.js');
+            ->addJs('https://maps.googleapis.com/maps/api/js?key=AIzaSyAwk6wzMEnz2z58YepPrxwwcCf_tOd20lg', false, false)
+            ->addJs('js/Chart.js')
+            ->addJs('js/main.js');
+
 
         $this->assets
             ->collection('jsFooter')
             ->addJs("material/js/material.min.js")
             ->addJs("material/js/ripples.min.js")
-            ->addJs('https://maps.googleapis.com/maps/api/js?key=AIzaSyAwk6wzMEnz2z58YepPrxwwcCf_tOd20lg', false, false)
             ->addJs('bootstrap/js/bootstrap.min.js')
             ->addJs('js/jquery-gmaps-latlon-picker.js')
             ->addJs('js/bootstrap-tagsinput.min.js')
@@ -114,26 +116,8 @@ class ControllerBase extends \Phalcon\Mvc\Controller
         return false;
     }
 
-    protected function check($email, $password, $remember = "no")
-    {
-        $user = User::findFirst(array("email = '{$email}'"));
 
 
-        if (count($user) == 1 && $user instanceof User) {
-            $this->user = $user;
-            $stored_password = $this->user->getPassword()   ;
-            if ($this->security->checkHash($password, $stored_password)) {
-                $this->setType($user);
-                ($remember === "yes") ? $this->remember($email, $password) : "";
-
-                return true;
-            }
-
-            return false;
-        }
-
-        return false;
-    }
 
     protected function isFirstTime(User $user)
     {
@@ -143,11 +127,7 @@ class ControllerBase extends \Phalcon\Mvc\Controller
         return false;
     }
 
-    protected function setType(User $user)
-    {
-        $this->session->set("user-id", $user->getId());
-        $this->session->set("user-type", $user->getUserType());
-    }
+
 
     protected function remember($email, $password)
     {

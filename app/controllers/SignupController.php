@@ -65,7 +65,6 @@ class SignupController extends ControllerBase
                 }
 
                 //   $this->sendRegistrationMail($user);
-                $this->check($user->getEmail(), $user->getPassword(), null);
                 $this->flash->success($this->lang->_("your_account_has_been_created"));
                 $this->dispatcher->forward(array("controller" => "index"));
             } else {

@@ -65,9 +65,9 @@ class SuggestionController extends ControllerBase
 
     public function removeAction($match)
     {
-        if ($this->user->getType() == 'employee') {
+        if ($this->user->getUserType() == 'employee') {
             $this->removeEmployeeSuggestion($match);
-        } else if ($this->user->getType() == 'employer') {
+        } else if ($this->user->getUserType() == 'employer') {
             $this->removeEmployerSuggestion($match);
         }
 
@@ -111,27 +111,31 @@ class SuggestionController extends ControllerBase
 
     public function acceptAction($match)
     {
+        $this->view->disable();
 
         $match = Matches::findFirst($match);
         $vacancy_owner = $match->Vacancy->User->getId();
         $notification = new Notification();
+        $notification->setReceiver($vacancy_owner);
         $notification->setViewed('no');
         $notification->setDate($this->date);
         $notification->setSender($this->user->getId());
         $notification->setMatches($match);
-        $notification->setReceiver($vacancy_owner);
+
+
         if ($this->user->getUserType() == 'employer') {
+
             $notification->setMessageKey('new_nudge');
+
             $match->setEmployerAccepted('yes');
+
         } else if ($this->user->getUserType() == 'employee') {
+
             $match->setEmployeeAccepted('yes');
             $notification->setMessageKey('interested_in_you');
         }
-        if ($match->save()) {
-            $notification->save();
-
-            $this->flash->success($this->lang->_("vacancy_poster_will_be_notified"));
-            $this->dispatcher->forward(array("controller" => "index"));
-        }
+        $match->save();
+        $notification->save();
+        var_dump($notification);
     }
 }

@@ -173,6 +173,6 @@ $(document).ready(function () {
 $(document).ready(function () {
 
     $(".bootstrap-tagsinput").addClass("material-input");
-    $('#description').wysihtml5();
-    bootstro.start($(".bootstro-first"));
+    //$('#description').wysihtml5();
+    //bootstro.start($(".bootstro-first"));
 });

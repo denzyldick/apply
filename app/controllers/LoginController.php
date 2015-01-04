@@ -19,13 +19,34 @@ class LoginController extends ControllerBase
                     $this->firstTimeRedirect();
                 }
                 $this->user->setLoginDate($this->date);
-
                 $this->dispatcher->forward(array("controller" => "suggestion"));
             } else {
                 $this->flash->error($this->lang->_('wrong_credentials'));
 
             }
         }
+    }
+    protected function check($email, $password, $remember = "no")
+    {
+
+
+        $user = User::findFirst(array("email = '{$email}'"));
+
+        if (count($user) == 1 && $user instanceof User) {
+
+           $this->user = $user;
+
+            if($this->user->isAuthentic($password))
+            {
+                $this->session->set("user-id", $user->getId());
+                $this->session->set("user-type", $user->getUserType());
+                return true;
+            }
+          /// return $user->grantAccess($password,$this->security,$this->session);
+
+        }
+
+        return false;
     }
 
     private function firstTimeRedirect()

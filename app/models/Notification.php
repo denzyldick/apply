@@ -206,6 +206,7 @@ class Notification extends \Phalcon\Mvc\Model
     {
         $this->belongsTo('receiver', 'user', 'id');
         $this->hasOne('sender', 'user', 'id');
+        $this->hasOne("matches","Matches","id");
 
     }
 

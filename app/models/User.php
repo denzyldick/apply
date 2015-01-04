@@ -111,6 +111,7 @@ class User extends \Phalcon\Mvc\Model
     protected $signup_date;
 
     protected $login_date;
+
     /**
      * Returns the value of field id
      *
@@ -275,8 +276,11 @@ class User extends \Phalcon\Mvc\Model
      */
     public function setPassword($password)
     {
-        $this->password = $password;
+
+        $security = new \Phalcon\Security();
+        $this->password = $security->hash($password);
     }
+
     /**
      * Returns the value of field usertype
      *
@@ -354,7 +358,8 @@ class User extends \Phalcon\Mvc\Model
      *
      * @return string
      */
-    public function getWorkEnviromentType()
+    public
+    function getWorkEnviromentType()
     {
         return $this->work_enviroment_type;
     }
@@ -366,7 +371,8 @@ class User extends \Phalcon\Mvc\Model
      *
      * @return $this
      */
-    public function setWorkEnviromentType($work_enviroment_type)
+    public
+    function setWorkEnviromentType($work_enviroment_type)
     {
         $this->work_enviroment_type = $work_enviroment_type;
 
@@ -378,7 +384,8 @@ class User extends \Phalcon\Mvc\Model
      *
      * @return integer
      */
-    public function getLocationId()
+    public
+    function getLocationId()
     {
         return $this->location_id;
     }
@@ -390,7 +397,8 @@ class User extends \Phalcon\Mvc\Model
      *
      * @return $this
      */
-    public function setLocationId($location_id)
+    public
+    function setLocationId($location_id)
     {
         $this->location_id = $location_id;
 
@@ -402,7 +410,8 @@ class User extends \Phalcon\Mvc\Model
      *
      * @return integer
      */
-    public function getVacancyCount()
+    public
+    function getVacancyCount()
     {
         return $this->vacancy_count;
     }
@@ -414,7 +423,8 @@ class User extends \Phalcon\Mvc\Model
      *
      * @return $this
      */
-    public function setVacancyCount($vacancy_count)
+    public
+    function setVacancyCount($vacancy_count)
     {
         $this->vacancy_count = $vacancy_count;
 
@@ -426,7 +436,8 @@ class User extends \Phalcon\Mvc\Model
      *
      * @return integer
      */
-    public function getEmailer()
+    public
+    function getEmailer()
     {
         return $this->emailer;
     }
@@ -438,7 +449,8 @@ class User extends \Phalcon\Mvc\Model
      *
      * @return $this
      */
-    public function setEmailer($emailer)
+    public
+    function setEmailer($emailer)
     {
         $this->emailer = $emailer;
 
@@ -450,7 +462,8 @@ class User extends \Phalcon\Mvc\Model
      *
      * @return string
      */
-    public function getIdStripe()
+    public
+    function getIdStripe()
     {
         return $this->id_stripe;
     }
@@ -462,7 +475,8 @@ class User extends \Phalcon\Mvc\Model
      *
      * @return $this
      */
-    public function setIdStripe($id_stripe)
+    public
+    function setIdStripe($id_stripe)
     {
         $this->id_stripe = $id_stripe;
 
@@ -474,7 +488,8 @@ class User extends \Phalcon\Mvc\Model
      *
      * @return integer
      */
-    public function getLocationDiameter()
+    public
+    function getLocationDiameter()
     {
         return $this->location_diameter;
     }
@@ -486,7 +501,8 @@ class User extends \Phalcon\Mvc\Model
      *
      * @return $this
      */
-    public function setLocationDiameter($location_diameter)
+    public
+    function setLocationDiameter($location_diameter)
     {
         $this->location_diameter = $location_diameter;
 
@@ -498,7 +514,8 @@ class User extends \Phalcon\Mvc\Model
      *
      * @return string
      */
-    public function getSignupDate()
+    public
+    function getSignupDate()
     {
         return $this->signup_date;
     }
@@ -510,24 +527,28 @@ class User extends \Phalcon\Mvc\Model
      *
      * @return $this
      */
-    public function setSignupDate($signup_date)
+    public
+    function setSignupDate($signup_date)
     {
         $this->signup_date = $signup_date;
 
         return $this;
     }
 
-    public function getLoginDate()
+    public
+    function getLoginDate()
     {
         return $this->login_date;
     }
 
-    public function setLoginDate($logindate)
+    public
+    function setLoginDate($logindate)
     {
         $this->login_date = $logindate;
     }
 
-    public function validation()
+    public
+    function validation()
     {
 
 
@@ -586,23 +607,36 @@ class User extends \Phalcon\Mvc\Model
 
     }
 
-    public function beforeSave()
+
+    public
+    function grantAccess($password, \Phalcon\Security $security, Phalcon\Session\Adapter\Files $session)
     {
-        $this->password = $this->hashPassword($this->password);
+        var_dump($security->checkHash($password, $this->getPassword()));
+
+        if ($security->checkHash($password, $this->getPassword()) == true) {
+
+            $session->set("user-id", $this->getId());
+            $session->set("user-type", $this->getUserType());
+
+            return true;
+
+        }
+        return false;
+
     }
 
-    private function hashPassword($password)
+
+
+    public function isAuthentic($password)
     {
-        $security = new \Phalcon\Security();
-        return $security->hash($password);
+       $security = new \Phalcon\Security();
+        $hash = $this->getPassword();
+
+        return $security->checkHash($password,$hash);
     }
 
-    public function login()
-    {
-
-    }
-
-    public function initialize()
+    public
+    function initialize()
     {
         $this->hasOne("location_id", "Location", "id");
         $this->hasMany("id", "Specification", "user_id");
