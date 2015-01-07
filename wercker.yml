@@ -4,6 +4,6 @@ build:
     -  script:
         name: install phalcon php
         code: |-
-          sudo apt-add-repository ppa:phalcon/stable
-          sudo apt-get update
+          sudo apt-add-repository ppa:phalcon/ -y
+          sudo apt-get update -y
           sudo apt-get install -y php5-phalcon
