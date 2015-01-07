@@ -18,9 +18,9 @@ build:
           name: install mysql & import settings
           code: |-
             export DEBIAN_FRONTEND=noninteractive
-            sudo apt-get -q -y install mysql-server
+            apt-get -q -y install mysql-server
             sudo cp /etc/mysql/my.cnf /etc/mysql/my.bkup.cnf
             sudo sed -i 's/bind-address/bind-address = 0.0.0.0#/' /etc/mysql/my.cnf
             mysql -u root -Bse "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '' WITH GRANT OPTION;"
             sudo service mysql restart
-            sudo mysql --user=root --execute="source /vagrant/database.sql";
+            sudo mysql --user=root --execute="source /vagrant/database.sql"
