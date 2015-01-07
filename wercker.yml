@@ -4,6 +4,12 @@ build:
     -  script:
         name: install phalcon php
         code: |-
-          sudo apt-add-repository ppa:phalcon/ -y
+          sudo apt-add-repository ppa:phalcon/stable -y
           sudo apt-get update -y
           sudo apt-get install -y php5-phalcon
+    -  script:
+         name: install php-unit
+         code: |-
+           sudo wget https://phar.phpunit.de/phpunit.phar
+           sudo chmod +x phpunit.phar
+           sudo mv phpunit.phar /usr/local/bin/phpunit
