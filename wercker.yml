@@ -1,1 +1,8 @@
 box: duythien/phalcon@1.2.6
+build:
+  steps:
+    -  script: install phalcon PHP
+        code: |-
+          sudo apt-add-repository ppa:phalcon/stable
+          sudo apt-get update
+          sudo apt-get install -y php5-phalcon
