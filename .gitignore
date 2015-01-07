@@ -15,3 +15,6 @@ public/files/
 app/cache
 
 .idea/
+
+/vendor
+composer.lock

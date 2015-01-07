@@ -1,4 +1,5 @@
 <?php
+namespace Models;
 
 class Bundle extends \Phalcon\Mvc\Model
 {

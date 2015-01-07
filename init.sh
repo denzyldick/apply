@@ -60,12 +60,13 @@ sudo mysql --user=root --execute="source /vagrant/database.sql";
 #
 # Composer for PHP
 #
-sudo curl -sS https://getcomposer.org/installer | php
-sudo mv composer.pha#sudo -i cat 'xdebug.remote_enable = on' >>  /etc/php5/mods-available/xdebug.ini
+curl -sS https://getcomposer.org/installer | php
+mv composer.phar /usr/local/bin/composer
+#sudo -i cat 'xdebug.remote_enable = on' >>  /etc/php5/mods-available/xdebug.ini
 #sudo -i cat 'xdebug.remote_connect_back = on' >> /etc/php5/mods-available/xdebug.ini
 #sudo -i cat 'xdebug.idekey = "vagrant"' >> /etc/php5/mods-available/xdebug.ini
 #
-r /usr/local/bin/composer
+
 
 #
 # Apache VHost
@@ -106,13 +107,18 @@ sudo sed -i 's/display_errors = Off/display_errors = On/' /etc/php5/apache2/php.
 # Append session save location to /tmp to prevent errors in an odd situation..
 sudo sed -i '/\[Session\]/a session.save_path = "/tmp"' /etc/php5/apache2/php.ini
 
-
+#
+#PHPUnit
+#
+wget https://phar.phpunit.de/phpunit.phar
+chmod +x phpunit.phar
+sudo mv phpunit.phar /usr/local/bin/phpunit
 #
 # Install PhalconPHP DevTools
 #
 cd ~
 echo '{"require": {"phalcon/devtools": "dev-master"}}' > composer.json
-composer install
+php composer.phar install
 rm composer.json
 
 sudo mkdir /opt/phalcon-tools

@@ -12,4 +12,10 @@ $loader->registerDirs(
         $config->application->pluginsDir,
         $config->application->libraryDir
     )
-)->register();
+);
+
+$loader->registerNamespaces(array(
+    'Phalcon' => '/path/to/incubator/Library/Phalcon/'
+));
+
+$loader->register();

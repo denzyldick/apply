@@ -6,8 +6,9 @@ use Phalcon\Mvc\User\Plugin;
 
 class StripePayment extends Plugin
 {
-traits
-{
+    public function get()
+    {
+        return true;
 
 }
 

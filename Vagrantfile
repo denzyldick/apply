@@ -16,7 +16,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Forward to Port
   # --------------------
-  config.vm.network :forwarded_port, guest: 80, host: 8080
+  config.vm.network :forwarded_port, guest: 80, host: 8080,auto_correct: true
+
 
   # Optional (Remove if desired)
   config.vm.provider :virtualbox do |v|
@@ -32,6 +33,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Provisioning Script
   # --------------------
   config.vm.provision "shell", path: "init.sh"
+  config.vm.provision "shell", inline: "cd /vagrant && composer install"
 
   # Synced Folder
   # --------------------
