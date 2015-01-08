@@ -32,8 +32,10 @@ class PercentCalculator extends Plugin
     {
         if ($this->vacancy == null) {
             throw new Exception('$vacancy is not an instance of Vacancy');
+            return null;
         } else if ($this->user == null) {
             throw new Exception('$user is not an instance of User');
+            return null;
         } else {
             return $this->calculate($this->vacancy, $this->user);
 
