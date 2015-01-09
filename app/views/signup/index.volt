@@ -30,7 +30,7 @@
                                     <input type="radio" name="type"
                                            value='employer'>{{ lang._("searching_for_employees")|upper }}
                                 </label>
-                                <label class="btn btn-sm btn-primary active">
+                                <label class="btn btn-sm btn-primary    ">
                                     <input type="radio" name="type" checked
                                            value="employee">{{ lang._("searching_for_jobs")|upper }}
                                 </label>
