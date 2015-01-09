@@ -119,5 +119,15 @@ $messages = array(
     "where_is_the_vacancy_located"=>"Where is this vacancy located ?",
     "skills_you_are_looking_for"=>"Which skills are you looking for?",
     "what_type_of_function_are_you_looking_for"=>"What type of function are you looking for?",
-    "add_skills"=>"add skills"
+    "add_skills"=>"add skills",
+    "company_name_is_missing"=>"Please enter your company name",
+    "company_description_is_missing"=>"Please enter a company description",
+    "please_enter_your_company_information"=>"Please enter your company information",
+    "company_url_is_not_valid"=>"Please enter a valid url",
+    "company_has_been_successfully_saved"=>"Company has been successfully saved",
+    "company_location_is_missing"=>"Please enter your company location",
+    "company_logo_is_missing"=>"Please upload your company logo",
+    "company_has_been_successfully_saved"=>"Company has been successfully saved",
+    "change_your_password"=>"Here you can change your password",
+    "enter_your_new_password"=>"Enter a new password"
 );
