@@ -11,8 +11,9 @@ label {
 #notification-dropdown {
     width: auto;
 }
-.popover-content{
-    color:#636565;
+
+.popover-content {
+    color: #636565;
 }
 
 .copright {
@@ -46,7 +47,7 @@ label {
     top: 10%;
     min-width: 200px;
     max-width: 300px;
-    margin:0px auto;
+    margin: 0px auto;
     /* left: 50%; */
     /* margin-left: auto; */
     /*position: absolute;*/
@@ -80,12 +81,15 @@ footer {
 
     position: relative;
     bottom: 0px;
-}.dropdown-menu{
-    color:#fff;
- }
- .navbar{
-     color:#fff;
- }
+}
+
+.dropdown-menu {
+    color: #fff;
+}
+
+.navbar {
+    color: #fff;
+}
 
 /* end CSS */
 .slider {
@@ -462,6 +466,16 @@ body {
 .label-info.label-arrow:before {
     border-right-color: #5bc0de;
 }
-.bootstrap-tagsinput{
-    width:100%;
+
+.bootstrap-tagsinput {
+    width: 100%;
+}
+
+label {
+
+    color: #000;
+
+}
+.btn-primary.active{
+    background-color:#ff0000;
 }
