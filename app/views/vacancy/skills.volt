@@ -25,5 +25,5 @@ border-bottom: 1px solid #D8D7D6;">
 {% endfor %}
 <p>&nbsp;</p>
 
-{{ submit_button('save',"class":"btn btn-sm btn-primary ripple-on") }}
+{{ submit_button('save',"class":"btn btn-sm btn-primary") }}
 </form>
