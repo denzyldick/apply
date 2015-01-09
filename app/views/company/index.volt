@@ -1,4 +1,3 @@
-
 <fieldset>
     <legend>{{ lang._('what_is_your_company_information') }}</legend>
 
@@ -6,13 +5,14 @@
     {{ form("action":"company/save","method":"post","enctype":"multipart/form-data") }}
     <div class='row'>
 
-        <div class='col-md-3' style="background-image:url('/files/{{ company_foto }}');height: 150px;
-                background-repeat: no-repeat;
-                background-size: 150px 150px;
-                background-position: 50px;">
 
-x
-            <input accept="image/*" type="file" name="foto" id="company_photo_upload">
+        <div id="company-logo-drop-zone" class='col-md-3 glyphicon glyphicon-picture'
+             style="background-image:url('/files/{{ company_foto }}');height: 150px;
+                     background-repeat: no-repeat;
+                     background-size: 150px 150px;
+                     background-position: 50px;
+                     font-size:200px;
+                     cursor:pointer">
 
         </div>
 
@@ -20,10 +20,10 @@ x
 
 
             <label>{{ lang._('what_is_your_company_name') }}</label>
-            {{ text_field("name","class":"form-control","value":name)}}
+            {{ text_field("name","class":"form-control","value":name) }}
             <label>{{ lang._('what_is_your_company_description') }}</label>
             {{ text_area("description","class":"form-control textarea","value":description) }}
-            <div class="col-md-4">  <label for="">{{ lang._('website') }}</label>
+            <div class="col-md-4"><label for="">{{ lang._('website') }}</label>
                 {{ text_field('website','class':'form-control','value':website) }}
             </div>
             <div class="col-md-4">
@@ -61,3 +61,14 @@ x
 
         </form>
 </fieldset>
+
+<script>
+    $(document).ready(function () {
+        $("#company-logo-drop-zone").dropzone({
+            /* options */
+            clickable: true,
+            url: "/file/post"
+        });
+    });
+
+</script>
