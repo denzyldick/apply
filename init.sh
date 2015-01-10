@@ -134,15 +134,5 @@ sudo a2dissite 000-default
 sudo service apache2 reload
 sudo service apache2 restart
 sudo service mongodb restart
-
-echo -e "----------------------------------------"
-echo -e "To create a Phalcon Project:\n"
-echo -e "----------------------------------------"
-echo -e "$ cd /vagrant/www"
-echo -e "$ phalcon project projectname\n"
-echo -e
-echo -e "Then follow the README.md to copy/paste the VirtualHost!\n"
-
-echo -e "----------------------------------------"
-echo -e "Default Site: 192.168.56.101 "
-echo -e "----------------------------------------"
+echo -e "------------------DONE-----------------------";
+echo -e "brought you by:Denzyl Dick<denzyl@live.nl>";
