@@ -1,7 +1,7 @@
 <?php
 
 //app/messages/nl.php
-$messages = array(
+return $messages = array(
 
     "overview" => "Overzicht",
     "company" => "Bedrijf",

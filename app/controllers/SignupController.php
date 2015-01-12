@@ -52,17 +52,10 @@ class SignupController extends ControllerBase
             $location->save();
             $user->setLocationId($location->getId());
 
-            if (is_null($user->validation())|| $user->validation() ){
+            if (is_null($user->validation()) || $user->validation()) {
 
                 $user->save();
 
-                if ($user->getUsertype() === "employer") {
-
-                    $company = new Company();
-                    $company->setUserId($user->getId());
-                    $company->save();
-
-                }
 
                 //   $this->sendRegistrationMail($user);
                 $this->flash->success($this->lang->_("your_account_has_been_created"));

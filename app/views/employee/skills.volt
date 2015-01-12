@@ -1,4 +1,4 @@
-<h3>{{ lang._("how_many_years_of_experience_do_you_have") }}</h3>
+<h5 class="page-lead">{{ lang._("how_many_years_of_experience_do_you_have") }}</h5>
 {{ form('employee/done', 'method': 'post') }}
 
 

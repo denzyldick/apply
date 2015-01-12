@@ -1,7 +1,7 @@
 <?php
 
 //app/messages/en.php
-$messages = array(
+return $messages = array(
 
     "overview" => "Overview",
     "company" => "Company",
@@ -27,7 +27,7 @@ $messages = array(
     "description" => "description",
     "wrong_credentials" => "Wrong password or email",
     "user_already_exsists" => 'Your email is already in our database',
-    "what_is_your_company_information" => 'Please enter your company information',
+    "what_is_your_company_information" => 'company information',
     'what_is_your_company_name' => 'Name of your company',
     'what_is_your_company_description' => 'What does your company do',
     "what_is_your_company_location" => 'Where is your company located',
@@ -104,7 +104,7 @@ $messages = array(
     'no_notifications' => 'No notifications',
     'account_information' => 'account information',
     'my_vacancies' => 'My vacancies',
-    'new_nudge' => ' %s is interested in your vacancy ',
+    'new_nudge' => 'A company is looking for %s .',
     'interested_in_you' => '%s is interested in you skills',
     'individuals_matching_your_vacancies' => 'Individuals matching your vacancies',
     'individuals_matching_this_vacancy' => 'Individuals matching this vacancy',
@@ -129,5 +129,19 @@ $messages = array(
     "company_logo_is_missing"=>"Please upload your company logo",
     "company_has_been_successfully_saved"=>"Company has been successfully saved",
     "change_your_password"=>"Here you can change your password",
-    "enter_your_new_password"=>"Enter a new password"
+    "enter_your_new_password" => "Enter a new password",
+    "buy_more_vacancies" => "Need more vacancies",
+    "buy_more_vacancies_description" => "After spending all your vacancies you need to buy more to keep finding those perfect employees.",
+    "change_your_account_information" => "You can change your desired information",
+    "you_need_to_buy_more_too_look_for_other" => "Too add more vacancies you need to buy more",
+    "im_looking_for_a_environment" => "I'm looking for a %s work environment",
+    "the_user_will_be_notified" => "The user will be notified",
+    "your_account_has_been_created" => "Your account has been created",
+    "your_suggestion_will_be_displayed_here" => "your suggestions will be displayed here",
+    "add_a_vacancy_if_description" => "Start finding your new employees",
+    "add_your_information" => "fill everything about your company",
+    "which_type_of_culture_are_you_looking_for" => "which type culture",
+    "what_you_skills_you_should_have" => "you should have these skills",
+    "skills_are_based_on_years" => "years of experience",
+    "are_you_interested" => "new opportunity"
 );

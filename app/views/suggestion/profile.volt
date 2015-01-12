@@ -4,9 +4,9 @@
     <div class='col-md-3'>
         <img src="/img/default-user-icon-profile.png" class="img img-thumbnail" style="width:100%;height:174px;"/>
     </div>
-    <div class='col-md-3'>
-        <h5>My preferred workenviroment</h5>
-        <small>{{ user.getWorkEnviromentType() }}</small>
+    <div class='col-md-6'>
+        <h4>{{ lang._("im_looking_for_a_environment") | format(user.getWorkEnviromentType() | lower) }}</h4>
+
     </div>
     {% if suggestion.getEmployerAccepted() == 'yes' and suggestion.getEmployeeAccepted() == 'yes' %}
 
@@ -40,7 +40,7 @@
 
 
             <a href="/suggestion/accept/{{ suggestion.getId() }}" class="btn btn-small btn-primary disabled"><span
-                        class="glyphicon glyphicon-ok"></span> {{ this.lang._("pending") }}</a>&nbsp;<a
+                        class="glyphicon glyphicon-time"></span> {{ this.lang._("pending") }}</a>&nbsp;<a
                 href="/suggestion/remove/{{ user.getId() }}" class="btn btn-small btn-danger"><span
                     class="glyphicon glyphicon-remove"></span> {{ this.lang._("decline") }}</a>
 

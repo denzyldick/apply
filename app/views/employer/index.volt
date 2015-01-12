@@ -1,7 +1,7 @@
-<h4 class="page-header">
+<h5 class="page-header">
     {{ amount_text|upper }}
     <p class="lead">{{ lang._('you_can_now_connect') }}</p>
-</h4>
+</h5>
 
 <div class="row placeholders">
     {% for suggestion in suggestions %}
@@ -11,7 +11,7 @@
                 <span class="percent-indicator">{{ suggestion.getPercent() }}%</span>
 
 
-            </a> <h4>{{ suggestion.vacancy.getFunction() }}</h4>
+            </a> <h5>{{ suggestion.vacancy.getFunction()|upper }}</h5>
 
             <br/>{% if suggestion.getEmployerAccepted() == 'yes' and suggestion.getEmployeeAccepted() == 'yes' %}
             <a href='' class='btn btn-small btn-primary'>Contact me</a>

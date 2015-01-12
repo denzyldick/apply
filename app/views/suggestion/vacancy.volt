@@ -1,35 +1,30 @@
 {% set company = suggestion.vacancy.user.company %}
 {% set vacancy = suggestion.vacancy %}
-
+<div id="maps" class="col-md-11" style='height:200px;position:absolute;top:0px;'></div>
 <div class="row">
 
-    <div class="col-md-3"><img src="/files/{{ company.getLogo() }}" style="width: 256px;
-height: 203px;" class="img-thumbnail"/><br/>
-        <a href="{{ company.getWebsite() }}" class="text-info">{{ lang._("visit_site") }}</a></div>
-    <div class="col-md-6 text-uppercase" style="overflow-y: scroll;height:200px;">
-        <h1 class=" page-header">{{ company.getName()|e }}&nbsp;
-            <small>{{ vacancy.getFunction() }}</small>
-        </h1>
-        <small>{{ company.getDescription() }}</small>
-    </div>
+    <div class="col-md-3"><img src="/files/{{ company.getLogo() }}" style="width: 150px;
+height: 150px;" class="img-thumbnail"/></div>
 </div>
 
 <div class="row">
     <div class="col-md-3">
         {% if suggestion.getEmployerAccepted() == 'yes' and suggestion.getEmployeeAccepted() == 'yes' %}
             <a href="/contact/{{ suggestion.getId() }}" class="btn btn-small btn-primary"><span
-                        class="glyphicon glyphicon-email"></span> {{ this.lang._("contact") }}</a
+                        class="glyphicon glyphicon-email"></span> {{ this.lang._("contact") }}</a>
         {% endif %}
         {% if suggestion.getEmployerAccepted() == 'no'and suggestion.getEmployeeAccepted() == 'yes' %}
-            <a href="/suggestion/accept/{{ suggestion.getId() }}" class="btn btn-small btn-primary"><span
-                        class="glyphicon glyphicon-ok"></span> {{ this.lang._("accept") }}</a>&nbsp;<a
-                href="/suggestion/remove/" class="btn btn-small btn-default"><span
-                    class="glyphicon glyphicon-remove"></span> {{ this.lang._("decline") }}</a>
-        {% else %}
             <a href="/suggestion/accept/{{ suggestion.getId() }}" class="btn btn-small btn-primary disabled"><span
                         class="glyphicon glyphicon-time "></span> {{ this.lang._("pending") }}</a>&nbsp;<a
                 href="/suggestion/remove" class="btn btn-small btn-default"><span
                     class="glyphicon glyphicon-remove"></span> {{ this.lang._("decline") }}</a>
+        {% endif %}
+        {% if suggestion.getEmployerAccepted() == 'no' and suggestion.getEmployeeAccepted()== 'no' %}
+            <a href="/suggestion/accept/{{ suggestion.getId() }}" class="btn btn-small btn-primary"><span
+                        class="glyphicon glyphicon-ok"></span> {{ this.lang._("accept") }}</a>&nbsp;<a
+                href="/suggestion/remove/" class="btn btn-small btn-default"><span
+                    class="glyphicon glyphicon-remove"></span> {{ this.lang._("decline") }}</a>
+
         {% endif %}
 
     </div>
@@ -37,15 +32,22 @@ height: 203px;" class="img-thumbnail"/><br/>
 
 </div>
 <div class="row">
-    <div class="col-md-5"><h4>{{ lang._("years_of_expertise") }}</h4>
-        <canvas id="chart" height="300" width="500"></canvas>
-    </div>
-    <div class="col-md-1"></div>
-    <div class="col-md-5">
-        <h4>{{ lang._("we_are_located_somewhere_in_this_area") }}</h4>
 
-        <div id="maps" style='width:100%;height:300px;'></div>
+    <div class="col-md-5">
+
+        <h5 class=" page-header">{{ company.getName()|e }}&nbsp;
+            <p class="lead">is looking for a  {{ vacancy.getFunction() }}</p>
+        </h5>
+        <small>{{ company.getDescription() }}</small>
+
     </div>
+    <div class="col-md-5">
+        <h5 class="page-header">{{ lang._("what_you_skills_you_should_have") |upper }}
+            <p class="lead">{{ lang._("skills_are_based_on_years") |upper }}</p>
+        </h5>
+        <canvas id="chart" height="300" width="400"></canvas>
+    </div>
+
 </div>
 
 {% set specifications = vacancy.getSpecification() %}

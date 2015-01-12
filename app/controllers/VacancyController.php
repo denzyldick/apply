@@ -19,9 +19,9 @@ class VacancyController extends ControllerBase
 
     public function newAction()
     {
-        if (!$this->companyHasBeenFilled()) {
-            $this->dispatcher->forward(array("controller" => "vacancy", "action" => "index"));
-        }
+//        if (!$this->companyHasBeenFilled()) {
+//            $this->dispatcher->forward(array("controller" => "vacancy", "action" => "index"));
+//        }
     }
 
     public function saveAction()

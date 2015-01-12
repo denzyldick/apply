@@ -27,7 +27,7 @@
  *
  * @var string
  */
-define('PTOOLS_IP', '192.168.');
+define('PTOOLS_IP', '10.0.2');
 
 // ---------------------------- DO NOT EDIT BELOW ------------------------------
 

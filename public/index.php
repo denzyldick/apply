@@ -5,6 +5,10 @@ error_reporting(E_ERROR);
 $debug = new \Phalcon\Debug();
 $debug->listen();
 /**
+ * Include composer
+ */
+include(__DIR__ . '/../vendor/autoload.php');
+/**
  * Read the configuration
  */
 $config = include __DIR__ . "/../app/config/config.php";

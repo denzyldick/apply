@@ -111,31 +111,33 @@ class SuggestionController extends ControllerBase
 
     public function acceptAction($match)
     {
-        $this->view->disable();
-
         $match = Matches::findFirst($match);
         $vacancy_owner = $match->Vacancy->User->getId();
+
         $notification = new Notification();
-        $notification->setReceiver($vacancy_owner);
         $notification->setViewed('no');
         $notification->setDate($this->date);
-        $notification->setSender($this->user->getId());
-        $notification->setMatches($match);
-
-
         if ($this->user->getUserType() == 'employer') {
-
             $notification->setMessageKey('new_nudge');
-
             $match->setEmployerAccepted('yes');
-
+            $notification->setReceiver($match->getUserId());
+            $notification->setSender($this->user->getId());
         } else if ($this->user->getUserType() == 'employee') {
-
             $match->setEmployeeAccepted('yes');
             $notification->setMessageKey('interested_in_you');
+            $notification->setSender($this->user->getId());
+            $notification->setReceiver($vacancy_owner);
         }
         $match->save();
+        $notification->setMatches($match->getId());
         $notification->save();
-        var_dump($notification);
+        $this->flash->success($this->lang->_("the_user_will_be_notified"));
+        $this->dispatcher->forward(
+            array(
+                "action" => "profile",
+                "params" => array($match->getUserId(), $match->getId()
+                )
+            )
+        );
     }
 }

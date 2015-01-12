@@ -11,9 +11,29 @@ class NotificationController extends ControllerBase
 
     public function indexAction()
     {
+        if ($this->request->isAjax()) {
+            $notifications = Notification::find(array("receiver ={$this->user->getId()}"));
+            $nfs = array();
+            foreach ($notifications as $notification) {
 
-        $notifications = Notification::find(array("receiver ={$this->user->getId()}"));
-        echo $notifications;
+                array_push($nfs,
+                    array(
+                        "message_key" => sprintf($this->lang->_(
+                            $notification->getMessageKey()), (string)$notification->Matches->Vacancy->getFunction()
+
+                        ),
+                        'notification_title' => strtoupper($this->lang->_("are_you_interested"))
+                    )
+                );
+            }
+
+            $this->response->setContent(json_encode($nfs));
+            $this->response->setStatusCode(200, "found");
+            $this->response->setContentType("application/json");
+            $this->response->send();
+
+        }
+
     }
 
     public function seenAction()

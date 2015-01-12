@@ -1,4 +1,6 @@
 {
-
-  "require": {"phalcon/incubator": "dev-master"}
+  "require": {
+    "phalcon/incubator": "dev-master",
+    "cboden/ratchet": "0.3.*"
+  }
 }

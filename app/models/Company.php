@@ -1,5 +1,10 @@
 <?php
 
+use Phalcon\Mvc\Model\Validator\PresenceOf;
+use Phalcon\Mvc\Model\Validator\Url;
+use Phalcon\Mvc\Model\Validator\Numericality;
+use Phalcon\Mvc\Model\Validator\Regex;
+
 class Company extends \Phalcon\Mvc\Model
 {
 
@@ -331,6 +336,59 @@ class Company extends \Phalcon\Mvc\Model
     {
         $this->hasOne("user_id", "User", "id");
         $this->hasOne("location_id", "Location", "id");
+    }
+
+    public function validation()
+    {
+        $this->validate(new PresenceOf(
+            array(
+                'field' => 'name',
+                'message' => 'company_name_is_missing'
+            )
+        ));
+        $this->validate(new PresenceOf(
+            array(
+                'field' => 'description',
+                'message' => 'company_description_is_missing'
+            )
+        ));
+        $this->validate(
+            new Url(
+                array(
+                    'field' => 'website',
+                    'message' => 'company_url_is_not_valid'
+                )
+            )
+
+        );
+        $this->validate(
+            new PresenceOf(
+                array(
+                    "field" => "location",
+                    "message" => "company_location_is_missing"
+                )
+            )
+        );
+//        $this->validate(
+//                new PresenceOf(
+//                    array(
+//                        "field"=>"logo",
+//                        "message"=>"company_logo_is_missing"
+//                    )
+//                )
+//        );
+        $this->validate(
+            new PresenceOf(
+                array(
+                    "field" => "work_enviroment_type",
+                    "message" => "company_culture_is_missing"
+                )
+            )
+        );
+        if ($this->validationHasFailed()) {
+            return false;
+        }
+        return true;
     }
 
 }

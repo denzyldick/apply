@@ -9,31 +9,45 @@ use Phalcon\Mvc\User\Plugin;
  */
 class Translation extends Plugin
 {
+    private $language;
+    private $messages;
+
+    /**
+     * Set the desired language
+     * @param $language
+     */
+    public function setLanguage($language)
+    {
+
+        if (file_exists("../app/messages/" . $language . ".php")) {
+            $this->messages = require "../app/messages/" . $language . ".php";
+        } else {
+            // fallback to some default
+            $this->messages = require "../app/messages/en-US.php";
+        }
+
+        $this->language = $language;
+    }
 
     public function __construct($di)
     {
         $this->di = $di;
-        $this->language = $this->request->getBestLanguage();
+        $this->setLanguage($this->request->getBestLanguage());
+
     }
 
     /**
-     *Get the translatio of the string.
+     *Get the translation of the string.
      * @return NativeArray
      * @param void
      */
     public function getText()
     {
 
-        if (file_exists("../app/messages/" . $this->language . ".php")) {
-            require "../app/messages/" . $this->language . ".php";
-        } else {
-            // fallback to some default
-            require "../app/messages/en-US.php";
-        }
 
         //Return a translation object
         return new \Phalcon\Translate\Adapter\NativeArray(array(
-            "content" => $messages
+            "content" => $this->messages
         ));
     }
 

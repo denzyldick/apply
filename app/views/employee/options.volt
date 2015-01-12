@@ -1,4 +1,4 @@
-<form action="/employee/options" method="post">
+<form action="/employee/options" method="post" class="well">
     <label>{{ lang._('which_skills_do_have') }}</label>
     {{ text_field("skills", "size" : 32,"class":"form-control","data-role":"tagsinput","placeholder":"Add skills","style":"width:100%",'value':skills) }}
 

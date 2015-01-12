@@ -22,7 +22,7 @@
 
 <body>
 
-<nav class="navbar navbar-custom navbar-fixed-top top-nav-collapse" role="navigation">
+<nav class="navbar navbar-fixed-top top-nav-collapse  navbar-inverse" role="navigation">
     <div class="container">
         <div class="navbar-header page-scroll">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">

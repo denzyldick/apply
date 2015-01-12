@@ -50,7 +50,6 @@ sudo apt-get install -y make curl htop git-core vim
 sudo cp /etc/mysql/my.cnf /etc/mysql/my.bkup.cnf
 # Note: Since the MySQL bind-address has a tab cahracter I comment out the end line
 sudo sed -i 's/bind-address/bind-address = 0.0.0.0#/' /etc/mysql/my.cnf
-
 #
 # Grant All Priveleges to ROOT for remote access
 #
@@ -118,7 +117,7 @@ sudo mv phpunit.phar /usr/local/bin/phpunit
 #
 cd ~
 echo '{"require": {"phalcon/devtools": "dev-master"}}' > composer.json
-php composer.phar install
+composer install
 rm composer.json
 
 sudo mkdir /opt/phalcon-tools

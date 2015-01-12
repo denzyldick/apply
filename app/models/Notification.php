@@ -37,23 +37,13 @@ class Notification extends \Phalcon\Mvc\Model
      *
      * @var integer
      */
-    protected $matches;
+    protected $sender;
 
     /**
      *
      * @var integer
      */
-    protected $sender;
-
-    /**
-     * Returns the value of field id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+    protected $matches;
 
     /**
      * Method to set the value of field id
@@ -66,16 +56,6 @@ class Notification extends \Phalcon\Mvc\Model
         $this->id = $id;
 
         return $this;
-    }
-
-    /**
-     * Returns the value of field message_key
-     *
-     * @return string
-     */
-    public function getMessageKey()
-    {
-        return $this->message_key;
     }
 
     /**
@@ -92,16 +72,6 @@ class Notification extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Returns the value of field date
-     *
-     * @return string
-     */
-    public function getDate()
-    {
-        return $this->date;
-    }
-
-    /**
      * Method to set the value of field date
      *
      * @param string $date
@@ -112,16 +82,6 @@ class Notification extends \Phalcon\Mvc\Model
         $this->date = $date;
 
         return $this;
-    }
-
-    /**
-     * Returns the value of field viewed
-     *
-     * @return string
-     */
-    public function getViewed()
-    {
-        return $this->viewed;
     }
 
     /**
@@ -138,16 +98,6 @@ class Notification extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Returns the value of field receiver
-     *
-     * @return integer
-     */
-    public function getReceiver()
-    {
-        return $this->receiver;
-    }
-
-    /**
      * Method to set the value of field receiver
      *
      * @param integer $receiver
@@ -158,16 +108,6 @@ class Notification extends \Phalcon\Mvc\Model
         $this->receiver = $receiver;
 
         return $this;
-    }
-
-    /**
-     * Returns the value of field sender
-     *
-     * @return integer
-     */
-    public function getSender()
-    {
-        return $this->sender;
     }
 
     /**
@@ -185,29 +125,106 @@ class Notification extends \Phalcon\Mvc\Model
 
     /**
      * Method to set the value of field matches
+     *
      * @param integer $matches
      * @return $this
      */
     public function setMatches($matches)
     {
         $this->matches = $matches;
+
         return $this;
     }
 
     /**
-     * Method to get the value of field matches
-     * @return $matches
+     * Returns the value of field id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Returns the value of field message_key
+     *
+     * @return string
+     */
+    public function getMessageKey()
+    {
+        return $this->message_key;
+    }
+
+    /**
+     * Returns the value of field date
+     *
+     * @return string
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Returns the value of field viewed
+     *
+     * @return string
+     */
+    public function getViewed()
+    {
+        return $this->viewed;
+    }
+
+    /**
+     * Returns the value of field receiver
+     *
+     * @return integer
+     */
+    public function getReceiver()
+    {
+        return $this->receiver;
+    }
+
+    /**
+     * Returns the value of field sender
+     *
+     * @return integer
+     */
+    public function getSender()
+    {
+        return $this->sender;
+    }
+
+    /**
+     * Returns the value of field matches
+     *
+     * @return integer
      */
     public function getMatches()
     {
         return $this->matches;
     }
+
+    /**
+     * Independent Column Mapping.
+     */
+    public function columnMap()
+    {
+        return array(
+            'id' => 'id', 
+            'message_key' => 'message_key', 
+            'date' => 'date', 
+            'viewed' => 'viewed', 
+            'receiver' => 'receiver', 
+            'sender' => 'sender', 
+            'matches' => 'matches'
+        );
+    }
+
     public function initialize()
     {
-        $this->belongsTo('receiver', 'user', 'id');
-        $this->hasOne('sender', 'user', 'id');
-        $this->hasOne("matches","Matches","id");
-
+        $this->hasOne('matches','Matches','id');
     }
 
 }

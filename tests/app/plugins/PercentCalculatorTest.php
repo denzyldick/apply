@@ -7,7 +7,6 @@ class PercentCalculatorTest extends UnitTestCase
     {
         $this->setUp(\Phalcon\DI\FactoryDefault::getDefault());
     }
-
     /**
      * @expectedException Exception
      */
@@ -17,7 +16,6 @@ class PercentCalculatorTest extends UnitTestCase
         $result = $percentCalculator->getPercent();
         $this->assertEquals(null, $result);
     }
-
     /**
      * @expectedException Exception
      */

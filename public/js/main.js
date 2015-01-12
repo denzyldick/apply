@@ -171,8 +171,65 @@ $(document).ready(function () {
 
 
 $(document).ready(function () {
+    $('#ui_effect_in').val('puff');
+    $('#ui_easing_in').val('easeOutBack');
+    $('#ui_effect_out').val('same');
+    $('#ui_easing_out').val('easeInBack');
+    $('#ui_speed').val('1000');
+    $('#ui_button').click();
 
     $(".bootstrap-tagsinput").addClass("material-input");
-    //$('#description').wysihtml5();
-    //bootstro.start($(".bootstro-first"));
+    $.get("/notification", function (response) {
+        console.log(response);
+        jQuery.each(response, function () {
+
+            new PNotify({
+                title: this.notification_title,
+                text: this.message_key,
+                icon: false,
+                type: 'success',
+                styling: 'bootstrap3',
+                hide: false,
+                confirm: {
+                    confirm: true,
+                    buttons: [{
+                        text: 'view',
+                        addClass: 'btn btn-sm btn-primary',
+                        icon: "glyphicon glyphicon-ok",
+                        click: function (notice) {
+                            notice.update({
+                                title: 'They will be notified',
+                                text: 'You can now contact them.',
+                                icon: false,
+                                type: 'success',
+                                hide: false,
+                                styling: 'bootstrap3',
+                                confirm: {
+                                    confirm: false
+                                },
+                                buttons: {
+                                    closer: true,
+                                    sticker: true
+                                }
+                            });
+                        }
+                    }, {
+                        text: 'decline',
+                        addClass: 'btn btn-sm btn-warning',
+                        icon: 'glyphicon glyphicon-ok'
+
+                    }]
+                },
+                buttons: {
+                    closer: false,
+                    sticker: false
+                },
+                history: {
+                    history: false
+                }
+            });
+        });
+    });
+
 });
+

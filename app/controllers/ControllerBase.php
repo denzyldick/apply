@@ -36,16 +36,16 @@ class ControllerBase extends \Phalcon\Mvc\Controller
     {
         $this->assets
             ->addCss("bootstrap/css/bootstrap.min.css")
+            //->addCss("http://bootswatch.com/darkly/bootstrap.min.css")
             ->addCss("css/bootstrap-tagsinput.css")
             ->addCss("font-awesome/css/font-awesome.min.css")
             ->addCss("http://fonts.googleapis.com/css?family=Roboto")
             ->addCss("css/socialicious.css")
             ->addCss("bootstrap/fonts/font-awesome.min.css")
             ->addCss("slider/css/slider.css")
-            //    ->addCSs("material/css/material.min.css")
             ->addCss("material/css/ripples.min.css")
-            //     ->addCss("material/css/material-wfont.min.css")
-
+            ->addCss("pnotify/css/pnotify.custom.min.css")
+            //  ->addCss("material/css/material.css")
             ->addCss("css/style.css");
 
 
@@ -54,39 +54,31 @@ class ControllerBase extends \Phalcon\Mvc\Controller
             ->addJs('js/jquery/jquery.min.js')
             ->addJs('https://maps.googleapis.com/maps/api/js?key=AIzaSyAwk6wzMEnz2z58YepPrxwwcCf_tOd20lg', false, false)
             ->addJs('js/Chart.js')
+            ->addJs("dropzone/dropzone.js")
+            ->addJs("pnotify/js/pnotify.custom.min.js")
             ->addJs('js/main.js');
-
 
         $this->assets
             ->collection('jsFooter')
             ->addJs("material/js/material.min.js")
+
             ->addJs("material/js/ripples.min.js")
             ->addJs('bootstrap/js/bootstrap.min.js')
             ->addJs('js/jquery-gmaps-latlon-picker.js')
             ->addJs('js/bootstrap-tagsinput.min.js')
             ->addJs('slider/js/bootstrap-slider.js')
-            ->addJs("http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js", false, false)
-            ->addJs('js/main.js');
-
+            ->addJs("http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js", false, false);// ->addJs('js/main.js');
     }
 
     protected function companyHasBeenFilled()
     {
-        if ($this->session->get("user-type") === "employer" && $this->dispatcher->getControllerName()
-            != 'company'
+        $company = Company::findFirstByUserId($this->session->get('user-id'));
+        if ($this->session->get("user-type") === "employer" && count($company) == 0
         ) {
-            $company = Company::findFirstByUserId($this->session->get('user-id'));
-
-            if ($company->getName() === null) {
-
-                $this->flash->notice("Please enter all your company information &nbsp;&nbsp;<a href=/company class='btn btn-small btn-primary'> click here</a>");
-
-                return false;
-            }
-
-
-            return true;
+            $this->dispatcher->forward(array("controller" => "company"));
         }
+
+        //$this->flash->notice($this->lang->_("please_enter_your_company_information") . "&nbsp;&nbsp;<a href=/company class='btn btn-small btn-primary'>" . $this->lang->_("click_here") . "</a>");
     }
 
     protected function skillsHasBeenFilled()
@@ -95,8 +87,10 @@ class ControllerBase extends \Phalcon\Mvc\Controller
 
         if (count(Specification::find(array("user_id =" . $this->session->get("user-id")))) < 1 && $this->dispatcher->getControllerName() !== 'employee' && $this->dispatcher->getActionName() !== 'options' && $this->session->get("user-type") == "employee") {
 
-            //  $this->flash->notice($this->lang->_("add_skills") . "&nbsp;&nbsp;<a href=/employee/options class='btn btn-small btn-primary'>{$this->lang->_('click_here')}</a>");
+            $this->flash->notice($this->lang->_("add_skills") . "&nbsp;&nbsp;<a href=/employee/options class='btn btn-small btn-primary'>{$this->lang->_('click_here')}</a>");
+            return false;
         }
+        return false;
 
 
     }
@@ -117,8 +111,6 @@ class ControllerBase extends \Phalcon\Mvc\Controller
     }
 
 
-
-
     protected function isFirstTime(User $user)
     {
         if (is_null($user->getLoginDate())) {
@@ -126,7 +118,6 @@ class ControllerBase extends \Phalcon\Mvc\Controller
         }
         return false;
     }
-
 
 
     protected function remember($email, $password)

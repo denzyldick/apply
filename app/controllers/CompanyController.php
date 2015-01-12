@@ -18,53 +18,71 @@ class CompanyController extends ControllerBase
     public function initialize()
     {
         parent::initialize();
-        $this->company = Company::findFirst(array("user_id = {$this->session->get('user-id')}"));
+        $this->company = Company::findFirst($this->user);
+        if ($this->company == false) {
+            $this->company = new Company();
+
+        }
+
+
     }
 
     public function indexAction()
     {
-        $this->view->name = $this->company->getName();
-        $this->view->description = $this->company->getDescription();
-        $this->view->longitude = $this->company->getLongitude();
-        $this->view->latitude = $this->company->getLatitude();
-        $this->view->location = $this->company->getLocation();
-        $this->view->zoom = $this->company->getZoom();
-        $this->view->company_foto = $this->company->getLogo();
-        $this->view->website = $this->company->getWebsite();
-        $this->view->work_enviroment = $this->company->getWorkEnviromentType();
-
+        if ($this->company != false) {
+            $this->view->name = $this->company->getName();
+            $this->view->description = $this->company->getDescription();
+            $this->view->longitude = $this->company->getLongitude();
+            $this->view->latitude = $this->company->getLatitude();
+            $this->view->location = $this->company->getLocation();
+            $this->view->zoom = $this->company->getZoom();
+            $this->view->company_foto = $this->company->getLogo();
+            $this->view->website = $this->company->getWebsite();
+            $this->view->work_enviroment = $this->company->getWorkEnviromentType();
+        }
     }
 
     public function saveAction()
     {
-        if ($this->request->isPost()) {
-            $this->company->name = $this->request->getPost("name", "string");
-            $this->company->description = $this->request->getPost("description", "string");
-            $this->company->latitude = $this->request->getPost("latitude", "int");
-            $this->company->longitude = $this->request->getPost("longitude", "int");
-            $this->company->location = $this->request->getPost("location", "string");
-            $this->company->zoom = $this->request->getPost("zoom", "int");
-            $this->company->website = $this->request->getPost('website', 'string');
-            $this->company->setWorkEnviromentType($this->request->getPost("work_enviroment","string"));
 
-            if ($this->request->hasFiles()) {
-                $file = $this->request->getUploadedFiles();
-
-                $photo = $file[0];
-                $photo->name = md5($this->user->id . '' . $this->security->hash(rand()));
-                $this->company->logo = $photo->name;
-
-                $photo->moveTo('files/' . $photo->name);
-                $this->view->company_foto = $photo->name;
-            }
-            if ($this->company->save()) {
-                $this->flash->success("Saved succesfully");
-
-                return $this->dispatcher->forward(array("action" => "index"));
-            }
-        } else {
-            $this->dispatcher->forward(array('controller' => 'company', 'action' => 'index'));
+        $this->company->name = $this->request->getPost("name", "string");
+        $this->company->description = $this->request->getPost("description", "string");
+        $this->company->latitude = $this->request->getPost("latitude", "int");
+        $this->company->longitude = $this->request->getPost("longitude", "int");
+        $this->company->location = $this->request->getPost("location", "string");
+        $this->company->zoom = $this->request->getPost("zoom", "int");
+        $this->company->website = $this->request->getPost('website', 'string');
+        $this->company->setUserId($this->user->getId());
+        $this->company->setWorkEnviromentType($this->request->getPost("work_enviroment", "string"));
+        if ($this->request->hasFiles()) {
+            $this->company->setLogo($this->moveUploadedFile($this->request->getUploadedFiles()));
+            $this->view->disable();
         }
+        if (!$this->company->validation()) {
+            $this->flash->error($this->lang->_((string)$this->company->getMessages()[0]));
+        }
+        if ($this->company->save()) {
+            $this->flash->success($this->lang->_("company_has_been_successfully_saved"));
+        }
+
+//        $this->company->save();
+//        var_dump($this->company);
+        $this->dispatcher->forward(array("controller" => "company", "action" => "index"));
+
+    }
+
+    private function moveUploadedFile($file)
+    {
+        try {
+
+            $photo = $file[0];
+            $photo->name = md5($this->user->id . $this->security->hash(rand()));
+            $photo->moveTo('files/' . $photo->name);
+            return $photo->name;
+        } catch (\Exception $e) {
+            $this->di->logger->error("Can't upload company logo.");
+        }
+
     }
 
 }

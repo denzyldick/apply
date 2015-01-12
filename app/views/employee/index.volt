@@ -1,9 +1,9 @@
-<h4 class="page-header">
+<h5 class="page-header">
     {{ amount }}
     {% if matches | length > 0 %}
         <p class="lead">{{ lang._('you_can_now_connect') }}</p>
     {% endif %}
-</h4>
+</h5>
 
 <div class="row placeholders">
     {% for suggestion in matches %}

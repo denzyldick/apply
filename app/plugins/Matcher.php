@@ -8,7 +8,7 @@ use Phalcon\Mvc\User\Plugin;
  * Matching plugin
  * @author Denzyl<denzyl@live.nl>
  * @version 0.1
- * @todo add geolocation support and a more indept specification support
+ * @todo add geolocation support and a more in dept specification support
  */
 class Matcher extends Plugin
 {
@@ -138,7 +138,7 @@ class Matcher extends Plugin
     }
 
     /**
-     * Generate matches for the emloyees
+     * Generate matches for the employees
      * @param
      * @return void
      */
