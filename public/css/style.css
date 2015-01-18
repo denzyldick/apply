@@ -1,4 +1,7 @@
-
+@font-face {
+    font-family: brotherHood;
+    src: url('../brotherhood/Brotherhood_Script.ttf');
+}
 label {
     font-weight: lighter;
 

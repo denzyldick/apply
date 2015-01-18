@@ -1,7 +1,3 @@
-{% extends "templates/base.volt" %}
-{% block title %} {{ lang._("account_settings") }}{% endblock %}
-{% block content %}
-
     <h4 class="page-header">{{ lang._("account_information") | upper }}
         <p class="lead">{{ lang._("change_your_account_information") }}</p>
     </h4>
@@ -43,18 +39,6 @@
             </div>
         </div>
 
-        {#<div class="row">#}
-
-        {#<div class="form-group">#}
-        {#<label for="account-type" class="col-md-2 col-md-offset-2">{{ lang._("account_type") |upper }}</label>#}
-
-        {#<div class="col-md-5">#}
-        {#<input class="form-control" disabled value={{ type }}/>#}
-        {#</div>#}
-        {#</div>#}
-        {#</div>#}
-
-
         <div class="row">
             <div class="col-sm-1 col-md-offset-2">
                 <input type="submit" value="{{ lang._("save") }}" class="btn btn-sm btn-primary"/>
@@ -66,4 +50,3 @@
 
 
     </form>
-{% endblock %}

@@ -1,12 +1,9 @@
 {% extends "templates/base.volt" %}
 {% block title %} Overview {% endblock %}
 {% block content %}
-    {% include "menu/menu.volt" %}
-    <!--main-->
-    <div class="col-sm-9 col-md-10 main" id="main">
 
-    </div><!--/main-->
-    </div><!--/row-->
+    <div class="col-md-8 col-md-offset-2" id="main">
+        {{ content () }}
+
     </div>
-    </div><!--/.container-->
 {% endblock %}

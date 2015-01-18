@@ -94,7 +94,6 @@ class SuggestionController extends ControllerBase
             $this->flash->success($this->lang->_('suggestion_decline'));
 
             $this->dispatcher->forward(array('controller' => 'suggestion', "action" => "index"));
-
         }
 
     }
@@ -113,7 +112,6 @@ class SuggestionController extends ControllerBase
     {
         $match = Matches::findFirst($match);
         $vacancy_owner = $match->Vacancy->User->getId();
-
         $notification = new Notification();
         $notification->setViewed('no');
         $notification->setDate($this->date);
