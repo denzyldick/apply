@@ -2,7 +2,7 @@
 {% block title %}{{ lang._("verification") }} {% endblock %}
 
 {% block content %}
-     {{ content () }}
+    {{ content () }}
 
 
 {% endblock %}

@@ -1,9 +1,9 @@
 {% extends "templates/base.volt" %}
-{% block title %}{{ lang._("signup")  }}{% endblock %}
+{% block title %}{{ lang._("signup") }}{% endblock %}
 {% block content %}
 
 
-        {{ content () }}
+    {{ content () }}
 
 
 {% endblock %}

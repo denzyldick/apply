@@ -458,7 +458,7 @@ img::-moz-selection {
     border-right-color: #5bc0de;
 }
 
-.bootstrap-tagsinput {
+.bootstrap-tagsinput>input {
     width: 100%;
 }
 

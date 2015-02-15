@@ -1,7 +1,7 @@
-<h5 class="page-header">
+<h4 class="page-header">
     {{ amount_text|upper }}
     <p class="lead">{{ lang._('you_can_now_connect') }}</p>
-</h5>
+</h4>
 
 <div class="row placeholders">
     {% for suggestion in suggestions %}

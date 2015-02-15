@@ -33,6 +33,17 @@
         </div>
     </div>
     <div class="row">
+        <div class="form-group"><label class="col-sm-5 control-label" for="type_personality">{{ lang._("which_type_of_personality") }}</label>
+
+            <div class="col-md-5" style="height: 100px;overflow-y: scroll">
+                    {% for culture in lang._("type_of_personality") %}
+                <label class="checkbox-inline"><input type="checkbox" value="{{ culture }}"/> {{ culture }} </label>
+                    {% endfor %}
+
+</div>
+        </div>
+    </div>
+    <div class="row">
 
         <fieldset class="gllpLatlonPicker" id="custom_id">
 
