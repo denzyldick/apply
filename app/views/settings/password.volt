@@ -1,6 +1,3 @@
-{% extends "templates/base.volt" %}
-{% block title %}{{ lang._("change_password") }}{% endblock %}
-{% block content %}
     <h4 class="page-header">
         {{ lang._("change_your_password") }}
         <p class="lead">{{ lang._("enter_your_new_password") }}</p>
@@ -36,4 +33,4 @@
         </div>
 
     </form>
-{% endblock %}
+

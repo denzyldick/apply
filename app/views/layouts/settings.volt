@@ -1,6 +1,7 @@
 {% extends "templates/base.volt" %}
-{% block title %} Overview {% endblock %}
+{% block title %} {{ lang._("settings") }} {% endblock %}
 {% block content %}
+
 
         {{ content () }}
 

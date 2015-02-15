@@ -1,6 +1,4 @@
-{% extends "templates/base.volt" %}
-{% block title %} {{ lang._("account_settings") }}{% endblock %}
-{% block content %}
+
 
     <h4 class="page-header">{{ lang._("account_information") | upper }}
         <p class="lead">{{ lang._("change_your_account_information") }}</p>
@@ -66,4 +64,3 @@
 
 
     </form>
-{% endblock %}

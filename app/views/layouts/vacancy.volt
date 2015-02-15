@@ -1,9 +1,9 @@
 {% extends "templates/base.volt" %}
-{% block title %}Vacancy{% endblock %}
+{% block title %}{{ lang._("vacancy") }}{% endblock %}
 
 {% block content %}
 
 
-    {{ content () }}
+        {{ content () }}
 
 {% endblock %} 

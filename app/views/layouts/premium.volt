@@ -1,9 +1,8 @@
 {% extends "templates/base.volt" %}
-{% block title %}Premium{% endblock %}
+{% block title %}{{ lang._("upgrade") }}{% endblock %}
 
 {% block content %}
 
-
-    {{ content () }}
+        {{ content () }}
 
 {% endblock %} 

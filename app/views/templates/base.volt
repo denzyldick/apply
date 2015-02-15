@@ -14,21 +14,22 @@
     </style>
 
 
-
     <title>{% block title %}{% endblock %}</title>
 </head>
 
 </head>
 
-<body>
+<body id="page-top" data-spy="scroll" data-target=".navbar-custom">
 
 <nav class="navbar navbar-fixed-top top-nav-collapse  navbar-inverse" role="navigation">
     <div class="container">
         <div class="navbar-header page-scroll">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
-                <i class="fa fa-bars"></i>
+                <i class="glyphicon glyphicon-plus"></i>
             </button>
-            <a class="navbar-brand" href="/"><img src="/img/logo.png" width="20"/>
+            <a class="navbar-brand" style="font-family: Arial;font-weight:bolder" href="/">
+                {#<div class="col-sm-1"><img src="/img/logo.png" width="20"/></div>#}
+                {{ config.company.name }}
 
             </a>
         </div>
@@ -44,10 +45,10 @@
 <div class="row">
     <div class="col-md-2 col-md-offset-5">{{ flash.output() }}</div>
 </div>
-
 <div class="col-md-8 col-md-offset-2" id="main">
-    {% block content %}{% endblock %}
-</div>
+
+{% block content %}{% endblock %}
+    <div class="col-md-8 col-md-offset-2" id="main">
 {% include "footer/footer.volt" %}
 
 </body>

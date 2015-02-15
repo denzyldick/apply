@@ -1,7 +1,9 @@
 {% extends "templates/base.volt" %}
-{% block title %}Support {% endblock %}
+{% block title %}{{ lang._("support") }} {% endblock %}
 
 {% block content %}
 
-    {{ content () }}
+
+        {{ content () }}
+
 {% endblock %} 

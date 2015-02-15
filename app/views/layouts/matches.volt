@@ -1,8 +1,7 @@
 {% extends "templates/base.volt" %}
-{% block title %}Matches{% endblock %}
+{% block title %}{{ lang._("suggestions") }}{% endblock %}
 
 {% block content %}
-
 
     {{ content () }}
 
