@@ -12,14 +12,29 @@ class NotificationController extends ControllerBase
     public function indexAction()
     {
         if ($this->request->isAjax()) {
+            /**
+             * @var Notification $notification
+             */
             $notifications = Notification::find(array("receiver ={$this->user->getId()}"));
             $nfs = array();
             foreach ($notifications as $notification) {
+                if ($this->user->getUsertype() == 'employer') {
+                    $message = (string)$notification->Matches->User->getFirstname();
+
+                } else if ($this->user->getUsertype() == 'employee') {
+                    /**
+                     * @var Company $company
+                     */
+                    $company = Company::findFirst(array("user_id= {$notification->getSender()}"));
+                    $message = $company->getName();
+                }
+
 
                 array_push($nfs,
                     array(
                         "message_key" => sprintf($this->lang->_(
-                            $notification->getMessageKey()), (string)$notification->Matches->Vacancy->getFunction()
+                            $notification->getMessageKey()), $message
+                        // $notification->getMessageKey()), 'test notification'
 
                         ),
                         'notification_title' => strtoupper($this->lang->_("are_you_interested"))

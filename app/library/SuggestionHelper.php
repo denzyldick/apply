@@ -10,9 +10,10 @@ class SuggestionHelper extends Components
     private $GLYPHICON_ACCEPT = 'glyphicon glyphicon-ok';
     private $GLYPHICON_DECLINE = 'glyphicon glyphicon-remove';
     private $GLYPHICON_PENDING = 'glyphicon glyphicon-time';
+    private $GLYPHICON_CONTACT = 'glyphicon glyphicon-phone';
     private $ACCEPT_CLASS = 'btn btn-sm btn-primary';
     private $DECLINE_CLASS = 'btn btn-sm btn-warning';
-    private $CONTACT_CLASS = 'btn btn-sm btn-notify';
+    private $CONTACT_CLASS = 'btn btn-sm btn-primary';
 
     public function showMatchControlBox(Matches $match, User $user)
     {
@@ -74,7 +75,7 @@ HTML;
     {
         if ($this->match->getEmployerAccepted() == 'yes' && $this->match->getEmployeeAccepted() == 'yes') {
             return <<<HTML
-<a href="/contact/{$this->match->getUserId()}" class="{$this->CONTACT_CLASS}"><span class="{$this->GLYPHICON_ACCEPT}"></span> {$this->di->lang->_("contact")}}</a>
+<a href="/contact/{$this->match->getUserId()}" class="{$this->CONTACT_CLASS}"><span class="{$this->GLYPHICON_CONTACT}"></span> {$this->lang->_("contact")}</a>
 HTML;
 
         } else if ($this->match->getEmployerAccepted() == 'yes' && $this->match->getEmployeeAccepted() == 'no') {
@@ -96,7 +97,7 @@ HTML;
     {
         if ($this->match->getEmployerAccepted() == 'yes' && $this->match->getEmployeeAccepted() == 'yes') {
             return <<<HTML
-<a href="/contact/{$this->match->getUserId()}" class="{$this->CONTACT_CLASS}"><span class="{$this->GLYPHICON_ACCEPT}"></span> {$this->di->lang->_("contact")}}</a>
+<a href="/contact/{$this->match->getUserId()}" class="{$this->CONTACT_CLASS}"><span class="{$this->GLYPHICON_CONTACT}"></span> {$this->lang->_("contact")}</a>
 HTML;
 
         } else if ($this->match->getEmployerAccepted() == 'no' && $this->match->getEmployeeAccepted() == 'yes') {

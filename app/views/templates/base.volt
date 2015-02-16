@@ -45,7 +45,7 @@
 <div class="row">
     <div class="col-md-2 col-md-offset-5">{{ flash.output() }}</div>
 </div>
-AD
+
 <div class="col-md-8 col-md-offset-2" id="main">
 
 {% block content %}{% endblock %}

@@ -13,6 +13,9 @@
 class ControllerBase extends \Phalcon\Mvc\Controller
 {
     protected $permission = false;
+    /**
+     * @var User user
+     */
     protected $user;
 
     public function initialize()
@@ -30,6 +33,7 @@ class ControllerBase extends \Phalcon\Mvc\Controller
         } else {
             $this->view->show_settings = false;
         }
+
     }
 
     public function setAssets()
@@ -77,6 +81,8 @@ class ControllerBase extends \Phalcon\Mvc\Controller
         ) {
             $this->dispatcher->forward(array("controller" => "company"));
         }
+
+
 
         //$this->flash->notice($this->lang->_("please_enter_your_company_information") . "&nbsp;&nbsp;<a href=/company class='btn btn-small btn-primary'>" . $this->lang->_("click_here") . "</a>");
     }

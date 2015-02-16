@@ -43,10 +43,10 @@
             <tbody>
             {% for vacancies in vacancies %}
                 <tr>
-                    <td>{{ vacancies.getFunction() }}</td>
+                    <td>{{ vacancies.getFunction()|lower|capitalize }}</td>
 
                     <td>{{ vacancies.countSkills() }}</td>
-                    <td>{{ vacancies.location.getLocation() }}</td>
+                    <td>{{ vacancies.location.getLocation()|capitalize }}</td>
                     <td>{{ vacancies.countMatches() }}</td>
                     <td><a href="/suggestion/view/{{ vacancies.getId() }}/{{ tokenKey }}/{{ tokenValue }}"
                            class='btn btn-sm btn-primary'><span

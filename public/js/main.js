@@ -177,9 +177,9 @@ $(document).ready(function () {
     $('#ui_easing_out').val('easeInBack');
     $('#ui_speed').val('1000');
     $('#ui_button').click();
-
     $(".bootstrap-tagsinput").addClass("material-input");
     $.get("/notification", function (response) {
+     //$("body").html(response);
         console.log(response);
         jQuery.each(response, function () {
 
@@ -229,7 +229,7 @@ $(document).ready(function () {
                 }
             });
         });
-    });
+    },"json");
 
 });
 

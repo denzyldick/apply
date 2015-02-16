@@ -264,6 +264,7 @@ class Matches extends \Phalcon\Mvc\Model
     {
         $this->hasOne("user_id", "User", "id");
         $this->hasOne("vacancy_id", "Vacancy", "id");
+
     }
 
 }

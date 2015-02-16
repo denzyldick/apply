@@ -1,6 +1,9 @@
 <h4 class="page-header">
-    {{ amount_text|upper }}
+    {{ lang._('we_have_found_count_persons') | format(suggestions|length) }}
+
+    {% if(suggestions|length > 0) %}
     <p class="lead">{{ lang._("individuals_matching_your_vacancies") }}</p>
+    {% endif %}
 </h4>
 {% if(suggestions|length == 0) %}
     <div class="row">

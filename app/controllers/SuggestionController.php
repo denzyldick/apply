@@ -5,7 +5,6 @@ class SuggestionController extends ControllerBase
 
     public function vacanciesAction($suggestion)
     {
-        $this->view->amount = count($suggestion) . " " . $this->lang->_("job");
         $this->view->suggestions = $suggestion;
     }
 
@@ -40,7 +39,6 @@ class SuggestionController extends ControllerBase
         $suggestions = $this->modelsManager->executeQuery($phql, array('user_id' => $this->user->getId()));
 
         $this->view->suggestions = $suggestions;
-        $this->view->amount_text = (count($suggestions) == 1 ? " 1 " . $this->lang->_('suggestion') : count($suggestions) . " " . $this->lang->_('suggestions'));
 
     }
 
@@ -116,13 +114,13 @@ class SuggestionController extends ControllerBase
         $notification->setViewed('no');
         $notification->setDate($this->date);
         if ($this->user->getUserType() == 'employer') {
-            $notification->setMessageKey('new_nudge');
-            $match->setEmployerAccepted('yes');
+            $notification->setMessageKey('interested_in_you');
+           $match->setEmployerAccepted('yes');
             $notification->setReceiver($match->getUserId());
             $notification->setSender($this->user->getId());
         } else if ($this->user->getUserType() == 'employee') {
             $match->setEmployeeAccepted('yes');
-            $notification->setMessageKey('interested_in_you');
+            $notification->setMessageKey('new_nudge');
             $notification->setSender($this->user->getId());
             $notification->setReceiver($vacancy_owner);
         }
