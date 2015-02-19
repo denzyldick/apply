@@ -16,8 +16,7 @@
 
     <title>{% block title %}{% endblock %}</title>
 </head>
-
-</head>
+{{ flash.output() }}
 
 <body id="page-top" data-spy="scroll" data-target=".navbar-custom">
 
@@ -42,9 +41,6 @@
     </div>
     <!-- /.container -->
 </nav>
-<div class="row">
-    <div class="col-md-2 col-md-offset-5">{{ flash.output() }}</div>
-</div>
 
 <div class="col-md-8 col-md-offset-2" id="main">
 

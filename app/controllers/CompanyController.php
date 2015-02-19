@@ -70,9 +70,8 @@ class CompanyController extends ControllerBase
         if ($this->company->save()) {
             $this->flash->success($this->lang->_("company_has_been_successfully_saved"));
         }
-        var_dump($this->company->getMessages());
-       // $this->dispatcher->forward(array("controller" => "company", "action" => "index"));
 
+       $this->dispatcher->forward(array("controller" => "company", "action" => "index"));
     }
 
     private function moveUploadedFile($file)

@@ -48,13 +48,13 @@ label {
     min-width: 200px;
     max-width: 300px;
     margin: 0px auto;
-    /* left: 50%; */
-    /* margin-left: auto; */
-    /*position: absolute;*/
-    /*left: 0;*/
-    /*right: 0;*/
-    /*margin-left: auto;*/
-    /*margin-right: auto;*/
+     left: 50%;
+     margin-left: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
     display: none;
 }
 
@@ -471,4 +471,9 @@ label {
 }
 .btn-primary.active{
     background-color:#ff0000;
+}
+.alert{
+
+    z-index: 10000;
+
 }
