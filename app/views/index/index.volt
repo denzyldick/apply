@@ -1,10 +1,9 @@
-Better landingpage comingsoon
-{#<section class="intro">#}
+<body class="intro" style="width:100%;height:100%;position:relative;">
     {#<div class="intro-body">#}
         {#<div class="container">#}
             {#<div class="row">#}
                 {#<div class="col-md-8 col-md-offset-2">#}
-                    {#<h1 class="brand-heading">{{ config.company.name }}</h1>#}
+                    {#<h1 class="brand-heading"><img src="/img/logo.png" width="300px"/></h1>#}
 
                     {#<p class="intro-text">{{ lang._("slogan") }}</p>#}
 
@@ -21,7 +20,7 @@ Better landingpage comingsoon
             {#</div>#}
         {#</div>#}
     {#</div>#}
-{#</section>#}
+
 
 {#<section id="about" class="container content-section text-center">#}
     {#<div class="row">#}
@@ -90,3 +89,4 @@ Better landingpage comingsoon
         {#</div>#}
     {#</div>#}
 {#</section>#}
+</body>

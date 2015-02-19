@@ -13,7 +13,10 @@
  */
 class CompanyController extends ControllerBase
 {
+    /** @var Company $company */
     private $company;
+    /** @var Location $location; **/
+    private $location;
 
     public function initialize()
     {
@@ -21,10 +24,10 @@ class CompanyController extends ControllerBase
         $this->company = Company::findFirst($this->user);
         if ($this->company == false) {
             $this->company = new Company();
-
+            $this->location =  new Location();
+        }else{
+            $this->location = Location::findFirst($this->company->getLocationId());
         }
-
-
     }
 
     public function indexAction()
@@ -32,10 +35,10 @@ class CompanyController extends ControllerBase
         if ($this->company != false) {
             $this->view->name = $this->company->getName();
             $this->view->description = $this->company->getDescription();
-            $this->view->longitude = $this->company->getLongitude();
-            $this->view->latitude = $this->company->getLatitude();
-            $this->view->location = $this->company->getLocation();
-            $this->view->zoom = $this->company->getZoom();
+            $this->view->longitude = $this->location->getLongitude();
+            $this->view->latitude = $this->location->getLatitude();
+            $this->view->location = $this->location->getLocation();
+            $this->view->zoom = $this->location->getZoom();
             $this->view->company_foto = $this->company->getLogo();
             $this->view->website = $this->company->getWebsite();
             $this->view->work_enviroment = $this->company->getWorkEnviromentType();
@@ -45,13 +48,16 @@ class CompanyController extends ControllerBase
     public function saveAction()
     {
 
-        $this->company->name = $this->request->getPost("name", "string");
-        $this->company->description = $this->request->getPost("description", "string");
-        $this->company->latitude = $this->request->getPost("latitude", "int");
-        $this->company->longitude = $this->request->getPost("longitude", "int");
-        $this->company->location = $this->request->getPost("location", "string");
-        $this->company->zoom = $this->request->getPost("zoom", "int");
-        $this->company->website = $this->request->getPost('website', 'string');
+        $this->company->setName($this->request->getPost("name","string"));
+        $this->company->setDescription($this->request->getPost("description","string"));
+        $this->company->setWebsite($this->request->getPost("website","string"));
+        $this->location->setLatitude($this->request->getPost("latitude","int"));
+        $this->location->setLongitude($this->request->getPost("longitude","int"));
+        $this->location->setLocation($this->request->getPost('location','string'));
+        $this->location->setZoom($this->request->getPost("zoom","int"));
+        $this->location->save();
+        $this->company->setLocationId($this->location->getId());
+
         $this->company->setUserId($this->user->getId());
         $this->company->setWorkEnviromentType($this->request->getPost("work_enviroment", "string"));
         if ($this->request->hasFiles()) {
@@ -64,10 +70,8 @@ class CompanyController extends ControllerBase
         if ($this->company->save()) {
             $this->flash->success($this->lang->_("company_has_been_successfully_saved"));
         }
-
-//        $this->company->save();
-//        var_dump($this->company);
-        $this->dispatcher->forward(array("controller" => "company", "action" => "index"));
+        var_dump($this->company->getMessages());
+       // $this->dispatcher->forward(array("controller" => "company", "action" => "index"));
 
     }
 

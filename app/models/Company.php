@@ -26,17 +26,6 @@ class Company extends \Phalcon\Mvc\Model
      */
     protected $description;
 
-    /**
-     *
-     * @var integer
-     */
-    protected $longitude;
-
-    /**
-     *
-     * @var integer
-     */
-    protected $latitude;
 
     /**
      *
@@ -44,17 +33,6 @@ class Company extends \Phalcon\Mvc\Model
      */
     protected $user_id;
 
-    /**
-     *
-     * @var integer
-     */
-    protected $zoom;
-
-    /**
-     *
-     * @var string
-     */
-    protected $location;
 
     /**
      *
@@ -73,6 +51,21 @@ class Company extends \Phalcon\Mvc\Model
      * @var string
      */
     protected $work_enviroment_type;
+
+    /**
+     * @var integer
+     */
+    protected $location_id;
+
+    public function getLocationId()
+    {
+        return $this->location_id;
+    }
+
+    public function setLocationId($location_id)
+    {
+        $this->location_id = $location_id;
+    }
 
     /**
      * Returns the value of field id
@@ -143,51 +136,6 @@ class Company extends \Phalcon\Mvc\Model
         return $this;
     }
 
-    /**
-     * Returns the value of field longitude
-     *
-     * @return integer
-     */
-    public function getLongitude()
-    {
-        return $this->longitude;
-    }
-
-    /**
-     * Method to set the value of field longitude
-     *
-     * @param integer $longitude
-     * @return $this
-     */
-    public function setLongitude($longitude)
-    {
-        $this->longitude = $longitude;
-
-        return $this;
-    }
-
-    /**
-     * Returns the value of field latitude
-     *
-     * @return integer
-     */
-    public function getLatitude()
-    {
-        return $this->latitude;
-    }
-
-    /**
-     * Method to set the value of field latitude
-     *
-     * @param integer $latitude
-     * @return $this
-     */
-    public function setLatitude($latitude)
-    {
-        $this->latitude = $latitude;
-
-        return $this;
-    }
 
     /**
      * Returns the value of field user_id
@@ -235,28 +183,7 @@ class Company extends \Phalcon\Mvc\Model
         return $this;
     }
 
-    /**
-     * Returns the value of field location
-     *
-     * @return string
-     */
-    public function getLocation()
-    {
-        return $this->location;
-    }
 
-    /**
-     * Method to set the value of field location
-     *
-     * @param string $location
-     * @return $this
-     */
-    public function setLocation($location)
-    {
-        $this->location = $location;
-
-        return $this;
-    }
 
     /**
      * Returns the value of field logo
@@ -329,7 +256,7 @@ class Company extends \Phalcon\Mvc\Model
 
     public function columnMap()
     {
-        return array('id' => 'id', 'name' => 'name', 'description' => 'description', 'longitude' => 'longitude', 'latitude' => 'latitude', 'user_id' => 'user_id', 'location' => 'location', 'zoom' => 'zoom', 'logo' => 'logo', 'website' => 'website', 'work_enviroment_type' => 'work_enviroment_type');
+        return array('id' => 'id', 'name' => 'name', 'description' => 'description',  'user_id' => 'user_id', 'location_id'=>'location_id','logo' => 'logo', 'website' => 'website', 'work_enviroment_type' => 'work_enviroment_type');
     }
 
     public function initialize()
@@ -361,14 +288,14 @@ class Company extends \Phalcon\Mvc\Model
             )
 
         );
-        $this->validate(
-            new PresenceOf(
-                array(
-                    "field" => "location",
-                    "message" => "company_location_is_missing"
-                )
-            )
-        );
+//        $this->validate(
+//            new PresenceOf(
+//                array(
+//                    "field" => "location",
+//                    "message" => "company_location_is_missing"
+//                )
+//            )
+//        );
 //        $this->validate(
 //                new PresenceOf(
 //                    array(

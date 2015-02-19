@@ -61,10 +61,10 @@ SHOW;
 
     private function renderUser()
     {
-        return <<<HTML
+       return <<<HTML
         <span class="percent-indicator">{$this->match->getPercent()}%</span>
         <h5 class="text-uppercase">
-                {$this->match->vacancy->getFunction()}
+                {$this->match->User->getFirstname()}
         </h5>
         {$this->controlButtonsForEmployer()}
 HTML;

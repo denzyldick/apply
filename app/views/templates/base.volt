@@ -28,8 +28,8 @@
                 <i class="glyphicon glyphicon-plus"></i>
             </button>
             <a class="navbar-brand" style="font-family: Arial;font-weight:bolder" href="/">
-                {#<div class="col-sm-1"><img src="/img/logo.png" width="20"/></div>#}
-                {{ config.company.name }}
+                <div class="col-sm-1"><img src="/img/logo.png" width="106px"/></div>
+                {#{{ config.company.name }}#}
 
             </a>
         </div>

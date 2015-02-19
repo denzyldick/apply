@@ -217,17 +217,17 @@ a:focus {
 
 .intro {
 
-    /*width: 100%;*/
-    /*height: auto;*/
-    /*padding: 100px 0;*/
-    /*text-align: center;*/
-    /*color: #fff;*/
-    /*background: url(../img/intro-bg.jpg) no-repeat bottom center scroll;*/
-    /*background-color: #6d94bf;*/
-    /*-webkit-background-size: cover;*/
-    /*-moz-background-size: cover;*/
-    /*background-size: cover;*/
-    /*-o-background-size: cover;*/
+    width: 100%;
+    height: auto;
+    padding: 100px 0;
+    text-align: center;
+    color: #fff;
+    background: url(../img/intro-bg.jpg) no-repeat bottom center scroll;
+    background-color: #6d94bf;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
 }
 
 .intro-body {
@@ -280,6 +280,8 @@ a:focus {
 
 .download-section {
     text-shadow: black 1px 1px !important;
+    position:relative;;
+
     width: 100%;
     padding: 50px 0;
     color: #fff;
