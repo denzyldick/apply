@@ -13,6 +13,20 @@
 
     </select><br/>
 
+    <label class=" control-label"
+           for="type_personality">{{ lang._("which_type_of_personality") }}</label>
+
+    <div style="height: 150px;overflow-y: scroll">
+        <ul class="checkbox-grid">
+
+            {% for culture in personalities %}
+                        <li><input name="type_personality[]" id="{{ culture }}" type="checkbox" value="{{ culture }}"/> <label for="{{ culture }}">{{ lang._(culture) }}</label></li>
+                        </label>
+                    {% endfor %}
+        </ul>
+
+    </div>
+
     <label>{{ lang._('where_do_you_live') }}</label>
     <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 

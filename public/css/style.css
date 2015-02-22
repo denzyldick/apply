@@ -477,3 +477,9 @@ label {
     z-index: 10000;
 
 }
+
+.checkbox-grid li {
+    display: block;
+    float: left;
+    width: 25%;
+}

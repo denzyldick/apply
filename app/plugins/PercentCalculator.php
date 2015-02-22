@@ -37,25 +37,46 @@ class PercentCalculator extends Plugin
             throw new Exception('$user is not an instance of User');
             return null;
         } else {
-            return $this->calculate($this->vacancy, $this->user);
+            return $this->calculate();
 
         }
     }
 
-    private function calculate(Vacancy $vacancy, User $user)
+    private function calculate()
     {
-        $vacancy_skills = $this->specificationsToArraySkills($vacancy->getSpecification());
-        $user_skills = $this->specificationsToArraySkills($user->getSpecification());
+
+        $vacancy_skills = $this->specificationsToArraySkills($this->vacancy->getSpecification());
+        $user_skills = $this->specificationsToArraySkills($this->user->getSpecification());
         $common_skills = $this->matchCommonSkills($vacancy_skills, $user_skills);
-        $work_type = $this->workEnvironment($vacancy, $user);
+        $work_type = $this->workEnvironment();
+        $personality = $this->calculatePersonality();
 
         return $common_skills['percent'] = floor(count($common_skills) / count($vacancy_skills) * (self::SKILLS_PERCENTAGE + $work_type));
 
     }
 
-    private function workEnvironment(Vacancy $vacancy, User $user)
+    private function calculatePersonality()
     {
-        if ($vacancy->getWorkEnviromentType() === $user->getWorkEnviromentType() || $vacancy->User->Company->getWorkEnviromentType() === $user->getWorkEnviromentType()) {
+        //   $this->view->disable();
+        $user_personalities = Personality::find(array("user_id={$this->user->getId()}"))->toArray();
+        $vacancy_personalities = Personality::find(array("vacancy_id={$this->vacancy->getId()}"))->toArray();
+        $common_personalities = array();
+        foreach ($vacancy_personalities as $vacancy_personality) {
+            foreach ($user_personalities as $user_personality) {
+                if ($user_personality['personality'] == $vacancy_personality['personality']) {
+                    $common_personalities[] = $user_personality['personality;'];
+                }
+            }
+        }
+
+        return $common_personalities;
+
+    }
+
+
+    private function workEnvironment()
+    {
+        if ($this->vacancy->getWorkEnviromentType() === $this->user->getWorkEnviromentType() || $this->vacancy->User->Company->getWorkEnviromentType() === $this->user->getWorkEnviromentType()) {
             return self::WORK_ENVIRONMENT_TYPE_PERCENTAGE;
         }
         return 0;

@@ -13,6 +13,12 @@ include(__DIR__ . '/../vendor/autoload.php');
  */
 $config = include __DIR__ . "/../app/config/config.php";
 
+
+/**
+ * Personalities
+ */
+$personalities = include __DIR__ . "/../app/config/personalities.php";
+
 /**
  * Read auto-loader
  */

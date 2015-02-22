@@ -57,12 +57,11 @@ class CompanyController extends ControllerBase
         $this->location->setZoom($this->request->getPost("zoom","int"));
         $this->location->save();
         $this->company->setLocationId($this->location->getId());
-
         $this->company->setUserId($this->user->getId());
         $this->company->setWorkEnviromentType($this->request->getPost("work_enviroment", "string"));
         if ($this->request->hasFiles()) {
             $this->company->setLogo($this->moveUploadedFile($this->request->getUploadedFiles()));
-            $this->view->disable();
+            //$this->view->disable();
         }
         if (!$this->company->validation()) {
             $this->flash->error($this->lang->_((string)$this->company->getMessages()[0]));

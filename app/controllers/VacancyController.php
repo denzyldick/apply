@@ -18,16 +18,19 @@ class VacancyController extends ControllerBase
     }
 
     public function newAction()
-    {
-//        if (!$this->companyHasBeenFilled()) {
-//            $this->dispatcher->forward(array("controller" => "vacancy", "action" => "index"));
-//        }
+    {  /* For personalities */
+        $this->view->personalities = $this->personalities;
+
     }
 
     public function saveAction()
     {
         if ($this->request->isPost() && $this->user->getVacancyCount() > 0) {
+
+            $personalities = $this->request->getPost('type_personality');
+
             $name = $this->request->getPost("name");
+
             $longitude = $this->request->getPost("longitude");
             $latitude = $this->request->getPost("latitude");
             $zoom = $this->request->getPost("zoom");
@@ -48,10 +51,23 @@ class VacancyController extends ControllerBase
             $vacancy->setUserId($this->session->get("user-id"));
             $vacancy->setLocationId($location->getId());
             $vacancy->setWorkEnviromentType($culture);
+            if (count($personalities) <= 5) {
 
-            if ($vacancy->save()) {
 
-                $this->dispatcher->forward(array("action" => "skills", "params" => array($skills, $vacancy->getId())));
+                if ($vacancy->save()) {
+                    Personality::find(array("vacancy_id = {$vacancy->getId()}"))->delete();
+                    foreach ($personalities as $value) {
+                        $personality = new Personality();
+                        $personality->setPersonality($value);
+                        $personality->setUserId(-1);
+                        $personality->setVacancyId($vacancy->getId());
+                        $personality->save();
+                    }
+                    $this->dispatcher->forward(array("action" => "skills", "params" => array($skills, $vacancy->getId())));
+                } else {
+                    $this->flash->message('error', "max_5_personality");
+                    $this->dispatcher->forward(array("action" => "index"));
+                }
             }
 
         }

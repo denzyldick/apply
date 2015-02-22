@@ -175,6 +175,7 @@ class Vacancy extends \Phalcon\Mvc\Model
         $this->hasOne("location_id", "Location", "id");
         $this->hasOne("user_id", "User", "id");
         $this->hasMany("id", "Specification", "vacancy_id");
+        $this->hasMany("id", "Personality", "vacancy_id");
     }
 
 }

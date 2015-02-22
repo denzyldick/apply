@@ -644,6 +644,7 @@ class User extends \Phalcon\Mvc\Model
         $this->hasMany("id", "Premium", "user_id");
         $this->hasMany('id', 'Notification', 'sender');
         $this->hasMany('id', 'Notification', 'receiver');
+        $this->hasMany('id', 'Personality', 'user_id');
     }
 
 }
