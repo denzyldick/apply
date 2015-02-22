@@ -17,7 +17,7 @@
     {#<a class="btn btn-sm btn-primary" id="company-logo-drop-zone"><span class="glyphicon glyphicon-picture"></span> {{ lang._("upload_logo") }}</a>#}
     <div class="fileUpload btn btn-sm btn-primary">
         <span>{{ lang._("upload") }}</span>
-        <input type="file" class="upload"/>
+        <input type="file" name="file" class="upload"/>
     </div>
     <style>
         .fileUpload {

@@ -1,6 +1,6 @@
 {% set company = suggestion.vacancy.user.company %}
 {% set vacancy = suggestion.vacancy %}
-<div id="maps" class="col-md-11" style='height:200px;position:absolute;top:0px;'></div>
+<div id="maps" class="col-md-11" style='width:100%;height:200px;position:absolute;top:0px;'></div>
 <div class="row">
 
     <div class="col-md-3"><img src="/files/{{ company.getLogo() }}" style="width: 150px;

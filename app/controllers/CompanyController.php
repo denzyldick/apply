@@ -15,7 +15,7 @@ class CompanyController extends ControllerBase
 {
     /** @var Company $company */
     private $company;
-    /** @var Location $location; **/
+    /** @var Location $location ; * */
     private $location;
 
     public function initialize()
@@ -24,8 +24,8 @@ class CompanyController extends ControllerBase
         $this->company = Company::findFirst($this->user);
         if ($this->company == false) {
             $this->company = new Company();
-            $this->location =  new Location();
-        }else{
+            $this->location = new Location();
+        } else {
             $this->location = Location::findFirst($this->company->getLocationId());
         }
     }
@@ -47,21 +47,20 @@ class CompanyController extends ControllerBase
 
     public function saveAction()
     {
-
-        $this->company->setName($this->request->getPost("name","string"));
-        $this->company->setDescription($this->request->getPost("description","string"));
-        $this->company->setWebsite($this->request->getPost("website","string"));
-        $this->location->setLatitude($this->request->getPost("latitude","int"));
-        $this->location->setLongitude($this->request->getPost("longitude","int"));
-        $this->location->setLocation($this->request->getPost('location','string'));
-        $this->location->setZoom($this->request->getPost("zoom","int"));
+        $this->company->setName($this->request->getPost("name", "string"));
+        $this->company->setDescription($this->request->getPost("description", "string"));
+        $this->company->setWebsite($this->request->getPost("website", "string"));
+        $this->location->setLatitude($this->request->getPost("latitude", "int"));
+        $this->location->setLongitude($this->request->getPost("longitude", "int"));
+        $this->location->setLocation($this->request->getPost('location', 'string'));
+        $this->location->setZoom($this->request->getPost("zoom", "int"));
         $this->location->save();
         $this->company->setLocationId($this->location->getId());
         $this->company->setUserId($this->user->getId());
         $this->company->setWorkEnviromentType($this->request->getPost("work_enviroment", "string"));
         if ($this->request->hasFiles()) {
             $this->company->setLogo($this->moveUploadedFile($this->request->getUploadedFiles()));
-            //$this->view->disable();
+
         }
         if (!$this->company->validation()) {
             $this->flash->error($this->lang->_((string)$this->company->getMessages()[0]));
@@ -70,7 +69,7 @@ class CompanyController extends ControllerBase
             $this->flash->success($this->lang->_("company_has_been_successfully_saved"));
         }
 
-       $this->dispatcher->forward(array("controller" => "company", "action" => "index"));
+        $this->dispatcher->forward(array("controller" => "company", "action" => "index"));
     }
 
     private function moveUploadedFile($file)
@@ -82,7 +81,7 @@ class CompanyController extends ControllerBase
             $photo->moveTo('files/' . $photo->name);
             return $photo->name;
         } catch (\Exception $e) {
-            $this->di->logger->error("Can't upload company logo.");
+            echo $e->getMessage();
         }
 
     }
