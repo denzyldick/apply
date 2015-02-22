@@ -68,7 +68,6 @@ class CompanyController extends ControllerBase
         if ($this->company->save()) {
             $this->flash->success($this->lang->_("company_has_been_successfully_saved"));
         }
-
         $this->dispatcher->forward(array("controller" => "company", "action" => "index"));
     }
 

@@ -12,6 +12,7 @@ class SuggestionHelper extends Components
     private $GLYPHICON_PENDING = 'glyphicon glyphicon-time';
     private $GLYPHICON_CONTACT = 'glyphicon glyphicon-phone';
     private $ACCEPT_CLASS = 'btn btn-sm btn-primary';
+    private $PENDING_CLASS = 'btn btn-sm btn-primary disabled';
     private $DECLINE_CLASS = 'btn btn-sm btn-warning';
     private $CONTACT_CLASS = 'btn btn-sm btn-primary';
 
@@ -80,7 +81,7 @@ HTML;
 
         } else if ($this->match->getEmployerAccepted() == 'yes' && $this->match->getEmployeeAccepted() == 'no') {
             return <<<HTML
-<a class='{$this->PENDING_CLASS}'><span class="{$this->GLYPHICON_PENDING}"></span> {$this->lang->_("pending")}</a>
+<a class="{$this->PENDING_CLASS}"><span class="{$this->GLYPHICON_PENDING}"></span> {$this->lang->_("pending")}</a>
 <a href="/suggestion/decline/{$this->match->getId()}" class="{$this->DECLINE_CLASS}"><span class="{$this->GLYPHICON_DECLINE}"></span> {$this->lang->_("decline")}</a>
 HTML;
         } else if ($this->match->getEmployerAccepted() == 'no' && $this->match->getEmployeeAccepted() == 'no' || $this->match->getEmployerAccepted() == "no" && $this->match->getEmployeeAccepted() == 'yes') {
@@ -102,7 +103,7 @@ HTML;
 
         } else if ($this->match->getEmployerAccepted() == 'no' && $this->match->getEmployeeAccepted() == 'yes') {
             return <<<HTML
-<a class='{$this->PENDING_CLASS}'><span class="{$this->GLYPHICON_PENDING}"></span> {$this->lang->_("pending")}</a>
+<a class="{$this->PENDING_CLASS}"><span class="{$this->GLYPHICON_PENDING}"></span> {$this->lang->_("pending")}</a>
 <a href="/suggestion/decline/{$this->match->getId()}" class="{$this->DECLINE_CLASS}"><span class="{$this->GLYPHICON_DECLINE}"></span> {$this->lang->_("decline")}</a>
 HTML;
         } else if ($this->match->getEmployerAccepted() == 'no' && $this->match->getEmployeeAccepted() == 'no' || $this->match->getEmployerAccepted() == 'yes' && $this->match->getEmployeeAccepted() == 'no') {
