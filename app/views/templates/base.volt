@@ -16,18 +16,18 @@
 
     <title>{% block title %}{% endblock %}</title>
 </head>
-{{ flash.output() }}
+
 
 <body id="page-top" data-spy="scroll" data-target=".navbar-custom">
 
 <nav class="navbar navbar-fixed-top top-nav-collapse  navbar-inverse" role="navigation">
     <div class="container">
-        <div class="navbar-header page-scroll">
+        <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
-                <i class="glyphicon glyphicon-plus"></i>
+                <i class="fa fa-bars"></i>
             </button>
             <a class="navbar-brand" style="font-family: Arial;font-weight:bolder" href="/">
-                <div class="col-sm-1"><img src="/img/logo.png" width="106px"/></div>
+                <div class="col-sm-1"><img src="http://placehold.it/106x100" width="50px" height="20px"/></div>
                 {#{{ config.company.name }}#}
 
             </a>
@@ -43,7 +43,7 @@
 </nav>
 
 <div class="col-md-8 col-md-offset-2" id="main">
-
+    {{ flash.output() }}
 {% block content %}{% endblock %}
   </div>
 {% include "footer/footer.volt" %}

@@ -1,87 +1,88 @@
-<fieldset>
-    <legend>{{ lang._("vacancy") }}</legend>
+<form method="post">
+    <div class="well">
+        {#<h5 class="page-header">{{ lang._("create_a_new_vacany") }}#}
+            {#<p class="lead">{{ lang._("fill_it_in") }}</p>#}
+        {#</h5>#}
 
-    {{ form('vacancy/save', 'method': 'post') }}
-    <div class="row">
-        <div class="form-group">
-            <label for="name"
-                   class="col-sm-5 control-label">{{ lang._("what_type_of_function_are_you_looking_for") }}</label>
-
-            <div class="col-md-7">{{ text_field("name", "class":"form-control","id":"name") }}</div>
-
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="form-group"><label class="col-sm-5 control-label"
-                                       for="skills">{{ lang._("skills_you_are_looking_for") }}</label>
-
-            <div class="col-md-7">{{ text_field("skills","id":"skills", "class":"","data-role":"tagsinput","placeholder":lang._("add_skills"),"style":"width:100%!important") }}</div>
-        </div>
-
-    </div>
-    <div class="row">
-        <div class="form-group"><label class="col-sm-5 control-label"
-                                       for="culture">{{ lang._("which_type_of_culture_are_you_looking_for") }}</label>
-
-            <div class="col-md-7">
-
-                <select class="form-control" name="culture">
-                    {% for culture in lang._("type_work_enviroment") %}
-                        <option value="{{ culture }}">{{ culture }}</option>
-                    {% endfor %}
-                </select></div>
-        </div>
-    </div>
-    <p></p>
-    <div class="row">
-        <div class="form-group"><label class="col-sm-5 control-label"
-                                       for="type_personality">{{ lang._("which_type_of_personality") }}</label>
-
-            <div class="col-md-7" style="height: 150px;overflow-y: scroll">
-                <ul class="checkbox-grid">
-
-                    {% for culture in personalities %}
-                        <li><input name="type_personality[]" id="{{ culture }}" type="checkbox" value="{{ culture }}"/> <label for="{{ culture }}">{{ lang._(culture) }}</label></li>
-                        </label>
-                    {% endfor %}
-                </ul>
-
+        <div class="row">
+            <div class="col-md-12">
+                <label for="name">{{ lang._("name_of_the_job") }}</label><input name="name" value={{ vacancy.getFunction() }}" type="text"
+                                                                                class="form-control">
             </div>
         </div>
-    </div>
-    <div class="row">
+        <div class="row">
+            <div class="col-md-12">
+                <label for="skills">{{ lang._("skills_needed") }}</label><input type="text" name="skills" class="form-control"
+                                                                                data-role="tagsinput"
+                                                                                placeholder="{{ lang._("php_html") }}">
+            </div>
 
+        </div>
+
+
+            <div class="row">
+                <label class="col-md-12">{{ lang._("contract_type") }}</label>
+            </div>
+            <div class="row">
+                <div class="col-md-12 checkbox">
+                    <label>
+                        <input type="checkbox" {% if vacancy.getFulltime() == 1 %} checked {% endif %} name="fulltime" value="1">
+                        {{ lang._("fulltime") }}
+                    </label>
+                    <label>
+                        <input type="checkbox" name="parttime" {% if vacancy.getParttime() == 1 %} checked {% endif %}  value="1">
+                        {{ lang._("parttime") }}
+                    </label>
+                    <label>
+                        <input type="checkbox" name="freelance" {% if vacancy.getFreelance() == 1 %} checked {% endif %}  value="1">
+                        {{ lang._("freelance") }}
+                    </label>
+
+                </div>
+            </div>
+
+        <div class="row">
+            <div class="col-md-12"><label for="description">{{ lang._("short_description_max_1500") }}</label><textarea
+                        name="description"
+                        id="description"
+                        cols="30"
+                        rows="10"
+                        class="form-control">{{ vacancy.getDescription() }}</textarea>
+            </div>
+        </div> <div class="row">
+            <div class="col-md-12"><label for="job_benefits">{{ lang._("job_benefits_max_1500") }}</label><textarea
+                        name="job_benefits"
+                        id="job_benefits"
+                        cols="30"
+                        rows="10"
+                        class="form-control" maxlength="1500">{{ vacancy.getJobBenefits() }}</textarea>
+            </div>
+        </div>
         <fieldset class="gllpLatlonPicker" id="custom_id">
+            <div class="row">
 
-
-            <div class="form-group"><label class="col-sm-5 control-label" for="location">
-                    <label>{{ lang._("where_is_the_vacancy_located") }}</label></label>
-
+                <div class="col-md-12">
+                    <label for="location">{{ lang._("where_is_it_located") }}</label>
+                    <input type="text" id="location" value="{{ vacancy.location.getLocation() }}" name="location" class="gllpSearchField form-control">
+                    <input type="hidden" class="gllpSearchButton">
+                </div>
 
             </div>
-
-
-            <div class="col-md-7">
-                <input type="text" name="location" class="gllpSearchField form-control"
-                       style="float: left;width:70%">
-                <input type="button" class="gllpSearchButton btn btn-sm btn-primary"
-                       style="float: left;margin-left:5px;margin-top:2px;" value="search">
-
-                <p>&nbsp;</p>
-
-                <div class="gllpMap well"></div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="gllpMap well"></div>
+                    <input type="hidden" name="latitude" class="gllpLatitude" value="{{ vacancy.location.getLatitude() }}"/>
+                    <input type="hidden" name="longitude" class="gllpLongitude" value="{{ vacancy.location.getLongitude() }}"/>
+                    <input type="hidden" name="zoom" class="gllpZoom" value="{{ vacancy.location.getZoom() }}"/>
+                </div>
             </div>
-
-
-            <input type="hidden" name="latitude" class="gllpLatitude" value="60"/>
-            <input type="hidden" name="longitude" class="gllpLongitude" value="30"/>
-            <input type="hidden" name="zoom" class="gllpZoom" value="1"/>
         </fieldset>
+        <div class="row">
+            <div class="col-md-12">
+                <input type="hidden" value="{{ vacancy.getId() }}" name="vacancy_id"/>
+                <input type="submit" value="{{ lang._("save") }}" class="btn btn-primary btn-large">
+            </div>
+        </div>
     </div>
 
-
-    {{ submit_button('save',"class":"btn btn-sm btn-primary") }}
-
-    </form>
-</fieldset>
+</form>

@@ -21,7 +21,7 @@ class CompanyController extends ControllerBase
     public function initialize()
     {
         parent::initialize();
-        $this->company = Company::findFirst($this->user);
+        $this->company = $this->user->company;
         if ($this->company == false) {
             $this->company = new Company();
             $this->location = new Location();
@@ -42,6 +42,9 @@ class CompanyController extends ControllerBase
             $this->view->company_foto = $this->company->getLogo();
             $this->view->website = $this->company->getWebsite();
             $this->view->work_enviroment = $this->company->getWorkEnviromentType();
+            $this->view->description  = $this->company->getDescription();
+            $this->view->twitter = $this->company->getTwitter();
+            $this->view->facebook = $this->company->getFacebook();
         }
     }
 
@@ -58,17 +61,17 @@ class CompanyController extends ControllerBase
         $this->company->setLocationId($this->location->getId());
         $this->company->setUserId($this->user->getId());
         $this->company->setWorkEnviromentType($this->request->getPost("work_enviroment", "string"));
-        if ($this->request->hasFiles()) {
-            $this->company->setLogo($this->moveUploadedFile($this->request->getUploadedFiles()));
-
-        }
+        $this->company->setTwitter($this->request->getPost("twitter","string"));
+        $this->company->setFacebook($this->request->getPost("facebook","string"));
+        $this->company->setDescription($this->request->getPost("description","string"));
+        $this->company->setLogo($this->request->getPost("file_name","string"));
         if (!$this->company->validation()) {
             $this->flash->error($this->lang->_((string)$this->company->getMessages()[0]));
         }
         if ($this->company->save()) {
             $this->flash->success($this->lang->_("company_has_been_successfully_saved"));
         }
-        $this->dispatcher->forward(array("controller" => "company", "action" => "index"));
+        $this->response->redirect("/company");
     }
 
     private function moveUploadedFile($file)
@@ -76,11 +79,12 @@ class CompanyController extends ControllerBase
         try {
 
             $photo = $file[0];
-            $photo->name = md5($this->user->id . $this->security->hash(rand()));
+            $photo->name = md5($this->user->getId() . $this->security->hash(rand()));
             $photo->moveTo('files/' . $photo->name);
             return $photo->name;
         } catch (\Exception $e) {
             echo $e->getMessage();
+            exit();
         }
 
     }

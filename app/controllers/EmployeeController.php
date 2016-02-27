@@ -9,10 +9,7 @@ class EmployeeController extends ControllerBase
 
     public function indexAction()
     {
-
-        $this->view->amount = count($this->getEmployeeMatches());
-        $this->view->matches = $this->getEmployeeMatches();
-
+        $this->view->vacancies = Vacancy::find();
     }
 
     public function getEmployeeMatches()
@@ -93,7 +90,7 @@ class EmployeeController extends ControllerBase
                 $location = $this->user->location;
             }
             $personalities = $this->request->getPost("type_personality");
-            $skills = $this->request->getPost("skills");
+            $skills = explode(",", $this->request->getPost("skills", "string", ""));
             $work_environment = $this->request->getPost("work_enviroment");
             $travel_distance = $this->request->getPost("travel_distance");
             $location_name = $this->request->getPost("location");
@@ -101,10 +98,6 @@ class EmployeeController extends ControllerBase
             $latitude = $this->request->getPost("latitude");
             $zoom = $this->request->getPost("zoom");
 
-            if (0 === strlen(trim($skills))) {
-                $this->flash->error($this->lang->_("please_enter_some_skills"));
-                $save_it = false;
-            }
             if (0 == strlen(trim($latitude)) || 0 == strlen(trim($longitude)) || 0 == strlen(trim($location_name))) {
                 $this->flash->error($this->lang->_(where_do_you_live));
                 $save_it = false;
@@ -113,32 +106,53 @@ class EmployeeController extends ControllerBase
                 $this->flash->error($this->lang->_('max_5_personalities'));
                 $save_it = false;
             }
+            if (count($skills) == 1 && $skills[0] == "") {
+                $this->flash->error($this->lang->_("please_enter_some_skills"));
+                $save_it = false;
+            }
+
+            /**
+             * Delete everything
+             */
+            Specification::find(["user_id = :user_id:", "bind" => ["user_id" => $this->user->getId()]])->filter(function ($s) {
+                $s->delete();
+            });
+            foreach ($skills as $name) {
+                $skill = new Skills();
+                $skill->setName($name);
+                $skill->save();
+                $speficiation = new Specification();
+                $speficiation->setUserId($this->user->getId());
+                $speficiation->setSkillsId($skill->getID());
+                $speficiation->save();
+            }
             $location->setZoom($zoom);
             $location->setLocation($location);
             $location->setLongitude($longitude);
             $location->setLatitude($latitude);
             $location->setTravelDistance($travel_distance);
             $location->setLocation($location_name);
-            $this->user->setWorkEnviromentType($work_environment);
-            Personality::find(array("user_id = {$this->user->getId() }"))->delete();
-            foreach ($personalities as $value) {
-                $pe = new Personality();
-                $pe->setUserId($this->user->getId());
-                $pe->setPersonality($value);
-                $pe->setVacancyId(-1);
-                $pe->save();
 
-            }
-            if ($this->user->save() && $save_it == true) {
+            $this->user->setSummary($this->request->get("summary", "string"));
+            $this->user->setWorkEnviromentType($work_environment);
+
+            if ($this->user->save() && $save_it) {
                 Matches::find(
                     array("user_id = {$this->user->getId()}")
                 )->delete();
-                $this->dispatcher->forward(array("controller" => "employee", "action" => "skills", "params" => array($skills)));
+                $this->flashSession->success($this->lang->_("saved_successfully"));
             }
 
+            $this->response->redirect("/employee/options");
         } else {
             $this->fillView();
         }
+    }
+
+    public function careerAction()
+    {
+        $work = WorkExperience::findByUserId($this->user->getId());
+        $this->view->work_experience = $work;
     }
 
     private function fillView()
@@ -157,4 +171,11 @@ class EmployeeController extends ControllerBase
         $this->view->travel_distance = $location->getTravelDistance();
     }
 
+    public function educationAction()
+    {
+    }
+    public function workAction()
+    {
+
+    }
 }

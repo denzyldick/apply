@@ -26,7 +26,7 @@
 
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox"> {{ lang._("remember_me") }}
+                                <input type="checkbox" value="yes"> {{ lang._("remember_me") }}
                             </label>
                         </div>
                     </div>

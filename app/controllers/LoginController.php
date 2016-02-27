@@ -8,9 +8,9 @@ class LoginController extends ControllerBase
     {
 
         if ($this->request->isPost()) {
-            $email = $this->request->getPost("email");
-            $password = $this->request->getPost("password");
-            $remember = $this->request->getPost("remember");
+            $email = $this->request->getPost("email","string");
+            $password = $this->request->getPost("password","string");
+            $remember = $this->request->getPost("remember","string","no");
 
 
             if ($this->check($email, $password, $remember)) {
@@ -19,35 +19,14 @@ class LoginController extends ControllerBase
                     $this->firstTimeRedirect();
                 }
                 $this->user->setLoginDate($this->date);
-                $this->dispatcher->forward(array("controller" => "suggestion"));
+                $this->response->redirect("/");
             } else {
                 $this->flash->error($this->lang->_('wrong_credentials'));
 
             }
         }
     }
-    protected function check($email, $password, $remember = "no")
-    {
 
-
-        $user = User::findFirst(array("email = '{$email}'"));
-
-        if (count($user) == 1 && $user instanceof User) {
-
-           $this->user = $user;
-
-            if($this->user->isAuthentic($password))
-            {
-                $this->session->set("user-id", $user->getId());
-                $this->session->set("user-type", $user->getUserType());
-                return true;
-            }
-          /// return $user->grantAccess($password,$this->security,$this->session);
-
-        }
-
-        return false;
-    }
 
     private function firstTimeRedirect()
     {
@@ -89,8 +68,8 @@ class LoginController extends ControllerBase
             $this->mailer->setRecipments(array($this->request->getPost('email')));
             $this->mailer->setSender($this->config->smpt->email);
             $this->mailer->send();
-            $this->dispatcher->forward(array('controller' => 'login'));
 
+            $this->response->redirect("/login");
         }
     }
 }

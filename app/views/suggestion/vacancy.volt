@@ -1,52 +1,103 @@
-{% set company = suggestion.vacancy.user.company %}
-{% set vacancy = suggestion.vacancy %}
-<div id="maps" class="col-md-11" style='width:100%;height:200px;position:absolute;top:0px;'></div>
-<div class="row">
+{% set company = vacancy.user.company %}
 
-    <div class="col-md-3"><img src="/files/{{ company.getLogo() }}" style="width: 150px;
-height: 150px;" class="img-thumbnail"/></div>
+<div class="row" >
+
+  <img src="/files/{{ company.getLogo() }}" class="img-thumbnail col-md-3 col-sm-3"/>
+    <div class="col-md-9 col-sm-9">
+        <div class="row">
+            <div class="col-md-12">
+                <h5>{{ company.getName() | capitalize }}</h5>
+            </div>
+        </div>
+        <div class="row-">
+            <div class="col-md-12">
+                {{ company.getDescription() }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h5 class="page-header">{{ lang._("skills_needed") }}
+                    <br>
+                    <small class="lead">
+                {% for specification in vacancy.specification %}
+                   {{ specification.skills.getName() }}
+                {% endfor %}
+                    </small>
+                </h5>
+            </div>
+        </div>
+
+    </div>
+
 </div>
+<div class="row">
+    <a href="{{ company.getWebsite() }}">
+        <i class="fa fa-globe col-md-1 fa-3x" style="color: #636565;"></i>
+
+    </a>
+
+    <a href="{{ company.getTwitter() }}">
+        <i class="fa fa-twitter col-md-1 fa-3x" style="color:#1da1f2"></i>
+
+    </a>
+    <a href="{{ company.getFacebook() }}"  style="color:#3a5795">
+        <i class="fa fa-facebook-f col-md-1 fa-3x"></i>
+
+    </a>
+    <div class=" col-md-3 pull-right">
+        <a href="" class="btn btn-primary btn-small"><i class="fa fa-envelope"></i> {{ lang._("apply") | upper }}</a>
+    </div>
+
+</div>
+
 
 <div class="row">
     <div class="col-md-3">
-        {% if suggestion.getEmployerAccepted() == 'yes' and suggestion.getEmployeeAccepted() == 'yes' %}
-            <a href="/contact/{{ suggestion.getId() }}" class="btn btn-small btn-primary"><span
-                        class="glyphicon glyphicon-email"></span> {{ this.lang._("contact") }}</a>
-        {% endif %}
-        {% if suggestion.getEmployerAccepted() == 'no'and suggestion.getEmployeeAccepted() == 'yes' %}
-            <a href="/suggestion/accept/{{ suggestion.getId() }}" class="btn btn-small btn-primary disabled"><span
-                        class="glyphicon glyphicon-time "></span> {{ this.lang._("pending") }}</a>&nbsp;<a
-                href="/suggestion/remove" class="btn btn-small btn-default"><span
-                    class="glyphicon glyphicon-remove"></span> {{ this.lang._("decline") }}</a>
-        {% endif %}
-        {% if suggestion.getEmployerAccepted() == 'no' and suggestion.getEmployeeAccepted()== 'no' %}
-            <a href="/suggestion/accept/{{ suggestion.getId() }}" class="btn btn-small btn-primary"><span
-                        class="glyphicon glyphicon-ok"></span> {{ this.lang._("accept") }}</a>&nbsp;<a
-                href="/suggestion/remove/" class="btn btn-small btn-default"><span
-                    class="glyphicon glyphicon-remove"></span> {{ this.lang._("decline") }}</a>
+        {#{% if suggestion.getEmployerAccepted() == 'yes' and suggestion.getEmployeeAccepted() == 'yes' %}#}
+            {#<a href="/contact/{{ suggestion.getId() }}" class="btn btn-small btn-primary"><span#}
+                        {#class="glyphicon glyphicon-email"></span> {{ this.lang._("contact") }}</a>#}
+        {#{% endif %}#}
+        {#{% if suggestion.getEmployerAccepted() == 'no'and suggestion.getEmployeeAccepted() == 'yes' %}#}
+            {#<a href="/suggestion/accept/{{ suggestion.getId() }}" class="btn btn-small btn-primary disabled"><span#}
+                        {#class="glyphicon glyphicon-time "></span> {{ this.lang._("pending") }}</a>&nbsp;<a#}
+                {#href="/suggestion/remove" class="btn btn-small btn-default"><span#}
+                    {#class="glyphicon glyphicon-remove"></span> {{ this.lang._("decline") }}</a>#}
+        {#{% endif %}#}
+        {#{% if suggestion.getEmployerAccepted() == 'no' and suggestion.getEmployeeAccepted()== 'no' %}#}
+            {#<a href="/suggestion/accept/{{ suggestion.getId() }}" class="btn btn-small btn-primary"><span#}
+                        {#class="glyphicon glyphicon-ok"></span> {{ this.lang._("accept") }}</a>&nbsp;<a#}
+                {#href="/suggestion/remove/" class="btn btn-small btn-default"><span#}
+                    {#class="glyphicon glyphicon-remove"></span> {{ this.lang._("decline") }}</a>#}
 
-        {% endif %}
+        {#{% endif %}#}
 
     </div>
 
 
 </div>
+<p></p>
+
+
+    <div class="row col-md-12">
+
+        <h5 class="page-header">
+            {{ lang._("job_description")|upper }}
+            <p class="lead">{{ vacancy.getDescription() }}</p>
+        </h5>
+
+
+    </div>
+    <div class="row col-md-12">
+        <h5 class="page-header">{{ lang._("job_benefits") |upper }}
+            <p class="lead">{{ vacancy.getJobBenefits() }}</p>
+        </h5>
+
+    </div>
+
+</div>
 <div class="row">
-
-    <div class="col-md-5">
-
-        <h5 class=" page-header">{{ company.getName()|e }}&nbsp;
-            <p class="lead">is looking for a  {{ vacancy.getFunction() }}</p>
-        </h5>
-        <small>{{ company.getDescription() }}</small>
-
-    </div>
-    <div class="col-md-5">
-        <h5 class="page-header">{{ lang._("what_you_skills_you_should_have") |upper }}
-            <p class="lead">{{ lang._("skills_are_based_on_years") |upper }}</p>
-        </h5>
-        <canvas id="chart" height="300" width="400"></canvas>
-    </div>
+    <div id="maps" class="col-md-12 disabled"  style="height:400px" ><img src="img/ajax-loader.gif"> </div>
 
 </div>
 
@@ -60,17 +111,22 @@ height: 150px;" class="img-thumbnail"/></div>
             {
                 center: new google.maps.LatLng({{vacancy.location.getLatitude()}}, {{vacancy.location.getLongitude()}}),
                 zoom:{{vacancy.location.getZoom()}},
-                disableDefaultUI: true
+                disableDefaultUI: true,
+                scrollwheel: false,
+                navigationControl: false,
+                mapTypeControl: false,
+                scaleControl: false,
+                draggable: false
             });
 
     google.maps.event.addDomListener(window, 'load', map);
 
     var populationOptions = {
-        strokeColor: 'red',
+        strokeColor: '#3498DB',
         strokeOpacity: 0.8,
-        strokeWeight: 2,
-        fillColor: '#FF7B7B',
-        fillOpacity: 0.35,
+        strokeWeight: 1,
+        fillColor: '#3498DB',
+        fillOpacity: 0.7,
         map: map,
         center: new google.maps.LatLng({{vacancy.location.getLatitude()}}, {{vacancy.location.getLongitude()}}),
         radius: 2000

@@ -3,9 +3,15 @@
 <div class="row">
     <div class='col-md-3'>
         <img src="/img/default-user-icon-profile.png" class="img img-thumbnail" style="width:100%;height:174px;"/>
+        <a href="/suggestion/accept/{{ suggestion.getId() }}" class="btn btn-large btn-primary">
+            <i class="fa fa-mail-forward"></i>
+            {{ this.lang._("contact_me")|upper }}</a>
+
     </div>
-    <div class='col-md-6'>
-        <h4>{{ lang._("im_looking_for_a_environment") | format(user.getWorkEnviromentType() | lower) }}</h4>
+    <div class='col-md-8'>
+
+            <h5>{{ lang._("years_of_experience") }}</h5>
+            <canvas id='chart' height="300"  class='col-md-12'></canvas>
 
     </div>
     {% if suggestion.getEmployerAccepted() == 'yes' and suggestion.getEmployeeAccepted() == 'yes' %}
@@ -22,47 +28,16 @@
 
 </div>
 <div class="row">
-    <div class="col-md-3">
-        <p></p>
-        {% if suggestion.getEmployerAccepted() == 'no' %}
 
 
-            <a href="/suggestion/accept/{{ suggestion.getId() }}" class="btn btn-small btn-primary"><span
-                        class="glyphicon glyphicon-ok"></span> {{ this.lang._("accept") }}</a>&nbsp;<a
-                href="/suggestion/remove/{{ user.getId() }}" class="btn btn-small btn-danger"><span
-                    class="glyphicon glyphicon-remove"></span> {{ this.lang._("decline") }}</a>
 
-        {% elseif suggestion.getEmployerAccepted() == 'yes' and suggestion.getEmployeeAccepted() == 'yes' %}
-            <a href="/contact/{{ suggestion.getId() }}" class="btn btn-small btn-primary"><span
-                        class="glyphicon glyphicon-email"></span> {{ this.lang._("contact") }}</a>
-
-        {% else %}
-
-
-            <a href="/suggestion/accept/{{ suggestion.getId() }}" class="btn btn-small btn-primary disabled"><span
-                        class="glyphicon glyphicon-time"></span> {{ this.lang._("pending") }}</a>&nbsp;<a
-                href="/suggestion/remove/{{ user.getId() }}" class="btn btn-small btn-danger"><span
-                    class="glyphicon glyphicon-remove"></span> {{ this.lang._("decline") }}</a>
-
-        {% endif %}
-    </div>
-    <div class='col-md-9'>
-        <h5>My individual skills on a scale from 1 to 5</h5>
-        <canvas id='chart' height="300" width="700 " class=''></canvas>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h4>{{ lang._("im_located_at") | format(user.location.getLocation())}} <i class="icon-map-marker"></i></h4>
     </div>
 </div>
-
-<div class='row'>
-    <div class="col-md-3">
-    </div>
-
-    <div class='col-md-9'>
-        <h5>I'm located somewhere in this area</h5>
-
-        <div id="location" style='height:300px;' class='well'></div>
-    </div>
-</div>
-
+        <div id="location" class="row" style='height:300px;' class='well'></div>
 
 <script>
 

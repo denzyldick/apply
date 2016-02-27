@@ -1,21 +1,15 @@
+<div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+    <ul class="nav navbar-nav">
+        <li >
+            <a href="/login">{{ lang._("login") }}</a>
+        </li>
+        <li>
+            <a href="/signup">{{ lang._("signup") }}</a>
+        </li>
+        <li>
+            <a href="/signup/?type=employer" class="btn-danger"><span
+                        class="fa fa-building-o"></span>&nbsp;{{ lang._("looking_for_employees") }}</a>
+        </li>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
-            <ul class="nav navbar-nav">
-                <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
-                <li class="hidden">
-                    <a href="#page-top"></a>
-                </li>
-                <li class="page-scroll">
-                    <a href="/#about">{{ lang._("about_us") }}</a>
-                </li>
-                <li class="page-scroll">
-                    <a href="/login">{{ lang._("login") }}</a>
-                </li>
-                <li class="page-scroll">
-                    <a href="/signup">{{ lang._("signup") }}</a>
-                </li>
-
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
+    </ul>
+</div>

@@ -161,8 +161,42 @@ class Specification extends \Phalcon\Mvc\Model
 
     public function initialize()
     {
-        $this->hasOne("skills_id", "Skills", "id");
-        $this->hasOne("vacancy_id", "Vacancy", "id");
+        $this->hasOne("skills_id", Skills::class, "id");
+        $this->hasOne("vacancy_id", Vacancy::class, "id");
+    }
+    public function afterSave()
+    {
+        /** @var Elasticsearch\Client $elasticsearch */
+        $elasticsearch =  \Phalcon\Di::getDefault()->get("elasticsearch");
+        if($this->getVacancyId() ==  null) {
+            $elasticsearch->index($this->buildUserIndex());
+        }else{
+
+            $elasticsearch->index($this->buildVacancyIndex());
+        }
+    }
+
+    private function buildUserIndex()
+    {
+        return [
+            "index"=>"apply",
+            "type"=>"skills",
+            "body"=>[
+            "name"=>$this->skills->getName(),
+            "user_id"=>$this->getUserId()
+            ]
+        ];
+    }
+    private function buildVacancyIndex()
+    {
+        return [
+            "index"=>"apply",
+            "type"=>"vacancy_skill",
+            "body"=>[
+                "skill"=>$this->skills->getName(),
+                "vacancy_id"=>$this->getVacancyId()
+            ]
+        ];
     }
 
 }

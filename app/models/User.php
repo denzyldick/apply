@@ -4,6 +4,7 @@ use Phalcon\DI;
 use Phalcon\Mvc\Model\Validator\Inclusionin;
 use Phalcon\Mvc\Model\Validator\PresenceOf;
 use Phalcon\Mvc\Model\Validator\Uniqueness;
+use Phalcon\Validation\Validator\StringLength;
 
 class User extends \Phalcon\Mvc\Model
 {
@@ -111,6 +112,8 @@ class User extends \Phalcon\Mvc\Model
     protected $signup_date;
 
     protected $login_date;
+
+    protected $summary;
 
     /**
      * Returns the value of field id
@@ -397,8 +400,7 @@ class User extends \Phalcon\Mvc\Model
      *
      * @return $this
      */
-    public
-    function setLocationId($location_id)
+    public function setLocationId($location_id)
     {
         $this->location_id = $location_id;
 
@@ -410,10 +412,10 @@ class User extends \Phalcon\Mvc\Model
      *
      * @return integer
      */
-    public
-    function getVacancyCount()
+    public function getVacancyCount()
     {
-        return $this->vacancy_count;
+//        return $this->vacancy_count;
+        return 1;
     }
 
     /**
@@ -423,8 +425,7 @@ class User extends \Phalcon\Mvc\Model
      *
      * @return $this
      */
-    public
-    function setVacancyCount($vacancy_count)
+    public function setVacancyCount($vacancy_count)
     {
         $this->vacancy_count = $vacancy_count;
 
@@ -436,8 +437,7 @@ class User extends \Phalcon\Mvc\Model
      *
      * @return integer
      */
-    public
-    function getEmailer()
+    public function getEmailer()
     {
         return $this->emailer;
     }
@@ -449,8 +449,7 @@ class User extends \Phalcon\Mvc\Model
      *
      * @return $this
      */
-    public
-    function setEmailer($emailer)
+    public function setEmailer($emailer)
     {
         $this->emailer = $emailer;
 
@@ -462,8 +461,7 @@ class User extends \Phalcon\Mvc\Model
      *
      * @return string
      */
-    public
-    function getIdStripe()
+    public function getIdStripe()
     {
         return $this->id_stripe;
     }
@@ -475,8 +473,7 @@ class User extends \Phalcon\Mvc\Model
      *
      * @return $this
      */
-    public
-    function setIdStripe($id_stripe)
+    public function setIdStripe($id_stripe)
     {
         $this->id_stripe = $id_stripe;
 
@@ -488,8 +485,7 @@ class User extends \Phalcon\Mvc\Model
      *
      * @return integer
      */
-    public
-    function getLocationDiameter()
+    public function getLocationDiameter()
     {
         return $this->location_diameter;
     }
@@ -501,8 +497,7 @@ class User extends \Phalcon\Mvc\Model
      *
      * @return $this
      */
-    public
-    function setLocationDiameter($location_diameter)
+    public function setLocationDiameter($location_diameter)
     {
         $this->location_diameter = $location_diameter;
 
@@ -514,8 +509,7 @@ class User extends \Phalcon\Mvc\Model
      *
      * @return string
      */
-    public
-    function getSignupDate()
+    public function getSignupDate()
     {
         return $this->signup_date;
     }
@@ -527,36 +521,45 @@ class User extends \Phalcon\Mvc\Model
      *
      * @return $this
      */
-    public
-    function setSignupDate($signup_date)
+    public function setSignupDate($signup_date)
     {
         $this->signup_date = $signup_date;
 
         return $this;
     }
 
-    public
-    function getLoginDate()
+    public function getLoginDate()
     {
         return $this->login_date;
     }
 
-    public
-    function setLoginDate($logindate)
+    public function setLoginDate($logindate)
     {
         $this->login_date = $logindate;
     }
 
-    public
-    function validation()
+    public function validation()
     {
 
-
+        $this->validate(new \Phalcon\Mvc\Model\Validator\StringLength(
+                [
+                    'field' => 'summary',
+                    'max' => 150,
+                    'min' => 0,
+                    'minimumMessage' => 'your_summary_is_to_short',
+                    'maximumMessage' => 'your_summary_is_too_long'
+                ]
+            )
+        );
         $this->validate(new Uniqueness(
             array(
                 "field" => "email",
                 "message" => "email_already_in_use"
             )
+        ));
+
+        $this->validate(new \Phalcon\Mvc\Model\Validator\Email(
+            ["field" => "email", "message" => "is_not_valid_email"]
         ));
         $this->validate(new PresenceOf(
             array(
@@ -608,8 +611,7 @@ class User extends \Phalcon\Mvc\Model
     }
 
 
-    public
-    function grantAccess($password, \Phalcon\Security $security, Phalcon\Session\Adapter\Files $session)
+    public function grantAccess($password, \Phalcon\Security $security, Phalcon\Session\Adapter\Files $session)
     {
         var_dump($security->checkHash($password, $this->getPassword()));
 
@@ -626,25 +628,76 @@ class User extends \Phalcon\Mvc\Model
     }
 
 
-
     public function isAuthentic($password)
     {
-       $security = new \Phalcon\Security();
+        $security = new \Phalcon\Security();
         $hash = $this->getPassword();
 
-        return $security->checkHash($password,$hash);
+        return $security->checkHash($password, $hash);
     }
 
-    public
-    function initialize()
+    public function initialize()
     {
-        $this->hasOne("location_id", "Location", "id");
-        $this->hasMany("id", "Specification", "user_id");
-        $this->belongsTo("id", "Company", "user_id");
-        $this->hasMany("id", "Premium", "user_id");
-        $this->hasMany('id', 'Notification', 'sender');
-        $this->hasMany('id', 'Notification', 'receiver');
-        $this->hasMany('id', 'Personality', 'user_id');
+        $this->hasOne("location_id", Location::class, "id",["alias"=>"location"]);
+        $this->hasMany("id", Specification::class, "user_id");
+        $this->belongsTo("id", Company::class, "user_id");
+        $this->hasMany("id", Premium::class, "user_id");
+        $this->hasMany('id', Notification::class, 'sender');
+        $this->hasMany('id', Notification::class, 'receiver');
+        $this->hasMany('id', Personality::class, 'user_id');
+        $this->hasMany("id", WorkExperience::class, "user_id", ["alias" => "work_experience"]);
+        $this->hasMany("id", Education::class, "user_id", ["alias" => "education"]);
+
+    }
+
+
+    public function isEmployee()
+    {
+        return $this->usertype === "employee";
+    }
+
+    public function isEmployer()
+    {
+        return $this->usertype === "employer";
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSummary()
+    {
+        return $this->summary;
+    }
+
+    /**
+     * @param mixed $summary
+     */
+    public function setSummary($summary)
+    {
+        $this->summary = $summary;
+    }
+
+    public function afterSave()
+    {
+        if($this->isEmployee()) {
+            /** @var Elasticsearch\Client $elasticsearch */
+            $elasticsearch = \Phalcon\Di::getDefault()->get("elasticsearch");
+
+            $elasticsearch->index($this->buildIndex());
+        }
+    }
+
+    private function buildIndex()
+    {
+        return [
+            "index"=>"apply",
+            "type"=>"employee",
+            "body"=>[
+                "summary"=>$this->getSummary(),
+                "user_id"=>$this->getId()
+            ]
+
+        ];
     }
 
 }

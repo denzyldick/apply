@@ -57,6 +57,8 @@ class Company extends \Phalcon\Mvc\Model
      */
     protected $location_id;
 
+    protected $twitter;
+    protected  $facebook;
     public function getLocationId()
     {
         return $this->location_id;
@@ -254,10 +256,10 @@ class Company extends \Phalcon\Mvc\Model
         return $this;
     }
 
-    public function columnMap()
-    {
-        return array('id' => 'id', 'name' => 'name', 'description' => 'description',  'user_id' => 'user_id', 'location_id'=>'location_id','logo' => 'logo', 'website' => 'website', 'work_enviroment_type' => 'work_enviroment_type');
-    }
+//    public function columnMap()
+//    {
+//        return array('id' => 'id', 'name' => 'name', 'description' => 'description',  'user_id' => 'user_id', 'location_id'=>'location_id','logo' => 'logo', 'website' => 'website', 'work_enviroment_type' => 'work_enviroment_type');
+//    }
 
     public function initialize()
     {
@@ -288,34 +290,67 @@ class Company extends \Phalcon\Mvc\Model
             )
 
         );
-//        $this->validate(
-//            new PresenceOf(
-//                array(
-//                    "field" => "location",
-//                    "message" => "company_location_is_missing"
-//                )
-//            )
-//        );
-//        $this->validate(
-//                new PresenceOf(
-//                    array(
-//                        "field"=>"logo",
-//                        "message"=>"company_logo_is_missing"
-//                    )
-//                )
-//        );
-        $this->validate(
-            new PresenceOf(
-                array(
-                    "field" => "work_enviroment_type",
-                    "message" => "company_culture_is_missing"
-                )
-            )
-        );
+
         if ($this->validationHasFailed()) {
             return false;
         }
         return true;
+    }
+
+    public function afterSave()
+    {
+        /** @var Elasticsearch\Client $elasticsearch */
+        $elasticsearch =  \Phalcon\Di::getDefault()->get("elasticsearch");
+
+        $elasticsearch->index($this->buildIndex());
+    }
+
+    private function buildIndex()
+    {
+        return [
+            "index"=>"apply",
+            "type"=>"company",
+            "body"=>[
+                "name"=>$this->getName(),
+                "company_id" =>$this->getId(),
+                "website"=>$this->getWebsite(),
+                "summary"=>$this->getDescription(),
+                "facebook"=>$this->getFacebook(),
+                "twitter"=>$this->getTwitter()
+            ]
+        ];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFacebook()
+    {
+        return $this->facebook;
+    }
+
+    /**
+     * @param mixed $facebook
+     */
+    public function setFacebook($facebook)
+    {
+        $this->facebook = $facebook;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTwitter()
+    {
+        return $this->twitter;
+    }
+
+    /**
+     * @param mixed $twitter
+     */
+    public function setTwitter($twitter)
+    {
+        $this->twitter = $twitter;
     }
 
 }

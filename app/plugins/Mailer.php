@@ -45,6 +45,7 @@ class Mailer extends Plugin
             /*
             *Logger
             */
+            var_dump($e);
 
         }
     }

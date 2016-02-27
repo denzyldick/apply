@@ -166,7 +166,7 @@ a:focus {
     margin-bottom: 0;
     border-bottom: 1px solid #E8EAF6;
     text-transform: uppercase;
-    background-color: #3f51b5;
+    background-color: #3498DB;
 }
 
 .navbar-custom .nav li a {
@@ -207,7 +207,7 @@ a:focus {
         padding: 0;
         border-bottom: 1px solid #E8EAF6;
         text-transform: uppercase;
-        background-color: #3f51b5;
+        background-color: #3498DB;
     }
 
     .navbar-custom.top-nav-collapse {
@@ -222,8 +222,7 @@ a:focus {
     padding: 100px 0;
     text-align: center;
     color: #fff;
-    background: url(../img/intro-bg.jpg) no-repeat bottom center scroll;
-    background-color: #6d94bf;
+    /*background-color: #7CB978;*/
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
@@ -232,8 +231,6 @@ a:focus {
 
 .intro-body {
     display: table-cell;
-    vertical-align: middle;
-    text-shadow: black 1px 1px !important;
 }
 
 .intro-text {
@@ -285,7 +282,6 @@ a:focus {
     width: 100%;
     padding: 50px 0;
     color: #fff;
-    background: url(../img/downloads-bg.jpg) no-repeat center center scroll;
     background-color: #6d94bf;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -429,11 +425,11 @@ img::-moz-selection {
 }
 
 .label-success.label-arrow:after {
-    border-left-color: #5cb85c;
+    border-left-color: #3498DB;
 }
 
 .label-success.label-arrow:before {
-    border-right-color: #5cb85c;
+    border-right-color: #3498DB;
 }
 
 .label-warning.label-arrow:after {

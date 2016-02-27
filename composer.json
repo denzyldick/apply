@@ -1,6 +1,7 @@
 {
   "require": {
-    "phalcon/incubator": "dev-master",
-    "cboden/ratchet": "0.3.*"
+    "phalcon/devtools": "dev-master",
+    "elasticsearch/elasticsearch": "^2.1",
+    "fzaninotto/faker": "^1.5"
   }
 }

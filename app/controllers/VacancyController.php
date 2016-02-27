@@ -18,16 +18,16 @@ class VacancyController extends ControllerBase
     }
 
     public function newAction()
-    {  /* For personalities */
-        $this->view->personalities = $this->personalities;
-
-    }
-
-    public function saveAction()
     {
-        if ($this->request->isPost() && $this->user->getVacancyCount() > 0) {
+        if($this->request->get("vacancy_id","int",null) == null)
+        {
+            $vacancy = new Vacancy();
+        }else{
+            $vacancy = Vacancy::findFirst(["id = :vacancy_id: AND user_id = :user_id: ","bind"=>["vacancy_id"=>$this->request->get("vacancy_id","int"),'user_id'=>$this->user->getId()]]);
+        }
 
-            $personalities = $this->request->getPost('type_personality');
+
+        if ($this->request->isPost()) {
 
             $name = $this->request->getPost("name");
 
@@ -37,6 +37,12 @@ class VacancyController extends ControllerBase
             $location_name = $this->request->getPost("location");
             $skills = $this->request->getPost("skills");
             $culture = $this->request->getPOst("culture");
+            $fulltime = $this->request->getPost("fulltime", "int", 0);
+            $parttime = $this->request->getPost("parttime", "int", 0);
+            $freelance = $this->request->getPost("freelance", "int", 0);
+            $description = $this->request->getPost("description", "string");
+            $job_benefits = $this->request->getPost("job_benefits", "string");
+
 
             $location = new Location();
             $location->setLongitude($longitude);
@@ -45,59 +51,61 @@ class VacancyController extends ControllerBase
             $location->setLocation($location_name);
             $location->save();
 
-            $vacancy = new Vacancy();
+
             $vacancy->setFunction($name);
             $vacancy->setPostedDate($this->date);
             $vacancy->setUserId($this->session->get("user-id"));
             $vacancy->setLocationId($location->getId());
             $vacancy->setWorkEnviromentType($culture);
-            if (count($personalities) <= 5) {
+            $vacancy->setFreelance($freelance);
+            $vacancy->setParttime($parttime);
+            $vacancy->setFulltime($fulltime);
+            $vacancy->setDescription($description);
+            $vacancy->setJobBenefits($job_benefits);
 
 
-                if ($vacancy->save()) {
-                    Personality::find(array("vacancy_id = {$vacancy->getId()}"))->delete();
-                    foreach ($personalities as $value) {
-                        $personality = new Personality();
-                        $personality->setPersonality($value);
-                        $personality->setUserId(-1);
-                        $personality->setVacancyId($vacancy->getId());
-                        $personality->save();
-                    }
-                    $this->dispatcher->forward(array("action" => "skills", "params" => array($skills, $vacancy->getId())));
-                } else {
-                    $this->flash->message('error', "max_5_personality");
-                    $this->dispatcher->forward(array("action" => "index"));
+            if ($vacancy->save() && $vacancy->validation() && $location->save()) {
+
+                $skills = explode(",", $this->request->getPost("skills"));
+
+                foreach ($skills as $value) {
+                    $specification = new Specification();
+                    $specification->setPercent(0);
+                    $specification->setVacancyId($vacancy->getId());
+                    $skill = new Skills();
+                    $skill->setName($value);
+                    $skill->save();
+                    $specification->setSkillsId($skill->getId());
+                    $specification->save();
+                }
+
+                $this->flash->success($this->lang->_("vacancy_has_been_successfully_saved"));
+                $this->response->redirect("/vacancy");
+            } else {
+
+                $errors = $vacancy->getMessages();
+                array_merge($errors, $location->getMessages());
+                foreach ($errors as $message) {
+
+                    $this->flash->error($this->lang->_($message->getMessage()));
                 }
             }
-
         }
+        $this->view->vacancy = $vacancy;
+
     }
 
-    public function skillsAction($skills, $vacancy_id)
-    {
-        $this->view->skills = explode(",", $skills);
-        $this->view->vacancy_id = $vacancy_id;
-    }
+
 
     public function finishAction()
     {
         if ($this->request->isPost() && $this->user->getVacancyCount() > 0) {
             $vacancy = $this->request->getPost("vacancy_id");
-            $skills = json_decode($this->request->getPost("skills"));
-            foreach ($skills as $key => $value) {
-                $specification = new Specification();
-                $specification->setPercent($this->convert->toPercent($this->request->getPost($value)));
-                $specification->setVacancyId($vacancy);
-                $skill = new Skills();
-                $skill->setName($value);
-                $skill->save();
-                $specification->setSkillsId($skill->getId());
-                $specification->save();
-            }
+            $
             $this->user->setVacancycount($this->user->getVacancyCount() - 1);
             $this->user->save();
-            $this->flash->success("Your vacancy has been succesfully save");
-            $this->dispatcher->forward(array("controller" => "vacancy", "action" => "index"));
+            $this->flash->success("Your vacancy has been successfully saved");
+            $this->response->redirect("/vacancy");
         }
     }
 
@@ -126,21 +134,7 @@ class VacancyController extends ControllerBase
         } else {
             $this->flash->error($this->lang->_("something_went_wrong_try_again"));
         }
-        $this->dispatcher->forward(array("action" => "index"));
+        $this->response->redirect("/vacancy");
     }
 
-    private function getRemaingVacancy()
-    {
-        // $vacancies = Vacancy::findByUser_id($this->user->getId());
-        // $premiums  = Premium::findByUser_id($this->user->getId());
-        //
-        // $amount = 0;
-        // foreach($premiums as $premium)
-        // {
-        //   $bundle = Bundle::findFirst($premium->getBundleIdbundle());
-        //   $amount = $amount + $bundle->getAmount();
-        // //$bundle->getAmount()."<br/>";
-        // }
-        // return ($amount - count($vacancies));
-    }
 }

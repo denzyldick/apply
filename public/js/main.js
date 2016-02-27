@@ -4,18 +4,24 @@ $(document).ready(function () {
 //    $(".alert").append('&nbsp;&nbsp;<a class="close" data-dismiss="alert">×</a>');
 
 
+
+
+
+
     $('.gllpSearchField').keydown(function (event) {
 
-        if (event.keyCode == 13) {
 
-            if ($('.gllpSearchField').val().length > 0) {
+
+            if ($('.gllpSearchField').val().length > 2  ) {
                 $('.gllpSearchButton').click();
-
-
             }
-            event.preventDefault();
-            return false;
-        }
+
+          if (event.keyCode == 13) {
+                event.preventDefault();
+               return false;
+            }
+
+
     });
 });
 /** Line graph Options **/
@@ -169,8 +175,27 @@ $(document).ready(function () {
 //    });
 //});
 
+var search = function () {
+    $("#results").fadeOut("fast").html("")
+    $.get("/search?query=" + $("#search_employee_value").val(), function (response) {
 
+        console.log(response)
+        $("#results").html(response).fadeIn("fast");
+    })
+}
 $(document).ready(function () {
+    $("#search_employee").click(function () {
+        console.log("tea")
+        search()
+    })
+    $("#search_employee_value").keydown(function (event) {
+        console.log(event.keyCode)
+        if (event.keyCode == 13) {
+            search()
+        }
+    })
+
+
     $('#ui_effect_in').val('puff');
     $('#ui_easing_in').val('easeOutBack');
     $('#ui_effect_out').val('same');
@@ -179,8 +204,7 @@ $(document).ready(function () {
     $('#ui_button').click();
     $(".bootstrap-tagsinput").addClass("material-input");
     $.get("/notification", function (response) {
-     //$("body").html(response);
-        console.log(response);
+        //$("body").html(response);
         jQuery.each(response, function () {
 
             new PNotify({
@@ -229,7 +253,46 @@ $(document).ready(function () {
                 }
             });
         });
-    },"json");
+    }, "json");
 
 });
 
+
+var getUser = function (id) {
+
+    $.get("suggestion/profile/" + id, function (response) {
+        $("#search_bar").hide()
+
+
+        $("#show_user").html(response)
+        $("#show_user").prepend('<i class="fa fa-close pull-right"  style="cursor:pointer" onclick="show_bar() "></i>')
+        $("#show_user").show()
+    })
+
+
+}
+
+
+var getVacancy  = function(vacancy_id)
+{
+    $.get("suggestion/vacancy/" + vacancy_id, function (response) {
+        $("#search_bar").hide()
+
+
+        $("#show_vacancy").html(response)
+        $("#show_vacancy").prepend('<i class="fa fa-close pull-right"  style="cursor:pointer" onclick="show_bar() "></i>')
+        $("#show_vacancy").show()
+    })
+
+}
+
+var show_bar = function () {
+    $('#show_user').hide();
+    $("#search_bar").show()
+}
+
+var submitlocationform = function()
+{
+    var form = document.querySelector("#location")
+    form.submit()
+}

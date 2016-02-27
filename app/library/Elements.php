@@ -23,8 +23,8 @@ class Elements extends Component
         $this->di = $di;
         $this->employeeMenu = array(
 
-            $this->lang->_("matches") => "/employee",
-            $this->lang->_("suggestions") => "/suggestion"
+//            $this->lang->_("matches") => "/employee",
+//            $this->lang->_("suggestions") => "/suggestion"
         );
         $this->publicMenu = array();
         $this->footerMenu = array(
@@ -33,9 +33,8 @@ class Elements extends Component
           $this->lang->_("blog")
         );
         $this->employerMenu = array(
-            $this->lang->_("matches") => "/employer",
+//            $this->lang->_("matches") => "/employer",
             $this->lang->_("suggestions") => "/suggestion",
-            $this->lang->_("vacancies") => "/vacancy"
         );
 
         $this->employeeSettingsDropDown = array(
@@ -45,6 +44,7 @@ class Elements extends Component
 
         );
         $this->employerSettingsDropDown = array(
+            $this->lang->_("vacancies") => "/vacancy",
             $this->lang->_("account") => "/settings",
             $this->lang->_("company") => "/company",
             $this->lang->_("upgrade") => "/premium"

@@ -22,16 +22,16 @@ class Security extends Plugin
         if (!$auth) {
 
             $role = 'guest';
-            $userDispatcher = array(
+            $userDispatcher = [
                 'controller' => 'login',
-                'action' => 'index');
+                'action' => 'index'];
         } else {
             $role = $this->session->get("user-type");
 
-            $userDispatcher = array(
+            $userDispatcher = [
                 'controller' => $role,
                 'action' => 'index'
-            );
+            ];
             $this->view->show_settings = true;
         }
 
@@ -77,44 +77,51 @@ class Security extends Plugin
             $acl->addRole($role);
         }
         //Employee area
-        $employeeResource = array(
-            'employee' => array("index", "skills", "done", "options"),
-            'suggestion' => array("index", "vacancies", "accept", 'vacancy', 'remove', 'decline'),
-            'logout' => array('index'),
-            'settings' => array("index", "save", "password", "reset"),
-            'support' => array('index'),
-            'notification' => array('index', 'seen')
-        );
+        $employeeResource = [
+            'photo'=>['index'],
+            'education'=>["index","delete"],
+            'search'=>['index','dummy'],
+            'work' => ['index','delete'],
+            'employee' => ["index", "skills", "done", "options", "education", "work"],
+            'suggestion' => ["index", "vacancies", "accept", 'vacancy', 'remove', 'decline'],
+            'logout' => ['index'],
+            'settings' => ["index", "save", "password", "reset","deactivate"],
+            'support' => ['index'],
+            'notification' => ['index', 'seen']
+        ];
         foreach ($employeeResource as $resource => $actions) {
             $acl->addResource(new Phalcon\Acl\Resource($resource), $actions);
         }
 
         //Employer area
-        $employerResource = array(
-            'employer' => array('index', 'settings'),
-            'suggestion' => array("index", "view", 'profile', 'accept', 'remove', 'decline'),
-            'premium' => array("index", 'charge'),
-            'settings' => array("index", "save", "password", "reset"),
-            'logout' => array('index'),
-            'vacancy' => array('index', 'new', 'location', 'skills', 'finish', 'remove', 'save'),
-            'company' => array('index', 'save'),
-            'support' => array('index'),
-            'notification' => array('index', 'seen')
-        );
+        $employerResource = [
+            'photo'=>['index','upload'],
+            'search'=>['index','dummy'],
+            'employer' => ['index', 'settings'],
+            'suggestion' => ["index", "view", 'profile', 'accept', 'remove', 'decline'],
+            'premium' => ["index", 'charge'],
+            'settings' => ["index", "save", "password", "reset","deactivate"],
+            'logout' => ['index'],
+            'vacancy' => ['index', 'new', 'location', 'skills', 'finish', 'remove', 'save'],
+            'company' => ['index', 'save'],
+            'support' => ['index'],
+            'notification' => ['index', 'seen']
+        ];
 
         foreach ($employerResource as $resource => $actions) {
 
             $acl->addResource(new Phalcon\Acl\Resource($resource), $actions);
         }
 
-        $publicResources = array(
+        $publicResources = [
+            'photo'=>['index'],
+            'search'=>['index','dummy'],
+            'index' => ['index', 'show'],
+            'login' => ['index', 'login', 'forgotpassword'],
+            'signup' => ['index', 'start', 'activate'],
+            'verification' => ['index']
 
-            'index' => array('index', 'show'),
-            'login' => array('index', 'login', 'forgotpassword'),
-            'signup' => array('index', 'start', 'activate'),
-            'verification'=>array('index')
-
-        );
+        ];
         foreach ($publicResources as $resource => $actions) {
             $acl->addResource(new Phalcon\Acl\Resource($resource), $actions);
         }

@@ -1,22 +1,26 @@
-<h4 class="page-header">
-    {{ lang._('you_have_count_matches') |format(suggestions |length) }}
-    {% if(suggestions |length >0) %}
-    <p class="lead">{{ lang._('you_can_now_connect') }}</p>
-    {% endif %}
-</h4>
-{% if(suggestions|length == 0) %}
-    <div class="row">
-        <div class="col-md-5 col-md-offset-4">
-            <a class="btn btn-large btn-primary disabled"><span
-                        class="glyphicon glyphicon-warning-sign"></span> {{ lang._("your_matches_will_be_displayed_here") }}
-            </a>
+<div class="row" style="overflow-x:hidden" id="search_bar">
+    <div class="col-md-12 col-md-offset-1">
+        <h2>{{ lang._("find_your_new_employee") }}</h2>
+
+        <div class="input-group col-md-10">
+            <input type="text"  id="search_employee_value" class="form-control input-lg"
+                   placeholder="&nbsp;{{ lang._("search_employer_placeholder") }}" autofocus/>
+                    <span class="input-group-btn">
+                        <button class="btn btn-info btn-lg" type="button" id="search_employee">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </span>
         </div>
     </div>
-{% endif %}
+</div>
+<p>&nbsp;</p>
+<div class="row">
+    <div id="show_vacancy" class="well col-md-12" style="display: none;" >
+    </div>
 
-<div class="row placeholders">
-    {% for suggestion in suggestions %}
-        {{ suggestionHelper.showMatchControlBox(suggestion,user) }}
-    {% endfor %}
+    <div class="col-md-12" id="result_holder">
+        <img src="/img/ajax-loader.gif" id="loader" style="display:none" class="col-md-offset-5"/>
+        <div id="results"></div>
+    </div>
 
 </div>

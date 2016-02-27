@@ -27,7 +27,7 @@ return $messages = array(
     "description" => "beschrijving",
     "wrong_credentials" => "verkeerde wachtwoord of/en email",
     "user_already_exsists" => 'Jouw email is al in gebruik',
-    "what_is_your_company_information" => 'Vul hier uw bedrijfsinformatie in',
+    "what_is_your_company_information" => 'Vertel ons iets over uw organisatie',
     'what_is_your_company_name' => 'Naam van bedrijf',
     'what_is_your_company_description' => 'Wat doet je bedrijf',
     "what_is_your_company_location" => 'Waar is je bedrijf gelokaliseerd',
@@ -172,6 +172,13 @@ return $messages = array(
     'searching_for_jobs' => 'zoeken voor banen',
     'about_us' => 'Over ons',
     'vacancies' => 'Vacatures',
-
-
+    'find_your_new_employee'=>'Zoek uw nieuwe werknemer',
+    "search_employer_placeholder"=>"ontwikkelaar Rotterdam",
+    "zero_results"=>"We konden het niet vinden.",
+    "help_us_expand"=>"Vertel uw vrienden over ons!",
+    "find_your_new_career"=>"Vind je nieuwe uitdaging",
+    "im_located_at"=>"Ik bevind me in %s",
+    "potential_candidates"=>"Mogelijke kandidaten",
+    "looking_for_employees"=>"Opzoek naar werknemers?",
+    "read_more_about_this_job"=>"lees meer over deze vacature"
 );

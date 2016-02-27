@@ -177,4 +177,43 @@ class Location extends \Phalcon\Mvc\Model
         return $this;
     }
 
+    public function afterSave()
+    {
+        /** @var Elasticsearch\Client $elasticsearch */
+        $elasticsearch =  \Phalcon\Di::getDefault()->get("elasticsearch");
+
+            $elasticsearch->index($this->buildIndex());
+    }
+
+    private function buildIndex()
+    {
+        return [
+            "index"=>"apply",
+            "type"=>"location",
+            "body"=>[
+                "longitude"=>$this->getLongitude(),
+                "latitude"=>$this->getLatitude(),
+                "location"=>$this->getLocation(),
+                "travel_distance"=>$this->getTravelDistance(),
+                "location_id"=>$this->getId()
+            ]
+        ];
+    }
+
+//    public function validation()
+//    {
+//
+//        $this->validate(new \Phalcon\Validation\Validator\PresenceOf(
+//            [
+//                "field"=>"location",
+//                "message"=>"please_fill_in_job_function"
+//            ]
+//        ));
+//
+//        if ($this->validationHasFailed() == true) {
+//            return false;
+//        }
+//        return true;
+//
+//    }
 }

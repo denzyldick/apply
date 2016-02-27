@@ -2,11 +2,9 @@
 
 class SignupController extends ControllerBase
 {
-    public function indexAction(User $user = null)
+    public function indexAction()
     {
-        $user = (is_null($user) ? new User : $user);
-
-        $this->view->trying_to_reg_user = $user;
+        $this->view->type = $this->request->get("type","string","employee");
 
     }
 
@@ -52,17 +50,20 @@ class SignupController extends ControllerBase
             $location->save();
             $user->setLocationId($location->getId());
 
-            if (is_null($user->validation()) || $user->validation()) {
+            if($user->save() && $this->check($email,$password)){
 
-                $user->save();
-
-
-                //   $this->sendRegistrationMail($user);
                 $this->flash->success($this->lang->_("your_account_has_been_created"));
-                $this->dispatcher->forward(array("controller" => "index"));
+                if($user->isEmployer())
+                {
+                    $this->response->redirect("company");
+                }else{
+                    $this->response->redirect("employee/options");
+                }
+                $this->response->redirect("/login");
             } else {
-
-                $this->flash->error($this->lang->_($user->getMessages()[0]));
+                foreach ($user->getMessages() as $message) {
+                    $this->flash->error($message);
+                }
                 $this->dispatcher->forward(array('controller' => 'signup', 'action' => 'index', 'params' => array($user)));
 
             }

@@ -27,7 +27,7 @@ return $messages = array(
     "description" => "description",
     "wrong_credentials" => "Wrong password or email",
     "user_already_exsists" => 'Your email is already in our database',
-    "what_is_your_company_information" => 'company information',
+    "what_is_your_company_information" => 'Tell us something about your organisation',
     'what_is_your_company_name' => 'Name of your company',
     'what_is_your_company_description' => 'What does your company do',
     "what_is_your_company_location" => 'Where is your company located',
@@ -148,6 +148,15 @@ return $messages = array(
 
     "we_have_found_count_vacancies"=>"We have %d vacancies for you",
     "we_have_found_count_persons"=>"We have found %d persons for you",
-    "you_have_count_matches"=>"You have %d matches",
-    "your_matches_will_be_displayed_here"=>"Your matches will be displayed here"
+    "there_are_vacancy"=>"We have found %d vacancies",
+    "your_matches_will_be_displayed_here"=>"Your matches will be displayed here",
+    "find_your_new_employee"=>"Find your new employee",
+    "search_employer_placeholder"=>"Developer php Rotterdam",
+    "zero_results"=>"We couldn't find what you where looking for.",
+    "help_us_expand"=>"Tell your friends about us!",
+    "find_your_new_career"=>"Find your new challenge",
+    "im_located_at"=>"I'm located in %s",
+    "potential_candidates"=>"potential candidates",
+    "looking_for_employees"=>"Looking for employees?",
+    "read_more_about_this_job"=>"read more about this job"
 );

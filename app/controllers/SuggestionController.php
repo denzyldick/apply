@@ -12,13 +12,14 @@ class SuggestionController extends ControllerBase
     {
         $this->view->user = User::findFirst($user_id);
         $this->view->suggestion = Matches::findFirst($suggestion_id);
+        $this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_ACTION_VIEW);
 
     }
 
     public function vacancyAction($vacancy_id, $suggestion_id)
     {
         $this->view->vacancy = Vacancy::findFirst($vacancy_id);
-        $this->view->suggestion = Matches::findFirst($suggestion_id);
+//        $this->view->suggestion = Matches::findFirst($suggestion_id);
     }
 
     public function indexAction()
