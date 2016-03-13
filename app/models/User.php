@@ -110,11 +110,19 @@ class User extends \Phalcon\Mvc\Model
      * @var string
      */
     protected $signup_date;
-
+    /**
+     * @var DateTime
+     */
     protected $login_date;
 
+    /**
+     * @var string
+     */
     protected $summary;
 
+    protected $search_enable;
+
+    protected $photo;
     /**
      * Returns the value of field id
      *
@@ -414,8 +422,8 @@ class User extends \Phalcon\Mvc\Model
      */
     public function getVacancyCount()
     {
-//        return $this->vacancy_count;
-        return 1;
+        return $this->vacancy_count;
+//        return 1;
     }
 
     /**
@@ -692,12 +700,58 @@ class User extends \Phalcon\Mvc\Model
         return [
             "index"=>"apply",
             "type"=>"employee",
+            "id"=>$this->getId(),
             "body"=>[
                 "summary"=>$this->getSummary(),
                 "user_id"=>$this->getId()
             ]
 
         ];
+    }
+
+    public function afterDelete()
+    {
+        /** @var Elasticsearch\Client $elasticsearch */
+        $elasticsearch =  \Phalcon\Di::getDefault()->get("elasticsearch");
+        $elasticsearch->delete(
+            [
+                'index'=>'apply',
+                'type'=>'employee',
+                'id'=>$this->getId()
+            ]
+        );
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    /**
+     * @param mixed $photo
+     */
+    public function setPhoto($photo)
+    {
+        $this->photo = $photo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSearchEnable()
+    {
+        return $this->search_enable;
+    }
+
+    /**
+     * @param mixed $search_enable
+     */
+    public function setSearchEnable($search_enable)
+    {
+        $this->search_enable = $search_enable;
     }
 
 }

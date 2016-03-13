@@ -145,7 +145,7 @@ return $messages = array(
     "what_you_skills_you_should_have" => "you should have these skills",
     "skills_are_based_on_years" => "years of experience",
     "are_you_interested" => "new opportunity",
-
+    'you_dont_have_any_vacancies'=>'No vacancies',
     "we_have_found_count_vacancies"=>"We have %d vacancies for you",
     "we_have_found_count_persons"=>"We have found %d persons for you",
     "there_are_vacancy"=>"We have found %d vacancies",
@@ -158,5 +158,6 @@ return $messages = array(
     "im_located_at"=>"I'm located in %s",
     "potential_candidates"=>"potential candidates",
     "looking_for_employees"=>"Looking for employees?",
-    "read_more_about_this_job"=>"read more about this job"
+    "read_more_about_this_job"=>"read more about this job",
+    'thank_you_for_your_purchase'=>'Thank you for your purchase'
 );

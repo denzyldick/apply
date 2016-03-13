@@ -310,6 +310,7 @@ class Company extends \Phalcon\Mvc\Model
         return [
             "index"=>"apply",
             "type"=>"company",
+            "id"=>$this->getId(),
             "body"=>[
                 "name"=>$this->getName(),
                 "company_id" =>$this->getId(),
@@ -320,7 +321,16 @@ class Company extends \Phalcon\Mvc\Model
             ]
         ];
     }
-
+    public function afterDelete()
+    {
+        /** @var Elasticsearch\Client $elasticsearch */
+        $elasticsearch =  \Phalcon\Di::getDefault()->get("elasticsearch");
+        $elasticsearch->delete([
+            'index'=>'apply',
+            'type'=>'company',
+            'id'=>$this->getId()
+        ]);
+    }
     /**
      * @return mixed
      */

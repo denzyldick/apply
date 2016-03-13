@@ -2,7 +2,15 @@
     <div class="row">
         <div class="col-md-3">
             <div class="row">
-                <img src="http://placehold.it/200x100"/>
+                {% if user.getPhoto() is not empty %}
+                <div class="dropzone-previews">
+                <img src="/files/{{ user.getPhoto()  }}"  class="dropzone" id="myAwesomeDropzone"/>
+                    </div>
+                {% endif %}
+                <div class="dropzone" id="myAwesomeDropzone">
+
+                </div>
+                <input type="hidden" id="file_name" name="file_name">
             </div>
             <div class="row">
                 <div class="col-md-3">
@@ -27,8 +35,7 @@
     <div class="row">
         <div class="col-md-12">
             <label>{{ lang._('where_do_you_live') }}</label>
-            <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-            <script src="/js/jquery-gmaps-latlon-picker.js"></script>
+
         </div>
     </div>
     <fieldset class="gllpLatlonPicker" id="custom_id">
@@ -86,7 +93,3 @@
         </div>
     </div>
 </form>
-<form action="/employee/photo"
-      class="dropzone"
-      id="my-awesome-dropzone"></form>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.2.0/min/dropzone.min.js"></script>

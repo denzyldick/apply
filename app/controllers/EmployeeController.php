@@ -96,6 +96,7 @@ class EmployeeController extends ControllerBase
             $location_name = $this->request->getPost("location");
             $longitude = $this->request->getPost("longitude");
             $latitude = $this->request->getPost("latitude");
+            $photo  =  $this->request->getPost("file_name");
             $zoom = $this->request->getPost("zoom");
 
             if (0 == strlen(trim($latitude)) || 0 == strlen(trim($longitude)) || 0 == strlen(trim($location_name))) {
@@ -135,6 +136,7 @@ class EmployeeController extends ControllerBase
 
             $this->user->setSummary($this->request->get("summary", "string"));
             $this->user->setWorkEnviromentType($work_environment);
+            $this->user->setPhoto($photo);
 
             if ($this->user->save() && $save_it) {
                 Matches::find(

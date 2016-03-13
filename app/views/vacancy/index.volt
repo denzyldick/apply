@@ -12,20 +12,17 @@
     </div>
     <div class="col-md-2">
 
-        {% if remaining_vacancy > 0 %}
+            <a
 
-            <a href="/vacancy/new" class="btn btn-small btn-primary"><span
+                    {% if remaining_vacancy > 0 %}
+                    href="/vacancy/new"
+                    {% else %}
+                    onclick="$('#buy_vacancy').modal('show')"
+
+                    {% endif %}
+                    class="btn btn-small btn-primary"><span
                         class="glyphicon glyphicon-plus"></span> {{ lang._('add_vacancy') }}</a>
 
-
-        {% endif %}
-
-        {% if remaining_vacancy == 0 %}
-
-            <a href="/premium" class='btn btn-small btn-primary'><span
-                        class='glyphicon glyphicon-shopping-cart'></span> {{ lang._('buy_more_vacancy') }}</a>
-
-        {% endif %}
     </div>
 </div>
 
@@ -84,3 +81,38 @@
     </div>
 {% endif %}
 
+
+
+{% if remaining_vacancy == 0 %}
+    <div  id="buy_vacancy" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{{ lang._("need_to_pay_for_that") }}</h4>
+                </div>
+                <div class="modal-body">
+
+                    <i class="fa fa-briefcase  fa-5x"></i><br/>
+
+                    {% set price = '99.99' %}
+                    {% set price_in_cents = 999 %}
+                    <small>
+                        {{ lang._("!Oops_need_more") }}
+                    </small>
+                    <form action="/premium/charge" method="post">
+                        <script src="https://checkout.stripe.com/checkout.js" class='stripe-button'
+                                data-key="<?php echo $this->config->stripe['publishable_key']; ?>"
+                                data-label="{{ lang._("buy_upgrade") }} {{ price }}"
+                                data-amount="{{ price_in_cents }}" data-email="{{ user.getEmail() }}"
+                                data-description="{{ lang._('pay_vacancies') }}"
+                                data-allow-remember-me="false" ,
+                                data-class="btn btn-primary btn-lg"
+                        ></script>
+                        <input type=hidden name='type' value='vacancy'/>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+{% endif %}

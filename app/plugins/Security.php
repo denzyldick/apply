@@ -78,7 +78,7 @@ class Security extends Plugin
         }
         //Employee area
         $employeeResource = [
-            'photo'=>['index'],
+            'photo'=>['index','upload'],
             'education'=>["index","delete"],
             'search'=>['index','dummy'],
             'work' => ['index','delete'],

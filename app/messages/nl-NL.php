@@ -180,5 +180,7 @@ return $messages = array(
     "im_located_at"=>"Ik bevind me in %s",
     "potential_candidates"=>"Mogelijke kandidaten",
     "looking_for_employees"=>"Opzoek naar werknemers?",
-    "read_more_about_this_job"=>"lees meer over deze vacature"
+    "read_more_about_this_job"=>"lees meer over deze vacature",
+    'you_dont_have_any_vacancies'=>'Je hebt geen vacatures',
+    'thank_you_for_your_purchase'=>'Bedank voor uw aankoop'
 );

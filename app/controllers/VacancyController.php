@@ -19,15 +19,22 @@ class VacancyController extends ControllerBase
 
     public function newAction()
     {
+        if($this->user->getVacancyCount() == 0)
+        {
+            $this->flash->notice($this->lang->_("need_to_pay_for_that"));
+            return $this->response->redirect("/premium");
+        }
         if($this->request->get("vacancy_id","int",null) == null)
         {
             $vacancy = new Vacancy();
+            $vacancy->location = new Location();
         }else{
             $vacancy = Vacancy::findFirst(["id = :vacancy_id: AND user_id = :user_id: ","bind"=>["vacancy_id"=>$this->request->get("vacancy_id","int"),'user_id'=>$this->user->getId()]]);
         }
 
 
         if ($this->request->isPost()) {
+
 
             $name = $this->request->getPost("name");
 
@@ -44,7 +51,7 @@ class VacancyController extends ControllerBase
             $job_benefits = $this->request->getPost("job_benefits", "string");
 
 
-            $location = new Location();
+            $location = $vacancy->location;
             $location->setLongitude($longitude);
             $location->setLatitude($latitude);
             $location->setZoom($zoom);
@@ -63,11 +70,11 @@ class VacancyController extends ControllerBase
             $vacancy->setDescription($description);
             $vacancy->setJobBenefits($job_benefits);
 
-
             if ($vacancy->save() && $vacancy->validation() && $location->save()) {
 
                 $skills = explode(",", $this->request->getPost("skills"));
-
+                $this->user->setVacancyCount($this->user->getVacancyCount() - 1);
+                $this->user->save();
                 foreach ($skills as $value) {
                     $specification = new Specification();
                     $specification->setPercent(0);

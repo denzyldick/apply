@@ -479,3 +479,19 @@ label {
     float: left;
     width: 25%;
 }
+.dz-error-message{
+    display: none;
+}
+.dz-success-mark{
+    display:none;
+}
+.dz-error-mark{
+    display:none;
+}
+.dz-details{
+    display:none;
+}
+.dropzone-previews > img{
+    width:120px;
+    height:120px;
+}

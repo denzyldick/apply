@@ -194,12 +194,23 @@ class Education extends \Phalcon\Mvc\Model
         $elasticsearch->index($this->buildIndex());
     }
 
+    public function afterDelete()
+    {
+        /** @var Elasticsearch\Client $elasticsearch */
+        $elasticsearch =  \Phalcon\Di::getDefault()->get("elasticsearch");
 
+        $elasticsearch->delete([
+            'index'=>'apply',
+            'type'=>'education',
+            'id'=>$this->getId()
+        ]);
+    }
     private function buildIndex()
     {
         return  [
             "index"=>"apply",
             "type"=>"education",
+            "id"=>$this->getId(),
             "body"=>[
                 "study"=>$this->getStudy(),
                 "description"=>$this->getDescription(),

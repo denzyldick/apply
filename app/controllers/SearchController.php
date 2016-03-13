@@ -29,7 +29,7 @@ class SearchController extends ControllerBase
             }
         }catch(\Exception $e)
         {
-
+        $this->logger->critical($e->getMessage());
         }
 
     }
@@ -42,7 +42,7 @@ class SearchController extends ControllerBase
     private function searchEmployer($elasticsearch, $query)
     {
         $response = $elasticsearch->search($params = [
-            'type'=>'education,work_experience,location,specification',
+            'type'=>'education,work_experience,location,specification,skills',
             'body' => [
                 'query' => [
                     'match' => [

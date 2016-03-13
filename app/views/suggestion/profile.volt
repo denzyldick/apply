@@ -2,7 +2,11 @@
 
 <div class="row">
     <div class='col-md-3'>
+        {% if user.getPhoto() is not empty %}
+            <img src="/files/{{ user.getPhoto() }}" class="img img-thumbnail" style="width:100%;height:174px;"/>
+        {% else %}
         <img src="/img/default-user-icon-profile.png" class="img img-thumbnail" style="width:100%;height:174px;"/>
+        {% endif %}
         <a href="/suggestion/accept/{{ suggestion.getId() }}" class="btn btn-large btn-primary">
             <i class="fa fa-mail-forward"></i>
             {{ this.lang._("contact_me")|upper }}</a>
@@ -46,17 +50,22 @@
             {
                 center: new google.maps.LatLng({{user.location.getLatitude()}}, {{user.location.getLongitude()}}),
                 zoom:{{user.location.getZoom()}},
-                disableDefaultUI: true
+                disableDefaultUI: true,
+                scrollwheel: false,
+                navigationControl: false,
+                mapTypeControl: false,
+                scaleControl: false,
+                draggable: false
             });
 
     google.maps.event.addDomListener(window, 'load', map);
 
     var populationOptions = {
-        strokeColor: 'red',
+        strokeColor: '#3498DB',
         strokeOpacity: 0.8,
-        strokeWeight: 2,
-        fillColor: '#FF7B7B',
-        fillOpacity: 0.35,
+        strokeWeight: 1,
+        fillColor: '#3498DB',
+        fillOpacity: 0.7,
         map: map,
         center: new google.maps.LatLng({{user.location.getLatitude()}}, {{user.location.getLongitude()}}),
         radius: 2000

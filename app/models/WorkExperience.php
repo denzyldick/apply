@@ -172,11 +172,26 @@ class WorkExperience extends \Phalcon\Mvc\Model
         $elasticsearch->index($this->buildIndex());
     }
 
+    public function afterDelete()
+    {
+        /** @var Elasticsearch\Client $elasticsearch */
+        $elasticsearch =  \Phalcon\Di::getDefault()->get("elasticsearch");
+
+        $elasticsearch->delete(
+            [
+                'index'=>'apply',
+                'type'=>'work_experience',
+                'id'=>$this->getId()
+            ]
+        );
+    }
+
     private function buildIndex()
     {
         return [
             "index"=>"apply",
             "type"=>"work_experience",
+            "id"=>$this->getId(),
             "body"=>[
                 "organisation"=>$this->getOrganisation(),
                 "job_title"=>$this->getJobTitle(),

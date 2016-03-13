@@ -15,6 +15,9 @@
 </div>
 <p>&nbsp;</p>
 <div class="row">
+    <div id="show_user" class="well col-md-12" style="display: none;" >
+    </div>
+
     <div class="col-md-12">
         <img src="/img/ajax-loader.gif" id="loader" style="display:none" class="col-md-offset-5"/>
         <div id="results"></div>

@@ -190,6 +190,7 @@ class Location extends \Phalcon\Mvc\Model
         return [
             "index"=>"apply",
             "type"=>"location",
+            "id"=>$this->getId(),
             "body"=>[
                 "longitude"=>$this->getLongitude(),
                 "latitude"=>$this->getLatitude(),
@@ -200,6 +201,18 @@ class Location extends \Phalcon\Mvc\Model
         ];
     }
 
+    public function afterDelete()
+    {
+        /** @var Elasticsearch\Client $elasticsearch */
+        $elasticsearch =  \Phalcon\Di::getDefault()->get("elasticsearch");
+
+        $elasticsearch->delete([
+            'index'=>'apply',
+            'type'=>'location',
+            'id'=>$this->getId()
+        ]);
+
+    }
 //    public function validation()
 //    {
 //

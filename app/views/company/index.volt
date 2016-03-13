@@ -12,25 +12,24 @@
     <div class="row">
 
         <input type="hidden" name="file_name" id="file_name" value="{{ company_foto }}">
-        <div class='col-md-3' style="background-image:url('/files/{{ company_foto }}');height: 150px;
-                background-repeat: no-repeat;
-                background-size: 150px 150px;
-                background-position: 50px;
-                ">
+        <div class='col-md-3'>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="dropzone " id="myAwesomeDropzone">
+
+                    </div>
+
+                </div>
+            </div>
             <div class="row">
 
                 <div class="col-md-12">
-                    <div class="dropzone-previews"></div>
+                    <div class="dropzone-previews">
+                        <img src="/files/{{ company_foto }}"/>
+                    </div>
                 </div>
             </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="dropzone " id="myAwesomeDropzone">
 
-                </div>
-
-            </div>
-        </div>
 
         </div>
         <div class="col-md-9">
@@ -113,26 +112,3 @@
 </form>
 
 </div>
-
-<script>
-
-    $(document).ready(function()
-    {
-
-        Dropzone.options.myAwesomeDropzone = {
-            url:"/photo/upload",
-            paramName: "file", // The name that will be used to transfer the file
-            maxFilesize: 2, // MB
-            maxFiles:1,
-            acceptedFiles:'image/*',
-            success: function(element,response)
-            {
-                $("#file_name").val(response.name)
-            }
-        };
-
-//        Dropzone.options.myAwesomeDropzone = false;
-
-    })
-
-</script>

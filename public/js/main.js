@@ -1,8 +1,24 @@
 $(document).ready(function () {
 
     $('.slider').slider();
-//    $(".alert").append('&nbsp;&nbsp;<a class="close" data-dismiss="alert">×</a>');
-
+    Dropzone.options.myAwesomeDropzone = {
+        url:"/photo/upload",
+        paramName: "file", // The name that will be used to transfer the file
+        maxFilesize: 2, // MB
+        maxFiles:1,
+        acceptedFiles:'image/*',
+        success: function(element,response)
+        {
+            console.log(response)
+            $("#file_name").val(response.name)
+            $(".dropzone-previews >img ").remove();
+        },
+        error: function(element,response)
+        {
+            console.log(element)
+            console.log(response)
+        }
+    };
 
 
 
@@ -261,6 +277,7 @@ $(document).ready(function () {
 var getUser = function (id) {
 
     $.get("suggestion/profile/" + id, function (response) {
+
         $("#search_bar").hide()
 
 

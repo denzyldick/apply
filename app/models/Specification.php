@@ -176,11 +176,39 @@ class Specification extends \Phalcon\Mvc\Model
         }
     }
 
+    public function afterDelete()
+    {
+        try{
+
+            /** @var Elasticsearch\Client $elasticsearch */
+            $elasticsearch =  \Phalcon\Di::getDefault()->get("elasticsearch");
+
+            if($this->getVacancyId() == null)
+            {
+                $elasticsearch->delete([
+                    'index'=>'apply',
+                    'type'=>'skills',
+                    'id'=>$this->getId()
+                ]);
+            }else{
+                $elasticsearch->delete([
+                    'index'=>'apply',
+                    'type'=>'vacancy_skill',
+                    'id'=>$this->getId()
+                ]);
+            }
+        }catch(Exception $e)
+        {
+
+        }
+    }
+
     private function buildUserIndex()
     {
         return [
             "index"=>"apply",
             "type"=>"skills",
+            "id"=>$this->getId(),
             "body"=>[
             "name"=>$this->skills->getName(),
             "user_id"=>$this->getUserId()
@@ -192,6 +220,7 @@ class Specification extends \Phalcon\Mvc\Model
         return [
             "index"=>"apply",
             "type"=>"vacancy_skill",
+            "id"=>$this->getId(),
             "body"=>[
                 "skill"=>$this->skills->getName(),
                 "vacancy_id"=>$this->getVacancyId()

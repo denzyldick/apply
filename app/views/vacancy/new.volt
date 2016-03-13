@@ -6,8 +6,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <label for="name">{{ lang._("name_of_the_job") }}</label><input name="name" value={{ vacancy.getFunction() }}" type="text"
-                                                                                class="form-control">
+                <label for="name">{{ lang._("name_of_the_job") }}</label><input name="name" value="{{ vacancy.getFunction() }}" type="text" class="form-control">
             </div>
         </div>
         <div class="row">

@@ -40,6 +40,12 @@ class SignupController extends ControllerBase
             $user->setLastname($lastname);
             $user->setPassword($password);
             $user->setUsertype($type);
+            if($type == 'employee')
+            {
+                $user->setSearchEnable(1);
+            }else{
+                $user->setSearchEnable(0);
+            }
             $user->setValidated('no');
             $user->setVacancyCount(3);
             $user->setSignupDate($this->date);
